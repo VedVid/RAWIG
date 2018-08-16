@@ -1,7 +1,9 @@
 package main
 
-func main() {
+import blt "bearlibterminal"
 
+func main() {
+	blt.Close()
 }
 
 func init() {

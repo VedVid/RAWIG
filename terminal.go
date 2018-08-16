@@ -27,10 +27,10 @@ func InitializeBLT() {
 	/*Constraining threads and setting blt window*/
 	constrainThreads()
 	blt.Open()
-	sizeX, sizeY := strconv.Itoa(windowSizeX), strconv.Itoa(windowSizeY+2)
-	sizeFont := strconv.Itoa(fontSize)
+	sizeX, sizeY := strconv.Itoa(WindowSizeX), strconv.Itoa(WindowSizeY+2)
+	sizeFont := strconv.Itoa(FontSize)
 	window := "window: size=" + sizeX + "x" + sizeY
-	blt.Set(window + ", title=' " + gameTitle + "'; font: " + fontName + ", size=" + sizeFont)
+	blt.Set(window + ", title=' " + GameTitle + "'; font: " + FontName + ", size=" + sizeFont)
 	blt.Clear()
 	blt.Refresh()
 }

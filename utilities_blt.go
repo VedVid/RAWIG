@@ -6,7 +6,7 @@ import (
 	blt "bearlibterminal"
 )
 
-func SetTile(path, number, filter string, size int) {
+func SetGlyph(path, number, filter string, size int) {
 	/*Function SetTile allows to use special tiles (glyphs, bitmaps)
 	as font elements;
 	number variables has to be formatted in that way:

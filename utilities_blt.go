@@ -36,3 +36,14 @@ func SetGlyph(path, number, filter string, size int) string {
 	blt.Set(number + ": " + path + ", resize=" + size + ", resize-filter=" + filter)
 	return "0x" + number[2:]
 }
+
+func SetColour(name, number string) string {
+	/*Function SetColour allows to declare specified colours
+	by passing custom name and its code; default, it uses
+	hex values, but BearLibTerminal supports others formats
+	as well: check blt documentation here:
+	http://foo.wyrd.name/en:bearlibterminal:reference;
+	SetColour returns name string.*/
+	blt.Set("palette: " + name + " = " + number)
+	return name
+}

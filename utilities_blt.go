@@ -26,7 +26,7 @@ import (
 	blt "bearlibterminal"
 )
 
-func SetGlyph(path, number, filter string, size int) {
+func SetGlyph(path, number, filter string, size int) string {
 	/*Function SetTile allows to use special tiles (glyphs, bitmaps)
 	as font elements;
 	number variables has to be formatted in that way:
@@ -34,4 +34,5 @@ func SetGlyph(path, number, filter string, size int) {
 	Later, that U+E001 identifier may be used in printing functions, like
 	wall := 0xE001 (note different format!); blt.Print(x, y, wall)*/
 	blt.Set(number + ": " + path + ", resize=" + size + ", resize-filter=" + filter)
+	return "0x" + number[2:]
 }

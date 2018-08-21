@@ -29,3 +29,9 @@ type Object struct {
 
 /*Objects holds every object on map.*/
 type Objects []Object
+
+func newObject(layer, x, y int, colour, character string) Object {
+	objectBlock := Basic{layer, x, y, colour, character}
+	objectNew := Object{objectBlock}
+	return objectNew
+}

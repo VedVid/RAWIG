@@ -28,7 +28,7 @@ import (
 
 func SetGlyph(path, number, filter string, size int) string {
 	/*Function SetTile allows to use special tiles (glyphs, bitmaps)
-	as font elements;
+	as font elements; it returns unicode number;
 	number variables has to be formatted in that way:
 	U+<unicode-number>, like: U+E001
 	Later, that U+E001 identifier may be used in printing functions, like

@@ -33,7 +33,7 @@ func SetGlyph(path, number, filter string, size int) string {
 	U+<unicode-number>, like: U+E001
 	Later, that U+E001 identifier may be used in printing functions, like
 	wall := 0xE001 (note different format!); blt.Print(x, y, wall)*/
-	blt.Set(number + ": " + path + ", resize=" + size + ", resize-filter=" + filter)
+	blt.Set(number + ": " + path + ", resize=" + strconv.Itoa(size) + ", resize-filter=" + filter)
 	return "0x" + number[2:]
 }
 

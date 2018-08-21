@@ -23,17 +23,17 @@ package main
 import blt "bearlibterminal"
 
 const (
-	baseLayer = iota
-	boardLayer
-	objectsLayer
-	monstersLayer
+	BaseLayer = iota
+	BoardLayer
+	ObjectsLayer
+	MonstersLayer
 )
 
 func PrintBoard(b Board) {
 	/*Function PrintBoard is used in RenderAll;
 	it takes level map as arguments and iterates through that slice;
 	prints every tile on its coords*/
-	for i, v := range b {
+	for _, v := range b {
 		blt.Layer(v.Block.Layer)
 		glyph := "[color=" + v.Block.Color + "]" + v.Block.Char
 		blt.Print(v.Block.X, v.Block.Y, glyph)
@@ -44,7 +44,7 @@ func PrintObjects(o Objects) {
 	/*Function PrintObjects is used in RenderAll;
 	it takes slice of objects as argument and iterates through it;
 	prints every object on its coords*/
-	for i, v := range o {
+	for _, v := range o {
 		blt.Layer(v.Block.Layer)
 		glyph := "[color=" + v.Block.Color + "]" + v.Block.Char
 		blt.Print(v.Block.X, v.Block.Y, glyph)
@@ -55,7 +55,7 @@ func PrintMonsters(m Monsters) {
 	/*Function PrintMonsters is used in RenderAll;
 	it takes slice of monsters as argument and iterates through it;
 	prints every monster on its coords*/
-	for i, v := range m {
+	for _, v := range m {
 		blt.Layer(v.Block.Layer)
 		glyph := "[color=" + v.Block.Color + "]" + v.Block.Char
 		blt.Print(v.Block.X, v.Block.Y, glyph)
@@ -67,9 +67,12 @@ func RenderAll(b Board, o Objects, m Monsters) {
 	takes board slice (ie level map), slice of objects, and slice of monsters
 	as arguments;
 	at first, it clears whole terminal window, then uses arguments
-	to call functions for printing map, objects and monsters*/
+	to call functions for printing map, objects and monsters;
+	at the end, RenderAll calls blt.Refresh() that makes
+	changes to the game window visible*/
 	blt.Clear()
 	PrintBoard(b)
 	PrintObjects(o)
 	PrintMonsters(m)
+	blt.Refresh()
 }

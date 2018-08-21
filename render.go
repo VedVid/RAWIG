@@ -30,6 +30,9 @@ const (
 )
 
 func PrintBoard(b Board) {
+	/*Function PrintBoard is used in RenderAll;
+	it takes level map as arguments and iterates through that slice;
+	prints every tile on its coords*/
 	for i, v := range b {
 		blt.Layer(v.Block.Layer)
 		glyph := "[color=" + v.Block.Color + "]" + v.Block.Char
@@ -38,6 +41,9 @@ func PrintBoard(b Board) {
 }
 
 func PrintObjects(o Objects) {
+	/*Function PrintObjects is used in RenderAll;
+	it takes slice of objects as argument and iterates through it;
+	prints every object on its coords*/
 	for i, v := range o {
 		blt.Layer(v.Block.Layer)
 		glyph := "[color=" + v.Block.Color + "]" + v.Block.Char
@@ -46,6 +52,9 @@ func PrintObjects(o Objects) {
 }
 
 func PrintMonsters(m Monsters) {
+	/*Function PrintMonsters is used in RenderAll;
+	it takes slice of monsters as argument and iterates through it;
+	prints every monster on its coords*/
 	for i, v := range m {
 		blt.Layer(v.Block.Layer)
 		glyph := "[color=" + v.Block.Color + "]" + v.Block.Char
@@ -54,6 +63,11 @@ func PrintMonsters(m Monsters) {
 }
 
 func RenderAll(b Board, o Objects, m Monsters) {
+	/*Function RenderAll prints every tile and character on game screen;
+	takes board slice (ie level map), slice of objects, and slice of monsters
+	as arguments;
+	at first, it clears whole terminal window, then uses arguments
+	to call functions for printing map, objects and monsters*/
 	blt.Clear()
 	PrintBoard(b)
 	PrintObjects(o)

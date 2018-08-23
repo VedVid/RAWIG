@@ -52,4 +52,5 @@ func Controls(k int, p Monster) int {
 	case blt.TK_LEFT:
 		Move(p, W)
 	}
+	return takeTurn
 }

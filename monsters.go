@@ -31,6 +31,6 @@ type Monsters []Creature
 
 func newCreature(layer, x, y int, colour, character string) Creature {
 	creatureBlock := Basic{layer, x, y, colour, character}
-	creatureNew := creature{creatureBlock}
+	creatureNew := Creature{creatureBlock}
 	return creatureNew
 }

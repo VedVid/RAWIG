@@ -20,7 +20,7 @@ freely, subject to the following restrictions:
 
 package main
 
-func newPlayer(layer, x, y int, colour, character string) Creature {
+func NewPlayer(layer, x, y int, colour, character string) Creature {
 	playerBlock := Basic{layer, x, y, colour, character}
 	playerNew := Creature{creatureBlock}
 	return playerNew

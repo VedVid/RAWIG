@@ -29,7 +29,9 @@ type Creature struct {
 /*Monsters holds every monster on map.*/
 type Monsters []Creature
 
-func newCreature(layer, x, y int, colour, character string) Creature {
+func NewCreature(layer, x, y int, colour, character string) Creature {
+	/*Function NewCreture takes all values necessary by its struct,
+	and creates then returns Creature*/
 	creatureBlock := Basic{layer, x, y, colour, character}
 	creatureNew := Creature{creatureBlock}
 	return creatureNew

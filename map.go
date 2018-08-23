@@ -29,7 +29,9 @@ type Tile struct {
   to hold data of its every cell*/
 type Board []Tile
 
-func newTile(layer, x, y int, colour, character string) Tile {
+func NewTile(layer, x, y int, colour, character string) Tile {
+	/*Function NewTile takes all values necessary by its struct,
+	and creates then returns Tile*/
 	tileBlock := Basic{layer, x, y, colour, character}
 	tileNew := Tile{tileBlock}
 	return tileNew

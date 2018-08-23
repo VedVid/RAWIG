@@ -21,6 +21,9 @@ freely, subject to the following restrictions:
 package main
 
 func NewPlayer(layer, x, y int, colour, character string) Creature {
+	/*Function NewPlayer takes all values necessary by its struct,
+	and creates then returns Creature;
+	so, it's basically NewMonster function.*/
 	playerBlock := Basic{layer, x, y, colour, character}
 	playerNew := Creature{creatureBlock}
 	return playerNew

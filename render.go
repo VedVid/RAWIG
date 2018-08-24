@@ -27,6 +27,7 @@ const (
 	BoardLayer
 	ObjectsLayer
 	MonstersLayer
+	PlayerLayer
 )
 
 func PrintBoard(b Board) {

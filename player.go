@@ -25,6 +25,6 @@ func NewPlayer(layer, x, y int, colour, character string) Creature {
 	and creates then returns Creature;
 	so, it's basically NewMonster function.*/
 	playerBlock := Basic{layer, x, y, colour, character}
-	playerNew := Creature{creatureBlock}
+	playerNew := Creature{playerBlock}
 	return playerNew
 }

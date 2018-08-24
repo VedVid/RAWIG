@@ -36,7 +36,7 @@ const (
 	W
 )
 
-func Controls(k int, p Monster) int {
+func Controls(k int, p Creature) int {
 	/*Function Controls is input handler; it takes integer k
 	(keycodes are basically numbers, but creating new "type key int"
 	is not convenient) and Monster p (which is player);

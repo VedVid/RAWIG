@@ -20,11 +20,11 @@ freely, subject to the following restrictions:
 
 package main
 
-func NewPlayer(layer, x, y int, colour, character string) Creature {
+func NewPlayer(layer, x, y int, colour, character string) *Creature {
 	/*Function NewPlayer takes all values necessary by its struct,
-	and creates then returns Creature;
+	and creates then returns pointer to Creature;
 	so, it's basically NewMonster function.*/
 	playerBlock := Basic{layer, x, y, colour, character}
-	playerNew := Creature{playerBlock}
+	playerNew := &Creature{playerBlock}
 	return playerNew
 }

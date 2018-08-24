@@ -30,9 +30,9 @@ const (
 
 var (
 	//directions; should be immutable!
-	N = Direction{0, 1}
+	N = Direction{0, -1}
 	E = Direction{1, 0}
-	S = Direction{0, -1}
+	S = Direction{0, 1}
 	W = Direction{-1, 0}
 )
 
@@ -41,7 +41,7 @@ type Direction struct {
 	X, Y int
 }
 
-func Controls(k int, p Creature) int {
+func Controls(k int, p *Creature) int {
 	/*Function Controls is input handler; it takes integer k
 	(keycodes are basically numbers, but creating new "type key int"
 	is not convenient) and Monster p (which is player);

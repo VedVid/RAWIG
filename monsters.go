@@ -31,8 +31,8 @@ type Monsters []*Creature
 
 func NewCreature(layer, x, y int, colour, character string) *Creature {
 	/*Function NewCreture takes all values necessary by its struct,
-	and creates then returns Creature*/
+	and creates then returns pointer to Creature*/
 	creatureBlock := Basic{layer, x, y, colour, character}
-	creatureNew := Creature{creatureBlock}
+	creatureNew := &Creature{creatureBlock}
 	return creatureNew
 }

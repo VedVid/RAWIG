@@ -30,11 +30,16 @@ const (
 
 const (
 	//directions
-	N = iota
-	E
-	S
-	W
+	N = Direction{0, 1}
+	E = Direction{1, 0}
+	S = Direction{0, -1}
+	W = Direction{-1, 0}
 )
+
+type Direction struct {
+	//Direction is type introduced due to lack of tuples or pair in Go.
+	X, Y int
+}
 
 func Controls(k int, p Creature) int {
 	/*Function Controls is input handler; it takes integer k
@@ -44,13 +49,13 @@ func Controls(k int, p Creature) int {
 	if player spent turn by action or not.*/
 	switch k {
 	case blt.TK_UP:
-		Move(p, N)
+		p.Move(N)
 	case blt.TK_RIGHT:
-		Move(p, E)
+		p.Move(E)
 	case blt.TK_DOWN:
-		Move(p, S)
+		p.Move(S)
 	case blt.TK_LEFT:
-		Move(p, W)
+		p.Move(W)
 	}
 	return takeTurn
 }

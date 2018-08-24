@@ -36,3 +36,10 @@ func NewCreature(layer, x, y int, colour, character string) *Creature {
 	creatureNew := &Creature{creatureBlock}
 	return creatureNew
 }
+
+func (c *Creature) Move(d Direction) {
+	/*Move is method of Creature; it takes Direction type (tuple-like)
+	and updates Creature coords.*/
+	c.Block.X += d.X
+	c.Block.Y += d.Y
+}

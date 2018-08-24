@@ -28,8 +28,8 @@ const (
 	didntTakeTurn
 )
 
-const (
-	//directions
+var (
+	//directions; should be immutable!
 	N = Direction{0, 1}
 	E = Direction{1, 0}
 	S = Direction{0, -1}

@@ -67,11 +67,14 @@ func RenderAll(b Board, o Objects, m Monsters) {
 	/*Function RenderAll prints every tile and character on game screen;
 	takes board slice (ie level map), slice of objects, and slice of monsters
 	as arguments;
-	at first, it clears whole terminal window, then uses arguments
-	to call functions for printing map, objects and monsters;
+	at first, it clears whole terminal window, then uses arguments:
+	CastRays (for raycasting FOV) of first object (assuming that it is player),
+	then:
+	call functions for printing map, objects and monsters;
 	at the end, RenderAll calls blt.Refresh() that makes
 	changes to the game window visible*/
 	blt.Clear()
+	CastRays(b, o[0].Block.X, o[0].Block.Y)
 	PrintBoard(b)
 	PrintObjects(o)
 	PrintMonsters(m)

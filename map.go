@@ -28,13 +28,13 @@ type Tile struct {
 
 /*Board is map representation, that uses slice
   to hold data of its every cell*/
-type Board []Tile
+type Board []*Tile
 
-func NewTile(layer, x, y int, colour, character string) Tile {
+func NewTile(layer, x, y int, colour, character string) *Tile {
 	/*Function NewTile takes all values necessary by its struct,
 	and creates then returns Tile.
 	Every newly created tile is unexplored by default.*/
 	tileBlock := Basic{layer, x, y, colour, character}
-	tileNew := Tile{tileBlock, false}
+	tileNew := &Tile{tileBlock, false}
 	return tileNew
 }

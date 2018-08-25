@@ -28,4 +28,5 @@ func main() {
 
 func init() {
 	InitializeBLT()
+	InitializeFOVTables()
 }

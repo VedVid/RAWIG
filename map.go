@@ -38,3 +38,19 @@ func NewTile(layer, x, y int, colour, character string) *Tile {
 	tileNew := &Tile{tileBlock, false}
 	return tileNew
 }
+
+func FindTileByXY(b Board, x, y int) *Tile {
+	/*Function FindTileByXY takes whole board as its argument, and
+	desired x, y coords as well. It iterates through board, and
+	returns tile that has same xy values as arguments;
+	otherwise, it returns nil.
+	It needs to be reworked to use idiomatic error boilerplate, thought.
+	Also, for now, I'm not sure if range is worth trying - it makes copies;
+	maybe basic for i :=0; i < len(b); i++ would make more sense?*/
+	for _, v := range b {
+		if x == v.Block.X && y == v.Block.Y {
+			return v
+		}
+	}
+	return nil
+}

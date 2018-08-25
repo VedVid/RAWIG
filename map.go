@@ -22,7 +22,8 @@ package main
 
 type Tile struct {
 	/*Tiles are map cells - floors, walls, doors*/
-	Block Basic
+	Block    Basic
+	Explored bool
 }
 
 /*Board is map representation, that uses slice
@@ -31,8 +32,9 @@ type Board []Tile
 
 func NewTile(layer, x, y int, colour, character string) Tile {
 	/*Function NewTile takes all values necessary by its struct,
-	and creates then returns Tile*/
+	and creates then returns Tile.
+	Every newly created tile is unexplored by default.*/
 	tileBlock := Basic{layer, x, y, colour, character}
-	tileNew := Tile{tileBlock}
+	tileNew := Tile{tileBlock, false}
 	return tileNew
 }

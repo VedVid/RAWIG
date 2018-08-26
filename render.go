@@ -52,14 +52,19 @@ func PrintObjects(o Objects) {
 	}
 }
 
-func PrintMonsters(m Monsters) {
+func PrintMonsters(b Board, m Monsters) {
 	/*Function PrintMonsters is used in RenderAll;
 	it takes slice of monsters as argument and iterates through it;
-	prints every monster on its coords*/
+	checks for every monster if is in player's (assuming that first monster
+	is player) FOV by calling IsInFOV;
+	prints monster if that function returns true*/
 	for _, v := range m {
-		blt.Layer(v.Block.Layer)
-		glyph := "[color=" + v.Block.Color + "]" + v.Block.Char
-		blt.Print(v.Block.X, v.Block.Y, glyph)
+		if IsInFOV(b, m[0].Block.X, m[0].Block.Y,
+			v.Block.X, v.Block.Y) == true {
+			blt.Layer(v.Block.Layer)
+			glyph := "[color=" + v.Block.Color + "]" + v.Block.Char
+			blt.Print(v.Block.X, v.Block.Y, glyph)
+		}
 	}
 }
 
@@ -77,6 +82,6 @@ func RenderAll(b Board, o Objects, m Monsters) {
 	CastRays(b, o[0].Block.X, o[0].Block.Y)
 	PrintBoard(b)
 	PrintObjects(o)
-	PrintMonsters(m)
+	PrintMonsters(b, m)
 	blt.Refresh()
 }

@@ -31,10 +31,10 @@ type Tile struct {
   to hold data of its every cell*/
 type Board []*Tile
 
-func NewTile(layer, x, y int, colour, character string, explored, blocked bool) *Tile {
+func NewTile(layer, x, y int, character, colour string, explored, blocked bool) *Tile {
 	/*Function NewTile takes all values necessary by its struct,
 	and creates then returns Tile.*/
-	tileBlock := Basic{layer, x, y, colour, character}
+	tileBlock := Basic{layer, x, y, character, colour}
 	tileNew := &Tile{tileBlock, explored, blocked}
 	return tileNew
 }
@@ -59,7 +59,7 @@ func InitializeEmptyMap() Board {
 	var b = Board{}
 	for x := 0; x < WindowSizeX; x++ {
 		for y := 0; y < WindowSizeY; y++ {
-			t := NewTile(BoardLayer, x, y, "white", "@", false, false)
+			t := NewTile(BoardLayer, x, y, ".", "white", false, false)
 			b = append(b, t)
 		}
 	}

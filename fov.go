@@ -25,7 +25,7 @@ import "math"
 const (
 	//values for handling field of view algorithm execution
 	FOVRays   = 360 //whole area around player; it may not work properly with other values
-	FOVLenght = 5   //sight range
+	FOVLength = 5   //sight range
 	FOVStep   = 1
 )
 
@@ -96,7 +96,7 @@ func IsInFOV(b Board, sx, sy, tx, ty int) bool {
 		rayY := sintable[i]
 		x := float64(sx)
 		y := float64(sy)
-		for j := 0; j < FOVLenght; j++ {
+		for j := 0; j < FOVLength; j++ {
 			x -= rayX
 			y -= rayY
 			if x < 0 || y < 0 || x >= WindowSizeX || y >= WindowSizeY {

@@ -54,3 +54,14 @@ func FindTileByXY(b Board, x, y int) *Tile {
 	}
 	return nil
 }
+
+func InitializeEmptyMap() Board {
+	var b = Board{}
+	for x := 0; x < WindowSizeX; x++ {
+		for y := 0; y < WindowSizeY; y++ {
+			t := NewTile(BoardLayer, x, y, "white", "@", false, false)
+			b = append(b, t)
+		}
+	}
+	return b
+}

@@ -39,13 +39,16 @@ func NewCreature(layer, x, y int, colour, character string) (*Creature, error) {
 	and creates then returns pointer to Creature*/
 	var err error
 	if layer < 0 {
-		err = errors.New("Creature layer is smaller than 0.")
+		txt := LayerError(layer)
+		err = errors.New("Creature layer is smaller than 0." + txt)
 	}
 	if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
-		err = errors.New("Creature coords is out of window range.")
+		txt := CoordsError(x, y)
+		err = errors.New("Creature coords is out of window range." + txt)
 	}
 	if utf8.RuneCountInString(character) != 1 {
-		err = errors.New("Creature character string length is not equal to 1.")
+		txt := CharacterLengthError(character)
+		err = errors.New("Creature character string length is not equal to 1." + txt)
 	}
 	creatureBlock := Basic{layer, x, y, colour, character}
 	creatureNew := &Creature{creatureBlock}

@@ -43,13 +43,16 @@ func NewTile(layer, x, y int, character, colour string,
 	and creates then returns Tile.*/
 	var err error
 	if layer < 0 {
-		err = errors.New("Tile layer is smaller than 0.")
+		txt := LayerError(layer)
+		err = errors.New("Tile layer is smaller than 0." + txt)
 	}
 	if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
-		err = errors.New("Tile coords is out of window range.")
+		txt := CoordsError(x, y)
+		err = errors.New("Tile coords is out of window range." + txt)
 	}
 	if utf8.RuneCountInString(character) != 1 {
-		err = errors.New("Tile character string length is not equal to 1.")
+		txt := CharacterLengthError(character)
+		err = errors.New("Tile character string length is not equal to 1." + txt)
 	}
 	tileBlock := Basic{layer, x, y, character, colour}
 	tileNew := &Tile{tileBlock, explored, blocked}

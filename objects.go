@@ -40,13 +40,16 @@ func NewObject(layer, x, y int, colour, character string) (Object, error) {
 	and creates then returns Object*/
 	var err error
 	if layer < 0 {
-		err = errors.New("Object layer is smaller than 0.")
+		txt := LayerError(layer)
+		err = errors.New("Object layer is smaller than 0. " + txt)
 	}
 	if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
-		err = errors.New("Object coords is out of window range.")
+		txt := CoordsError(x, y)
+		err = errors.New("Object coords is out of window range." + txt)
 	}
 	if utf8.RuneCountInString(character) != 1 {
-		err = errors.New("Object character string length is not equal to 1.")
+		txt := CharacterLengthError(character)
+		err = errors.New("Object character string length is not equal to 1." + txt)
 	}
 	objectBlock := Basic{layer, x, y, colour, character}
 	objectNew := Object{objectBlock}

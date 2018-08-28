@@ -21,28 +21,23 @@ freely, subject to the following restrictions:
 package main
 
 import (
-	"errors"
+	"strconv"
 	"unicode/utf8"
 )
 
-func NewPlayer(layer, x, y int, colour, character string) (*Creature, error) {
-	/*Function NewPlayer takes all values necessary by its struct,
-	and creates then returns pointer to Creature;
-	so, it's basically NewMonster function.*/
-	var err error
-	if layer < 0 {
-		txt := LayerError(layer)
-		err = errors.New("Player layer is smaller than 0." + txt)
-	}
-	if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
-		txt := CoordsError(x, y)
-		err = errors.New("Player coords is out of window range." + txt)
-	}
-	if utf8.RuneCountInString(character) != 1 {
-		txt := CharacterLengthError(character)
-		err = errors.New("Player character string length is not equal to 1." + txt)
-	}
-	playerBlock := Basic{layer, x, y, colour, character}
-	playerNew := &Creature{playerBlock}
-	return playerNew, err
+func LayerError(layer int) string {
+	return "\n    <layer:  " + strconv.Itoa(layer) + ">"
+}
+
+func CoordsError(x, y int) string {
+	txt := "\n    <x: " + strconv.Itoa(x) + "; y: " + strconv.Itoa(y) +
+		"; map width: " + strconv.Itoa(WindowSizeX) + "; map height: " +
+		strconv.Itoa(WindowSizeY) + ">"
+	return txt
+}
+
+func CharacterLengthError(character string) string {
+	txt := "\n    <length: " + strconv.Itoa(utf8.RuneCountInString(character)) +
+		"; character: " + character + ">"
+	return txt
 }

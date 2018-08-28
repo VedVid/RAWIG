@@ -21,6 +21,7 @@ freely, subject to the following restrictions:
 package main
 
 import "math"
+import "fmt"
 
 const (
 	//values for handling field of view algorithm execution
@@ -67,7 +68,7 @@ func CastRays(b Board, sx, sy int) {
 		for j := 0; j < FOVLength; j++ {
 			x -= rayX
 			y -= rayY
-			if x < 0 || y < 0 || x >= WindowSizeX || y >= WindowSizeY {
+			if x < 0 || y < 0 || x >= WindowSizeX-1 || y >= WindowSizeY-1 {
 				break
 			}
 			bx, by := int(math.Round(x)), int(math.Round(y))
@@ -99,7 +100,7 @@ func IsInFOV(b Board, sx, sy, tx, ty int) bool {
 		for j := 0; j < FOVLength; j++ {
 			x -= rayX
 			y -= rayY
-			if x < 0 || y < 0 || x >= WindowSizeX || y >= WindowSizeY {
+			if x < 0 || y < 0 || x >= WindowSizeX-1 || y >= WindowSizeY-1 {
 				break
 			}
 			bx, by := int(math.Round(x)), int(math.Round(y))

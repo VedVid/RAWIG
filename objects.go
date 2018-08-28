@@ -35,7 +35,7 @@ type Object struct {
 /*Objects holds every object on map.*/
 type Objects []Object
 
-func NewObject(layer, x, y int, colour, character string) (Object, error) {
+func NewObject(layer, x, y int, character, colour string) (Object, error) {
 	/*Function NewObject takes all values necessary by its struct,
 	and creates then returns Object*/
 	var err error
@@ -51,7 +51,7 @@ func NewObject(layer, x, y int, colour, character string) (Object, error) {
 		txt := CharacterLengthError(character)
 		err = errors.New("Object character string length is not equal to 1." + txt)
 	}
-	objectBlock := Basic{layer, x, y, colour, character}
+	objectBlock := Basic{layer, x, y, character, colour}
 	objectNew := Object{objectBlock}
 	return objectNew, err
 }

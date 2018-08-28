@@ -25,7 +25,7 @@ import (
 	"unicode/utf8"
 )
 
-func NewPlayer(layer, x, y int, colour, character string) (*Creature, error) {
+func NewPlayer(layer, x, y int, character, colour string) (*Creature, error) {
 	/*Function NewPlayer takes all values necessary by its struct,
 	and creates then returns pointer to Creature;
 	so, it's basically NewMonster function.*/
@@ -42,7 +42,7 @@ func NewPlayer(layer, x, y int, colour, character string) (*Creature, error) {
 		txt := CharacterLengthError(character)
 		err = errors.New("Player character string length is not equal to 1." + txt)
 	}
-	playerBlock := Basic{layer, x, y, colour, character}
+	playerBlock := Basic{layer, x, y, character, colour}
 	playerNew := &Creature{playerBlock}
 	return playerNew, err
 }

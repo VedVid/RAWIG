@@ -20,6 +20,12 @@ freely, subject to the following restrictions:
 
 package main
 
+import (
+	"errors"
+	"fmt"
+	"unicode/utf8"
+)
+
 type Tile struct {
 	/*Tiles are map cells - floors, walls, doors*/
 	Block    Basic
@@ -31,12 +37,23 @@ type Tile struct {
   to hold data of its every cell*/
 type Board []*Tile
 
-func NewTile(layer, x, y int, character, colour string, explored, blocked bool) *Tile {
+func NewTile(layer, x, y int, character, colour string,
+	explored, blocked bool) (*Tile, error) {
 	/*Function NewTile takes all values necessary by its struct,
 	and creates then returns Tile.*/
+	var err error
+	if layer < 0 {
+		err = errors.New("Tile layer is smaller than 0.")
+	}
+	if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
+		err = errors.New("Tile coords is out of window range.")
+	}
+	if utf8.RuneCountInString(character) != 1 {
+		err = errors.New("Tile character string length is not equal to 1.")
+	}
 	tileBlock := Basic{layer, x, y, character, colour}
 	tileNew := &Tile{tileBlock, explored, blocked}
-	return tileNew
+	return tileNew, err
 }
 
 func FindTileByXY(b Board, x, y int) *Tile {
@@ -59,7 +76,10 @@ func InitializeEmptyMap() Board {
 	var b = Board{}
 	for x := 0; x < WindowSizeX; x++ {
 		for y := 0; y < WindowSizeY; y++ {
-			t := NewTile(BoardLayer, x, y, ".", "white", false, false)
+			t, err := NewTile(BoardLayer, x, y, ".", "white", false, false)
+			if err != nil {
+				fmt.Println(err)
+			}
 			b = append(b, t)
 		}
 	}

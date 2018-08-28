@@ -20,6 +20,11 @@ freely, subject to the following restrictions:
 
 package main
 
+import (
+	"errors"
+	"unicode/utf8"
+)
+
 type Object struct {
 	/*Objects are every other things on map;
 	  statues, tables, chairs; but also weapons,
@@ -30,10 +35,20 @@ type Object struct {
 /*Objects holds every object on map.*/
 type Objects []Object
 
-func NewObject(layer, x, y int, colour, character string) Object {
+func NewObject(layer, x, y int, colour, character string) (Object, error) {
 	/*Function NewObject takes all values necessary by its struct,
 	and creates then returns Object*/
+	var err error
+	if layer < 0 {
+		err = errors.New("Object layer is smaller than 0.")
+	}
+	if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
+		err = errors.New("Object coords is out of window range.")
+	}
+	if utf8.RuneCountInString(character) != 1 {
+		err = errors.New("Object character string length is not equal to 1.")
+	}
 	objectBlock := Basic{layer, x, y, colour, character}
 	objectNew := Object{objectBlock}
-	return objectNew
+	return objectNew, err
 }

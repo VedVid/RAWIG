@@ -20,6 +20,11 @@ freely, subject to the following restrictions:
 
 package main
 
+import (
+	"errors"
+	"unicode/utf8"
+)
+
 type Creature struct {
 	/*Creatures are living objects that
 	  moves, attacks, dies, etc.*/
@@ -29,12 +34,22 @@ type Creature struct {
 /*Monsters holds every monster on map.*/
 type Monsters []*Creature
 
-func NewCreature(layer, x, y int, colour, character string) *Creature {
+func NewCreature(layer, x, y int, colour, character string) (*Creature, error) {
 	/*Function NewCreture takes all values necessary by its struct,
 	and creates then returns pointer to Creature*/
+	var err error
+	if layer < 0 {
+		err = errors.New("Creature layer is smaller than 0.")
+	}
+	if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
+		err = errors.New("Creature coords is out of window range.")
+	}
+	if utf8.RuneCountInString(character) != 1 {
+		err = errors.New("Creature character string length is not equal to 1.")
+	}
 	creatureBlock := Basic{layer, x, y, colour, character}
 	creatureNew := &Creature{creatureBlock}
-	return creatureNew
+	return creatureNew, err
 }
 
 func (c *Creature) Move(d Direction) {

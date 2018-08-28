@@ -26,10 +26,15 @@ import (
 )
 
 func LayerError(layer int) string {
+	/*Function LayerError is helper function that returns string
+	to error; it takes layer integer as argument and returns string.*/
 	return "\n    <layer:  " + strconv.Itoa(layer) + ">"
 }
 
 func CoordsError(x, y int) string {
+	/*Function CoordsError is helper function that returns string
+	to error; it takes coords x, y as arguments and returns string,
+	with use global WindowSizeX and WindowSizeY constants.*/
 	txt := "\n    <x: " + strconv.Itoa(x) + "; y: " + strconv.Itoa(y) +
 		"; map width: " + strconv.Itoa(WindowSizeX) + "; map height: " +
 		strconv.Itoa(WindowSizeY) + ">"
@@ -37,6 +42,10 @@ func CoordsError(x, y int) string {
 }
 
 func CharacterLengthError(character string) string {
+	/*Function CharacterLengthError is helper function that returns string
+	to error; it takes character string as argument and returns string.
+	Character (as something's representation on map) is supposed to be
+	one-letter long.*/
 	txt := "\n    <length: " + strconv.Itoa(utf8.RuneCountInString(character)) +
 		"; character: " + character + ">"
 	return txt

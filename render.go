@@ -82,7 +82,7 @@ func RenderAll(b Board, o Objects, m Monsters) {
 	at the end, RenderAll calls blt.Refresh() that makes
 	changes to the game window visible*/
 	blt.Clear()
-	CastRays(b, o[0].BasicProperties.X, o[0].BasicProperties.Y)
+	CastRays(b, m[0].BasicProperties.X, m[0].BasicProperties.Y)
 	PrintBoard(b)
 	PrintObjects(o)
 	PrintMonsters(b, m)

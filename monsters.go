@@ -62,8 +62,14 @@ func NewCreature(layer, x, y int, character, colour string,
 }
 
 func (c *Creature) Move(d Direction) {
-	/*Move is method of Creature; it takes Direction type (tuple-like)
-	and updates Creature coords.*/
-	c.BasicProperties.X += d.X
-	c.BasicProperties.Y += d.Y
+	/*Move is method of Creature; it takes Direction type (tuple-like);
+	check if next move won't put Creature off the screen, then updates
+	Creature coords.*/
+	if c.BasicProperties.X+d.X >= 0 &&
+		c.BasicProperties.X+d.X <= WindowSizeX-1 &&
+		c.BasicProperties.Y+d.Y >= 0 &&
+		c.BasicProperties.Y+d.Y <= WindowSizeX-1 {
+		c.BasicProperties.X += d.X
+		c.BasicProperties.Y += d.Y
+	}
 }

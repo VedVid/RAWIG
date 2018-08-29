@@ -59,20 +59,37 @@ func NewTile(layer, x, y int, character, colour string,
 	return tileNew, err
 }
 
-func FindTileByXY(b Board, x, y int) *Tile {
+func FindTileByXY(b Board, x, y int) (*Tile, error) {
 	/*Function FindTileByXY takes whole board as its argument, and
 	desired x, y coords as well. It iterates through board, and
 	returns tile that has same xy values as arguments;
 	otherwise, it returns nil.
+	Besides normal errors, it has additional error handling after for loop -
+	just in case if due to undefined corner case function would not find
+	proper tile in board slice.
 	It needs to be reworked to use idiomatic error boilerplate, thought.
 	Also, for now, I'm not sure if range is worth trying - it makes copies;
 	maybe basic for i :=0; i < len(b); i++ would make more sense?*/
-	for _, v := range b {
-		if x == v.BasicProperties.X && y == v.BasicProperties.Y {
-			return v
+	var err error
+	if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
+		txt := CoordsError(x, y)
+		err = error.New("Tile coords is out of window range." + txt)
+	}
+	if len(b) == 0 {
+		err = error.New("Board slice is empty.")
+	}
+	if err != nil {
+		return nil, err
+	} else {
+		for _, v := range b {
+			if x == v.BasicProperties.X && y == v.BasicProperties.Y {
+				return v, nil
+			}
 		}
 	}
-	return nil
+	txt := CoordsError(x, y)
+	err = error.New("FindTileByXY failed to find such a tile." + txt)
+	return nil, err
 }
 
 func InitializeEmptyMap() Board {

@@ -20,7 +20,10 @@ freely, subject to the following restrictions:
 
 package main
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 const (
 	//values for handling field of view algorithm execution
@@ -62,7 +65,10 @@ func CastRays(b Board, sx, sy int) {
 		rayY := costable[i]
 		x := float64(sx)
 		y := float64(sy)
-		t1 := FindTileByXY(b, sx, sy)
+		t1, err := FindTileByXY(b, sx, sy)
+		if err != nil {
+			fmt.Println(err)
+		}
 		t1.Explored = true
 		for j := 0; j < FOVLength; j++ {
 			x -= rayX
@@ -71,7 +77,10 @@ func CastRays(b Board, sx, sy int) {
 				break
 			}
 			bx, by := int(math.Round(x)), int(math.Round(y))
-			t2 := FindTileByXY(b, bx, by)
+			t2, err := FindTileByXY(b, bx, by)
+			if err != nil {
+				fmt.Println(err)
+			}
 			t2.Explored = true
 			if t2.Blocked == true {
 				break
@@ -106,7 +115,10 @@ func IsInFOV(b Board, sx, sy, tx, ty int) bool {
 			if bx == tx && by == ty {
 				return true
 			}
-			t := FindTileByXY(b, bx, by)
+			t, err := FindTileByXY(b, bx, by)
+			if err != nil {
+				fmt.Println(err)
+			}
 			if t.Blocked == true {
 				break
 			}

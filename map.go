@@ -73,10 +73,10 @@ func FindTileByXY(b Board, x, y int) (*Tile, error) {
 	var err error
 	if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
 		txt := CoordsError(x, y)
-		err = error.New("Tile coords is out of window range." + txt)
+		err = errors.New("Tile coords is out of window range." + txt)
 	}
 	if len(b) == 0 {
-		err = error.New("Board slice is empty.")
+		err = errors.New("Board slice is empty.")
 	}
 	if err != nil {
 		return nil, err
@@ -88,7 +88,7 @@ func FindTileByXY(b Board, x, y int) (*Tile, error) {
 		}
 	}
 	txt := CoordsError(x, y)
-	err = error.New("FindTileByXY failed to find such a tile." + txt)
+	err = errors.New("FindTileByXY failed to find such a tile." + txt)
 	return nil, err
 }
 

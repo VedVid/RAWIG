@@ -28,7 +28,7 @@ import (
 
 type Tile struct {
 	/*Tiles are map cells - floors, walls, doors*/
-	Block    Basic
+	BasicProperties
 	Explored bool
 	Blocked  bool
 }
@@ -54,8 +54,8 @@ func NewTile(layer, x, y int, character, colour string,
 		txt := CharacterLengthError(character)
 		err = errors.New("Tile character string length is not equal to 1." + txt)
 	}
-	tileBlock := Basic{layer, x, y, character, colour}
-	tileNew := &Tile{tileBlock, explored, blocked}
+	tileBasicProperties := BasicProperties{layer, x, y, character, colour}
+	tileNew := &Tile{tileBasicProperties, explored, blocked}
 	return tileNew, err
 }
 
@@ -68,7 +68,7 @@ func FindTileByXY(b Board, x, y int) *Tile {
 	Also, for now, I'm not sure if range is worth trying - it makes copies;
 	maybe basic for i :=0; i < len(b); i++ would make more sense?*/
 	for _, v := range b {
-		if x == v.Block.X && y == v.Block.Y {
+		if x == v.BasicProperties.X && y == v.BasicProperties.Y {
 			return v
 		}
 	}

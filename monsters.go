@@ -58,6 +58,6 @@ func NewCreature(layer, x, y int, character, colour string) (*Creature, error) {
 func (c *Creature) Move(d Direction) {
 	/*Move is method of Creature; it takes Direction type (tuple-like)
 	and updates Creature coords.*/
-	c.Block.X += d.X
-	c.Block.Y += d.Y
+	c.BasicProperties.X += d.X
+	c.BasicProperties.Y += d.Y
 }

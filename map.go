@@ -97,6 +97,8 @@ func FindTileByXY(b Board, x, y int) (*Tile, error) {
 }
 
 func InitializeEmptyMap() Board {
+	/*Function InitializeEmptyMap returns new Board, filled with
+	generic (ie "empty") tiles.*/
 	var b = Board{}
 	for x := 0; x < WindowSizeX; x++ {
 		for y := 0; y < WindowSizeY; y++ {

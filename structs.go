@@ -36,3 +36,12 @@ type VisibilityProperties struct {
 	regardless of player's fov*/
 	AlwaysVisible bool
 }
+
+type CollisionProperties struct {
+	/*CollisionProperties is struct filled with
+	boolean values, for checking several
+	collision conditions: if cell is blocked,
+	if it blocks creature sight, etc.*/
+	Blocked     bool
+	BlocksSight bool
+}

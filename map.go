@@ -31,15 +31,15 @@ type Tile struct {
 	BasicProperties
 	VisibilityProperties
 	Explored bool
-	Blocked  bool
+	CollisionProperties
 }
 
 /*Board is map representation, that uses slice
   to hold data of its every cell*/
 type Board []*Tile
 
-func NewTile(layer, x, y int, character, colour string, alwaysVisible bool,
-	explored, blocked bool) (*Tile, error) {
+func NewTile(layer, x, y int, character, colour string, alwaysVisible,
+	explored, blocked, blocksSight bool) (*Tile, error) {
 	/*Function NewTile takes all values necessary by its struct,
 	and creates then returns Tile.*/
 	var err error
@@ -57,8 +57,9 @@ func NewTile(layer, x, y int, character, colour string, alwaysVisible bool,
 	}
 	tileBasicProperties := BasicProperties{layer, x, y, character, colour}
 	tileVisibilityProperties := VisibilityProperties{alwaysVisible}
+	tileCollisionProperties := CollisionProperties{blocked, blocksSight}
 	tileNew := &Tile{tileBasicProperties, tileVisibilityProperties,
-		explored, blocked}
+		explored, tileCollisionProperties}
 	return tileNew, err
 }
 
@@ -99,7 +100,8 @@ func InitializeEmptyMap() Board {
 	var b = Board{}
 	for x := 0; x < WindowSizeX; x++ {
 		for y := 0; y < WindowSizeY; y++ {
-			t, err := NewTile(BoardLayer, x, y, ".", "white", false, false, true)
+			t, err := NewTile(BoardLayer, x, y, ".", "white", true, false,
+				false, false)
 			if err != nil {
 				fmt.Println(err)
 			}

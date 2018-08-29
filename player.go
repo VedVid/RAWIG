@@ -26,7 +26,7 @@ import (
 )
 
 func NewPlayer(layer, x, y int, character, colour string,
-	alwaysVisible bool) (*Creature, error) {
+	alwaysVisible, blocked, blocksSight bool) (*Creature, error) {
 	/*Function NewPlayer takes all values necessary by its struct,
 	and creates then returns pointer to Creature;
 	so, it's basically NewMonster function.*/
@@ -45,6 +45,8 @@ func NewPlayer(layer, x, y int, character, colour string,
 	}
 	playerBasicProperties := BasicProperties{layer, x, y, character, colour}
 	playerVisibilityProperties := VisibilityProperties{alwaysVisible}
-	playerNew := &Creature{playerBasicProperties, playerVisibilityProperties}
+	playerCollisionProperties := CollisionProperties{blocked, blocksSight}
+	playerNew := &Creature{playerBasicProperties, playerVisibilityProperties,
+		playerCollisionProperties}
 	return playerNew, err
 }

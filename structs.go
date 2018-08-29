@@ -20,7 +20,7 @@ freely, subject to the following restrictions:
 
 package main
 
-type Basic struct {
+type BasicProperties struct {
 	/*Basic is struct that aggregates all
 	  widely used data, necessary for every
 	  map tile and object representation*/

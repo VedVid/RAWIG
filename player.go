@@ -42,7 +42,7 @@ func NewPlayer(layer, x, y int, character, colour string) (*Creature, error) {
 		txt := CharacterLengthError(character)
 		err = errors.New("Player character string length is not equal to 1." + txt)
 	}
-	playerBlock := Basic{layer, x, y, character, colour}
-	playerNew := &Creature{playerBlock}
+	playerBasicProperties := BasicProperties{layer, x, y, character, colour}
+	playerNew := &Creature{playerBasicProperties}
 	return playerNew, err
 }

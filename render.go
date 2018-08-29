@@ -35,9 +35,10 @@ func PrintBoard(b Board) {
 	it takes level map as arguments and iterates through that slice;
 	prints every tile on its coords*/
 	for _, v := range b {
-		blt.Layer(v.Block.Layer)
-		glyph := "[color=" + v.Block.Color + "]" + v.Block.Char
-		blt.Print(v.Block.X, v.Block.Y, glyph)
+		blt.Layer(v.BasicProperties.Layer)
+		glyph := "[color=" + v.BasicProperties.Color + "]" +
+			v.BasicProperties.Char
+		blt.Print(v.BasicProperties.X, v.BasicProperties.Y, glyph)
 	}
 }
 
@@ -46,9 +47,10 @@ func PrintObjects(o Objects) {
 	it takes slice of objects as argument and iterates through it;
 	prints every object on its coords*/
 	for _, v := range o {
-		blt.Layer(v.Block.Layer)
-		glyph := "[color=" + v.Block.Color + "]" + v.Block.Char
-		blt.Print(v.Block.X, v.Block.Y, glyph)
+		blt.Layer(v.BasicProperties.Layer)
+		glyph := "[color=" + v.BasicProperties.Color + "]" +
+			v.BasicProperties.Char
+		blt.Print(v.BasicProperties.X, v.BasicProperties.Y, glyph)
 	}
 }
 
@@ -59,11 +61,12 @@ func PrintMonsters(b Board, m Monsters) {
 	is player) FOV by calling IsInFOV;
 	prints monster if that function returns true*/
 	for _, v := range m {
-		if IsInFOV(b, m[0].Block.X, m[0].Block.Y,
-			v.Block.X, v.Block.Y) == true {
-			blt.Layer(v.Block.Layer)
-			glyph := "[color=" + v.Block.Color + "]" + v.Block.Char
-			blt.Print(v.Block.X, v.Block.Y, glyph)
+		if IsInFOV(b, m[0].BasicProperties.X, m[0].BasicProperties.Y,
+			v.BasicProperties.X, v.BasicProperties.Y) == true {
+			blt.Layer(v.BasicProperties.Layer)
+			glyph := "[color=" + v.BasicProperties.Color + "]" +
+				v.BasicProperties.Char
+			blt.Print(v.BasicProperties.X, v.BasicProperties.Y, glyph)
 		}
 	}
 }
@@ -79,7 +82,7 @@ func RenderAll(b Board, o Objects, m Monsters) {
 	at the end, RenderAll calls blt.Refresh() that makes
 	changes to the game window visible*/
 	blt.Clear()
-	CastRays(b, o[0].Block.X, o[0].Block.Y)
+	CastRays(b, o[0].BasicProperties.X, o[0].BasicProperties.Y)
 	PrintBoard(b)
 	PrintObjects(o)
 	PrintMonsters(b, m)

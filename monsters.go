@@ -28,7 +28,7 @@ import (
 type Creature struct {
 	/*Creatures are living objects that
 	  moves, attacks, dies, etc.*/
-	Block Basic
+	BasicProperties
 }
 
 /*Monsters holds every monster on map.*/
@@ -50,8 +50,8 @@ func NewCreature(layer, x, y int, character, colour string) (*Creature, error) {
 		txt := CharacterLengthError(character)
 		err = errors.New("Creature character string length is not equal to 1." + txt)
 	}
-	creatureBlock := Basic{layer, x, y, character, colour}
-	creatureNew := &Creature{creatureBlock}
+	creatureBasicProperties := BasicProperties{layer, x, y, character, colour}
+	creatureNew := &Creature{creatureBasicProperties}
 	return creatureNew, err
 }
 

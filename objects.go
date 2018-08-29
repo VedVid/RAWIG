@@ -29,7 +29,7 @@ type Object struct {
 	/*Objects are every other things on map;
 	  statues, tables, chairs; but also weapons,
 	  armour parts, etc.*/
-	Block Basic
+	BasicProperties
 }
 
 /*Objects holds every object on map.*/
@@ -51,7 +51,7 @@ func NewObject(layer, x, y int, character, colour string) (Object, error) {
 		txt := CharacterLengthError(character)
 		err = errors.New("Object character string length is not equal to 1." + txt)
 	}
-	objectBlock := Basic{layer, x, y, character, colour}
-	objectNew := Object{objectBlock}
+	objectBasicProperties := BasicProperties{layer, x, y, character, colour}
+	objectNew := Object{objectBasicProperties}
 	return objectNew, err
 }

@@ -84,7 +84,7 @@ func CastRays(b Board, sx, sy int) {
 				continue
 			}
 			t2.Explored = true
-			if t2.Blocked == true {
+			if t2.BlocksSight == true {
 				break
 			}
 		}
@@ -122,7 +122,7 @@ func IsInFOV(b Board, sx, sy, tx, ty int) bool {
 				fmt.Println(err)
 				continue
 			}
-			if t.Blocked == true {
+			if t.BlocksSight == true {
 				break
 			}
 		}

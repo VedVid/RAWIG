@@ -29,3 +29,10 @@ type BasicProperties struct {
 	Char  string
 	Color string
 }
+
+type VisibilityProperties struct {
+	/*VisibilityProperties is simple struct
+	for checking if object is always visible,
+	regardless of player's fov*/
+	AlwaysVisible bool
+}

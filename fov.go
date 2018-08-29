@@ -68,6 +68,7 @@ func CastRays(b Board, sx, sy int) {
 		t1, err := FindTileByXY(b, sx, sy)
 		if err != nil {
 			fmt.Println(err)
+			continue
 		}
 		t1.Explored = true
 		for j := 0; j < FOVLength; j++ {
@@ -80,6 +81,7 @@ func CastRays(b Board, sx, sy int) {
 			t2, err := FindTileByXY(b, bx, by)
 			if err != nil {
 				fmt.Println(err)
+				continue
 			}
 			t2.Explored = true
 			if t2.Blocked == true {
@@ -118,6 +120,7 @@ func IsInFOV(b Board, sx, sy, tx, ty int) bool {
 			t, err := FindTileByXY(b, bx, by)
 			if err != nil {
 				fmt.Println(err)
+				continue
 			}
 			if t.Blocked == true {
 				break

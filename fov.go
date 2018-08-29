@@ -21,7 +21,6 @@ freely, subject to the following restrictions:
 package main
 
 import "math"
-import "fmt"
 
 const (
 	//values for handling field of view algorithm execution

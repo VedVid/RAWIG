@@ -29,12 +29,14 @@ type Creature struct {
 	/*Creatures are living objects that
 	  moves, attacks, dies, etc.*/
 	BasicProperties
+	VisibilityProperties
 }
 
 /*Monsters holds every monster on map.*/
 type Monsters []*Creature
 
-func NewCreature(layer, x, y int, character, colour string) (*Creature, error) {
+func NewCreature(layer, x, y int, character, colour string,
+	alwaysVisible bool) (*Creature, error) {
 	/*Function NewCreture takes all values necessary by its struct,
 	and creates then returns pointer to Creature*/
 	var err error
@@ -51,7 +53,8 @@ func NewCreature(layer, x, y int, character, colour string) (*Creature, error) {
 		err = errors.New("Creature character string length is not equal to 1." + txt)
 	}
 	creatureBasicProperties := BasicProperties{layer, x, y, character, colour}
-	creatureNew := &Creature{creatureBasicProperties}
+	creatureVisibilityPropeties := VisibilityProperties{alwaysVisible}
+	creatureNew := &Creature{creatureBasicProperties, creatureVisibilityPropeties}
 	return creatureNew, err
 }
 

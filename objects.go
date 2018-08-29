@@ -30,12 +30,14 @@ type Object struct {
 	  statues, tables, chairs; but also weapons,
 	  armour parts, etc.*/
 	BasicProperties
+	VisibilityProperties
 }
 
 /*Objects holds every object on map.*/
 type Objects []Object
 
-func NewObject(layer, x, y int, character, colour string) (Object, error) {
+func NewObject(layer, x, y int, character, colour string,
+	alwaysVisible bool) (Object, error) {
 	/*Function NewObject takes all values necessary by its struct,
 	and creates then returns Object*/
 	var err error
@@ -52,6 +54,7 @@ func NewObject(layer, x, y int, character, colour string) (Object, error) {
 		err = errors.New("Object character string length is not equal to 1." + txt)
 	}
 	objectBasicProperties := BasicProperties{layer, x, y, character, colour}
-	objectNew := Object{objectBasicProperties}
+	objectVisibilityProperties := VisibilityProperties{alwaysVisible}
+	objectNew := Object{objectBasicProperties, objectVisibilityProperties}
 	return objectNew, err
 }

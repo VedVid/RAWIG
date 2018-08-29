@@ -29,6 +29,7 @@ import (
 type Tile struct {
 	/*Tiles are map cells - floors, walls, doors*/
 	BasicProperties
+	VisibilityProperties
 	Explored bool
 	Blocked  bool
 }
@@ -37,7 +38,7 @@ type Tile struct {
   to hold data of its every cell*/
 type Board []*Tile
 
-func NewTile(layer, x, y int, character, colour string,
+func NewTile(layer, x, y int, character, colour string, alwaysVisible bool,
 	explored, blocked bool) (*Tile, error) {
 	/*Function NewTile takes all values necessary by its struct,
 	and creates then returns Tile.*/
@@ -55,7 +56,9 @@ func NewTile(layer, x, y int, character, colour string,
 		err = errors.New("Tile character string length is not equal to 1." + txt)
 	}
 	tileBasicProperties := BasicProperties{layer, x, y, character, colour}
-	tileNew := &Tile{tileBasicProperties, explored, blocked}
+	tileVisibilityProperties := VisibilityProperties{alwaysVisible}
+	tileNew := &Tile{tileBasicProperties, tileVisibilityProperties,
+		explored, blocked}
 	return tileNew, err
 }
 
@@ -96,7 +99,7 @@ func InitializeEmptyMap() Board {
 	var b = Board{}
 	for x := 0; x < WindowSizeX; x++ {
 		for y := 0; y < WindowSizeY; y++ {
-			t, err := NewTile(BoardLayer, x, y, ".", "white", false, false)
+			t, err := NewTile(BoardLayer, x, y, ".", "white", false, false, true)
 			if err != nil {
 				fmt.Println(err)
 			}

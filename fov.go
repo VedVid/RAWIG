@@ -33,8 +33,8 @@ const (
 )
 
 var (
-	sintable = []float64{}
-	costable = []float64{}
+	sintable = map[int]float64{}
+	costable = map[int]float64{}
 )
 
 func InitializeFOVTables() {
@@ -44,8 +44,8 @@ func InitializeFOVTables() {
 	for i := 0; i < FOVRays; i++ {
 		x := math.Sin(float64(i) / (float64(180) / math.Pi))
 		y := math.Cos(float64(i) / (float64(180) / math.Pi))
-		sintable = append(sintable, x)
-		costable = append(costable, y)
+		sintable[i] = x
+		costable[i] = y
 	}
 }
 
@@ -74,11 +74,11 @@ func CastRays(b Board, sx, sy int) {
 		for j := 0; j < FOVLength; j++ {
 			x -= rayX
 			y -= rayY
-			if x < 0 || y < 0 || x >= WindowSizeX-1 || y >= WindowSizeY-1 {
+			rx, ry := int(math.Round(x)), int(math.Round(y))
+			if rx < 0 || ry < 0 || rx >= WindowSizeX-1 || ry >= WindowSizeY-1 {
 				break
 			}
-			bx, by := int(math.Round(x)), int(math.Round(y))
-			t2, err := FindTileByXY(b, bx, by)
+			t2, err := FindTileByXY(b, rx, ry)
 			if err != nil {
 				fmt.Println(err)
 				continue
@@ -110,14 +110,14 @@ func IsInFOV(b Board, sx, sy, tx, ty int) bool {
 		for j := 0; j < FOVLength; j++ {
 			x -= rayX
 			y -= rayY
-			if x < 0 || y < 0 || x >= WindowSizeX-1 || y >= WindowSizeY-1 {
+			rx, ry := int(math.Round(x)), int(math.Round(y))
+			if rx < 0 || ry < 0 || rx >= WindowSizeX-1 || ry >= WindowSizeY-1 {
 				break
 			}
-			bx, by := int(math.Round(x)), int(math.Round(y))
-			if bx == tx && by == ty {
+			if rx == tx && ry == ty {
 				return true
 			}
-			t, err := FindTileByXY(b, bx, by)
+			t, err := FindTileByXY(b, rx, ry)
 			if err != nil {
 				fmt.Println(err)
 				continue

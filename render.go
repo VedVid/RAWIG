@@ -30,36 +30,44 @@ const (
 	PlayerLayer
 )
 
-func PrintBoard(b Board) {
+func PrintBoard(b Board, m Monsters) {
 	/*Function PrintBoard is used in RenderAll;
 	it takes level map as arguments and iterates through that slice;
-	prints every tile on its coords*/
+	prints every tile on its coords if certain conditions are met:
+	AlwaysVisible bool is set to true; I'm skipping checking for player fov
+	on purpose here, because it was huge performance hit.*/
 	for _, v := range b {
-		blt.Layer(v.Layer)
-		glyph := "[color=" + v.Color + "]" + v.Char
-		blt.Print(v.X, v.Y, glyph)
+		if v.AlwaysVisible == true {
+			blt.Layer(v.Layer)
+			glyph := "[color=" + v.Color + "]" + v.Char
+			blt.Print(v.X, v.Y, glyph)
+		}
 	}
 }
 
-func PrintObjects(o Objects) {
+func PrintObjects(b Board, o Objects, m Monsters) {
 	/*Function PrintObjects is used in RenderAll;
 	it takes slice of objects as argument and iterates through it;
-	prints every object on its coords*/
+	prints every object on its coords if certain conditions are met:
+	AlwaysVisible bool is set to true, or is in player fov.*/
 	for _, v := range o {
-		blt.Layer(v.Layer)
-		glyph := "[color=" + v.Color + "]" + v.Char
-		blt.Print(v.X, v.Y, glyph)
+		if (IsInFOV(b, m[0].X, m[0].Y, v.X, v.Y) == true) ||
+			(v.AlwaysVisible == true) {
+			blt.Layer(v.Layer)
+			glyph := "[color=" + v.Color + "]" + v.Char
+			blt.Print(v.X, v.Y, glyph)
+		}
 	}
 }
 
 func PrintMonsters(b Board, m Monsters) {
 	/*Function PrintMonsters is used in RenderAll;
 	it takes slice of monsters as argument and iterates through it;
-	checks for every monster if is in player's (assuming that first monster
-	is player) FOV by calling IsInFOV;
-	prints monster if that function returns true*/
+	checks for every monster on its coords if certain conditions are met:
+	AlwaysVisible bool is set to true, or is in player fov.*/
 	for _, v := range m {
-		if IsInFOV(b, m[0].X, m[0].Y, v.X, v.Y) == true {
+		if (IsInFOV(b, m[0].X, m[0].Y, v.X, v.Y) == true) ||
+			(v.AlwaysVisible == true) {
 			blt.Layer(v.Layer)
 			glyph := "[color=" + v.Color + "]" + v.Char
 			blt.Print(v.X, v.Y, glyph)
@@ -79,8 +87,8 @@ func RenderAll(b Board, o Objects, m Monsters) {
 	changes to the game window visible*/
 	blt.Clear()
 	CastRays(b, m[0].X, m[0].Y)
-	PrintBoard(b)
-	PrintObjects(o)
+	PrintBoard(b, m)
+	PrintObjects(b, o, m)
 	PrintMonsters(b, m)
 	blt.Refresh()
 }

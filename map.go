@@ -102,7 +102,7 @@ func InitializeEmptyMap() Board {
 	var b = Board{}
 	for x := 0; x < WindowSizeX; x++ {
 		for y := 0; y < WindowSizeY; y++ {
-			t, err := NewTile(BoardLayer, x, y, ".", "white", true, false,
+			t, err := NewTile(BoardLayer, x, y, ".", "white", false, false,
 				false, false)
 			if err != nil {
 				fmt.Println(err)

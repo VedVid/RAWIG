@@ -21,12 +21,32 @@ freely, subject to the following restrictions:
 package main
 
 import blt "bearlibterminal"
+import "fmt"
 
 func main() {
+	player, err := NewPlayer(PlayerLayer, 1, 1, "@", "white", true, true, false)
+	if err != nil {
+		fmt.Println(err)
+	}
+	enemy, err := NewCreature(MonstersLayer, 10, 10, "T", "green", false, true, false)
+	if err != nil {
+		fmt.Println(err)
+	}
+	var actors = Monsters{player, enemy}
+	var objs = Objects{}
+	cells := InitializeEmptyMap()
+	for {
+		RenderAll(cells, objs, actors)
+		key := blt.Read()
+		if key == blt.TK_ESCAPE {
+			break
+		} else {
+			Controls(key, player)
+		}
+	}
 	blt.Close()
 }
 
 func init() {
 	InitializeBLT()
-	InitializeFOVTables()
 }

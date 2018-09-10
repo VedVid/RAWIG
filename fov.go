@@ -21,7 +21,6 @@ freely, subject to the following restrictions:
 package main
 
 import (
-	"fmt"
 	"math"
 )
 
@@ -33,58 +32,162 @@ const (
 )
 
 var (
-	sintable = map[int]float64{}
-	costable = map[int]float64{}
+	sinBase = []float64{
+		0.00000, 0.01745, 0.03490, 0.05234, 0.06976, 0.08716, 0.10453,
+		0.12187, 0.13917, 0.15643, 0.17365, 0.19081, 0.20791, 0.22495, 0.24192,
+		0.25882, 0.27564, 0.29237, 0.30902, 0.32557, 0.34202, 0.35837, 0.37461,
+		0.39073, 0.40674, 0.42262, 0.43837, 0.45399, 0.46947, 0.48481, 0.50000,
+		0.51504, 0.52992, 0.54464, 0.55919, 0.57358, 0.58779, 0.60182, 0.61566,
+		0.62932, 0.64279, 0.65606, 0.66913, 0.68200, 0.69466, 0.70711, 0.71934,
+		0.73135, 0.74314, 0.75471, 0.76604, 0.77715, 0.78801, 0.79864, 0.80902,
+		0.81915, 0.82904, 0.83867, 0.84805, 0.85717, 0.86603, 0.87462, 0.88295,
+		0.89101, 0.89879, 0.90631, 0.91355, 0.92050, 0.92718, 0.93358, 0.93969,
+		0.94552, 0.95106, 0.95630, 0.96126, 0.96593, 0.97030, 0.97437, 0.97815,
+		0.98163, 0.98481, 0.98769, 0.99027, 0.99255, 0.99452, 0.99619, 0.99756,
+		0.99863, 0.99939, 0.99985, 1.00000, 0.99985, 0.99939, 0.99863, 0.99756,
+		0.99619, 0.99452, 0.99255, 0.99027, 0.98769, 0.98481, 0.98163, 0.97815,
+		0.97437, 0.97030, 0.96593, 0.96126, 0.95630, 0.95106, 0.94552, 0.93969,
+		0.93358, 0.92718, 0.92050, 0.91355, 0.90631, 0.89879, 0.89101, 0.88295,
+		0.87462, 0.86603, 0.85717, 0.84805, 0.83867, 0.82904, 0.81915, 0.80902,
+		0.79864, 0.78801, 0.77715, 0.76604, 0.75471, 0.74314, 0.73135, 0.71934,
+		0.70711, 0.69466, 0.68200, 0.66913, 0.65606, 0.64279, 0.62932, 0.61566,
+		0.60182, 0.58779, 0.57358, 0.55919, 0.54464, 0.52992, 0.51504, 0.50000,
+		0.48481, 0.46947, 0.45399, 0.43837, 0.42262, 0.40674, 0.39073, 0.37461,
+		0.35837, 0.34202, 0.32557, 0.30902, 0.29237, 0.27564, 0.25882, 0.24192,
+		0.22495, 0.20791, 0.19081, 0.17365, 0.15643, 0.13917, 0.12187, 0.10453,
+		0.08716, 0.06976, 0.05234, 0.03490, 0.01745, 0.00000, -0.01745, -0.03490,
+		-0.05234, -0.06976, -0.08716, -0.10453, -0.12187, -0.13917, -0.15643,
+		-0.17365, -0.19081, -0.20791, -0.22495, -0.24192, -0.25882, -0.27564,
+		-0.29237, -0.30902, -0.32557, -0.34202, -0.35837, -0.37461, -0.39073,
+		-0.40674, -0.42262, -0.43837, -0.45399, -0.46947, -0.48481, -0.50000,
+		-0.51504, -0.52992, -0.54464, -0.55919, -0.57358, -0.58779, -0.60182,
+		-0.61566, -0.62932, -0.64279, -0.65606, -0.66913, -0.68200, -0.69466,
+		-0.70711, -0.71934, -0.73135, -0.74314, -0.75471, -0.76604, -0.77715,
+		-0.78801, -0.79864, -0.80902, -0.81915, -0.82904, -0.83867, -0.84805,
+		-0.85717, -0.86603, -0.87462, -0.88295, -0.89101, -0.89879, -0.90631,
+		-0.91355, -0.92050, -0.92718, -0.93358, -0.93969, -0.94552, -0.95106,
+		-0.95630, -0.96126, -0.96593, -0.97030, -0.97437, -0.97815, -0.98163,
+		-0.98481, -0.98769, -0.99027, -0.99255, -0.99452, -0.99619, -0.99756,
+		-0.99863, -0.99939, -0.99985, -1.00000, -0.99985, -0.99939, -0.99863,
+		-0.99756, -0.99619, -0.99452, -0.99255, -0.99027, -0.98769, -0.98481,
+		-0.98163, -0.97815, -0.97437, -0.97030, -0.96593, -0.96126, -0.95630,
+		-0.95106, -0.94552, -0.93969, -0.93358, -0.92718, -0.92050, -0.91355,
+		-0.90631, -0.89879, -0.89101, -0.88295, -0.87462, -0.86603, -0.85717,
+		-0.84805, -0.83867, -0.82904, -0.81915, -0.80902, -0.79864, -0.78801,
+		-0.77715, -0.76604, -0.75471, -0.74314, -0.73135, -0.71934, -0.70711,
+		-0.69466, -0.68200, -0.66913, -0.65606, -0.64279, -0.62932, -0.61566,
+		-0.60182, -0.58779, -0.57358, -0.55919, -0.54464, -0.52992, -0.51504,
+		-0.50000, -0.48481, -0.46947, -0.45399, -0.43837, -0.42262, -0.40674,
+		-0.39073, -0.37461, -0.35837, -0.34202, -0.32557, -0.30902, -0.29237,
+		-0.27564, -0.25882, -0.24192, -0.22495, -0.20791, -0.19081, -0.17365,
+		-0.15643, -0.13917, -0.12187, -0.10453, -0.08716, -0.06976, -0.05234,
+		-0.03490, -0.01745, -0.00000,
+	}
+	cosBase = []float64{
+		1.00000, 0.99985, 0.99939, 0.99863, 0.99756, 0.99619, 0.99452,
+		0.99255, 0.99027, 0.98769, 0.98481, 0.98163, 0.97815, 0.97437, 0.97030,
+		0.96593, 0.96126, 0.95630, 0.95106, 0.94552, 0.93969, 0.93358, 0.92718,
+		0.92050, 0.91355, 0.90631, 0.89879, 0.89101, 0.88295, 0.87462, 0.86603,
+		0.85717, 0.84805, 0.83867, 0.82904, 0.81915, 0.80902, 0.79864, 0.78801,
+		0.77715, 0.76604, 0.75471, 0.74314, 0.73135, 0.71934, 0.70711, 0.69466,
+		0.68200, 0.66913, 0.65606, 0.64279, 0.62932, 0.61566, 0.60182, 0.58779,
+		0.57358, 0.55919, 0.54464, 0.52992, 0.51504, 0.50000, 0.48481, 0.46947,
+		0.45399, 0.43837, 0.42262, 0.40674, 0.39073, 0.37461, 0.35837, 0.34202,
+		0.32557, 0.30902, 0.29237, 0.27564, 0.25882, 0.24192, 0.22495, 0.20791,
+		0.19081, 0.17365, 0.15643, 0.13917, 0.12187, 0.10453, 0.08716, 0.06976,
+		0.05234, 0.03490, 0.01745, 0.00000, -0.01745, -0.03490, -0.05234, -0.06976,
+		-0.08716, -0.10453, -0.12187, -0.13917, -0.15643, -0.17365, -0.19081,
+		-0.20791, -0.22495, -0.24192, -0.25882, -0.27564, -0.29237, -0.30902,
+		-0.32557, -0.34202, -0.35837, -0.37461, -0.39073, -0.40674, -0.42262,
+		-0.43837, -0.45399, -0.46947, -0.48481, -0.50000, -0.51504, -0.52992,
+		-0.54464, -0.55919, -0.57358, -0.58779, -0.60182, -0.61566, -0.62932,
+		-0.64279, -0.65606, -0.66913, -0.68200, -0.69466, -0.70711, -0.71934,
+		-0.73135, -0.74314, -0.75471, -0.76604, -0.77715, -0.78801, -0.79864,
+		-0.80902, -0.81915, -0.82904, -0.83867, -0.84805, -0.85717, -0.86603,
+		-0.87462, -0.88295, -0.89101, -0.89879, -0.90631, -0.91355, -0.92050,
+		-0.92718, -0.93358, -0.93969, -0.94552, -0.95106, -0.95630, -0.96126,
+		-0.96593, -0.97030, -0.97437, -0.97815, -0.98163, -0.98481, -0.98769,
+		-0.99027, -0.99255, -0.99452, -0.99619, -0.99756, -0.99863, -0.99939,
+		-0.99985, -1.00000, -0.99985, -0.99939, -0.99863, -0.99756, -0.99619,
+		-0.99452, -0.99255, -0.99027, -0.98769, -0.98481, -0.98163, -0.97815,
+		-0.97437, -0.97030, -0.96593, -0.96126, -0.95630, -0.95106, -0.94552,
+		-0.93969, -0.93358, -0.92718, -0.92050, -0.91355, -0.90631, -0.89879,
+		-0.89101, -0.88295, -0.87462, -0.86603, -0.85717, -0.84805, -0.83867,
+		-0.82904, -0.81915, -0.80902, -0.79864, -0.78801, -0.77715, -0.76604,
+		-0.75471, -0.74314, -0.73135, -0.71934, -0.70711, -0.69466, -0.68200,
+		-0.66913, -0.65606, -0.64279, -0.62932, -0.61566, -0.60182, -0.58779,
+		-0.57358, -0.55919, -0.54464, -0.52992, -0.51504, -0.50000, -0.48481,
+		-0.46947, -0.45399, -0.43837, -0.42262, -0.40674, -0.39073, -0.37461,
+		-0.35837, -0.34202, -0.32557, -0.30902, -0.29237, -0.27564, -0.25882,
+		-0.24192, -0.22495, -0.20791, -0.19081, -0.17365, -0.15643, -0.13917,
+		-0.12187, -0.10453, -0.08716, -0.06976, -0.05234, -0.03490, -0.01745,
+		-0.00000, 0.01745, 0.03490, 0.05234, 0.06976, 0.08716, 0.10453, 0.12187,
+		0.13917, 0.15643, 0.17365, 0.19081, 0.20791, 0.22495, 0.24192, 0.25882,
+		0.27564, 0.29237, 0.30902, 0.32557, 0.34202, 0.35837, 0.37461, 0.39073,
+		0.40674, 0.42262, 0.43837, 0.45399, 0.46947, 0.48481, 0.50000, 0.51504,
+		0.52992, 0.54464, 0.55919, 0.57358, 0.58779, 0.60182, 0.61566, 0.62932,
+		0.64279, 0.65606, 0.66913, 0.68200, 0.69466, 0.70711, 0.71934, 0.73135,
+		0.74314, 0.75471, 0.76604, 0.77715, 0.78801, 0.79864, 0.80902, 0.81915,
+		0.82904, 0.83867, 0.84805, 0.85717, 0.86603, 0.87462, 0.88295, 0.89101,
+		0.89879, 0.90631, 0.91355, 0.92050, 0.92718, 0.93358, 0.93969, 0.94552,
+		0.95106, 0.95630, 0.96126, 0.96593, 0.97030, 0.97437, 0.97815, 0.98163,
+		0.98481, 0.98769, 0.99027, 0.99255, 0.99452, 0.99619, 0.99756, 0.99863,
+		0.99939, 0.99985, 1.00000,
+	}
 )
 
-func InitializeFOVTables() {
-	/*Function InitializeFOVTables fills sintable and costable with proper
-	values; it's provided because it's less ugly than hardcoding all
-	necessary floats. It has to be called in init function of main file*/
-	for i := 0; i < FOVRays; i++ {
-		x := math.Sin(float64(i) / (float64(180) / math.Pi))
-		y := math.Cos(float64(i) / (float64(180) / math.Pi))
-		sintable[i] = x
-		costable[i] = y
+func round64(value, rounding float64, places int) float64 {
+	/* Function round64 rounds float64 values (value) to specified
+	   number of digits (places) using given point-of-rounding-up (rounding).*/
+	pow := math.Pow(10, float64(places))
+	digit := pow * value
+	_, div := math.Modf(digit)
+	var round float64
+	if value > 0 {
+		if div >= rounding {
+			round = math.Ceil(digit)
+		} else {
+			round = math.Floor(digit)
+		}
+	} else {
+		if div > rounding {
+			round = math.Floor(digit)
+		} else {
+			round = math.Ceil(digit)
+		}
 	}
+	return round / pow
+}
+
+func round64ToInt(value float64) int {
+	/* Function round64ToInt gets float64 value, uses round64 function,
+	   then returns new value converted to integer.*/
+	a := round64(value, 0.5, 0)
+	return int(a)
 }
 
 func CastRays(b Board, sx, sy int) {
-	/*Function CastRays is simple raycasting function for field of view.
-	It casts (rays div step) rays from source, in specified range.
-	Bigger step means faster execution, but also more errors and artifacts.
-	Since Go is relatively fast language, it's safe to use small steps.
-	It's translation of released to public domain python algorithm, published
-	by [init. initd5@gmail.com] via roguebasin (access: 20180825):
-	http://www.roguebasin.com/index.php?title=Raycasting_in_python
-	This implementation uses floating point numbers to make it easy to
-	adapt for even more precise raycasting.
-	I may change raycasting to shadowcasting (or other algorithm) later.*/
+	/* Function castRays is simple raycasting function for turning tiles to explored.
+	   It casts (fovRays / fovStep) rays (bigger fovStep means faster but
+	   more error-prone raycasting) from player to coordinates in fovLength range.
+	   Source of algorithm:
+	   http://www.roguebasin.com/index.php?title=Raycasting_in_python [20170712]*/
 	for i := 0; i < FOVRays; i += FOVStep {
-		rayX := sintable[i]
-		rayY := costable[i]
+		rayX := sinBase[i]
+		rayY := cosBase[i]
 		x := float64(sx)
 		y := float64(sy)
-		t1, err := FindTileByXY(b, sx, sy)
-		if err != nil {
-			fmt.Println(err)
-			continue
-		}
+		t1, _ := FindTileByXY(b, round64ToInt(x), round64ToInt(y))
 		t1.Explored = true
 		for j := 0; j < FOVLength; j++ {
 			x -= rayX
 			y -= rayY
-			rx, ry := int(math.Round(x)), int(math.Round(y))
-			if rx < 0 || ry < 0 || rx >= WindowSizeX-1 || ry >= WindowSizeY-1 {
+			if x < 0 || y < 0 || x > WindowSizeX-1 || y > WindowSizeY-1 {
 				break
 			}
-			t2, err := FindTileByXY(b, rx, ry)
-			if err != nil {
-				fmt.Println(err)
-				continue
-			}
+			t2, _ := FindTileByXY(b, round64ToInt(x), round64ToInt(y))
 			t2.Explored = true
-			if t2.BlocksSight == true {
+			if t2.Blocked {
 				break
 			}
 		}
@@ -92,37 +195,32 @@ func CastRays(b Board, sx, sy int) {
 }
 
 func IsInFOV(b Board, sx, sy, tx, ty int) bool {
-	/*Function IsInFOV checks if target coords (tx, ty) are within
-	source (sx, sy) field of view. Returns true if target is on the same tile
-	as source; otherwise, it casts (FOVRays / FOVStep) rays from source to
-	tiles in FOVLength range and stops if cells is blocked.
-	It's nasty code duplication from CastRays function and it may be
-	addressed later, but I think it's readable enough.
-	Part of translation of init's python raycasting algorithm.*/
+	/* Function isInFOV checks if target (tx, ty) is in fov of source (sx, sy).
+	   Returns true if tx, ty == sx, sy; otherwise, it casts (FOVRays / fovStep)
+	   rays (bigger fovStep means faster but more error-prone algorithm)
+	   from source to tiles in fovLength range; stops if cell is blocked.
+	   Source of algorithm:
+	   http://www.roguebasin.com/index.php?title=Raycasting_in_python [20170712].*/
 	if sx == tx && sy == ty {
 		return true
 	}
 	for i := 0; i < FOVRays; i += FOVStep {
-		rayX := sintable[i]
-		rayY := sintable[i]
+		rayX := sinBase[i]
+		rayY := cosBase[i]
 		x := float64(sx)
 		y := float64(sy)
 		for j := 0; j < FOVLength; j++ {
 			x -= rayX
 			y -= rayY
-			rx, ry := int(math.Round(x)), int(math.Round(y))
-			if rx < 0 || ry < 0 || rx >= WindowSizeX-1 || ry >= WindowSizeY-1 {
+			if x < 0 || y < 0 || x > WindowSizeX-1 || y > WindowSizeY-1 {
 				break
 			}
-			if rx == tx && ry == ty {
+			bx, by := round64ToInt(x), round64ToInt(y)
+			if bx == tx && by == ty {
 				return true
 			}
-			t, err := FindTileByXY(b, rx, ry)
-			if err != nil {
-				fmt.Println(err)
-				continue
-			}
-			if t.BlocksSight == true {
+			t, _ := FindTileByXY(b, bx, by)
+			if t.Blocked {
 				break
 			}
 		}

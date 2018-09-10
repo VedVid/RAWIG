@@ -37,10 +37,13 @@ func PrintBoard(b Board, m Monsters) {
 	AlwaysVisible bool is set to true; I'm skipping checking for player fov
 	on purpose here, because it was huge performance hit.*/
 	for _, v := range b {
-		if v.AlwaysVisible == true {
-			blt.Layer(v.Layer)
-			glyph := "[color=" + v.Color + "]" + v.Char
-			blt.Print(v.X, v.Y, glyph)
+		if v.Explored == true {
+			if v.AlwaysVisible == true ||
+				IsInFOV(b, m[0].X, m[0].Y, v.X, v.Y) {
+				blt.Layer(v.Layer)
+				glyph := "[color=" + v.Color + "]" + v.Char
+				blt.Print(v.X, v.Y, glyph)
+			}
 		}
 	}
 }

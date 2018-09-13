@@ -56,7 +56,7 @@ func CastRays(b Board, sx, sy int) {
 		rayY := cosBase[i]
 		x := float64(sx)
 		y := float64(sy)
-		t1, _ := FindTileByXY(b, int(math.Round(x)), int(math.Round(y)))
+		t1, _ := FindTileByXY(b, RoundFloatToInt(x), RoundFloatToInt(y))
 		t1.Explored = true
 		for j := 0; j < FOVLength; j++ {
 			x -= rayX
@@ -64,7 +64,7 @@ func CastRays(b Board, sx, sy int) {
 			if x < 0 || y < 0 || x > WindowSizeX-1 || y > WindowSizeY-1 {
 				break
 			}
-			t2, _ := FindTileByXY(b, int(math.Round(x)), int(math.Round(y)))
+			t2, _ := FindTileByXY(b, RoundFloatToInt(x), RoundFloatToInt(y))
 			t2.Explored = true
 			if t2.Blocked {
 				break
@@ -94,7 +94,7 @@ func IsInFOV(b Board, sx, sy, tx, ty int) bool {
 			if x < 0 || y < 0 || x > WindowSizeX-1 || y > WindowSizeY-1 {
 				break
 			}
-			bx, by := int(math.Round(x)), int(math.Round(y))
+			bx, by := RoundFloatToInt(x), RoundFloatToInt(y)
 			if bx == tx && by == ty {
 				return true
 			}

@@ -45,36 +45,6 @@ func InitializeFOVTables() {
 	}
 }
 
-func round64(value, rounding float64, places int) float64 {
-	/* Function round64 rounds float64 values (value) to specified
-	   number of digits (places) using given point-of-rounding-up (rounding).*/
-	pow := math.Pow(10, float64(places))
-	digit := pow * value
-	_, div := math.Modf(digit)
-	var round float64
-	if value > 0 {
-		if div >= rounding {
-			round = math.Ceil(digit)
-		} else {
-			round = math.Floor(digit)
-		}
-	} else {
-		if div > rounding {
-			round = math.Floor(digit)
-		} else {
-			round = math.Ceil(digit)
-		}
-	}
-	return round / pow
-}
-
-func round64ToInt(value float64) int {
-	/* Function round64ToInt gets float64 value, uses round64 function,
-	   then returns new value converted to integer.*/
-	a := round64(value, 0.5, 0)
-	return int(a)
-}
-
 func CastRays(b Board, sx, sy int) {
 	/* Function castRays is simple raycasting function for turning tiles to explored.
 	   It casts (fovRays / fovStep) rays (bigger fovStep means faster but
@@ -86,7 +56,7 @@ func CastRays(b Board, sx, sy int) {
 		rayY := cosBase[i]
 		x := float64(sx)
 		y := float64(sy)
-		t1, _ := FindTileByXY(b, round64ToInt(x), round64ToInt(y))
+		t1, _ := FindTileByXY(b, int(math.Round(x)), int(math.Round(y)))
 		t1.Explored = true
 		for j := 0; j < FOVLength; j++ {
 			x -= rayX
@@ -94,7 +64,7 @@ func CastRays(b Board, sx, sy int) {
 			if x < 0 || y < 0 || x > WindowSizeX-1 || y > WindowSizeY-1 {
 				break
 			}
-			t2, _ := FindTileByXY(b, round64ToInt(x), round64ToInt(y))
+			t2, _ := FindTileByXY(b, int(math.Round(x)), int(math.Round(y)))
 			t2.Explored = true
 			if t2.Blocked {
 				break
@@ -124,7 +94,7 @@ func IsInFOV(b Board, sx, sy, tx, ty int) bool {
 			if x < 0 || y < 0 || x > WindowSizeX-1 || y > WindowSizeY-1 {
 				break
 			}
-			bx, by := round64ToInt(x), round64ToInt(y)
+			bx, by := int(math.Round(x)), int(math.Round(y))
 			if bx == tx && by == ty {
 				return true
 			}

@@ -21,6 +21,7 @@ freely, subject to the following restrictions:
 package main
 
 import (
+	"fmt"
 	"math"
 )
 
@@ -56,7 +57,11 @@ func CastRays(b Board, sx, sy int) {
 		rayY := cosBase[i]
 		x := float64(sx)
 		y := float64(sy)
-		t1, _ := FindTileByXY(b, RoundFloatToInt(x), RoundFloatToInt(y))
+		t1, err := FindTileByXY(b, RoundFloatToInt(x), RoundFloatToInt(y))
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
 		t1.Explored = true
 		for j := 0; j < FOVLength; j++ {
 			x -= rayX
@@ -64,7 +69,11 @@ func CastRays(b Board, sx, sy int) {
 			if x < 0 || y < 0 || x > WindowSizeX-1 || y > WindowSizeY-1 {
 				break
 			}
-			t2, _ := FindTileByXY(b, RoundFloatToInt(x), RoundFloatToInt(y))
+			t2, err := FindTileByXY(b, RoundFloatToInt(x), RoundFloatToInt(y))
+			if err != nil {
+				fmt.Println(err)
+				break
+			}
 			t2.Explored = true
 			if t2.Blocked {
 				break
@@ -98,7 +107,11 @@ func IsInFOV(b Board, sx, sy, tx, ty int) bool {
 			if bx == tx && by == ty {
 				return true
 			}
-			t, _ := FindTileByXY(b, bx, by)
+			t, err := FindTileByXY(b, bx, by)
+			if err != nil {
+				fmt.Println(err)
+				break
+			}
 			if t.Blocked {
 				break
 			}

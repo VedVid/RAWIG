@@ -37,11 +37,15 @@ func PrintBoard(b Board, m Monsters) {
 	AlwaysVisible bool is set to true.*/
 	for _, v := range b {
 		if v.Explored == true {
-			if v.AlwaysVisible == true ||
-				IsInFOV(b, m[0].X, m[0].Y, v.X, v.Y) {
-				blt.Layer(v.Layer)
+			blt.Layer(v.Layer)
+			if IsInFOV(b, m[0].X, m[0].Y, v.X, v.Y) {
 				glyph := "[color=" + v.Color + "]" + v.Char
 				blt.Print(v.X, v.Y, glyph)
+			} else {
+				if v.AlwaysVisible == true {
+					glyph := "[color=" + v.ColorDark + "]" + v.Char
+					blt.Print(v.X, v.Y, glyph)
+				}
 			}
 		}
 	}

@@ -76,7 +76,7 @@ func CastRays(b Board, sx, sy int) {
 				break
 			}
 			t2.Explored = true
-			if t2.Blocked {
+			if t2.BlocksSight {
 				break
 			}
 		}
@@ -87,7 +87,8 @@ func IsInFOV(b Board, sx, sy, tx, ty int) bool {
 	/*Function isInFOV checks if target (tx, ty) is in fov of source (sx, sy).
 	Returns true if tx, ty == sx, sy; otherwise, it casts (FOVRays / fovStep)
 	rays (bigger fovStep means faster but more error-prone algorithm)
-	from source to tiles in fovLength range; stops if cell is blocked.
+	from source to tiles in fovLength range;
+	stops if cell has BlocksSight bool set to true.
 	Source of algorithm:
 	http://www.roguebasin.com/index.php?title=Raycasting_in_python [20170712].*/
 	if sx == tx && sy == ty {
@@ -113,7 +114,7 @@ func IsInFOV(b Board, sx, sy, tx, ty int) bool {
 				fmt.Println(err)
 				break
 			}
-			if t.Blocked {
+			if t.BlocksSight {
 				break
 			}
 		}

@@ -34,7 +34,9 @@ func PrintBoard(b Board, m Monsters) {
 	/*Function PrintBoard is used in RenderAll;
 	it takes level map as arguments and iterates through that slice;
 	prints every tile on its coords if certain conditions are met:
-	AlwaysVisible bool is set to true.*/
+	is Explored already, and:
+	- is in player's field of view (prints "normal" color) or
+	- is AlwaysVisible (prints dark color).*/
 	for _, v := range b {
 		if v.Explored == true {
 			blt.Layer(v.Layer)

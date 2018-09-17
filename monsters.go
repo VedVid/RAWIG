@@ -25,6 +25,12 @@ import (
 	"unicode/utf8"
 )
 
+const (
+	//colors
+	colorMonster     = "green"
+	colorMonsterDark = "dark green"
+)
+
 type Creature struct {
 	/*Creatures are living objects that
 	  moves, attacks, dies, etc.*/
@@ -36,7 +42,7 @@ type Creature struct {
 /*Monsters holds every monster on map.*/
 type Monsters []*Creature
 
-func NewCreature(layer, x, y int, character, colour string,
+func NewCreature(layer, x, y int, character, colour, colourDark string,
 	alwaysVisible, blocked, blocksSight bool) (*Creature, error) {
 	/*Function NewCreture takes all values necessary by its struct,
 	and creates then returns pointer to Creature*/
@@ -53,7 +59,8 @@ func NewCreature(layer, x, y int, character, colour string,
 		txt := CharacterLengthError(character)
 		err = errors.New("Creature character string length is not equal to 1." + txt)
 	}
-	creatureBasicProperties := BasicProperties{layer, x, y, character, colour}
+	creatureBasicProperties := BasicProperties{layer, x, y, character, colour,
+		colourDark}
 	creatureVisibilityPropeties := VisibilityProperties{alwaysVisible}
 	creatureCollisionProperties := CollisionProperties{blocked, blocksSight}
 	creatureNew := &Creature{creatureBasicProperties,

@@ -25,7 +25,13 @@ import (
 	"unicode/utf8"
 )
 
-func NewPlayer(layer, x, y int, character, colour string,
+const (
+	//colors
+	colorPlayer     = "white"
+	colorPlayerDark = "white"
+)
+
+func NewPlayer(layer, x, y int, character, colour, colourDark string,
 	alwaysVisible, blocked, blocksSight bool) (*Creature, error) {
 	/*Function NewPlayer takes all values necessary by its struct,
 	and creates then returns pointer to Creature;
@@ -43,7 +49,8 @@ func NewPlayer(layer, x, y int, character, colour string,
 		txt := CharacterLengthError(character)
 		err = errors.New("Player character string length is not equal to 1." + txt)
 	}
-	playerBasicProperties := BasicProperties{layer, x, y, character, colour}
+	playerBasicProperties := BasicProperties{layer, x, y, character, colour,
+		colourDark}
 	playerVisibilityProperties := VisibilityProperties{alwaysVisible}
 	playerCollisionProperties := CollisionProperties{blocked, blocksSight}
 	playerNew := &Creature{playerBasicProperties, playerVisibilityProperties,

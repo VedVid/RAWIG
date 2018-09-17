@@ -25,6 +25,12 @@ import (
 	"unicode/utf8"
 )
 
+const (
+	//colors
+	colorObject     = "blue"
+	colorObjectDark = "dark blue"
+)
+
 type Object struct {
 	/*Objects are every other things on map;
 	  statues, tables, chairs; but also weapons,
@@ -37,7 +43,7 @@ type Object struct {
 /*Objects holds every object on map.*/
 type Objects []*Object
 
-func NewObject(layer, x, y int, character, colour string,
+func NewObject(layer, x, y int, character, colour, colourDark string,
 	alwaysVisible, blocked, blocksSight bool) (*Object, error) {
 	/*Function NewObject takes all values necessary by its struct,
 	and creates then returns Object*/
@@ -54,7 +60,8 @@ func NewObject(layer, x, y int, character, colour string,
 		txt := CharacterLengthError(character)
 		err = errors.New("Object character string length is not equal to 1." + txt)
 	}
-	objectBasicProperties := BasicProperties{layer, x, y, character, colour}
+	objectBasicProperties := BasicProperties{layer, x, y, character, colour,
+		colourDark}
 	objectVisibilityProperties := VisibilityProperties{alwaysVisible}
 	objectCollisionProperties := CollisionProperties{blocked, blocksSight}
 	objectNew := &Object{objectBasicProperties, objectVisibilityProperties,

@@ -26,6 +26,12 @@ import (
 	"unicode/utf8"
 )
 
+const (
+	//colors
+	colorTile     = "light gray"
+	colorTileDark = "dark gray"
+)
+
 type Tile struct {
 	/*Tiles are map cells - floors, walls, doors*/
 	BasicProperties
@@ -38,8 +44,8 @@ type Tile struct {
   to hold data of its every cell*/
 type Board []*Tile
 
-func NewTile(layer, x, y int, character, colour string, alwaysVisible,
-	explored, blocked, blocksSight bool) (*Tile, error) {
+func NewTile(layer, x, y int, character, colour, colourDark string,
+	alwaysVisible, explored, blocked, blocksSight bool) (*Tile, error) {
 	/*Function NewTile takes all values necessary by its struct,
 	and creates then returns Tile.*/
 	var err error
@@ -55,7 +61,8 @@ func NewTile(layer, x, y int, character, colour string, alwaysVisible,
 		txt := CharacterLengthError(character)
 		err = errors.New("Tile character string length is not equal to 1." + txt)
 	}
-	tileBasicProperties := BasicProperties{layer, x, y, character, colour}
+	tileBasicProperties := BasicProperties{layer, x, y, character, colour,
+		colourDark}
 	tileVisibilityProperties := VisibilityProperties{alwaysVisible}
 	tileCollisionProperties := CollisionProperties{blocked, blocksSight}
 	tileNew := &Tile{tileBasicProperties, tileVisibilityProperties,
@@ -102,8 +109,8 @@ func InitializeEmptyMap() Board {
 	var b = Board{}
 	for x := 0; x < WindowSizeX; x++ {
 		for y := 0; y < WindowSizeY; y++ {
-			t, err := NewTile(BoardLayer, x, y, ".", "white", false, false,
-				false, false)
+			t, err := NewTile(BoardLayer, x, y, ".", colorTile, colorTileDark,
+				false, false, false, false)
 			if err != nil {
 				fmt.Println(err)
 			}

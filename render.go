@@ -34,8 +34,7 @@ func PrintBoard(b Board, m Monsters) {
 	/*Function PrintBoard is used in RenderAll;
 	it takes level map as arguments and iterates through that slice;
 	prints every tile on its coords if certain conditions are met:
-	AlwaysVisible bool is set to true; I'm skipping checking for player fov
-	on purpose here, because it was huge performance hit.*/
+	AlwaysVisible bool is set to true.*/
 	for _, v := range b {
 		if v.Explored == true {
 			if v.AlwaysVisible == true ||

@@ -23,7 +23,7 @@ package main
 import blt "bearlibterminal"
 
 const (
-	//does player action took a turn?
+	//did player action take a turn?
 	takeTurn = iota
 	didntTakeTurn
 )

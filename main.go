@@ -24,11 +24,11 @@ import blt "bearlibterminal"
 import "fmt"
 
 func main() {
-	player, err := NewPlayer(PlayerLayer, 1, 1, "@", "white", true, true, false)
+	player, err := NewPlayer(PlayerLayer, 1, 1, "@", "white", "white", true, true, false)
 	if err != nil {
 		fmt.Println(err)
 	}
-	enemy, err := NewCreature(MonstersLayer, 10, 10, "T", "green", false, true, false)
+	enemy, err := NewCreature(MonstersLayer, 10, 10, "T", "green", "green", false, true, false)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -48,5 +48,6 @@ func main() {
 }
 
 func init() {
+	InitializeFOVTables()
 	InitializeBLT()
 }

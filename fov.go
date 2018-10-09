@@ -94,6 +94,10 @@ func IsInFOV(b Board, sx, sy, tx, ty int) bool {
 	if sx == tx && sy == ty {
 		return true
 	}
+	if sx < tx-FOVLength || sx > tx+FOVLength ||
+		sy < ty-FOVLength || sy > ty+FOVLength {
+		return false
+	}
 	for i := 0; i < FOVRays; i += FOVStep {
 		rayX := sinBase[i]
 		rayY := cosBase[i]

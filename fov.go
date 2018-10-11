@@ -21,7 +21,6 @@ freely, subject to the following restrictions:
 package main
 
 import (
-	"fmt"
 	"math"
 )
 
@@ -58,25 +57,17 @@ func CastRays(b Board, sx, sy int) {
 		rayY := cosBase[i]
 		x := float64(sx)
 		y := float64(sy)
-		t1, err := FindTileByXY(b, RoundFloatToInt(x), RoundFloatToInt(y))
-		if err != nil {
-			fmt.Println(err)
-			continue
-		}
-		t1.Explored = true
+		bx, by := RoundFloatToInt(x), RoundFloatToInt(y)
+		b[bx][by].Explored = true
 		for j := 0; j < FOVLength; j++ {
 			x -= rayX
 			y -= rayY
 			if x < 0 || y < 0 || x > WindowSizeX-1 || y > WindowSizeY-1 {
 				break
 			}
-			t2, err := FindTileByXY(b, RoundFloatToInt(x), RoundFloatToInt(y))
-			if err != nil {
-				fmt.Println(err)
-				break
-			}
-			t2.Explored = true
-			if t2.BlocksSight {
+			bx2, by2 := RoundFloatToInt(x), RoundFloatToInt(y)
+			b[bx2][by2].Explored = true
+			if b[bx2][by2].BlocksSight == true {
 				break
 			}
 		}
@@ -113,12 +104,7 @@ func IsInFOV(b Board, sx, sy, tx, ty int) bool {
 			if bx == tx && by == ty {
 				return true
 			}
-			t, err := FindTileByXY(b, bx, by)
-			if err != nil {
-				fmt.Println(err)
-				break
-			}
-			if t.BlocksSight {
+			if b[bx][by].BlocksSight == true {
 				break
 			}
 		}

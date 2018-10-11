@@ -32,21 +32,24 @@ const (
 
 func PrintBoard(b Board, m Monsters) {
 	/*Function PrintBoard is used in RenderAll;
-	it takes level map as arguments and iterates through that slice;
+	it takes level map as arguments and iterates through 2d slice;
 	prints every tile on its coords if certain conditions are met:
 	is Explored already, and:
 	- is in player's field of view (prints "normal" color) or
 	- is AlwaysVisible (prints dark color).*/
-	for _, v := range b {
-		if v.Explored == true {
-			blt.Layer(v.Layer)
-			if IsInFOV(b, m[0].X, m[0].Y, v.X, v.Y) {
-				glyph := "[color=" + v.Color + "]" + v.Char
-				blt.Print(v.X, v.Y, glyph)
-			} else {
-				if v.AlwaysVisible == true {
-					glyph := "[color=" + v.ColorDark + "]" + v.Char
-					blt.Print(v.X, v.Y, glyph)
+	for x := 0; x < WindowSizeX; x++ {
+		for y := 0; y < WindowSizeY; y++ {
+			//technically, "t" is new variable with own memory address...
+			t := b[x][y]
+			if t.Explored == true {
+				if IsInFOV(b, m[0].X, m[0].Y, t.X, t.Y) == true {
+					glyph := "[color=" + t.Color + "]" + t.Char
+					blt.Print(t.X, t.Y, glyph)
+				} else {
+					if t.AlwaysVisible == true {
+						glyph := "[color=" + t.ColorDark + "]" + t.Char
+						blt.Print(t.X, t.Y, glyph)
+					}
 				}
 			}
 		}

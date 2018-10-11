@@ -40,9 +40,9 @@ type Tile struct {
 	CollisionProperties
 }
 
-/*Board is map representation, that uses slice
+/*Board is map representation, that uses 2d slice
   to hold data of its every cell*/
-type Board []*Tile
+type Board [][]*Tile
 
 func NewTile(layer, x, y int, character, colour, colourDark string,
 	alwaysVisible, explored, blocked, blocksSight bool) (*Tile, error) {
@@ -70,51 +70,26 @@ func NewTile(layer, x, y int, character, colour, colourDark string,
 	return tileNew, err
 }
 
-func FindTileByXY(b Board, x, y int) (*Tile, error) {
-	/*Function FindTileByXY takes whole board as its argument, and
-	desired x, y coords as well. It iterates through board, and
-	returns tile that has same xy values as arguments;
-	otherwise, it returns nil.
-	Besides normal errors, it has additional error handling after for loop -
-	just in case if due to undefined corner case function would not find
-	proper tile in board slice.
-	It needs to be reworked to use idiomatic error boilerplate, thought.
-	Also, for now, I'm not sure if range is worth trying - it makes copies;
-	maybe basic for i :=0; i < len(b); i++ would make more sense?*/
-	var err error
-	if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
-		txt := CoordsError(x, y)
-		err = errors.New("Tile coords is out of window range." + txt)
-	}
-	if len(b) == 0 {
-		err = errors.New("Board slice is empty.")
-	}
-	if err != nil {
-		return nil, err
-	} else {
-		for _, v := range b {
-			if x == v.BasicProperties.X && y == v.BasicProperties.Y {
-				return v, nil
-			}
-		}
-	}
-	txt := CoordsError(x, y)
-	err = errors.New("FindTileByXY failed to find such a tile." + txt)
-	return nil, err
-}
-
 func InitializeEmptyMap() Board {
 	/*Function InitializeEmptyMap returns new Board, filled with
-	generic (ie "empty") tiles.*/
-	var b = Board{}
+	generic (ie "empty") tiles.
+	It starts by declaring 2d slice of *Tile - unfortunately, Go seems to
+	lack simple way to do it, therefore it's necessary to use
+	the first for loop.
+	The second, nested loop initializes specific Tiles withing Board.*/
+	b := make([][]*Tile, WindowSizeX)
+	for i := range b {
+		b[i] = make([]*Tile, WindowSizeY)
+	}
 	for x := 0; x < WindowSizeX; x++ {
 		for y := 0; y < WindowSizeY; y++ {
-			t, err := NewTile(BoardLayer, x, y, ".", colorTile, colorTileDark,
-				true, false, false, false)
+			//workaround to missing _, err := ... idiom that won't work here
+			var err error
+			b[x][y], err = NewTile(BoardLayer, x, y, ".", colorTile,
+				colorTileDark, true, false, false, false)
 			if err != nil {
 				fmt.Println(err)
 			}
-			b = append(b, t)
 		}
 	}
 	return b

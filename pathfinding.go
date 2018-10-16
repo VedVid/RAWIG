@@ -20,6 +20,8 @@ freely, subject to the following restrictions:
 
 package main
 
+import "math"
+
 func (c *Creature) MoveTowards(b Board, tx, ty int) {
 	/*MoveTowards is Creature method; it is main part of monster pathfinding.*/
 	dx := tx - c.X
@@ -48,4 +50,12 @@ func (c *Creature) MoveTowards(b Board, tx, ty int) {
 			}
 		}
 	}
+}
+
+func (c *Creature) DistanceTo(tx, ty int) int {
+	/*DistanceTo is Creature method. It takes target x and target y as args;
+	  computes then returns distance from receiver to target.*/
+	dx := float64(tx - c.X)
+	dy := float64(ty - c.Y)
+	return RoundFloatToInt(math.Sqrt(math.Pow(dx, 2) + math.Pow(dy, 2)))
 }

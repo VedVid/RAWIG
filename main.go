@@ -42,6 +42,9 @@ func main() {
 			break
 		} else {
 			Controls(key, player)
+			if enemy.DistanceTo(player.X, player.Y) > 1 {
+				enemy.MoveTowards(cells, player.X, player.Y)
+			}
 		}
 	}
 	blt.Close()

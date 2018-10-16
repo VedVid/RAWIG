@@ -68,15 +68,15 @@ func NewCreature(layer, x, y int, character, colour, colourDark string,
 	return creatureNew, err
 }
 
-func (c *Creature) Move(d Direction) {
-	/*Move is method of Creature; it takes Direction type (tuple-like);
+func (c *Creature) Move(tx, ty int) {
+	/*Move is method of Creature; it takes target x, y as arguments;
 	check if next move won't put Creature off the screen, then updates
 	Creature coords.*/
-	if c.X+d.X >= 0 &&
-		c.X+d.X <= WindowSizeX-1 &&
-		c.Y+d.Y >= 0 &&
-		c.Y+d.Y <= WindowSizeX-1 {
-		c.X += d.X
-		c.Y += d.Y
+	if c.X+tx >= 0 &&
+		c.X+tx <= WindowSizeX-1 &&
+		c.Y+ty >= 0 &&
+		c.Y+ty <= WindowSizeX-1 {
+		c.X += tx
+		c.Y += ty
 	}
 }

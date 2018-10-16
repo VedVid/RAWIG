@@ -20,29 +20,32 @@ freely, subject to the following restrictions:
 
 package main
 
-type BasicProperties struct {
-	/*BasicProperties is struct that aggregates
-	all widely used data, necessary for every
-	map tile and object representation*/
-	Layer     int
-	X, Y      int
-	Char      string
-	Color     string
-	ColorDark string
-}
-
-type VisibilityProperties struct {
-	/*VisibilityProperties is simple struct
-	for checking if object is always visible,
-	regardless of player's fov*/
-	AlwaysVisible bool
-}
-
-type CollisionProperties struct {
-	/*CollisionProperties is struct filled with
-	boolean values, for checking several
-	collision conditions: if cell is blocked,
-	if it blocks creature sight, etc.*/
-	Blocked     bool
-	BlocksSight bool
+func (c *Creature) MoveTowards(b Board, tx, ty int) {
+	/*MoveTowards is Creature method; it is main part of monster pathfinding.*/
+	dx := tx - c.X
+	dy := ty - c.Y
+	ddx, ddy := 0, 0
+	if dx > 0 {
+		ddx = 1
+	} else if dx < 0 {
+		ddx = (-1)
+	}
+	if dy > 0 {
+		ddy = 1
+	} else if dy < 0 {
+		ddy = (-1)
+	}
+	if b[c.X+ddx][c.Y+ddy].Blocked == false {
+		c.Move(ddx, ddy)
+	} else {
+		if ddx != 0 {
+			if b[c.X+ddx][c.Y].Blocked == false {
+				c.Move(ddx, 0)
+			}
+		} else if ddy != 0 {
+			if b[c.X][c.Y+ddy].Blocked == false {
+				c.Move(0, ddy)
+			}
+		}
+	}
 }

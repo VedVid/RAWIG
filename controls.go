@@ -28,14 +28,6 @@ const (
 	didntTakeTurn
 )
 
-var (
-	//directions; should be immutable!
-	N = Direction{0, -1}
-	E = Direction{1, 0}
-	S = Direction{0, 1}
-	W = Direction{-1, 0}
-)
-
 func Controls(k int, p *Creature) int {
 	/*Function Controls is input handler; it takes integer k
 	(keycodes are basically numbers, but creating new "type key int"
@@ -44,13 +36,13 @@ func Controls(k int, p *Creature) int {
 	if player spent turn by action or not.*/
 	switch k {
 	case blt.TK_UP:
-		p.Move(N)
+		p.Move(0, -1)
 	case blt.TK_RIGHT:
-		p.Move(E)
+		p.Move(1, 0)
 	case blt.TK_DOWN:
-		p.Move(S)
+		p.Move(0, 1)
 	case blt.TK_LEFT:
-		p.Move(W)
+		p.Move(-1, 0)
 	}
 	return takeTurn
 }

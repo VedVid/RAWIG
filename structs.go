@@ -20,6 +20,11 @@ freely, subject to the following restrictions:
 
 package main
 
+type Direction struct {
+	//Direction is type introduced due to lack of tuples or pair in Go.
+	X, Y int
+}
+
 type BasicProperties struct {
 	/*BasicProperties is struct that aggregates
 	all widely used data, necessary for every

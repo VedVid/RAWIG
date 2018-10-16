@@ -36,11 +36,6 @@ var (
 	W = Direction{-1, 0}
 )
 
-type Direction struct {
-	//Direction is type introduced due to lack of tuples or pair in Go.
-	X, Y int
-}
-
 func Controls(k int, p *Creature) int {
 	/*Function Controls is input handler; it takes integer k
 	(keycodes are basically numbers, but creating new "type key int"

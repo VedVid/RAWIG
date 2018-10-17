@@ -22,8 +22,10 @@ package main
 
 import "math"
 
-func (c *Creature) MoveTowards(b Board, tx, ty int) {
-	/*MoveTowards is Creature method; it is main part of monster pathfinding.*/
+func (c *Creature) MoveTowardsDumb(b Board, tx, ty int) {
+	/*MoveTowardsDumb is Creature method;
+	  it is main part of monster pathfinding. It is very simple algorithm that
+	  is not supposed to replace good, old A-Star.*/
 	dx := tx - c.X
 	dy := ty - c.Y
 	ddx, ddy := 0, 0

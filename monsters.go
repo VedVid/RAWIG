@@ -37,13 +37,14 @@ type Creature struct {
 	BasicProperties
 	VisibilityProperties
 	CollisionProperties
+	AIProperties
 }
 
 /*Monsters holds every monster on map.*/
 type Monsters []*Creature
 
 func NewCreature(layer, x, y int, character, colour, colourDark string,
-	alwaysVisible, blocked, blocksSight bool) (*Creature, error) {
+	alwaysVisible, blocked, blocksSight bool, ai int) (*Creature, error) {
 	/*Function NewCreture takes all values necessary by its struct,
 	and creates then returns pointer to Creature*/
 	var err error
@@ -63,8 +64,10 @@ func NewCreature(layer, x, y int, character, colour, colourDark string,
 		colourDark}
 	creatureVisibilityPropeties := VisibilityProperties{alwaysVisible}
 	creatureCollisionProperties := CollisionProperties{blocked, blocksSight}
+	creatureAIProperties := AIProperties{ai}
 	creatureNew := &Creature{creatureBasicProperties,
-		creatureVisibilityPropeties, creatureCollisionProperties}
+		creatureVisibilityPropeties, creatureCollisionProperties,
+		creatureAIProperties}
 	return creatureNew, err
 }
 

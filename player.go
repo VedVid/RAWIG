@@ -22,6 +22,7 @@ package main
 
 import (
 	"errors"
+	"strconv"
 	"unicode/utf8"
 )
 
@@ -32,7 +33,7 @@ const (
 )
 
 func NewPlayer(layer, x, y int, character, colour, colourDark string,
-	alwaysVisible, blocked, blocksSight bool) (*Creature, error) {
+	alwaysVisible, blocked, blocksSight bool, ai int) (*Creature, error) {
 	/*Function NewPlayer takes all values necessary by its struct,
 	and creates then returns pointer to Creature;
 	so, it's basically NewMonster function.*/
@@ -49,11 +50,17 @@ func NewPlayer(layer, x, y int, character, colour, colourDark string,
 		txt := CharacterLengthError(character)
 		err = errors.New("Player character string length is not equal to 1." + txt)
 	}
+	if ai != PlayerAI {
+		txt := PlayerAIError(ai)
+		err = errors.New("Warning: Player AI is supposed to be " +
+			strconv.Itoa(PlayerAI) + "." + txt)
+	}
 	playerBasicProperties := BasicProperties{layer, x, y, character, colour,
 		colourDark}
 	playerVisibilityProperties := VisibilityProperties{alwaysVisible}
 	playerCollisionProperties := CollisionProperties{blocked, blocksSight}
+	playerAIProperties := AIProperties{ai}
 	playerNew := &Creature{playerBasicProperties, playerVisibilityProperties,
-		playerCollisionProperties}
+		playerCollisionProperties, playerAIProperties}
 	return playerNew, err
 }

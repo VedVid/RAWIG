@@ -24,11 +24,11 @@ import blt "bearlibterminal"
 import "fmt"
 
 func main() {
-	player, err := NewPlayer(PlayerLayer, 1, 1, "@", "white", "white", true, true, false)
+	player, err := NewPlayer(PlayerLayer, 1, 1, "@", "white", "white", true, true, false, PlayerAI)
 	if err != nil {
 		fmt.Println(err)
 	}
-	enemy, err := NewCreature(MonstersLayer, 10, 10, "T", "green", "green", false, true, false)
+	enemy, err := NewCreature(MonstersLayer, 10, 10, "T", "green", "green", false, true, false, DumbAI)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -50,9 +50,7 @@ func main() {
 			break
 		} else {
 			Controls(key, player)
-			if enemy.DistanceTo(player.X, player.Y) > 1 {
-				enemy.MoveTowardsDumb(cells, player.X, player.Y)
-			}
+			MonstersTakeTurn(cells, actors)
 		}
 	}
 	blt.Close()

@@ -20,36 +20,27 @@ freely, subject to the following restrictions:
 
 package main
 
-type BasicProperties struct {
-	/*BasicProperties is struct that aggregates
-	all widely used data, necessary for every
-	map tile and object representation*/
-	Layer     int
-	X, Y      int
-	Char      string
-	Color     string
-	ColorDark string
-}
+const (
+	//ai types
+	PlayerAI = iota
+	DumbAI
+)
 
-type VisibilityProperties struct {
-	/*VisibilityProperties is simple struct
-	for checking if object is always visible,
-	regardless of player's fov*/
-	AlwaysVisible bool
-}
-
-type CollisionProperties struct {
-	/*CollisionProperties is struct filled with
-	boolean values, for checking several
-	collision conditions: if cell is blocked,
-	if it blocks creature sight, etc.*/
-	Blocked     bool
-	BlocksSight bool
-}
-
-type AIProperties struct {
-	/*AIProperties serves holding information about
-	monster AI. AI types are iota (integers) in
-	monsters.go*/
-	AIType int
+func MonstersTakeTurn(b Board, m Monsters) {
+	/*Function MonstersTakeTurn is supposed to handle all enemy monsters
+	actions: movement, attacking, etc.
+	It takes Board and Monsters as arguments.
+	Iterates through all Monsters slice, and handles monster behaviour:
+	if distance between monster and player is bigger than 1, monster
+	moves towards player.
+	It uses switch for matching AIType and behaviour.
+	At first, I wanted to use map[int]METHOD, but it's not easy to implement.*/
+	for _, v := range m {
+		if v.DistanceTo(m[0].X, m[0].Y) > 1 {
+			switch v.AIType {
+			case DumbAI:
+				v.MoveTowardsDumb(b, m[0].X, m[0].Y)
+			}
+		}
+	}
 }

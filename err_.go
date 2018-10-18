@@ -50,3 +50,12 @@ func CharacterLengthError(character string) string {
 		"; character: " + character + ">"
 	return txt
 }
+
+func PlayerAIError(ai int) string {
+	/*Function PlayerAIError is helper function that returns string to error;
+	it takes ai code (integer) as argument and returns string.
+	Player AI is supposed to be PlayerAI (defined in ai.go).
+	It's supposed to be warning, not error.*/
+	txt := "\n    <player ai code: " + strconv.Itoa(ai) + ">"
+	return txt
+}

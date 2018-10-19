@@ -71,15 +71,18 @@ func NewCreature(layer, x, y int, character, color, colorDark string,
 	return creatureNew, err
 }
 
-func (c *Creature) Move(tx, ty int) {
+func (c *Creature) Move(tx, ty int, b Board) {
 	/*Move is method of Creature; it takes target x, y as arguments;
 	check if next move won't put Creature off the screen, then updates
 	Creature coords.*/
-	if c.X+tx >= 0 &&
-		c.X+tx <= WindowSizeX-1 &&
-		c.Y+ty >= 0 &&
-		c.Y+ty <= WindowSizeX-1 {
-		c.X += tx
-		c.Y += ty
+	newX, newY := c.X+tx, c.Y+ty
+	if newX >= 0 &&
+		newX <= WindowSizeX-1 &&
+		newY >= 0 &&
+		newY <= WindowSizeX-1 {
+		if b[newX][newY].Blocked == false {
+			c.X = newX
+			c.Y = newY
+		}
 	}
 }

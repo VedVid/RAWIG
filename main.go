@@ -49,7 +49,7 @@ func main() {
 		if key == blt.TK_ESCAPE {
 			break
 		} else {
-			Controls(key, player)
+			Controls(key, player, cells)
 			MonstersTakeTurn(cells, actors)
 		}
 	}

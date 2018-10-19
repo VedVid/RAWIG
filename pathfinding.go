@@ -40,15 +40,15 @@ func (c *Creature) MoveTowardsDumb(b Board, tx, ty int) {
 		ddy = (-1)
 	}
 	if b[c.X+ddx][c.Y+ddy].Blocked == false {
-		c.Move(ddx, ddy)
+		c.Move(ddx, ddy, b)
 	} else {
 		if ddx != 0 {
 			if b[c.X+ddx][c.Y].Blocked == false {
-				c.Move(ddx, 0)
+				c.Move(ddx, 0, b)
 			}
 		} else if ddy != 0 {
 			if b[c.X][c.Y+ddy].Blocked == false {
-				c.Move(0, ddy)
+				c.Move(0, ddy, b)
 			}
 		}
 	}

@@ -28,7 +28,7 @@ const (
 	didntTakeTurn
 )
 
-func Controls(k int, p *Creature) int {
+func Controls(k int, p *Creature, b Board) int {
 	/*Function Controls is input handler; it takes integer k
 	(keycodes are basically numbers, but creating new "type key int"
 	is not convenient) and Monster p (which is player);
@@ -36,13 +36,13 @@ func Controls(k int, p *Creature) int {
 	if player spent turn by action or not.*/
 	switch k {
 	case blt.TK_UP:
-		p.Move(0, -1)
+		p.Move(0, -1, b)
 	case blt.TK_RIGHT:
-		p.Move(1, 0)
+		p.Move(1, 0, b)
 	case blt.TK_DOWN:
-		p.Move(0, 1)
+		p.Move(0, 1, b)
 	case blt.TK_LEFT:
-		p.Move(-1, 0)
+		p.Move(-1, 0, b)
 	}
 	return takeTurn
 }

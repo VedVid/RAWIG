@@ -44,7 +44,7 @@ type Tile struct {
   to hold data of its every cell*/
 type Board [][]*Tile
 
-func NewTile(layer, x, y int, character, colour, colourDark string,
+func NewTile(layer, x, y int, character, color, colorDark string,
 	alwaysVisible, explored, blocked, blocksSight bool) (*Tile, error) {
 	/*Function NewTile takes all values necessary by its struct,
 	and creates then returns Tile.*/
@@ -61,8 +61,8 @@ func NewTile(layer, x, y int, character, colour, colourDark string,
 		txt := CharacterLengthError(character)
 		err = errors.New("Tile character string length is not equal to 1." + txt)
 	}
-	tileBasicProperties := BasicProperties{layer, x, y, character, colour,
-		colourDark}
+	tileBasicProperties := BasicProperties{layer, x, y, character, color,
+		colorDark}
 	tileVisibilityProperties := VisibilityProperties{alwaysVisible}
 	tileCollisionProperties := CollisionProperties{blocked, blocksSight}
 	tileNew := &Tile{tileBasicProperties, tileVisibilityProperties,

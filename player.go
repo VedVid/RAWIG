@@ -32,7 +32,7 @@ const (
 	colorPlayerDark = "white"
 )
 
-func NewPlayer(layer, x, y int, character, colour, colourDark string,
+func NewPlayer(layer, x, y int, character, color, colorDark string,
 	alwaysVisible, blocked, blocksSight bool, ai int) (*Creature, error) {
 	/*Function NewPlayer takes all values necessary by its struct,
 	and creates then returns pointer to Creature;
@@ -55,8 +55,8 @@ func NewPlayer(layer, x, y int, character, colour, colourDark string,
 		err = errors.New("Warning: Player AI is supposed to be " +
 			strconv.Itoa(PlayerAI) + "." + txt)
 	}
-	playerBasicProperties := BasicProperties{layer, x, y, character, colour,
-		colourDark}
+	playerBasicProperties := BasicProperties{layer, x, y, character, color,
+		colorDark}
 	playerVisibilityProperties := VisibilityProperties{alwaysVisible}
 	playerCollisionProperties := CollisionProperties{blocked, blocksSight}
 	playerAIProperties := AIProperties{ai}

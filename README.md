@@ -18,6 +18,8 @@ gorogue is standalone application, not a library. You can modify files and compi
 
 gorogue is small, personal project, and doesn't have proper, detailed roadmap. However, TODO list is maintained.
 
+Every revision before first release is potentially unstable.
+
 **0.1**  
 - melee combat  
 - simple level generator (stored in [gorogue-extras](https://github.com/VedVid/gorogue-extras) )

@@ -14,6 +14,23 @@ To work with gorogue, you need:
 
 gorogue is standalone application, not a library. You can modify files and compile project by `go build` in root.
 
+### Roadmap
+
+gorogue is small, personal project, and doesn't have proper, detailed roadmap. However, TODO list is maintained.
+
+**0.1**  
+- melee combat  
+- simple level generator (stored in [gorogue-extras](https://github.com/VedVid/gorogue-extras) )
+
+**0.2**  
+- menuses (inventory, character screen)  
+- objects (elements of dungeon, consumables, equipment)  
+- character progression
+
+**0.3**  
+- [l]ooking command  
+- ranged combat  
+
 ### Contributors
 
 VedVid  

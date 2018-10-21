@@ -20,11 +20,19 @@ freely, subject to the following restrictions:
 
 package main
 
+import "fmt"
+
 const (
 	//ai types
 	PlayerAI = iota
 	DumbAI
 )
+
+func (c *Creature) Attack(all Creatures) {
+	if c != all[0] {
+		fmt.Println("Attack!")
+	}
+}
 
 func CreaturesTakeTurn(b Board, c Creatures) {
 	/*Function CreaturesTakeTurn is supposed to handle all enemy creatures
@@ -41,6 +49,8 @@ func CreaturesTakeTurn(b Board, c Creatures) {
 			case DumbAI:
 				v.MoveTowardsDumb(b, c[0].X, c[0].Y)
 			}
+		} else {
+			v.Attack(c)
 		}
 	}
 }

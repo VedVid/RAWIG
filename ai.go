@@ -20,21 +20,11 @@ freely, subject to the following restrictions:
 
 package main
 
-import "fmt"
-
 const (
 	//ai types
 	PlayerAI = iota
 	DumbAI
 )
-
-func (c *Creature) Attack(all Creatures) {
-	/*Method Attack is, for now, only placeholder. It's called by
-	CreaturesTakeTurn, for Creature that can attack player.*/
-	if c != all[0] {
-		fmt.Println("Attack!")
-	}
-}
 
 func CreaturesTakeTurn(b Board, c Creatures) {
 	/*Function CreaturesTakeTurn is supposed to handle all enemy creatures
@@ -45,14 +35,17 @@ func CreaturesTakeTurn(b Board, c Creatures) {
 	moves towards player.
 	It uses switch for matching AIType and behaviour.
 	At first, I wanted to use map[int]METHOD, but it's not easy to implement.*/
-	for _, v := range c {
+	for i, v := range c {
+		if i == 0 { //Creatures[0] is player!
+			continue
+		}
 		if v.DistanceTo(c[0].X, c[0].Y) > 1 {
 			switch v.AIType {
 			case DumbAI:
 				v.MoveTowardsDumb(b, c[0].X, c[0].Y)
 			}
 		} else {
-			v.Attack(c)
+			v.AttackTarget(c[0])
 		}
 	}
 }

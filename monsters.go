@@ -38,13 +38,15 @@ type Creature struct {
 	VisibilityProperties
 	CollisionProperties
 	AIProperties
+	FighterProperties
 }
 
 /*Creatures holds every creature on map.*/
 type Creatures []*Creature
 
 func NewCreature(layer, x, y int, character, color, colorDark string,
-	alwaysVisible, blocked, blocksSight bool, ai int) (*Creature, error) {
+	alwaysVisible, blocked, blocksSight bool, ai, hp, attack,
+	defense int) (*Creature, error) {
 	/*Function NewCreture takes all values necessary by its struct,
 	and creates then returns pointer to Creature*/
 	var err error
@@ -60,14 +62,27 @@ func NewCreature(layer, x, y int, character, color, colorDark string,
 		txt := CharacterLengthError(character)
 		err = errors.New("Creature character string length is not equal to 1." + txt)
 	}
+	if hp < 0 {
+		txt := InitialHPError(hp)
+		err = errors.New("Creature HPMax is smaller than 0." + txt)
+	}
+	if attack < 0 {
+		txt := InitialAttackError(attack)
+		err = errors.New("Creature attack value is smaller than 0." + txt)
+	}
+	if defense < 0 {
+		txt := InitialDefenseError(defense)
+		err = errors.New("Creature defense value is smaller than 0." + txt)
+	}
 	creatureBasicProperties := BasicProperties{layer, x, y, character, color,
 		colorDark}
 	creatureVisibilityPropeties := VisibilityProperties{alwaysVisible}
 	creatureCollisionProperties := CollisionProperties{blocked, blocksSight}
 	creatureAIProperties := AIProperties{ai}
+	creatureFighterProperties := FighterProperties{hp, hp, attack, defense}
 	creatureNew := &Creature{creatureBasicProperties,
 		creatureVisibilityPropeties, creatureCollisionProperties,
-		creatureAIProperties}
+		creatureAIProperties, creatureFighterProperties}
 	return creatureNew, err
 }
 

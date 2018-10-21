@@ -59,3 +59,28 @@ func PlayerAIError(ai int) string {
 	txt := "\n    <player ai code: " + strconv.Itoa(ai) + ">"
 	return txt
 }
+
+func InitialHPError(hp int) string {
+	/*Function InitialHPError is helper function that returns string to error;
+	it takes creature's HPMax as argument and returns string.
+	It will be warning instead of error sometimes - negative hp for newly created
+	creatures is unusual, but it is not bug per se.*/
+	txt := "\n    <fighter hp: " + strconv.Itoa(hp) + ">"
+	return txt
+}
+
+func InitialAttackError(attack int) string {
+	/*Function InitialAttackError is helper function that returns string
+	to error; it takes creature's attack value as argument and returns string.
+	Attack value should not be negative.*/
+	txt := "\n    <fighter attack: " + strconv.Itoa(attack) + ">"
+	return txt
+}
+
+func InitialDefenseError(defense int) string {
+	/*Function InitialDefenseError is helper function that returns string
+	to error; it takes creature's attack value as argument and returns string.
+	Defense value should not be negative.*/
+	txt := "\n    <fighter defense: " + strconv.Itoa(defense) + ">"
+	return txt
+}

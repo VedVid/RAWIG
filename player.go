@@ -33,7 +33,8 @@ const (
 )
 
 func NewPlayer(layer, x, y int, character, color, colorDark string,
-	alwaysVisible, blocked, blocksSight bool, ai int) (*Creature, error) {
+	alwaysVisible, blocked, blocksSight bool, ai, hp, attack,
+	defense int) (*Creature, error) {
 	/*Function NewPlayer takes all values necessary by its struct,
 	and creates then returns pointer to Creature;
 	so, it's basically NewCreature function.*/
@@ -55,12 +56,25 @@ func NewPlayer(layer, x, y int, character, color, colorDark string,
 		err = errors.New("Warning: Player AI is supposed to be " +
 			strconv.Itoa(PlayerAI) + "." + txt)
 	}
+	if hp < 0 {
+		txt := InitialHPError(hp)
+		err = errors.New("Player HPMax is smaller than 0." + txt)
+	}
+	if attack < 0 {
+		txt := InitialAttackError(attack)
+		err = errors.New("Player attack value is smaller than 0." + txt)
+	}
+	if defense < 0 {
+		txt := InitialDefenseError(defense)
+		err = errors.New("Player defense value is smaller than 0." + txt)
+	}
 	playerBasicProperties := BasicProperties{layer, x, y, character, color,
 		colorDark}
 	playerVisibilityProperties := VisibilityProperties{alwaysVisible}
 	playerCollisionProperties := CollisionProperties{blocked, blocksSight}
 	playerAIProperties := AIProperties{ai}
+	playerFighterProperties := FighterProperties{hp, hp, attack, defense}
 	playerNew := &Creature{playerBasicProperties, playerVisibilityProperties,
-		playerCollisionProperties, playerAIProperties}
+		playerCollisionProperties, playerAIProperties, playerFighterProperties}
 	return playerNew, err
 }

@@ -53,3 +53,14 @@ type AIProperties struct {
 	creatures.go*/
 	AIType int
 }
+
+type FighterProperties struct {
+	/*FighterProperties stores information about
+	things that can live and fight (ie fighters);
+	it may be used for destructable environment
+	elements as well.*/
+	HPMax     int
+	HPCurrent int
+	Attack    int
+	Defense   int
+}

@@ -60,4 +60,11 @@ func (c *Creature) AttackTarget(t *Creature) {
 			fmt.Println("Critical attack!")
 		}
 	}
+	t.TakeDamage(dmg)
+}
+
+func (c *Creature) TakeDamage(dmg int) {
+	/*Method TakeDamage has *Creature as receiver and takes damage integer
+	as argument. dmg value is deducted from Creature current HP.*/
+	c.HPCurrent -= dmg
 }

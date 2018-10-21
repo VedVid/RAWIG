@@ -23,8 +23,10 @@ package main
 import "fmt"
 
 func (c *Creature) AttackTarget(t *Creature) {
-	/*Method Attack is, for now, only placeholder. It's called by
-	CreaturesTakeTurn, for Creature that can attack player.*/
+	/*Method Attack handles damage rolls for combat. Receiver "c" is attacker,
+	argument "t" is target. Critical hit is if attack roll is the same as receiver
+	attack attribute.
+	Println calls will remain here until message log will be implemented.*/
 	att := RandInt(c.Attack) //basic attack roll
 	att2 := 0                //critical bonus
 	def := t.Defense         //opponet's defense
@@ -34,30 +36,28 @@ func (c *Creature) AttackTarget(t *Creature) {
 		crit = true
 		att2 = RandInt(c.Attack)
 	}
-	if att < def {
+	if att < def { //if attack score if lower than target defense
 		if crit == false {
 			fmt.Println("Attack deflected!")
 		} else {
-			att = att2 //critical hit, but against heavily armored enemy
+			dmg = att2 //critical hit, but against heavily armored enemy
 			fmt.Println("Critical hit! <heavily armored enemy>")
 		}
-	} else if att == def {
+	} else if att == def { //if attack score is equal to target defense
 		if crit == false {
-			att = 1 //just a scratch...
+			dmg = 1 //just a scratch...
 			fmt.Println("Attack successful, but it is just a scratch...")
 		} else {
-			//att = att
+			dmg = att
 			fmt.Println("Critical hit, but it barely bypassed opponent's armor.")
 		}
-	} else {
+	} else { //if attack score is bigger than target defense
 		if crit == false {
-			//att = att, normal attack
+			dmg = att
 			fmt.Println("Successful attack!")
 		} else {
-			att += att2 //critical attack!
+			dmg = att + att2 //critical attack!
 			fmt.Println("Critical attack!")
 		}
 	}
-	dmg = att
-	_ = dmg
 }

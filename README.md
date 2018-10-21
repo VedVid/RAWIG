@@ -26,6 +26,7 @@ Every revision before first release is potentially unstable.
 
 **0.2**  
 - menuses (inventory, character screen)  
+- message log  
 - objects (elements of dungeon, consumables, equipment)  
 - character progression
 

@@ -30,10 +30,10 @@ func CreaturesTakeTurn(b Board, c Creatures) {
 	/*Function CreaturesTakeTurn is supposed to handle all enemy creatures
 	actions: movement, attacking, etc.
 	It takes Board and Creatures as arguments.
-	Iterates through all Creatures slice, and handles creature behaviour:
+	Iterates through all Creatures slice, and handles creature behavior:
 	if distance between creature and player is bigger than 1, creature
 	moves towards player.
-	It uses switch for matching AIType and behaviour.
+	It uses switch for matching AIType and behavior.
 	At first, I wanted to use map[int]METHOD, but it's not easy to implement.*/
 	for _, v := range c {
 		if v.DistanceTo(c[0].X, c[0].Y) > 1 {

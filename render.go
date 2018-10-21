@@ -25,6 +25,7 @@ import blt "bearlibterminal"
 const (
 	BaseLayer = iota
 	BoardLayer
+	DeadLayer
 	ObjectsLayer
 	CreaturesLayer
 	PlayerLayer

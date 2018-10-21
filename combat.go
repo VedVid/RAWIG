@@ -65,6 +65,10 @@ func (c *Creature) AttackTarget(t *Creature) {
 
 func (c *Creature) TakeDamage(dmg int) {
 	/*Method TakeDamage has *Creature as receiver and takes damage integer
-	as argument. dmg value is deducted from Creature current HP.*/
+	as argument. dmg value is deducted from Creature current HP.
+	If HPCurrent is below zero after taking damage, Creature dies.*/
 	c.HPCurrent -= dmg
+	if c.HPCurrent <= 0 {
+		c.Die()
+	}
 }

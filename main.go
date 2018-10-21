@@ -55,7 +55,7 @@ func main() {
 	for {
 		RenderAll(cells, objs, actors)
 		key := blt.Read()
-		if key == blt.TK_ESCAPE {
+		if key == blt.TK_ESCAPE || actors[0].HPCurrent <= 0 {
 			break
 		} else {
 			Controls(key, player, cells)

@@ -101,3 +101,15 @@ func (c *Creature) Move(tx, ty int, b Board) {
 		}
 	}
 }
+
+func (c *Creature) Die() {
+	/*Method Die is called, when Creature's HP drops below zero.
+	Die() has *Creature as receiver.
+	Receiver properties changes to fit better to corpse.*/
+	c.Layer = DeadLayer
+	c.Color = "red"
+	c.ColorDark = "red"
+	c.Blocked = false
+	c.BlocksSight = false
+	c.AIType = NoAI
+}

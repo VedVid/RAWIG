@@ -22,7 +22,8 @@ package main
 
 const (
 	//ai types
-	PlayerAI = iota
+	NoAI = iota
+	PlayerAI
 	DumbAI
 )
 
@@ -35,17 +36,20 @@ func CreaturesTakeTurn(b Board, c Creatures) {
 	moves towards player.
 	It uses switch for matching AIType and behaviour.
 	At first, I wanted to use map[int]METHOD, but it's not easy to implement.*/
-	for i, v := range c {
-		if i == 0 { //Creatures[0] is player!
+	for _, v := range c {
+		switch v.AIType {
+		case NoAI:
 			continue
-		}
-		if v.DistanceTo(c[0].X, c[0].Y) > 1 {
-			switch v.AIType {
-			case DumbAI:
+		case PlayerAI:
+			continue
+		case DumbAI:
+			if v.DistanceTo(c[0].X, c[0].Y) > 1 {
 				v.MoveTowardsDumb(b, c[0].X, c[0].Y)
+			} else {
+				v.AttackTarget(c[0])
 			}
-		} else {
-			v.AttackTarget(c[0])
+		default:
+			continue
 		}
 	}
 }

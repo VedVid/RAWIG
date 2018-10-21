@@ -22,6 +22,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"unicode/utf8"
 )
 
@@ -97,15 +98,18 @@ func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) {
 	handled differentely - check ai.go and combat.go).*/
 	var target *Creature
 	for i, _ := range all {
-		if all[i].X == tx && all[i].Y == ty {
+		if all[i].X == c.X+tx && all[i].Y == c.Y+ty {
 			target = all[i]
+			fmt.Println("target found")
 			break
 		}
 	}
 	if target != nil {
 		c.AttackTarget(target)
+		fmt.Println("target is not nil")
 	} else {
 		c.Move(tx, ty, b)
+		fmt.Println("target is nil")
 	}
 }
 

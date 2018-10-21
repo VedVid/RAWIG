@@ -29,6 +29,8 @@ const (
 )
 
 func (c *Creature) Attack(all Creatures) {
+	/*Method Attack is, for now, only placeholder. It's called by
+	CreaturesTakeTurn, for Creature that can attack player.*/
 	if c != all[0] {
 		fmt.Println("Attack!")
 	}

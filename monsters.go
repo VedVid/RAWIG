@@ -27,8 +27,8 @@ import (
 
 const (
 	//colors
-	colorMonster     = "green"
-	colorMonsterDark = "dark green"
+	colorCreature     = "green"
+	colorCreatureDark = "dark green"
 )
 
 type Creature struct {
@@ -40,8 +40,8 @@ type Creature struct {
 	AIProperties
 }
 
-/*Monsters holds every monster on map.*/
-type Monsters []*Creature
+/*Creatures holds every creature on map.*/
+type Creatures []*Creature
 
 func NewCreature(layer, x, y int, character, color, colorDark string,
 	alwaysVisible, blocked, blocksSight bool, ai int) (*Creature, error) {

@@ -49,7 +49,7 @@ type CollisionProperties struct {
 
 type AIProperties struct {
 	/*AIProperties serves holding information about
-	monster AI. AI types are iota (integers) in
-	monsters.go*/
+	creature AI. AI types are iota (integers) in
+	creatures.go*/
 	AIType int
 }

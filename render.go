@@ -26,11 +26,11 @@ const (
 	BaseLayer = iota
 	BoardLayer
 	ObjectsLayer
-	MonstersLayer
+	CreaturesLayer
 	PlayerLayer
 )
 
-func PrintBoard(b Board, m Monsters) {
+func PrintBoard(b Board, c Creatures) {
 	/*Function PrintBoard is used in RenderAll;
 	it takes level map as arguments and iterates through 2d slice;
 	prints every tile on its coords if certain conditions are met:
@@ -42,7 +42,7 @@ func PrintBoard(b Board, m Monsters) {
 			//technically, "t" is new variable with own memory address...
 			t := b[x][y]
 			if t.Explored == true {
-				if IsInFOV(b, m[0].X, m[0].Y, t.X, t.Y) == true {
+				if IsInFOV(b, c[0].X, c[0].Y, t.X, t.Y) == true {
 					glyph := "[color=" + t.Color + "]" + t.Char
 					blt.Print(t.X, t.Y, glyph)
 				} else {
@@ -56,13 +56,13 @@ func PrintBoard(b Board, m Monsters) {
 	}
 }
 
-func PrintObjects(b Board, o Objects, m Monsters) {
+func PrintObjects(b Board, o Objects, c Creatures) {
 	/*Function PrintObjects is used in RenderAll;
 	it takes slice of objects as argument and iterates through it;
 	prints every object on its coords if certain conditions are met:
 	AlwaysVisible bool is set to true, or is in player fov.*/
 	for _, v := range o {
-		if (IsInFOV(b, m[0].X, m[0].Y, v.X, v.Y) == true) ||
+		if (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
 			(v.AlwaysVisible == true) {
 			blt.Layer(v.Layer)
 			glyph := "[color=" + v.Color + "]" + v.Char
@@ -71,13 +71,13 @@ func PrintObjects(b Board, o Objects, m Monsters) {
 	}
 }
 
-func PrintMonsters(b Board, m Monsters) {
-	/*Function PrintMonsters is used in RenderAll;
-	it takes slice of monsters as argument and iterates through it;
-	checks for every monster on its coords if certain conditions are met:
+func PrintCreatures(b Board, c Creatures) {
+	/*Function PrintCreatures is used in RenderAll;
+	it takes slice of creatures as argument and iterates through it;
+	checks for every creature on its coords if certain conditions are met:
 	AlwaysVisible bool is set to true, or is in player fov.*/
-	for _, v := range m {
-		if (IsInFOV(b, m[0].X, m[0].Y, v.X, v.Y) == true) ||
+	for _, v := range c {
+		if (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
 			(v.AlwaysVisible == true) {
 			blt.Layer(v.Layer)
 			glyph := "[color=" + v.Color + "]" + v.Char
@@ -86,20 +86,20 @@ func PrintMonsters(b Board, m Monsters) {
 	}
 }
 
-func RenderAll(b Board, o Objects, m Monsters) {
+func RenderAll(b Board, o Objects, c Creatures) {
 	/*Function RenderAll prints every tile and character on game screen;
-	takes board slice (ie level map), slice of objects, and slice of monsters
+	takes board slice (ie level map), slice of objects, and slice of creatures
 	as arguments;
 	at first, it clears whole terminal window, then uses arguments:
 	CastRays (for raycasting FOV) of first object (assuming that it is player),
 	then:
-	call functions for printing map, objects and monsters;
+	call functions for printing map, objects and creatures;
 	at the end, RenderAll calls blt.Refresh() that makes
 	changes to the game window visible*/
 	blt.Clear()
-	CastRays(b, m[0].X, m[0].Y)
-	PrintBoard(b, m)
-	PrintObjects(b, o, m)
-	PrintMonsters(b, m)
+	CastRays(b, c[0].X, c[0].Y)
+	PrintBoard(b, c)
+	PrintObjects(b, o, c)
+	PrintCreatures(b, c)
 	blt.Refresh()
 }

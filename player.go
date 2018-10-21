@@ -36,7 +36,7 @@ func NewPlayer(layer, x, y int, character, color, colorDark string,
 	alwaysVisible, blocked, blocksSight bool, ai int) (*Creature, error) {
 	/*Function NewPlayer takes all values necessary by its struct,
 	and creates then returns pointer to Creature;
-	so, it's basically NewMonster function.*/
+	so, it's basically NewCreature function.*/
 	var err error
 	if layer < 0 {
 		txt := LayerError(layer)

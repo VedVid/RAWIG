@@ -24,7 +24,7 @@ import "math"
 
 func (c *Creature) MoveTowardsDumb(b Board, tx, ty int) {
 	/*MoveTowardsDumb is Creature method;
-	  it is main part of monster pathfinding. It is very simple algorithm that
+	  it is main part of creature pathfinding. It is very simple algorithm that
 	  is not supposed to replace good, old A-Star.*/
 	dx := tx - c.X
 	dy := ty - c.Y

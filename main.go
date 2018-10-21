@@ -28,11 +28,11 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	enemy, err := NewCreature(MonstersLayer, 10, 10, "T", "green", "green", false, true, false, DumbAI)
+	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "green", "green", false, true, false, DumbAI)
 	if err != nil {
 		fmt.Println(err)
 	}
-	var actors = Monsters{player, enemy}
+	var actors = Creatures{player, enemy}
 	var objs = Objects{}
 	cells := InitializeEmptyMap()
 	cells[5][5].Blocked = true
@@ -57,7 +57,7 @@ func main() {
 			break
 		} else {
 			Controls(key, player, cells)
-			MonstersTakeTurn(cells, actors)
+			CreaturesTakeTurn(cells, actors)
 		}
 	}
 	blt.Close()

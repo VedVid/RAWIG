@@ -31,7 +31,7 @@ const (
 func Controls(k int, p *Creature, b Board) int {
 	/*Function Controls is input handler; it takes integer k
 	(keycodes are basically numbers, but creating new "type key int"
-	is not convenient) and Monster p (which is player);
+	is not convenient) and Creature p (which is player);
 	Controls handle input, then returns integer value that depends
 	if player spent turn by action or not.*/
 	switch k {

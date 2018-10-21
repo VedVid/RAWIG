@@ -33,8 +33,9 @@ func CreaturesTakeTurn(b Board, c Creatures) {
 	It takes Board and Creatures as arguments.
 	Iterates through all Creatures slice, and handles creature behaviour:
 	if distance between creature and player is bigger than 1, creature
-	moves towards player.
-	It uses switch for matching AIType and behaviour.
+	moves towards player. Else, it attacks.
+	It uses switch for matching AIType and behaviour. Skips Creatures with NoAI
+	(ie corpses) and PlayerAI.
 	At first, I wanted to use map[int]METHOD, but it's not easy to implement.*/
 	for _, v := range c {
 		switch v.AIType {

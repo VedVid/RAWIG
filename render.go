@@ -41,7 +41,8 @@ func PrintBoard(b Board, c Creatures) {
 	for x := 0; x < WindowSizeX; x++ {
 		for y := 0; y < WindowSizeY; y++ {
 			//technically, "t" is new variable with own memory address...
-			t := b[x][y]
+			t := b[x][y] //should it be &b[x][y]?
+			blt.Layer(t.Layer)
 			if t.Explored == true {
 				if IsInFOV(b, c[0].X, c[0].Y, t.X, t.Y) == true {
 					glyph := "[color=" + t.Color + "]" + t.Char

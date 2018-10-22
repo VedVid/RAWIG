@@ -31,6 +31,11 @@ const (
 	colorCreatureDark = "dark green"
 )
 
+const (
+	//special characters
+	CorpseChar = "%"
+)
+
 type Creature struct {
 	/*Creatures are living objects that
 	  moves, attacks, dies, etc.*/
@@ -132,8 +137,9 @@ func (c *Creature) Die() {
 	Die() has *Creature as receiver.
 	Receiver properties changes to fit better to corpse.*/
 	c.Layer = DeadLayer
-	c.Color = "red"
-	c.ColorDark = "red"
+	c.Color = "dark red"
+	c.ColorDark = "dark red"
+	c.Char = CorpseChar
 	c.Blocked = false
 	c.BlocksSight = false
 	c.AIType = NoAI

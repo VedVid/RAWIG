@@ -34,6 +34,10 @@ Every revision before first release is potentially unstable.
 - [l]ooking command  
 - ranged combat  
 
+### Influences
+
+gorogue is built from scratch. Yet, due historical reasons, it is influenced by Jotaf's roguebasin python+libtcod tutorial. It's fair to give him a credit here.
+
 ### Contributors
 
 VedVid  

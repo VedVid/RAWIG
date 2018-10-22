@@ -22,10 +22,17 @@ package main
 
 import (
 	"math"
+	"math/rand"
 )
 
 func RoundFloatToInt(x float64) int {
 	/*Function RoundFloatToInt takes one float64 number,
 	rounds it to nearest 1.0, then returns it as a integer.*/
 	return int(math.Round(x))
+}
+
+func RandInt(max int) int {
+	/*Function RandInt wraps rand.Intn function;
+	instead of returning 0..n-1 it returns 0..n.*/
+	return rand.Intn(max + 1)
 }

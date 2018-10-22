@@ -31,6 +31,11 @@ const (
 	colorCreatureDark = "dark green"
 )
 
+const (
+	//special characters
+	CorpseChar = "%"
+)
+
 type Creature struct {
 	/*Creatures are living objects that
 	  moves, attacks, dies, etc.*/
@@ -38,13 +43,15 @@ type Creature struct {
 	VisibilityProperties
 	CollisionProperties
 	AIProperties
+	FighterProperties
 }
 
 /*Creatures holds every creature on map.*/
 type Creatures []*Creature
 
 func NewCreature(layer, x, y int, character, color, colorDark string,
-	alwaysVisible, blocked, blocksSight bool, ai int) (*Creature, error) {
+	alwaysVisible, blocked, blocksSight bool, ai, hp, attack,
+	defense int) (*Creature, error) {
 	/*Function NewCreture takes all values necessary by its struct,
 	and creates then returns pointer to Creature*/
 	var err error
@@ -60,15 +67,53 @@ func NewCreature(layer, x, y int, character, color, colorDark string,
 		txt := CharacterLengthError(character)
 		err = errors.New("Creature character string length is not equal to 1." + txt)
 	}
+	if hp < 0 {
+		txt := InitialHPError(hp)
+		err = errors.New("Creature HPMax is smaller than 0." + txt)
+	}
+	if attack < 0 {
+		txt := InitialAttackError(attack)
+		err = errors.New("Creature attack value is smaller than 0." + txt)
+	}
+	if defense < 0 {
+		txt := InitialDefenseError(defense)
+		err = errors.New("Creature defense value is smaller than 0." + txt)
+	}
 	creatureBasicProperties := BasicProperties{layer, x, y, character, color,
 		colorDark}
 	creatureVisibilityPropeties := VisibilityProperties{alwaysVisible}
 	creatureCollisionProperties := CollisionProperties{blocked, blocksSight}
 	creatureAIProperties := AIProperties{ai}
+	creatureFighterProperties := FighterProperties{hp, hp, attack, defense}
 	creatureNew := &Creature{creatureBasicProperties,
 		creatureVisibilityPropeties, creatureCollisionProperties,
-		creatureAIProperties}
+		creatureAIProperties, creatureFighterProperties}
 	return creatureNew, err
+}
+
+func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) {
+	/*Method MoveOrAttack decides if Creature will move or attack other Creature;
+	It has *Creature receiver, and takes tx, ty (coords) integers as arguments,
+	and map of current level, and list of all Creatures.
+	Starts by target that is nil, then iterates through Creatures. If there is
+	Creature on targeted tile, that Creature becomes new target for attack.
+	Otherwise, Creature moves to specified Tile.
+	It's supposed to take player as receiver (attack / moving enemies is
+	handled differentely - check ai.go and combat.go).*/
+	var target *Creature
+	for i, _ := range all {
+		if all[i].X == c.X+tx && all[i].Y == c.Y+ty {
+			if all[i].HPCurrent > 0 {
+				target = all[i]
+				break
+			}
+		}
+	}
+	if target != nil {
+		c.AttackTarget(target)
+	} else {
+		c.Move(tx, ty, b)
+	}
 }
 
 func (c *Creature) Move(tx, ty int, b Board) {
@@ -85,4 +130,17 @@ func (c *Creature) Move(tx, ty int, b Board) {
 			c.Y = newY
 		}
 	}
+}
+
+func (c *Creature) Die() {
+	/*Method Die is called, when Creature's HP drops below zero.
+	Die() has *Creature as receiver.
+	Receiver properties changes to fit better to corpse.*/
+	c.Layer = DeadLayer
+	c.Color = "dark red"
+	c.ColorDark = "dark red"
+	c.Char = CorpseChar
+	c.Blocked = false
+	c.BlocksSight = false
+	c.AIType = NoAI
 }

@@ -22,7 +22,8 @@ package main
 
 const (
 	//ai types
-	PlayerAI = iota
+	NoAI = iota
+	PlayerAI
 	DumbAI
 )
 
@@ -30,17 +31,26 @@ func CreaturesTakeTurn(b Board, c Creatures) {
 	/*Function CreaturesTakeTurn is supposed to handle all enemy creatures
 	actions: movement, attacking, etc.
 	It takes Board and Creatures as arguments.
-	Iterates through all Creatures slice, and handles creature behavior:
+	Iterates through all Creatures slice, and handles creature behaviour:
 	if distance between creature and player is bigger than 1, creature
-	moves towards player.
-	It uses switch for matching AIType and behavior.
+	moves towards player. Else, it attacks.
+	It uses switch for matching AIType and behaviour. Skips Creatures with NoAI
+	(ie corpses) and PlayerAI.
 	At first, I wanted to use map[int]METHOD, but it's not easy to implement.*/
 	for _, v := range c {
-		if v.DistanceTo(c[0].X, c[0].Y) > 1 {
-			switch v.AIType {
-			case DumbAI:
+		switch v.AIType {
+		case NoAI:
+			continue
+		case PlayerAI:
+			continue
+		case DumbAI:
+			if v.DistanceTo(c[0].X, c[0].Y) > 1 {
 				v.MoveTowardsDumb(b, c[0].X, c[0].Y)
+			} else {
+				v.AttackTarget(c[0])
 			}
+		default:
+			continue
 		}
 	}
 }

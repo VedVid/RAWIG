@@ -22,13 +22,15 @@ package main
 
 import blt "bearlibterminal"
 import "fmt"
+import "time"
+import "math/rand"
 
 func main() {
-	player, err := NewPlayer(PlayerLayer, 1, 1, "@", "white", "white", true, true, false, PlayerAI)
+	player, err := NewPlayer(PlayerLayer, 1, 1, "@", "white", "white", true, true, false, PlayerAI, 20, 5, 2)
 	if err != nil {
 		fmt.Println(err)
 	}
-	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "green", "green", false, true, false, DumbAI)
+	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "green", "green", false, true, false, DumbAI, 10, 4, 1)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -53,10 +55,10 @@ func main() {
 	for {
 		RenderAll(cells, objs, actors)
 		key := blt.Read()
-		if key == blt.TK_ESCAPE {
+		if key == blt.TK_ESCAPE || actors[0].HPCurrent <= 0 {
 			break
 		} else {
-			Controls(key, player, cells)
+			Controls(key, player, cells, actors)
 			CreaturesTakeTurn(cells, actors)
 		}
 	}
@@ -64,6 +66,7 @@ func main() {
 }
 
 func init() {
+	rand.Seed(time.Now().UTC().UnixNano())
 	InitializeFOVTables()
 	InitializeBLT()
 }

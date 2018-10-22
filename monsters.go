@@ -98,8 +98,10 @@ func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) {
 	var target *Creature
 	for i, _ := range all {
 		if all[i].X == c.X+tx && all[i].Y == c.Y+ty {
-			target = all[i]
-			break
+			if all[i].HPCurrent > 0 {
+				target = all[i]
+				break
+			}
 		}
 	}
 	if target != nil {

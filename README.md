@@ -21,7 +21,6 @@ gorogue is small, personal project, and doesn't have proper, detailed roadmap. H
 Every revision before first release is potentially unstable.
 
 **0.1**  
-- melee combat  
 - simple level generator (stored in [gorogue-extras](https://github.com/VedVid/gorogue-extras) )
 
 **0.2**  

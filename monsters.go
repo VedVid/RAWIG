@@ -91,7 +91,7 @@ func NewCreature(layer, x, y int, character, color, colorDark string,
 	return creatureNew, err
 }
 
-func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) {
+func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) bool {
 	/*Method MoveOrAttack decides if Creature will move or attack other Creature;
 	It has *Creature receiver, and takes tx, ty (coords) integers as arguments,
 	and map of current level, and list of all Creatures.
@@ -101,6 +101,7 @@ func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) {
 	It's supposed to take player as receiver (attack / moving enemies is
 	handled differentely - check ai.go and combat.go).*/
 	var target *Creature
+	var turnSpent bool
 	for i, _ := range all {
 		if all[i].X == c.X+tx && all[i].Y == c.Y+ty {
 			if all[i].HPCurrent > 0 {
@@ -111,15 +112,18 @@ func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) {
 	}
 	if target != nil {
 		c.AttackTarget(target)
+		turnSpent = true
 	} else {
-		c.Move(tx, ty, b)
+		turnSpent = c.Move(tx, ty, b)
 	}
+	return turnSpent
 }
 
-func (c *Creature) Move(tx, ty int, b Board) {
+func (c *Creature) Move(tx, ty int, b Board) bool {
 	/*Move is method of Creature; it takes target x, y as arguments;
 	check if next move won't put Creature off the screen, then updates
 	Creature coords.*/
+	turnSpent := false
 	newX, newY := c.X+tx, c.Y+ty
 	if newX >= 0 &&
 		newX <= WindowSizeX-1 &&
@@ -128,8 +132,10 @@ func (c *Creature) Move(tx, ty int, b Board) {
 		if b[newX][newY].Blocked == false {
 			c.X = newX
 			c.Y = newY
+			turnSpent = true
 		}
 	}
+	return turnSpent
 }
 
 func (c *Creature) Die() {

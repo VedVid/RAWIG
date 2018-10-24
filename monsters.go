@@ -99,7 +99,7 @@ func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) bool {
 	Creature on targeted tile, that Creature becomes new target for attack.
 	Otherwise, Creature moves to specified Tile.
 	It's supposed to take player as receiver (attack / moving enemies is
-	handled differentely - check ai.go and combat.go).*/
+	handled differently - check ai.go and combat.go).*/
 	var target *Creature
 	var turnSpent bool
 	for i, _ := range all {

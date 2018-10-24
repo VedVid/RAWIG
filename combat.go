@@ -29,7 +29,7 @@ func (c *Creature) AttackTarget(t *Creature) {
 	Println calls will remain here until message log will be implemented.*/
 	att := RandInt(c.Attack) //basic attack roll
 	att2 := 0                //critical bonus
-	def := t.Defense         //opponet's defense
+	def := t.Defense         //opponent's defense
 	dmg := 0                 //dmg delivered
 	crit := false            //was it critical hit?
 	if att == c.Attack {     //critical hit!

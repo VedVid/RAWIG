@@ -34,7 +34,7 @@ const (
 type Object struct {
 	/*Objects are every other things on map;
 	  statues, tables, chairs; but also weapons,
-	  armour parts, etc.*/
+	  armor parts, etc.*/
 	BasicProperties
 	VisibilityProperties
 	CollisionProperties

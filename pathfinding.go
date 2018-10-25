@@ -31,10 +31,10 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	const startWeight = -1
 	const goalWeight = -2
 	const emptyWeight = -3
-	var nodesEmpty = []Node{}  //for unvisited cells
-	var nodesFilled = []Node{} //for visited cells
-	start := Node{c.X, c.Y, startWeight}
-	goal := Node{tx, ty, goalWeight}
+	var nodesEmpty = []*Node{}  //for unvisited cells
+	var nodesFilled = []*Node{} //for visited cells
+	start := &Node{c.X, c.Y, startWeight}
+	goal := &Node{tx, ty, goalWeight}
 	goal.weight = 0                         //make it explicit
 	nodesFilled = append(nodesFilled, goal) //start with goal
 	//initialize nodesEmpty with board tiles
@@ -43,20 +43,24 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 			if x == goal.X && y == goal.Y { //but skip the goal
 				continue
 			}
-			n := Node{b[x][y].X, b[x][y].Y, emptyWeight}
+			n := &Node{b[x][y].X, b[x][y].Y, emptyWeight}
 			nodesEmpty = append(nodesEmpty, n)
 		}
 	}
 	currentNode := goal
 	for {
-		if len(nodesEmpty) == 0 { //all map tiles visited
-			break
-		}
-		for i := 0; i < len(nodesEmpty); i++ {
-			newNode := &nodesEmpty[i]
-			if newNode.X >= (currentNode.X-1) && newNode.X <= (currentNode.X+1) &&
-				newNode.Y >= (currentNode.Y-1) && newNode.Y <= (currentNode.Y-1) {
-				//it's neightbour Node to currentNode
+//		if len(nodesEmpty) == 0 { //all map tiles visited
+//			break
+//		}
+//		for i := 0; i < len(nodesEmpty); i++ {
+//			newNode := nodesEmpty[i]
+//			if newNode.weight != emptyWeight {
+//				continue
+//			}
+//			var neightbourNodes = []Node
+//			if newNode.X >= (currentNode.X-1) && newNode.X <= (currentNode.X+1) &&
+//				newNode.Y >= (currentNode.Y-1) && newNode.Y <= (currentNode.Y-1) {
+//				//it's neightbour Node to currentNode
 			}
 		}
 	}

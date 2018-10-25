@@ -30,7 +30,15 @@ type Node struct {
 func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	const startWeight = 0
 	const goalWeight = -1
-	var nodes = []Node{}
+	const emptyWeight = -2
+	var nodesEmpty = []Node{}
+	var nodesFilled = []Node{}
+	for x := 0; x < WindowSizeX; x++ {
+		for y := 0; y < WindowSizeY; y++ {
+			n := Node{b[x][y].X, b[x][y].Y, emptyWeight}
+			nodesEmpty = append(nodesEmpty, n)
+		}
+	}
 	start := Node{c.X, c.Y, startWeight}
 	goal := Node{tx, ty, goalWeight}
 }

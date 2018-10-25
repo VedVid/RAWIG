@@ -57,7 +57,7 @@ type AIProperties struct {
 type FighterProperties struct {
 	/*FighterProperties stores information about
 	things that can live and fight (ie fighters);
-	it may be used for destructable environment
+	it may be used for destructible environment
 	elements as well.*/
 	HPMax     int
 	HPCurrent int

@@ -31,17 +31,24 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	const startWeight = 0
 	const goalWeight = -1
 	const emptyWeight = -2
-	var nodesEmpty = []Node{}
-	var nodesFilled = []Node{}
+	var nodesEmpty = []Node{}  //for unvisited cells
+	var nodesFilled = []Node{} //for visited cells
+	start := Node{c.X, c.Y, startWeight}
+	goal := Node{tx, ty, goalWeight}
+	nodesFilled = append(nodesFilled, goal) //start with goal
+	//initialize nodesEmpty with board tiles
 	for x := 0; x < WindowSizeX; x++ {
 		for y := 0; y < WindowSizeY; y++ {
+			if x == goal.X && y == goal.Y { //but skip the goal
+				continue
+			}
 			n := Node{b[x][y].X, b[x][y].Y, emptyWeight}
 			nodesEmpty = append(nodesEmpty, n)
 		}
 	}
-	start := Node{c.X, c.Y, startWeight}
-	goal := Node{tx, ty, goalWeight}
-	nodesFilled = append(nodesFilled, goal)
+	for {
+
+	}
 }
 
 func (c *Creature) MoveTowardsDumb(b Board, tx, ty int) {

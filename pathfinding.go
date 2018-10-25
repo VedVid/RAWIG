@@ -47,7 +47,10 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 		}
 	}
 	for {
-
+		//do something here
+		if len(nodesEmpty) == 0 { //all map tiles visited
+			break
+		}
 	}
 }
 

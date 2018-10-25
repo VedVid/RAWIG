@@ -22,6 +22,19 @@ package main
 
 import "math"
 
+type Node struct {
+	x, y   int
+	weight int
+}
+
+func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
+	const startWeight = 0
+	const goalWeight = -1
+	var nodes = []Node{}
+	start := Node{c.X, c.Y, startWeight}
+	goal := Node{tx, ty, goalWeight}
+}
+
 func (c *Creature) MoveTowardsDumb(b Board, tx, ty int) {
 	/*MoveTowardsDumb is Creature method;
 	  it is main part of creature pathfinding. It is very simple algorithm that

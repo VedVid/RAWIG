@@ -41,6 +41,7 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	}
 	start := Node{c.X, c.Y, startWeight}
 	goal := Node{tx, ty, goalWeight}
+	nodesFilled = append(nodesFilled, goal)
 }
 
 func (c *Creature) MoveTowardsDumb(b Board, tx, ty int) {

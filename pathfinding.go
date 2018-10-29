@@ -30,13 +30,15 @@ type Node struct {
 	weight int
 }
 
-func TilesToNodes(b Board) []*Node {
-	var nodes = []*Node{} //does nodes should be 2d array like Board?
-	_ = b                 //TODO: use Board to check for blocked tiles etc.
+func TilesToNodes(b Board) [][]*Node {
+	_ = b //TODO: use Board to check for blocked tiles etc.
+	nodes := make([][]*Tile, WindowSizeX)
+	for i := range nodes {
+		nodes[i] = make([]*Tile, WindowSizeY)
+	}
 	for x := 0; x < WindowSizeX; x++ {
 		for y := 0; y < WindowSizeY; y++ {
-			n := &Node{x, y, nodeBaseWeight}
-			nodes = append(nodes, n)
+			nodes[x][y] = &Node{x, y, nodeBaseWeight}
 		}
 	}
 	return nodes

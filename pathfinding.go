@@ -47,7 +47,6 @@ func TilesToNodes(b Board) [][]*Node {
 func (c *Creature) MoveTowardsPath(b Board, tx, ty int) bool {
 	finished := false
 	nodes := TilesToNodes(b)
-	start := Node{c.X, c.Y, nodeBaseWeight}
 	goal := &Node{tx, ty, nodeGoalWeight}
 	var adjacent = []*Node{goal} //find neightbours of these nodes
 	var adjacent2 = []*Node{}    //neightbours; change values

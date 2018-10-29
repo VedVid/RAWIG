@@ -44,7 +44,8 @@ func TilesToNodes(b Board) [][]*Node {
 	return nodes
 }
 
-func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
+func (c *Creature) MoveTowardsPath(b Board, tx, ty int) bool {
+	finished := false
 	nodes := TilesToNodes(b)
 	start := Node{c.X, c.Y, nodeBaseWeight}
 	goal := &Node{tx, ty, nodeGoalWeight}
@@ -67,6 +68,7 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 						adjacent2 = append(adjacent2, newNode)
 						if x == c.X && y == c.Y {
 							//if current node is start point
+							finished = true
 							goto IterationEnd
 						}
 					}
@@ -85,7 +87,7 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 		}
 	}
 IterationEnd:
-	_ = 5 //just something
+	return finished
 }
 
 func (c *Creature) MoveTowardsDumb(b Board, tx, ty int) {

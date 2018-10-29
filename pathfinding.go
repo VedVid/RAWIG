@@ -53,7 +53,7 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	w := 0
 	for {
 		w++
-		for i := 0; i < len(adjacent); i++ { //it uses adjacent... where is place for nodes slice?
+		for i := 0; i < len(adjacent); i++ {
 			//find all adjacent nodes
 			n := adjacent[i]
 			for x := (n.X - 1); x <= (n.X + 1); x++ {
@@ -62,8 +62,9 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 						//pass if newNode is currentNode
 						continue
 					} else {
-						n.Weight = w
-						adjacent2 = append(adjacent2, n)
+						newNode := nodes[x][y]
+						newNode.Weight = w
+						adjacent2 = append(adjacent2, newNode)
 					}
 				}
 			}

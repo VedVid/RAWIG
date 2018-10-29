@@ -69,6 +69,7 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 					} else {
 						newNode := nodes[x][y]
 						newNode.Weight = w
+						fmt.Println(newNode.Weight, nodes[x][y].Weight)
 						adjacent2 = append(adjacent2, newNode)
 						if x == c.X && y == c.Y {
 							//if current node is start point
@@ -90,7 +91,7 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 		}
 	}
 IterationEnd:
-	RenderPath(nodes)
+	_ = 5 //RenderPath(nodes)
 }
 
 func RenderPath(nodes [][]*Node) {

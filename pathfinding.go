@@ -22,9 +22,24 @@ package main
 
 import "math"
 
+const nodeBaseWeight = -1
+
 type Node struct {
 	x, y   int
 	weight int
+}
+
+func TilesToNodes(b Board) []*Node {
+	var nodes = []*Node{}
+	for i := 0; i < len(b); i++ {
+		n := &Node{b[i].X, b[i].Y, nodeBaseWeight}
+		nodes = append(nodes, n)
+	}
+	return nodes
+}
+
+func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
+	nodes := TilesToNodes(b)
 }
 
 func (c *Creature) MoveTowardsDumb(b Board, tx, ty int) {

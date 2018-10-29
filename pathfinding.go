@@ -65,6 +65,10 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 						newNode := nodes[x][y]
 						newNode.Weight = w
 						adjacent2 = append(adjacent2, newNode)
+						if x == c.X && y == c.Y {
+							//if current node is start point
+							goto IterationEnd
+						}
 					}
 				}
 			}
@@ -80,6 +84,8 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 			break
 		}
 	}
+IterationEnd:
+	_ = 5 //just something
 }
 
 func (c *Creature) MoveTowardsDumb(b Board, tx, ty int) {

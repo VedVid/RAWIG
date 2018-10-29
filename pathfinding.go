@@ -44,12 +44,22 @@ func TilesToNodes(b Board) [][]*Node {
 			nodes[x][y] = &Node{x, y, nodeBaseWeight}
 		}
 	}
+	for x := 0; x < 10; x++ {
+		for y := 0; y < 10; y++ {
+			fmt.Println(nodes[x][y].Weight)
+		}
+	}
 	return nodes
 }
 
 func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	fmt.Println("\n\n\nstart of function")
 	nodes := TilesToNodes(b)
+	for x := 0; x < 10; x++ {
+		for y := 0; y < 10; y++ {
+			fmt.Println(nodes[x][y].Weight)
+		}
+	}
 	goal := &Node{tx, ty, nodeGoalWeight}
 	var adjacent = []*Node{goal} //find neightbours of these nodes
 	var adjacent2 = []*Node{}    //neightbours; change values
@@ -72,10 +82,12 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 					fmt.Println("conditional")
 					if x == n.X && y == n.Y {
 						fmt.Println("x == n.X && y == n.Y")
+						fmt.Println(x, y, " : ", n.X, n.Y)
 						//pass if newNode is currentNode
 						continue
 					} else if n.Weight > nodeBaseWeight {
 						fmt.Println("n.Weight > nodeBaseWeight")
+						fmt.Println(n.Weight, " : ", nodeBaseWeight)
 						//pass if newNode was traversed already
 						continue
 					} else {

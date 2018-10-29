@@ -46,6 +46,8 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	nodes := TilesToNodes(b)
 	start := Node{c.X, c.Y, nodeBaseWeight}
 	goal := Node{tx, ty, nodeGoalWeight}
+	var adjacent = []*Node{}  //find neightbours of these nodes
+	var adjacent2 = []*Node{} //neightbours; change values
 }
 
 func (c *Creature) MoveTowardsDumb(b Board, tx, ty int) {

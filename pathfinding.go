@@ -23,6 +23,7 @@ package main
 import "math"
 import "strconv"
 import blt "bearlibterminal"
+import "fmt"
 
 const nodeBaseWeight = -1
 const nodeGoalWeight = 0
@@ -93,7 +94,7 @@ IterationEnd:
 }
 
 func RenderPath(nodes [][]*Node) {
-	blt.Layer(10)
+	blt.Layer(5)
 	for x := 0; x < WindowSizeX; x++ {
 		for y := 0; y < WindowSizeY; y++ {
 			glyph := strconv.Itoa(nodes[x][y].Weight)
@@ -101,6 +102,7 @@ func RenderPath(nodes [][]*Node) {
 				glyph = "X"
 			}
 			blt.Print(x, y, glyph)
+			fmt.Println(x, y, glyph)
 		}
 	}
 }

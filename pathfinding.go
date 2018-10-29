@@ -48,16 +48,21 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	goal := &Node{tx, ty, nodeGoalWeight}
 	var adjacent = []*Node{goal} //find neightbours of these nodes
 	var adjacent2 = []*Node{}    //neightbours; change values
-	for i := 0; i < len(adjacent); i++ {
-		//find all adjacent nodes
-		n := adjacent[i]
-		for x := (n.X - 1); x <= (n.X + 1); x++ {
-			for y := (n.Y - 1); y <= (n.Y + 1); y++ {
-				if x == n.X && y == n.Y {
-					//pass if newNode is currentNode
-					continue
-				} else {
-					adjacent2 = append(adjacent2, n)
+	w := 0
+	for {
+		w++
+		for i := 0; i < len(adjacent); i++ {
+			//find all adjacent nodes
+			n := adjacent[i]
+			for x := (n.X - 1); x <= (n.X + 1); x++ {
+				for y := (n.Y - 1); y <= (n.Y + 1); y++ {
+					if x == n.X && y == n.Y {
+						//pass if newNode is currentNode
+						continue
+					} else {
+						n.weight = w
+						adjacent2 = append(adjacent2, n)
+					}
 				}
 			}
 		}

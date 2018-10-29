@@ -63,7 +63,7 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	goal := &Node{tx, ty, nodeGoalWeight}
 	var adjacent = []*Node{goal} //find neightbours of these nodes
 	var adjacent2 = []*Node{}    //neightbours; change values
-	w := 0
+	w := nodeBaseWeight
 	fmt.Println("before for loop")
 	for {
 		fmt.Println("inside for loop")

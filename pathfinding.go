@@ -66,6 +66,13 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 				}
 			}
 		}
+		//copy just traversed nodes to the first slice, so
+		//they will be used to find their neightbours
+		adjacent = adjacent[:0]
+		for j := 0; j < len(adjacent2); j++ {
+			adjacent = append(adjacent, adjacent2[j])
+		}
+		adjacent2 = adjacent2[:0]
 	}
 }
 

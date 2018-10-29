@@ -26,15 +26,15 @@ const nodeBaseWeight = -1
 const nodeGoalWeight = 0
 
 type Node struct {
-	x, y   int
-	weight int
+	X, Y   int
+	Weight int
 }
 
 func TilesToNodes(b Board) [][]*Node {
 	_ = b //TODO: use Board to check for blocked tiles etc.
-	nodes := make([][]*Tile, WindowSizeX)
+	nodes := make([][]*Node, WindowSizeX)
 	for i := range nodes {
-		nodes[i] = make([]*Tile, WindowSizeY)
+		nodes[i] = make([]*Node, WindowSizeY)
 	}
 	for x := 0; x < WindowSizeX; x++ {
 		for y := 0; y < WindowSizeY; y++ {
@@ -62,7 +62,7 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 						//pass if newNode is currentNode
 						continue
 					} else {
-						n.weight = w
+						n.Weight = w
 						adjacent2 = append(adjacent2, n)
 					}
 				}

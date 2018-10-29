@@ -21,6 +21,8 @@ freely, subject to the following restrictions:
 package main
 
 import "math"
+import "strconv"
+import blt "bearlibterminal"
 
 const nodeBaseWeight = -1
 const nodeGoalWeight = 0
@@ -44,8 +46,7 @@ func TilesToNodes(b Board) [][]*Node {
 	return nodes
 }
 
-func (c *Creature) MoveTowardsPath(b Board, tx, ty int) bool {
-	finished := false
+func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	nodes := TilesToNodes(b)
 	goal := &Node{tx, ty, nodeGoalWeight}
 	var adjacent = []*Node{goal} //find neightbours of these nodes
@@ -70,7 +71,6 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) bool {
 						adjacent2 = append(adjacent2, newNode)
 						if x == c.X && y == c.Y {
 							//if current node is start point
-							finished = true
 							goto IterationEnd
 						}
 					}
@@ -89,7 +89,20 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) bool {
 		}
 	}
 IterationEnd:
-	return finished
+	RenderPath(nodes)
+}
+
+func RenderPath(nodes [][]*Node) {
+	blt.Layer(10)
+	for x := 0; x < WindowSizeX; x++ {
+		for y := 0; y < WindowSizeY; y++ {
+			glyph := strconv.Itoa(nodes[x][y].Weight)
+			if nodes[x][y].Weight < 0 {
+				glyph = "X"
+			}
+			blt.Print(x, y, glyph)
+		}
+	}
 }
 
 func (c *Creature) MoveTowardsDumb(b Board, tx, ty int) {

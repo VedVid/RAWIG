@@ -31,10 +31,13 @@ type Node struct {
 }
 
 func TilesToNodes(b Board) []*Node {
-	var nodes = []*Node{}
-	for i := 0; i < len(b); i++ {
-		n := &Node{b[i].X, b[i].Y, nodeBaseWeight}
-		nodes = append(nodes, n)
+	var nodes = []*Node{} //does nodes should be 2d array like Board?
+	_ = b                 //TODO: use Board to check for blocked tiles etc.
+	for x := 0; x < WindowSizeX; x++ {
+		for y := 0; y < WindowSizeY; y++ {
+			n := &Node{x, y, nodeBaseWeight}
+			nodes = append(nodes, n)
+		}
 	}
 	return nodes
 }

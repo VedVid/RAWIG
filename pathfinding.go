@@ -53,7 +53,7 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	w := 0
 	for {
 		w++
-		for i := 0; i < len(adjacent); i++ {
+		for i := 0; i < len(adjacent); i++ { //it uses adjacent... where is place for nodes slice?
 			//find all adjacent nodes
 			n := adjacent[i]
 			for x := (n.X - 1); x <= (n.X + 1); x++ {

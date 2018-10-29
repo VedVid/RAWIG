@@ -23,6 +23,7 @@ package main
 import "math"
 
 const nodeBaseWeight = -1
+const nodeGoalWeight = 0
 
 type Node struct {
 	x, y   int
@@ -40,6 +41,8 @@ func TilesToNodes(b Board) []*Node {
 
 func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	nodes := TilesToNodes(b)
+	start := &Node{c.X, c.Y, nodeBaseWeight}
+	goal := &Node{tx, ty, nodeGoalWeight}
 }
 
 func (c *Creature) MoveTowardsDumb(b Board, tx, ty int) {

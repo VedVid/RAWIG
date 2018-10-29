@@ -73,6 +73,9 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 			adjacent = append(adjacent, adjacent2[j])
 		}
 		adjacent2 = adjacent2[:0]
+		if len(adjacent) == 0 {
+			break
+		}
 	}
 }
 

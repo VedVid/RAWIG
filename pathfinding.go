@@ -61,6 +61,9 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) bool {
 					if x == n.X && y == n.Y {
 						//pass if newNode is currentNode
 						continue
+					} else if n.Weight > nodeBaseWeight {
+						//pass if newNode was traversed already
+						continue
 					} else {
 						newNode := nodes[x][y]
 						newNode.Weight = w

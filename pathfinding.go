@@ -72,6 +72,9 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 						if x == t.X && y == t.Y {
 							//skip "t"
 							continue
+						} else {
+							//add neightbours to the adjacent slice
+							adjacent = append(adjacent, nodes[x][y])
 						}
 					}
 				}

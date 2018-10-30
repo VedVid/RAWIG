@@ -55,10 +55,13 @@ func TilesToNodes(b Board) [][]*Node {
 func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	nodes := TilesToNodes(b)
 	goal := nodes[tx][ty]
+	goal.Weight = nodeGoalWeight
 	//nodes that were weighted in previous iteration
 	var traversed = []*Node{goal}
-	var adjacent = []*Node{}
+	w := nodeGoalWeight //weight
 	for {
+		var adjacent = []*Node{}
+		w++ //increase weight
 		//at the end of iteration, traversed = list-of-adjacent-but-unweighted-tiles
 		//if empty, break the loop - whole map is traversed already
 		if len(traversed) == 0 {
@@ -79,6 +82,12 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 					}
 				}
 			}
+			for i := 0; i < len(adjacent); i++ {
+				adjacent[i].Weight = w
+			}
+			//perfecly cloned slice :3
+			traversed = append(adjacent[:0:0], adjacent...)
+			adjacent = nil
 		}
 	}
 }

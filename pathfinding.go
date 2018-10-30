@@ -55,6 +55,12 @@ func TilesToNodes(b Board) [][]*Node {
 func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	nodes := TilesToNodes(b)
 	goal := nodes[tx][ty]
+	var traversed = []*Node{goal}
+	for {
+		if len(traversed) == 0 {
+			break
+		}
+	}
 }
 
 func RenderPath(nodes [][]*Node) {

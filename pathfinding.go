@@ -53,7 +53,7 @@ func TilesToNodes(b Board) [][]*Node {
 }
 
 func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
-	nodes := TilesToNodes(b)
+	/*nodes := TilesToNodes(b)
 	goal := nodes[tx][ty]
 	goal.Weight = nodeGoalWeight
 	//nodes that were weighted in previous iteration
@@ -92,12 +92,13 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 			fmt.Println(len(traversed))
 			fmt.Println(len(adjacent))
 			//perfecly cloned slice :3
+			traversed = nil
 			traversed = append(adjacent[:0:0], adjacent...)
 			adjacent = nil
 			fmt.Println(len(traversed))
 			fmt.Println(len(adjacent))
 		}
-	}
+	}*/
 }
 
 func RenderPath(nodes [][]*Node) {

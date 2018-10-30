@@ -61,9 +61,9 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	w := nodeGoalWeight //weight
 	for {
 		var adjacent = []*Node{}
-		w++ //increase weight
 		//at the end of iteration, traversed = list-of-adjacent-but-unweighted-tiles
 		//if empty, break the loop - whole map is traversed already
+		w++ //increase weight
 		if len(traversed) == 0 {
 			break
 		} else { //not necessary, but it'll make code more readable
@@ -77,7 +77,10 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 							continue
 						} else {
 							//add neightbours to the adjacent slice
-							adjacent = append(adjacent, nodes[x][y])
+							if nodes[x][y].Weight == nodeBaseWeight {
+								// it means that node was not traversed yet
+								adjacent = append(adjacent, nodes[x][y])
+							}
 						}
 					}
 				}

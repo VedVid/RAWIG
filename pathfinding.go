@@ -60,6 +60,7 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	var traversed = []*Node{goal}
 	w := nodeGoalWeight //weight
 	for {
+		fmt.Println()
 		var adjacent = []*Node{}
 		//at the end of iteration, traversed = list-of-adjacent-but-unweighted-tiles
 		//if empty, break the loop - whole map is traversed already
@@ -88,9 +89,13 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 			for i := 0; i < len(adjacent); i++ {
 				adjacent[i].Weight = w
 			}
+			fmt.Println(len(traversed))
+			fmt.Println(len(adjacent))
 			//perfecly cloned slice :3
 			traversed = append(adjacent[:0:0], adjacent...)
 			adjacent = nil
+			fmt.Println(len(traversed))
+			fmt.Println(len(adjacent))
 		}
 	}
 }

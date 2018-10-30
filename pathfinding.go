@@ -55,10 +55,27 @@ func TilesToNodes(b Board) [][]*Node {
 func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	nodes := TilesToNodes(b)
 	goal := nodes[tx][ty]
+	//nodes that were weighted in previous iteration
 	var traversed = []*Node{goal}
+	var adjacent = []*Node{}
 	for {
+		//at the end of iteration, traversed = list-of-adjacent-but-unweighted-tiles
+		//if empty, break the loop - whole map is traversed already
 		if len(traversed) == 0 {
 			break
+		} else { //not necessary, but it'll make code more readable
+			//create list of tiles that are adjacent to lastly traversed ones
+			for i := 0; i < len(traversed); i++ {
+				t := traversed[i]
+				for x := (t.X - 1); x <= (t.X + 1); x++ {
+					for y := (t.Y - 1); y <= (t.Y + 1); y++ {
+						if x == t.X && y == t.Y {
+							//skip "t"
+							continue
+						}
+					}
+				}
+			}
 		}
 	}
 }

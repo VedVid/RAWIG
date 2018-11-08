@@ -92,7 +92,9 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	}
 	//END
 	w := nodeBaseWeight
+	i := 0
 	for {
+		i++
 		w++
 		for i := 0; i < len(frontiers); i++ {
 			frontiers[i].Weight = w
@@ -107,7 +109,9 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 		for k := 0; k < len(newSlice); k++ {
 			fmt.Println(newSlice[k].X, newSlice[k].Y, newSlice[k].Weight)
 		}
-		break
+		if i > 1 {
+			break
+		}
 	}
 }
 

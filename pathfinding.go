@@ -111,6 +111,7 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	}
 }
 
+/* NOT USED YET
 func RenderPath(nodes [][]*Node) {
 	blt.Layer(5)
 	for x := 0; x < WindowSizeX; x++ {
@@ -124,6 +125,7 @@ func RenderPath(nodes [][]*Node) {
 		}
 	}
 }
+*/
 
 func (c *Creature) MoveTowardsDumb(b Board, tx, ty int) {
 	/*MoveTowardsDumb is Creature method;

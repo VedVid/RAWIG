@@ -73,6 +73,19 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 		fmt.Println(frontiers[i].X, frontiers[i].Y, frontiers[i].Weight)
 	}
 	//END
+	w := nodeBaseWeight
+	for {
+		w++
+		for i := 0; i < len(frontiers); i++ {
+			frontiers[i].Weight = w
+		}
+		//START
+		for j := 0; j < len(frontiers); j++ {
+			fmt.Println(frontiers[j].Weight)
+		}
+		break
+		//END
+	}
 }
 
 func RenderPath(nodes [][]*Node) {

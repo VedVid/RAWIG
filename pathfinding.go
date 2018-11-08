@@ -21,8 +21,10 @@ freely, subject to the following restrictions:
 package main
 
 import "math"
-import "strconv"
-import blt "bearlibterminal"
+
+//import "strconv"
+//import blt "bearlibterminal"
+
 import "fmt"
 
 const nodeBaseWeight = -1
@@ -104,11 +106,12 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 			fmt.Println(frontiers[j].Weight)
 		}
 		//END
-		newSlice := FindNeighbours(nodes, frontiers) //could I do it with only one slice? ie, it's just new frontiers...
+		frontiers = FindNeighbours(nodes, frontiers) //could I do it with only one slice? ie, it's just new frontiers...
 		//START
-		for k := 0; k < len(newSlice); k++ {
-			fmt.Println(newSlice[k].X, newSlice[k].Y, newSlice[k].Weight)
+		for k := 0; k < len(frontiers); k++ {
+			fmt.Println(frontiers[k].X, frontiers[k].Y, frontiers[k].Weight)
 		}
+		//END
 		if i > 1 {
 			break
 		}

@@ -67,6 +67,12 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	fmt.Println(goal.X, goal.Y)
 	fmt.Println(start.X, start.Y)
 	//END
+	var frontiers = []*Node{goal} //frontier list; list of all nodes with previous values
+	//START
+	for i := 0; i < len(frontiers); i++ {
+		fmt.Println(frontiers[i].X, frontiers[i].Y, frontiers[i].Weight)
+	}
+	//END
 }
 
 func RenderPath(nodes [][]*Node) {

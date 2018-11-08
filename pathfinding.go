@@ -53,13 +53,19 @@ func TilesToNodes(b Board) [][]*Node {
 }
 
 func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
-	nodes := TilesToNodes(b)
+	nodes := TilesToNodes(b) //convert tiles to nodes
 	//START
 	for x := 0; x < WindowSizeX; x++ {
 		for y := 0; y < WindowSizeY; y++ {
 			fmt.Println(nodes[x][y].Weight)
 		}
 	}
+	//END
+	goal := nodes[tx][ty] //define start point and target point
+	start := nodes[c.X][c.Y]
+	//START
+	fmt.Println(goal.X, goal.Y)
+	fmt.Println(start.X, start.Y)
 	//END
 }
 

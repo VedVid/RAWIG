@@ -52,6 +52,24 @@ func TilesToNodes(b Board) [][]*Node {
 	return nodes
 }
 
+func FindNeighbours(nodes [][]*Node, frontiers []*Node) []*Node {
+	var neightbours = []*Node{}
+	for i := 0; i < len(frontiers); i++ {
+		oldNode := frontiers[i]
+		for x := (frontiers[i].X - 1); x <= (frontiers[i].X + 1); x++ {
+			for y := (frontiers[i].Y - 1); y <= (frontiers[i].Y + 1); y++ {
+				if (x == oldNode.X && y == oldNode.Y) || //it's the same node as the base one, ie frontier
+					nodes[x][y].Weight != (-1) { //it's old, already traversed node
+					continue
+				} else {
+					neightbours = append(neightbours, nodes[x][y])
+				}
+			}
+		}
+	}
+	return neightbours
+}
+
 func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	nodes := TilesToNodes(b) //convert tiles to nodes
 	//START
@@ -83,8 +101,13 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 		for j := 0; j < len(frontiers); j++ {
 			fmt.Println(frontiers[j].Weight)
 		}
-		break
 		//END
+		newSlice := FindNeighbours(nodes, frontiers) //could I do it with only one slice? ie, it's just new frontiers...
+		//START
+		for k := 0; k < len(newSlice); k++ {
+			fmt.Println(newSlice[k].X, newSlice[k].Y, newSlice[k].Weight)
+		}
+		break
 	}
 }
 

@@ -53,52 +53,14 @@ func TilesToNodes(b Board) [][]*Node {
 }
 
 func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
-	/*nodes := TilesToNodes(b)
-	goal := nodes[tx][ty]
-	goal.Weight = nodeGoalWeight
-	//nodes that were weighted in previous iteration
-	var traversed = []*Node{goal}
-	w := nodeGoalWeight //weight
-	for {
-		fmt.Println()
-		var adjacent = []*Node{}
-		//at the end of iteration, traversed = list-of-adjacent-but-unweighted-tiles
-		//if empty, break the loop - whole map is traversed already
-		w++ //increase weight
-		if len(traversed) == 0 {
-			break
-		} else { //not necessary, but it'll make code more readable
-			//create list of tiles that are adjacent to lastly traversed ones
-			for i := 0; i < len(traversed); i++ {
-				t := traversed[i]
-				for x := (t.X - 1); x <= (t.X + 1); x++ {
-					for y := (t.Y - 1); y <= (t.Y + 1); y++ {
-						if x == t.X && y == t.Y {
-							//skip "t"
-							continue
-						} else {
-							//add neightbours to the adjacent slice
-							if nodes[x][y].Weight == nodeBaseWeight {
-								// it means that node was not traversed yet
-								adjacent = append(adjacent, nodes[x][y])
-							}
-						}
-					}
-				}
-			}
-			for i := 0; i < len(adjacent); i++ {
-				adjacent[i].Weight = w
-			}
-			fmt.Println(len(traversed))
-			fmt.Println(len(adjacent))
-			//perfecly cloned slice :3
-			traversed = nil
-			traversed = append(adjacent[:0:0], adjacent...)
-			adjacent = nil
-			fmt.Println(len(traversed))
-			fmt.Println(len(adjacent))
+	nodes := TilesToNodes(b)
+	//START
+	for x := 0; x < WindowSizeX; x++ {
+		for y := 0; y < WindowSizeY; y++ {
+			fmt.Println(nodes[x][y].Weight)
 		}
-	}*/
+	}
+	//END
 }
 
 func RenderPath(nodes [][]*Node) {

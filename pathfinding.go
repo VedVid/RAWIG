@@ -46,76 +46,72 @@ func TilesToNodes(b Board) [][]*Node {
 			nodes[x][y] = &Node{x, y, nodeBaseWeight}
 		}
 	}
-	for x := 0; x < 10; x++ {
-		for y := 0; y < 10; y++ {
-			fmt.Println(nodes[x][y].Weight)
-		}
-	}
 	return nodes
 }
 
-func FindNeighbours(nodes [][]*Node, frontiers []*Node) []*Node {
-	var neightbours = []*Node{}
+func FindAdjacent(nodes [][]*Node, frontiers []*Node, w int) []*Node {
+	var adjacent = []*Node{}
+	//fmt.Println("FindAdjacent")
 	for i := 0; i < len(frontiers); i++ {
-		oldNode := frontiers[i]
+		//fmt.Println("next frontier")
+		//fmt.Println(frontiers[i].X, frontiers[i].Y, frontiers[i].Weight)
 		for x := (frontiers[i].X - 1); x <= (frontiers[i].X + 1); x++ {
 			for y := (frontiers[i].Y - 1); y <= (frontiers[i].Y + 1); y++ {
-				if (x == oldNode.X && y == oldNode.Y) || //it's the same node as the base one, ie frontier
-					nodes[x][y].Weight != (-1) { //it's old, already traversed node
+				fmt.Println(nodes[x][y].X, nodes[x][y].Y, nodes[x][y].Weight)
+				if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
+					//fmt.Println("so, out of bounds")
 					continue
-				} else {
-					neightbours = append(neightbours, nodes[x][y])
 				}
+				if nodes[x][y].Weight != (-1) {
+					//fmt.Println("so, already traversed")
+					continue
+				}
+				if x == frontiers[i].X && y == frontiers[i].Y {
+					//fmt.Println("so, it's the same node")
+					continue
+				}
+				//fmt.Println("so, set Weight, then add to adjacent")
+				nodes[x][y].Weight = w
+				adjacent = append(adjacent, nodes[x][y])
 			}
 		}
 	}
-	return neightbours
+	//for i := 0; i < len(adjacent); i++ {
+	//fmt.Println(adjacent[i].X, adjacent[i].Y, adjacent[i].Weight)
+	//}
+	//fmt.Println("end")
+	return adjacent
 }
 
 func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	nodes := TilesToNodes(b) //convert tiles to nodes
-	//START
-	for x := 0; x < WindowSizeX; x++ {
-		for y := 0; y < WindowSizeY; y++ {
-			fmt.Println(nodes[x][y].Weight)
-		}
-	}
-	//END
-	goal := nodes[tx][ty] //define start point and target point
 	start := nodes[c.X][c.Y]
-	//START
-	fmt.Println(goal.X, goal.Y)
-	fmt.Println(start.X, start.Y)
-	//END
-	var frontiers = []*Node{goal} //frontier list; list of all nodes with previous values
-	//START
-	for i := 0; i < len(frontiers); i++ {
-		fmt.Println(frontiers[i].X, frontiers[i].Y, frontiers[i].Weight)
-	}
-	//END
-	w := nodeBaseWeight
-	i := 0
+	_ = start //not necessary just now
+	goal := nodes[tx][ty]
+	goal.Weight = 0
+	var frontiers = []*Node{goal}
+	w := 0
 	for {
-		i++
+		fmt.Println(len(frontiers))
+		//blt.Read()
+		//fmt.Println()
+		//fmt.Println()
+		//fmt.Println()
 		w++
-		for i := 0; i < len(frontiers); i++ {
-			frontiers[i].Weight = w
-		}
-		//START
-		for j := 0; j < len(frontiers); j++ {
-			fmt.Println(frontiers[j].Weight)
-		}
-		//END
-		frontiers = FindNeighbours(nodes, frontiers) //could I do it with only one slice? ie, it's just new frontiers...
-		//START
-		for k := 0; k < len(frontiers); k++ {
-			fmt.Println(frontiers[k].X, frontiers[k].Y, frontiers[k].Weight)
-		}
-		//END
-		if i > 1 {
+		//for i := 0; i < len(frontiers); i++ {
+		//	fmt.Println(frontiers[i].X, frontiers[i].Y, frontiers[i].Weight)
+		//}
+		if len(frontiers) == 0 {
+			//fmt.Println("so, break the loop")
 			break
 		}
+		//for i := 0; i < len(frontiers); i++ {
+		//	fmt.Println(frontiers[i].X, frontiers[i].Y, frontiers[i].Weight)
+		//}
+		//fmt.Println()
+		frontiers = FindAdjacent(nodes, frontiers, w)
 	}
+	fmt.Println("DONE!")
 }
 
 /* NOT USED YET

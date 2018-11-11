@@ -90,9 +90,9 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 		}
 		frontiers, startFound = FindAdjacent(nodes, frontiers, start, w)
 	}
+	RenderWeights(nodes)
 	dx, dy := BacktrackPath(nodes, start)
 	c.Move(dx, dy, b)
-	//RenderWeights(nodes)
 }
 
 func BacktrackPath(nodes [][]*Node, start *Node) (int, int) {

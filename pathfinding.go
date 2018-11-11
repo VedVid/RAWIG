@@ -47,8 +47,9 @@ func TilesToNodes(b Board) [][]*Node {
 	return nodes
 }
 
-func FindAdjacent(nodes [][]*Node, frontiers []*Node, w int) []*Node {
+func FindAdjacent(nodes [][]*Node, frontiers []*Node, start *Node, w int) ([]*Node, bool) {
 	var adjacent = []*Node{}
+	startFound := false
 	for i := 0; i < len(frontiers); i++ {
 		for x := (frontiers[i].X - 1); x <= (frontiers[i].X + 1); x++ {
 			for y := (frontiers[i].Y - 1); y <= (frontiers[i].Y + 1); y++ {
@@ -63,27 +64,33 @@ func FindAdjacent(nodes [][]*Node, frontiers []*Node, w int) []*Node {
 				}
 				nodes[x][y].Weight = w
 				adjacent = append(adjacent, nodes[x][y])
+				if x == start.X && y == start.Y {
+					startFound = true
+					goto End
+				}
 			}
 		}
 	}
-	return adjacent
+End:
+	return adjacent, startFound
 }
 
 func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	nodes := TilesToNodes(b) //convert tiles to nodes
 	start := nodes[c.X][c.Y]
-	_ = start //not necessary just now
+	startFound := false
 	goal := nodes[tx][ty]
 	goal.Weight = 0
 	var frontiers = []*Node{goal}
 	w := 0
 	for {
 		w++
-		if len(frontiers) == 0 {
+		if len(frontiers) == 0 || startFound == true {
 			break
 		}
-		frontiers = FindAdjacent(nodes, frontiers, w)
+		frontiers, startFound = FindAdjacent(nodes, frontiers, start, w)
 	}
+	RenderWeights(nodes)
 }
 
 func RenderWeights(nodes [][]*Node) { //for debugging purposes

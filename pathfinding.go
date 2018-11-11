@@ -109,7 +109,7 @@ func BacktrackPath(nodes [][]*Node, start *Node) *Node {
 				continue
 			}
 			if nodes[x][y].Weight < direction.Weight {
-				direction = nodes[x][y]
+				direction = *nodes[x][y]
 			}
 		}
 	}

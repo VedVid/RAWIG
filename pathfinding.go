@@ -51,35 +51,23 @@ func TilesToNodes(b Board) [][]*Node {
 
 func FindAdjacent(nodes [][]*Node, frontiers []*Node, w int) []*Node {
 	var adjacent = []*Node{}
-	//fmt.Println("FindAdjacent")
 	for i := 0; i < len(frontiers); i++ {
-		//fmt.Println("next frontier")
-		//fmt.Println(frontiers[i].X, frontiers[i].Y, frontiers[i].Weight)
 		for x := (frontiers[i].X - 1); x <= (frontiers[i].X + 1); x++ {
 			for y := (frontiers[i].Y - 1); y <= (frontiers[i].Y + 1); y++ {
-				fmt.Println(nodes[x][y].X, nodes[x][y].Y, nodes[x][y].Weight)
 				if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
-					//fmt.Println("so, out of bounds")
 					continue
 				}
 				if nodes[x][y].Weight != (-1) {
-					//fmt.Println("so, already traversed")
 					continue
 				}
 				if x == frontiers[i].X && y == frontiers[i].Y {
-					//fmt.Println("so, it's the same node")
 					continue
 				}
-				//fmt.Println("so, set Weight, then add to adjacent")
 				nodes[x][y].Weight = w
 				adjacent = append(adjacent, nodes[x][y])
 			}
 		}
 	}
-	//for i := 0; i < len(adjacent); i++ {
-	//fmt.Println(adjacent[i].X, adjacent[i].Y, adjacent[i].Weight)
-	//}
-	//fmt.Println("end")
 	return adjacent
 }
 
@@ -92,23 +80,10 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	var frontiers = []*Node{goal}
 	w := 0
 	for {
-		fmt.Println(len(frontiers))
-		//blt.Read()
-		//fmt.Println()
-		//fmt.Println()
-		//fmt.Println()
 		w++
-		//for i := 0; i < len(frontiers); i++ {
-		//	fmt.Println(frontiers[i].X, frontiers[i].Y, frontiers[i].Weight)
-		//}
 		if len(frontiers) == 0 {
-			//fmt.Println("so, break the loop")
 			break
 		}
-		//for i := 0; i < len(frontiers); i++ {
-		//	fmt.Println(frontiers[i].X, frontiers[i].Y, frontiers[i].Weight)
-		//}
-		//fmt.Println()
 		frontiers = FindAdjacent(nodes, frontiers, w)
 	}
 	fmt.Println("DONE!")

@@ -46,8 +46,7 @@ func main() {
 			turnSpent := Controls(key, player, cells, actors)
 			player.MoveTowardsPath(cells, 10, 10)
 			if turnSpent == true {
-				continue
-				//CreaturesTakeTurn(cells, actors)
+				CreaturesTakeTurn(cells, actors)
 			}
 		}
 	}

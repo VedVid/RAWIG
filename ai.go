@@ -25,6 +25,7 @@ const (
 	NoAI = iota
 	PlayerAI
 	DumbAI
+	PatherAI
 )
 
 func CreaturesTakeTurn(b Board, c Creatures) {
@@ -46,6 +47,12 @@ func CreaturesTakeTurn(b Board, c Creatures) {
 		case DumbAI:
 			if v.DistanceTo(c[0].X, c[0].Y) > 1 {
 				v.MoveTowardsDumb(b, c[0].X, c[0].Y)
+			} else {
+				v.AttackTarget(c[0])
+			}
+		case PatherAI:
+			if v.DistanceTo(c[0].X, c[0].Y) > 1 {
+				v.MoveTowardsPath(b, c[0].X, c[0].Y)
 			} else {
 				v.AttackTarget(c[0])
 			}

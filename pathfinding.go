@@ -105,6 +105,9 @@ func BacktrackPath(nodes [][]*Node, start []*Node) *Node {
 			if x == start.X && y == start.Y {
 				continue
 			}
+			if nodes[x][y].Weight < 0 {
+				continue
+			}
 		}
 	}
 	return &direction

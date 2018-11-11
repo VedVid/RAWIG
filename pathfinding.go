@@ -90,7 +90,24 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 		}
 		frontiers, startFound = FindAdjacent(nodes, frontiers, start, w)
 	}
+	direction := BacktrackPath(nodes, start)
+	c.Move(b)
 	//RenderWeights(nodes)
+}
+
+func BacktrackPath(nodes [][]*Node, start []*Node) *Node {
+	direction := *start
+	for x := (start.X - 1); x <= (start.X + 1); x++ {
+		for y := (start.Y - 1); y <= (start.Y + 1); y++ {
+			if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
+				continue
+			}
+			if x == start.X && y == start.Y {
+				continue
+			}
+		}
+	}
+	return &direction
 }
 
 func RenderWeights(nodes [][]*Node) { //for debugging purposes

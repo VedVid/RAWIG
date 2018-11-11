@@ -108,8 +108,12 @@ func BacktrackPath(nodes [][]*Node, start *Node) *Node {
 			if nodes[x][y].Weight < 0 {
 				continue
 			}
+			if nodes[x][y].Weight < direction.Weight {
+				direction = nodes[x][y]
+			}
 		}
 	}
+	//needs error checking if couldn't find tile with smaller weight than start
 	return &direction
 }
 

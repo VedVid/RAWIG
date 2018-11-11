@@ -30,7 +30,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "green", "green", false, true, false, DumbAI, 10, 4, 1)
+	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "green", "green", false, true, false, PatherAI, 10, 4, 1)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -44,7 +44,6 @@ func main() {
 			break
 		} else {
 			turnSpent := Controls(key, player, cells, actors)
-			player.MoveTowardsPath(cells, 10, 10)
 			if turnSpent == true {
 				CreaturesTakeTurn(cells, actors)
 			}

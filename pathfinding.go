@@ -20,7 +20,6 @@ freely, subject to the following restrictions:
 
 package main
 
-import "fmt"
 import "math"
 import "strconv"
 import blt "bearlibterminal"
@@ -120,9 +119,9 @@ func BacktrackPath(nodes [][]*Node, start *Node) (int, int) {
 }
 
 func RenderWeights(nodes [][]*Node) { //for debugging purposes
+	blt.Clear()
 	for x := 0; x < WindowSizeX; x++ {
 		for y := 0; y < WindowSizeY; y++ {
-			fmt.Println(nodes[x][y].X, nodes[x][y].Y, nodes[x][y].Weight)
 			glyph := strconv.Itoa(nodes[x][y].Weight)
 			if nodes[x][y].Weight < 0 {
 				glyph = "-"

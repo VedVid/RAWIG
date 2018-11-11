@@ -44,8 +44,10 @@ func main() {
 			break
 		} else {
 			turnSpent := Controls(key, player, cells, actors)
+			fmt.Println(player.X, player.Y)
 			if turnSpent == true {
 				CreaturesTakeTurn(cells, actors)
+				fmt.Println(player.X, player.Y)
 			}
 		}
 	}

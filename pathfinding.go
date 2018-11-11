@@ -90,12 +90,12 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 		}
 		frontiers, startFound = FindAdjacent(nodes, frontiers, start, w)
 	}
-	direction := BacktrackPath(nodes, start)
-	c.Move(direction.X, direction.Y, b)
+	dx, dy := BacktrackPath(nodes, start)
+	c.Move(dx, dy, b)
 	//RenderWeights(nodes)
 }
 
-func BacktrackPath(nodes [][]*Node, start *Node) *Node {
+func BacktrackPath(nodes [][]*Node, start *Node) (int, int) {
 	direction := *start
 	for x := (start.X - 1); x <= (start.X + 1); x++ {
 		for y := (start.Y - 1); y <= (start.Y + 1); y++ {
@@ -114,7 +114,9 @@ func BacktrackPath(nodes [][]*Node, start *Node) *Node {
 		}
 	}
 	//needs error checking if couldn't find tile with smaller weight than start
-	return &direction
+	dx := direction.X - start.X
+	dy := direction.Y - start.Y
+	return dx, dy
 }
 
 func RenderWeights(nodes [][]*Node) { //for debugging purposes

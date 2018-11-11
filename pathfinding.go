@@ -91,11 +91,11 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 		frontiers, startFound = FindAdjacent(nodes, frontiers, start, w)
 	}
 	direction := BacktrackPath(nodes, start)
-	c.Move(b)
+	c.Move(direction.X, direction.Y, b)
 	//RenderWeights(nodes)
 }
 
-func BacktrackPath(nodes [][]*Node, start []*Node) *Node {
+func BacktrackPath(nodes [][]*Node, start *Node) *Node {
 	direction := *start
 	for x := (start.X - 1); x <= (start.X + 1); x++ {
 		for y := (start.Y - 1); y <= (start.Y + 1); y++ {

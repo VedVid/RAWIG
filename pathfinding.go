@@ -20,12 +20,10 @@ freely, subject to the following restrictions:
 
 package main
 
-import "math"
-
-//import "strconv"
-//import blt "bearlibterminal"
-
 import "fmt"
+import "math"
+import "strconv"
+import blt "bearlibterminal"
 
 const nodeBaseWeight = -1
 const nodeGoalWeight = 0
@@ -86,24 +84,24 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 		}
 		frontiers = FindAdjacent(nodes, frontiers, w)
 	}
-	fmt.Println("DONE!")
 }
 
-/* NOT USED YET
-func RenderPath(nodes [][]*Node) {
-	blt.Layer(5)
+func RenderWeights(nodes [][]*Node) { //for debugging purposes
 	for x := 0; x < WindowSizeX; x++ {
 		for y := 0; y < WindowSizeY; y++ {
+			fmt.Println(nodes[x][y].X, nodes[x][y].Y, nodes[x][y].Weight)
 			glyph := strconv.Itoa(nodes[x][y].Weight)
 			if nodes[x][y].Weight < 0 {
-				glyph = "X"
+				glyph = "-"
+			} else if nodes[x][y].Weight > 9 {
+				glyph = "+"
 			}
 			blt.Print(x, y, glyph)
-			fmt.Println(x, y, glyph)
 		}
 	}
+	blt.Refresh()
+	blt.Read()
 }
-*/
 
 func (c *Creature) MoveTowardsDumb(b Board, tx, ty int) {
 	/*MoveTowardsDumb is Creature method;

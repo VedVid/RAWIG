@@ -90,7 +90,7 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 		}
 		frontiers, startFound = FindAdjacent(nodes, frontiers, start, w)
 	}
-	RenderWeights(nodes)
+	//RenderWeights(nodes)
 }
 
 func RenderWeights(nodes [][]*Node) { //for debugging purposes

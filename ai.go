@@ -47,11 +47,7 @@ func CreaturesTakeTurn(b Board, c Creatures) {
 		case DumbAI:
 			v.UseDumbAI(b, c, c[0].X, c[0].Y)
 		case PatherAI:
-			if v.DistanceTo(c[0].X, c[0].Y) > 1 {
-				v.MoveTowardsPath(b, c[0].X, c[0].Y)
-			} else {
-				v.AttackTarget(c[0])
-			}
+			v.UsePatherAI(b, c, c[0].X, c[0].Y)
 		default:
 			continue
 		}
@@ -61,6 +57,14 @@ func CreaturesTakeTurn(b Board, c Creatures) {
 func (c *Creature) UseDumbAI(b Board, cs Creatures, tx, ty int) {
 	if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
 		c.MoveTowardsDumb(b, cs[0].X, cs[0].Y)
+	} else {
+		c.AttackTarget(cs[0])
+	}
+}
+
+func (c *Creature) UsePatherAI(b Board, cs Creatures, tx, ty int) {
+	if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
+		c.MoveTowardsPath(b, cs[0].X, cs[0].Y)
 	} else {
 		c.AttackTarget(cs[0])
 	}

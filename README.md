@@ -36,5 +36,5 @@ RAWIG is built from scratch. Yet, due historical reasons, it is influenced by Jo
 
 ### Contributors
 
-[Adam](https://github.com/adam-weiler)
+[Adam](https://github.com/adam-weiler)  
 [Travis Yoder](https://github.com/trayo)

@@ -30,13 +30,29 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "green", "green", false, true, false, DumbAI, 10, 4, 1)
+	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "green", "green", false, true, false, PatherAI, 10, 4, 1)
 	if err != nil {
 		fmt.Println(err)
 	}
 	var actors = Creatures{player, enemy}
 	var objs = Objects{}
 	cells := InitializeEmptyMap()
+	cells[3][3].Blocked = true
+	cells[3][3].Char = "#"
+	cells[4][3].Blocked = true
+	cells[4][3].Char = "#"
+	cells[5][3].Blocked = true
+	cells[5][3].Char = "#"
+	cells[6][3].Blocked = true
+	cells[6][3].Char = "#"
+	cells[7][3].Blocked = true
+	cells[7][3].Char = "#"
+	cells[7][4].Blocked = true
+	cells[7][4].Char = "#"
+	cells[7][5].Blocked = true
+	cells[7][5].Char = "#"
+	cells[7][6].Blocked = true
+	cells[7][6].Char = "#"
 	for {
 		RenderAll(cells, objs, actors)
 		key := blt.Read()
@@ -44,8 +60,10 @@ func main() {
 			break
 		} else {
 			turnSpent := Controls(key, player, cells, actors)
+			fmt.Println(player.X, player.Y)
 			if turnSpent == true {
 				CreaturesTakeTurn(cells, actors)
+				fmt.Println(player.X, player.Y)
 			}
 		}
 	}

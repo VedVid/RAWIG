@@ -25,6 +25,7 @@ const (
 	NoAI = iota
 	PlayerAI
 	DumbAI
+	PatherAI
 )
 
 func CreaturesTakeTurn(b Board, c Creatures) {
@@ -34,23 +35,19 @@ func CreaturesTakeTurn(b Board, c Creatures) {
 	Iterates through all Creatures slice, and handles creature behavior:
 	if distance between creature and player is bigger than 1, creature
 	moves towards player. Else, it attacks.
-	It uses switch for matching AIType and behavior. Skips Creatures with NoAI
-	(ie corpses) and PlayerAI.
-	At first, I wanted to use map[int]METHOD, but it's not easy to implement.*/
+	It passed Creature's ai type as argument of MoveTowards to force
+	different behavior.*/
+	var ai int
 	for _, v := range c {
-		switch v.AIType {
-		case NoAI:
+		ai = v.AIType
+		if ai == NoAI || ai == PlayerAI {
 			continue
-		case PlayerAI:
-			continue
-		case DumbAI:
+		} else {
 			if v.DistanceTo(c[0].X, c[0].Y) > 1 {
-				v.MoveTowardsDumb(b, c[0].X, c[0].Y)
+				v.MoveTowards(b, c[0].X, c[0].Y, ai)
 			} else {
 				v.AttackTarget(c[0])
 			}
-		default:
-			continue
 		}
 	}
 }

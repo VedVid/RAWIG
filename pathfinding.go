@@ -61,7 +61,7 @@ func FindAdjacent(b Board, nodes [][]*Node, frontiers []*Node, start *Node, w in
 				if x == frontiers[i].X && y == frontiers[i].Y {
 					continue
 				}
-				if b[x][y].Blocked == true {
+				if b[x][y].Blocked == true || b[x][y].BlocksSight == true {
 					continue
 				}
 				nodes[x][y].Weight = w

@@ -46,7 +46,7 @@ func TilesToNodes(b Board) [][]*Node {
 	return nodes
 }
 
-func FindAdjacent(nodes [][]*Node, frontiers []*Node, start *Node, w int) ([]*Node, bool) {
+func FindAdjacent(b Board, nodes [][]*Node, frontiers []*Node, start *Node, w int) ([]*Node, bool) {
 	var adjacent = []*Node{}
 	startFound := false
 	for i := 0; i < len(frontiers); i++ {
@@ -59,6 +59,9 @@ func FindAdjacent(nodes [][]*Node, frontiers []*Node, start *Node, w int) ([]*No
 					continue
 				}
 				if x == frontiers[i].X && y == frontiers[i].Y {
+					continue
+				}
+				if b[x][y].Blocked == true {
 					continue
 				}
 				nodes[x][y].Weight = w
@@ -87,7 +90,7 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 		if len(frontiers) == 0 || startFound == true {
 			break
 		}
-		frontiers, startFound = FindAdjacent(nodes, frontiers, start, w)
+		frontiers, startFound = FindAdjacent(b, nodes, frontiers, start, w)
 	}
 	//RenderWeights(nodes)
 	dx, dy := BacktrackPath(nodes, start)

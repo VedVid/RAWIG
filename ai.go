@@ -38,34 +38,17 @@ func CreaturesTakeTurn(b Board, c Creatures) {
 	It uses switch for matching AIType and behavior. Skips Creatures with NoAI
 	(ie corpses) and PlayerAI.
 	At first, I wanted to use map[int]METHOD, but it's not easy to implement.*/
+	var ai int
 	for _, v := range c {
-		switch v.AIType {
-		case NoAI:
+		ai = v.AIType
+		if ai == NoAI || ai == PlayerAI {
 			continue
-		case PlayerAI:
-			continue
-		case DumbAI:
-			v.UseDumbAI(b, c, c[0].X, c[0].Y)
-		case PatherAI:
-			v.UsePatherAI(b, c, c[0].X, c[0].Y)
-		default:
-			continue
+		} else {
+			if v.DistanceTo(c[0].X, c[0].Y) > 1 {
+				v.MoveTowards(b, c[0].X, c[0].Y, ai)
+			} else {
+				v.AttackTarget(c[0])
+			}
 		}
-	}
-}
-
-func (c *Creature) UseDumbAI(b Board, cs Creatures, tx, ty int) {
-	if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
-		c.MoveTowardsDumb(b, cs[0].X, cs[0].Y)
-	} else {
-		c.AttackTarget(cs[0])
-	}
-}
-
-func (c *Creature) UsePatherAI(b Board, cs Creatures, tx, ty int) {
-	if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
-		c.MoveTowardsPath(b, cs[0].X, cs[0].Y)
-	} else {
-		c.AttackTarget(cs[0])
 	}
 }

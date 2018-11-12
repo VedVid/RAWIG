@@ -135,10 +135,7 @@ func RenderWeights(nodes [][]*Node) { //for debugging purposes
 	blt.Read()
 }
 
-func (c *Creature) MoveTowardsDumb(b Board, tx, ty int) {
-	/*MoveTowardsDumb is Creature method;
-	  it is main part of creature pathfinding. It is very simple algorithm that
-	  is not supposed to replace good, old A-Star.*/
+func (c *Creature) MoveTowards(b Board, tx, ty int, ai int) {
 	dx := tx - c.X
 	dy := ty - c.Y
 	ddx, ddy := 0, 0
@@ -155,14 +152,18 @@ func (c *Creature) MoveTowardsDumb(b Board, tx, ty int) {
 	if b[c.X+ddx][c.Y+ddy].Blocked == false {
 		c.Move(ddx, ddy, b)
 	} else {
-		if ddx != 0 {
-			if b[c.X+ddx][c.Y].Blocked == false {
-				c.Move(ddx, 0, b)
+		if ai == DumbAI {
+			if ddx != 0 {
+				if b[c.X+ddx][c.Y].Blocked == false {
+					c.Move(ddx, 0, b)
+				}
+			} else if ddy != 0 {
+				if b[c.X][c.Y+ddy].Blocked == false {
+					c.Move(0, ddy, b)
+				}
 			}
-		} else if ddy != 0 {
-			if b[c.X][c.Y+ddy].Blocked == false {
-				c.Move(0, ddy, b)
-			}
+		} else {
+			c.MoveTowardsPath(b, tx, ty)
 		}
 	}
 }

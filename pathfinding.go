@@ -20,10 +20,13 @@ freely, subject to the following restrictions:
 
 package main
 
-import "errors"
-import "math"
-import "strconv"
-import blt "bearlibterminal"
+import (
+	"errors"
+	"math"
+	"strconv"
+
+	blt "bearlibterminal"
+)
 
 const (
 	//values important for creating and backtracking graph

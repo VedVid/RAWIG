@@ -20,9 +20,7 @@ freely, subject to the following restrictions:
 
 package main
 
-import (
-	"math"
-)
+import "math"
 
 const (
 	//values for handling field of view algorithm execution

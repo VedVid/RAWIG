@@ -37,6 +37,22 @@ func main() {
 	var actors = Creatures{player, enemy}
 	var objs = Objects{}
 	cells := InitializeEmptyMap()
+	cells[3][3].Blocked = true
+	cells[3][3].Char = "#"
+	cells[4][3].Blocked = true
+	cells[4][3].Char = "#"
+	cells[5][3].Blocked = true
+	cells[5][3].Char = "#"
+	cells[6][3].Blocked = true
+	cells[6][3].Char = "#"
+	cells[7][3].Blocked = true
+	cells[7][3].Char = "#"
+	cells[7][4].Blocked = true
+	cells[7][4].Char = "#"
+	cells[7][5].Blocked = true
+	cells[7][5].Char = "#"
+	cells[7][6].Blocked = true
+	cells[7][6].Char = "#"
 	for {
 		RenderAll(cells, objs, actors)
 		key := blt.Read()

@@ -36,14 +36,15 @@ func (c *Creature) AttackTarget(t *Creature) {
 		crit = true
 		att2 = RandInt(c.Attack)
 	}
-	if att < def { //if attack score if lower than target defense
+	switch {
+	case att < def: //attack score if lower than target defense
 		if crit == false {
 			fmt.Println("Attack deflected!")
 		} else {
 			dmg = att2 //critical hit, but against heavily armored enemy
 			fmt.Println("Critical hit! <heavily armored enemy>")
 		}
-	} else if att == def { //if attack score is equal to target defense
+	case att == def: //attack score is equal to target defense
 		if crit == false {
 			dmg = 1 //just a scratch...
 			fmt.Println("Attack successful, but it is just a scratch...")
@@ -51,7 +52,7 @@ func (c *Creature) AttackTarget(t *Creature) {
 			dmg = att
 			fmt.Println("Critical hit, but it barely bypassed opponent's armor.")
 		}
-	} else { //if attack score is bigger than target defense
+	case att > def: //attack score is bigger than target defense
 		if crit == false {
 			dmg = att
 			fmt.Println("Successful attack!")

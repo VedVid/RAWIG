@@ -20,6 +20,7 @@ freely, subject to the following restrictions:
 
 package main
 
+import "errors"
 import "math"
 import "strconv"
 import blt "bearlibterminal"
@@ -140,11 +141,14 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	}
 	//uncomment line below, if you want to see nodes' weights
 	//RenderWeights(nodes)
-	dx, dy := BacktrackPath(nodes, start)
+	dx, dy, err := BacktrackPath(nodes, start)
+	if err != nil {
+		fmt.Println(err)
+	}
 	c.Move(dx, dy, b)
 }
 
-func BacktrackPath(nodes [][]*Node, start *Node) (int, int) {
+func BacktrackPath(nodes [][]*Node, start *Node) (int, int, error) {
 	/*Function BacktrackPath takes 2d array of *Node, and
 	starting *Node as arguments; it returns two ints, that serves
 	as coords;
@@ -152,7 +156,9 @@ func BacktrackPath(nodes [][]*Node, start *Node) (int, int) {
 	that has some sort of path already created (more in comments for
 	MoveTowardsPath and FindAdjacent) as argument; instead of creating
 	proper path, or using search algorithm, structure of graph
-	allows to use just node with smaller Weight than start node.*/
+	allows to use just node with smaller Weight than start node.
+	It returns error if can't find proper tile.
+	Note: returning three values at once is ugly.*/
 	direction := *start
 	for x := (start.X - 1); x <= (start.X + 1); x++ {
 		for y := (start.Y - 1); y <= (start.Y + 1); y++ {
@@ -170,10 +176,15 @@ func BacktrackPath(nodes [][]*Node, start *Node) (int, int) {
 			}
 		}
 	}
-	//needs error checking if couldn't find tile with smaller weight than start
+	var err error
+	if direction == *start {
+		//this error doesn't need helper function from err_.go
+		err = errors.New("Warning: function BacktrackPath could not find direction that met all requirements." +
+			"\n    Returned coords are coords of starting position.")
+	}
 	dx := direction.X - start.X
 	dy := direction.Y - start.Y
-	return dx, dy
+	return dx, dy, err
 }
 
 func RenderWeights(nodes [][]*Node) {

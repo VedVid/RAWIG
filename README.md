@@ -20,6 +20,9 @@ RAWIG is small, personal project, and doesn't have proper, detailed roadmap. How
 
 Every revision before first release is potentially unstable.
 
+**0.1**  
+- simple level generator (stored in [gorogue-extras](https://github.com/VedVid/gorogue-extras) )
+
 **0.2**  
 - menuses (inventory, character screen)  
 - message log  

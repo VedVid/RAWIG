@@ -20,17 +20,20 @@ freely, subject to the following restrictions:
 
 package main
 
-import blt "bearlibterminal"
-import "fmt"
-import "time"
-import "math/rand"
+import (
+	"fmt"
+	"math/rand"
+	"time"
+
+	blt "bearlibterminal"
+)
 
 func main() {
 	player, err := NewPlayer(PlayerLayer, 1, 1, "@", "white", "white", true, true, false, PlayerAI, 20, 5, 2)
 	if err != nil {
 		fmt.Println(err)
 	}
-	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "green", "green", false, true, false, DumbAI, 10, 4, 1)
+	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "green", "green", false, true, false, PatherAI, 10, 4, 1)
 	if err != nil {
 		fmt.Println(err)
 	}

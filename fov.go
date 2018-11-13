@@ -30,11 +30,14 @@ const (
 )
 
 var (
+	// Slices to store FOV Rays values.
+	// Should be immutable, but Go doesn't support immutable variables
 	sinBase = []float64{}
 	cosBase = []float64{}
 )
 
 func InitializeFOVTables() {
+	// Function InitializeFOVTables creates data for raycasting.
 	for i := 0; i < FOVRays; i++ {
 		x := math.Sin(float64(i) / (float64(180) / math.Pi))
 		y := math.Cos(float64(i) / (float64(180) / math.Pi))

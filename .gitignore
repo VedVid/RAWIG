@@ -1,3 +1,8 @@
 *.backup
 *.sublime-project
 *.sublime-workspace
+*.dll
+*.exe
+*.orig
+*.txt
+*.ttf

@@ -27,23 +27,24 @@ import (
 )
 
 func SetGlyph(path, number, filter string, size int) string {
-	/*Function SetTile allows to use special tiles (glyphs, bitmaps)
-	as font elements; it returns unicode number;
-	number variables has to be formatted in that way:
-	U+<unicode-number>, like: U+E001
-	Later, that U+E001 identifier may be used in printing functions, like
-	wall := 0xE001 (note different format!); blt.Print(x, y, wall)*/
+	/* Function SetTile allows to use special tiles (glyphs, bitmaps)
+	   as font elements; it returns unicode number.
+	   Number variable has to be formatted in that way:
+	   U+<unicode-number>, like: U+E001
+	   Later, that U+E001 identifier may be used in printing functions, like
+	   wall := 0xE001 (note different format!); blt.Print(x, y, wall). */
 	blt.Set(number + ": " + path + ", resize=" + strconv.Itoa(size) + ", resize-filter=" + filter)
 	return "0x" + number[2:]
 }
 
 func SetColor(name, number string) string {
-	/*Function SetColor allows to declare specified colors
-	by passing custom name and its code; default, it uses
-	hex values, but BearLibTerminal supports others formats
-	as well: check blt documentation here:
-	http://foo.wyrd.name/en:bearlibterminal:reference;
-	SetColor returns name string.*/
+	/* Function SetColor allows to declare specified colors
+	   by passing custom name and its code.
+	   By default, it uses hex values, but BearLibTerminal
+	   supports others formats as well:
+	   check blt documentation available on
+	   http://foo.wyrd.name/en:bearlibterminal:reference
+	   SetColor returns name string. */
 	blt.Set("palette: " + name + " = " + number)
 	return name
 }

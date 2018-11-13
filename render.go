@@ -32,16 +32,17 @@ const (
 )
 
 func PrintBoard(b Board, c Creatures) {
-	/*Function PrintBoard is used in RenderAll;
-	it takes level map as arguments and iterates through 2d slice;
-	prints every tile on its coords if certain conditions are met:
-	is Explored already, and:
-	- is in player's field of view (prints "normal" color) or
-	- is AlwaysVisible (prints dark color).*/
+	/* Function PrintBoard is used in RenderAll function.
+	   Takes level map and list of monsters as arguments
+	   and iterates through Board.
+	   Prints every tile on its coords if certain conditions are met:
+	   is Explored already, and:
+	   - is in player's field of view (prints "normal" color) or
+	   - is AlwaysVisible (prints dark color). */
 	for x := 0; x < WindowSizeX; x++ {
 		for y := 0; y < WindowSizeY; y++ {
-			//technically, "t" is new variable with own memory address...
-			t := b[x][y] //should it be &b[x][y]?
+			// Technically, "t" is new variable with own memory address...
+			t := b[x][y] // Should it be *b[x][y]?
 			blt.Layer(t.Layer)
 			if t.Explored == true {
 				if IsInFOV(b, c[0].X, c[0].Y, t.X, t.Y) == true {
@@ -59,10 +60,12 @@ func PrintBoard(b Board, c Creatures) {
 }
 
 func PrintObjects(b Board, o Objects, c Creatures) {
-	/*Function PrintObjects is used in RenderAll;
-	it takes slice of objects as argument and iterates through it;
-	prints every object on its coords if certain conditions are met:
-	AlwaysVisible bool is set to true, or is in player fov.*/
+	/* Function PrintObjects is used in RenderAll function.
+	   Takes map of level, slice of objects, and all monsters
+	   as arguments.
+	   Iterates through Objects.
+	   Prints every object on its coords if certain conditions are met:
+	   AlwaysVisible bool is set to true, or is in player fov. */
 	for _, v := range o {
 		if (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
 			(v.AlwaysVisible == true) {
@@ -74,10 +77,11 @@ func PrintObjects(b Board, o Objects, c Creatures) {
 }
 
 func PrintCreatures(b Board, c Creatures) {
-	/*Function PrintCreatures is used in RenderAll;
-	it takes slice of creatures as argument and iterates through it;
-	checks for every creature on its coords if certain conditions are met:
-	AlwaysVisible bool is set to true, or is in player fov.*/
+	/* Function PrintCreatures is used in RenderAll function.
+	   Takes map of level and slice of Creatures as arguments.
+	   Iterates through Creatures.
+	   Checks for every creature on its coords if certain conditions are met:
+	   AlwaysVisible bool is set to true, or is in player fov. */
 	for _, v := range c {
 		if (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
 			(v.AlwaysVisible == true) {
@@ -89,15 +93,14 @@ func PrintCreatures(b Board, c Creatures) {
 }
 
 func RenderAll(b Board, o Objects, c Creatures) {
-	/*Function RenderAll prints every tile and character on game screen;
-	takes board slice (ie level map), slice of objects, and slice of creatures
-	as arguments;
-	at first, it clears whole terminal window, then uses arguments:
-	CastRays (for raycasting FOV) of first object (assuming that it is player),
-	then:
-	call functions for printing map, objects and creatures;
-	at the end, RenderAll calls blt.Refresh() that makes
-	changes to the game window visible*/
+	/* Function RenderAll prints every tile and character on game screen.
+	   Takes board slice (ie level map), slice of objects, and slice of creatures
+	   as arguments.
+	   At first, it clears whole terminal window, then uses arguments:
+	   CastRays (for raycasting FOV) of first object (assuming that it is player),
+	   then calls functions for printing map, objects and creatures.
+	   At the end, RenderAll calls blt.Refresh() that makes
+	   changes to the game window visible. */
 	blt.Clear()
 	CastRays(b, c[0].X, c[0].Y)
 	PrintBoard(b, c)

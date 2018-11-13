@@ -27,7 +27,7 @@ import (
 )
 
 const (
-	//colors
+	// Colors.
 	colorPlayer     = "white"
 	colorPlayerDark = "white"
 )
@@ -35,9 +35,9 @@ const (
 func NewPlayer(layer, x, y int, character, color, colorDark string,
 	alwaysVisible, blocked, blocksSight bool, ai, hp, attack,
 	defense int) (*Creature, error) {
-	/*Function NewPlayer takes all values necessary by its struct,
-	and creates then returns pointer to Creature;
-	so, it's basically NewCreature function.*/
+	/* Function NewPlayer takes all values necessary by its struct,
+	   and creates then returns pointer to Creature;
+	   so, it's basically NewCreature function. */
 	var err error
 	if layer < 0 {
 		txt := LayerError(layer)

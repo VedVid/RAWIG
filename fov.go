@@ -23,9 +23,9 @@ package main
 import "math"
 
 const (
-	//values for handling field of view algorithm execution
-	FOVRays   = 360 //whole area around player; it may not work properly with other values
-	FOVLength = 5   //sight range
+	// Values for handling field of view algorithm execution.
+	FOVRays   = 360 // Whole area around player; it may not work properly with other values.
+	FOVLength = 5   // Sight range.
 	FOVStep   = 1
 )
 
@@ -44,12 +44,12 @@ func InitializeFOVTables() {
 }
 
 func CastRays(b Board, sx, sy int) {
-	/*Function castRays is simple raycasting function for turning tiles to
-	explored.
-	It casts (fovRays / fovStep) rays (bigger fovStep means faster but
-	more error-prone raycasting) from player to coordinates in fovLength range.
-	Source of algorithm:
-	http://www.roguebasin.com/index.php?title=Raycasting_in_python [20170712]*/
+	/* Function castRays is simple raycasting function for turning tiles to
+	   explored.
+	   It casts (fovRays / fovStep) rays (bigger fovStep means faster but
+	   more error-prone raycasting) from player to coordinates in fovLength range.
+	   Source of algorithm:
+	   http://www.roguebasin.com/index.php?title=Raycasting_in_python [20170712] */
 	for i := 0; i < FOVRays; i += FOVStep {
 		rayX := sinBase[i]
 		rayY := cosBase[i]
@@ -73,13 +73,13 @@ func CastRays(b Board, sx, sy int) {
 }
 
 func IsInFOV(b Board, sx, sy, tx, ty int) bool {
-	/*Function isInFOV checks if target (tx, ty) is in fov of source (sx, sy).
-	Returns true if tx, ty == sx, sy; otherwise, it casts (FOVRays / fovStep)
-	rays (bigger fovStep means faster but more error-prone algorithm)
-	from source to tiles in fovLength range;
-	stops if cell has BlocksSight bool set to true.
-	Source of algorithm:
-	http://www.roguebasin.com/index.php?title=Raycasting_in_python [20170712].*/
+	/* Function isInFOV checks if target (tx, ty) is in fov of source (sx, sy).
+	   Returns true if tx, ty == sx, sy; otherwise, it casts (FOVRays / fovStep)
+	   rays (bigger fovStep means faster but more error-prone algorithm)
+	   from source to tiles in fovLength range;
+	   stops if cell has BlocksSight bool set to true.
+	   Source of algorithm:
+	   http://www.roguebasin.com/index.php?title=Raycasting_in_python [20170712]. */
 	if sx == tx && sy == ty {
 		return true
 	}

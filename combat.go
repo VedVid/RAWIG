@@ -23,10 +23,10 @@ package main
 import "fmt"
 
 func (c *Creature) AttackTarget(t *Creature) {
-	/*Method Attack handles damage rolls for combat. Receiver "c" is attacker,
-	argument "t" is target. Critical hit is if attack roll is the same as receiver
-	attack attribute.
-	Println calls will remain here until message log will be implemented.*/
+	/* Method Attack handles damage rolls for combat. Receiver "c" is attacker,
+	   argument "t" is target. Critical hit is if attack roll is the same as receiver
+	   attack attribute.
+	   Println calls will remain here until message log will be implemented. */
 	att := RandInt(c.Attack) //basic attack roll
 	att2 := 0                //critical bonus
 	def := t.Defense         //opponent's defense
@@ -36,27 +36,28 @@ func (c *Creature) AttackTarget(t *Creature) {
 		crit = true
 		att2 = RandInt(c.Attack)
 	}
-	if att < def { //if attack score if lower than target defense
+	switch {
+	case att < def: // Attack score if lower than target defense.
 		if crit == false {
 			fmt.Println("Attack deflected!")
 		} else {
-			dmg = att2 //critical hit, but against heavily armored enemy
+			dmg = att2 // Critical hit, but against heavily armored enemy.
 			fmt.Println("Critical hit! <heavily armored enemy>")
 		}
-	} else if att == def { //if attack score is equal to target defense
+	case att == def: // Attack score is equal to target defense.
 		if crit == false {
-			dmg = 1 //just a scratch...
+			dmg = 1 // It's just a scratch...
 			fmt.Println("Attack successful, but it is just a scratch...")
 		} else {
 			dmg = att
 			fmt.Println("Critical hit, but it barely bypassed opponent's armor.")
 		}
-	} else { //if attack score is bigger than target defense
+	case att > def: // Attack score is bigger than target defense.
 		if crit == false {
 			dmg = att
 			fmt.Println("Successful attack!")
 		} else {
-			dmg = att + att2 //critical attack!
+			dmg = att + att2 // Critical attack!
 			fmt.Println("Critical attack!")
 		}
 	}
@@ -64,9 +65,9 @@ func (c *Creature) AttackTarget(t *Creature) {
 }
 
 func (c *Creature) TakeDamage(dmg int) {
-	/*Method TakeDamage has *Creature as receiver and takes damage integer
-	as argument. dmg value is deducted from Creature current HP.
-	If HPCurrent is below zero after taking damage, Creature dies.*/
+	/* Method TakeDamage has *Creature as receiver and takes damage integer
+	   as argument. dmg value is deducted from Creature current HP.
+	   If HPCurrent is below zero after taking damage, Creature dies. */
 	c.HPCurrent -= dmg
 	if c.HPCurrent <= 0 {
 		c.Die()

@@ -23,11 +23,12 @@ package main
 import blt "bearlibterminal"
 
 func Controls(k int, p *Creature, b Board, c Creatures) bool {
-	/*Function Controls is input handler; it takes integer k
-	(keycodes are basically numbers, but creating new "type key int"
-	is not convenient) and Creature p (which is player);
-	Controls handle input, then returns integer value that depends
-	if player spent turn by action or not.*/
+	/* Function Controls is input handler.
+	   It takes integer k (keycodes are basically numbers,
+	   but creating new "type key int" is not convenient)
+	   and Creature p (which is player).
+	   Controls handle input, then returns integer value that depends
+	   if player spent turn by action or not. */
 	var turnSpent bool
 	switch k {
 	case blt.TK_UP:

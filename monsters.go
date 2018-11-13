@@ -26,19 +26,19 @@ import (
 )
 
 const (
-	//colors
+	// Colors.
 	colorCreature     = "green"
 	colorCreatureDark = "dark green"
 )
 
 const (
-	//special characters
+	// Special characters.
 	CorpseChar = "%"
 )
 
 type Creature struct {
-	/*Creatures are living objects that
-	  moves, attacks, dies, etc.*/
+	/* Creatures are living objects that
+	   moves, attacks, dies, etc. */
 	BasicProperties
 	VisibilityProperties
 	CollisionProperties
@@ -46,14 +46,14 @@ type Creature struct {
 	FighterProperties
 }
 
-/*Creatures holds every creature on map.*/
+// Creatures holds every creature on map.
 type Creatures []*Creature
 
 func NewCreature(layer, x, y int, character, color, colorDark string,
 	alwaysVisible, blocked, blocksSight bool, ai, hp, attack,
 	defense int) (*Creature, error) {
-	/*Function NewCreture takes all values necessary by its struct,
-	and creates then returns pointer to Creature*/
+	/* Function NewCreture takes all values necessary by its struct,
+	   and creates then returns pointer to Creature. */
 	var err error
 	if layer < 0 {
 		txt := LayerError(layer)
@@ -92,14 +92,14 @@ func NewCreature(layer, x, y int, character, color, colorDark string,
 }
 
 func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) bool {
-	/*Method MoveOrAttack decides if Creature will move or attack other Creature;
-	It has *Creature receiver, and takes tx, ty (coords) integers as arguments,
-	and map of current level, and list of all Creatures.
-	Starts by target that is nil, then iterates through Creatures. If there is
-	Creature on targeted tile, that Creature becomes new target for attack.
-	Otherwise, Creature moves to specified Tile.
-	It's supposed to take player as receiver (attack / moving enemies is
-	handled differently - check ai.go and combat.go).*/
+	/* Method MoveOrAttack decides if Creature will move or attack other Creature;
+	   It has *Creature receiver, and takes tx, ty (coords) integers as arguments,
+	   and map of current level, and list of all Creatures.
+	   Starts by target that is nil, then iterates through Creatures. If there is
+	   Creature on targeted tile, that Creature becomes new target for attack.
+	   Otherwise, Creature moves to specified Tile.
+	   It's supposed to take player as receiver (attack / moving enemies is
+	   handled differently - check ai.go and combat.go). */
 	var target *Creature
 	var turnSpent bool
 	for i, _ := range all {

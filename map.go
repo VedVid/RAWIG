@@ -27,27 +27,27 @@ import (
 )
 
 const (
-	//colors
+	// Colors.
 	colorTile     = "light gray"
 	colorTileDark = "dark gray"
 )
 
 type Tile struct {
-	/*Tiles are map cells - floors, walls, doors*/
+	// Tiles are map cells - floors, walls, doors.
 	BasicProperties
 	VisibilityProperties
 	Explored bool
 	CollisionProperties
 }
 
-/*Board is map representation, that uses 2d slice
-  to hold data of its every cell*/
+/* Board is map representation, that uses 2d slice
+   to hold data of its every cell. */
 type Board [][]*Tile
 
 func NewTile(layer, x, y int, character, color, colorDark string,
 	alwaysVisible, explored, blocked, blocksSight bool) (*Tile, error) {
-	/*Function NewTile takes all values necessary by its struct,
-	and creates then returns Tile.*/
+	/* Function NewTile takes all values necessary by its struct,
+	   and creates then returns Tile. */
 	var err error
 	if layer < 0 {
 		txt := LayerError(layer)
@@ -71,12 +71,12 @@ func NewTile(layer, x, y int, character, color, colorDark string,
 }
 
 func InitializeEmptyMap() Board {
-	/*Function InitializeEmptyMap returns new Board, filled with
-	generic (ie "empty") tiles.
-	It starts by declaring 2d slice of *Tile - unfortunately, Go seems to
-	lack simple way to do it, therefore it's necessary to use
-	the first for loop.
-	The second, nested loop initializes specific Tiles withing Board.*/
+	/* Function InitializeEmptyMap returns new Board, filled with
+	   generic (ie "empty") tiles.
+	   It starts by declaring 2d slice of *Tile - unfortunately, Go seems to
+	   lack simple way to do it, therefore it's necessary to use
+	   the first for loop.
+	   The second, nested loop initializes specific Tiles withing Board. */
 	b := make([][]*Tile, WindowSizeX)
 	for i := range b {
 		b[i] = make([]*Tile, WindowSizeY)

@@ -21,9 +21,9 @@ freely, subject to the following restrictions:
 package main
 
 type BasicProperties struct {
-	/*BasicProperties is struct that aggregates
-	all widely used data, necessary for every
-	map tile and object representation*/
+	/* BasicProperties is struct that aggregates
+	   all widely used data, necessary for every
+	   map tile and object representation. */
 	Layer     int
 	X, Y      int
 	Char      string
@@ -32,33 +32,33 @@ type BasicProperties struct {
 }
 
 type VisibilityProperties struct {
-	/*VisibilityProperties is simple struct
-	for checking if object is always visible,
-	regardless of player's fov*/
+	/* VisibilityProperties is simple struct
+	   for checking if object is always visible,
+	   regardless of player's fov. */
 	AlwaysVisible bool
 }
 
 type CollisionProperties struct {
-	/*CollisionProperties is struct filled with
-	boolean values, for checking several
-	collision conditions: if cell is blocked,
-	if it blocks creature sight, etc.*/
+	/* CollisionProperties is struct filled with
+	   boolean values, for checking several
+	   collision conditions: if cell is blocked,
+	   if it blocks creature sight, etc. */
 	Blocked     bool
 	BlocksSight bool
 }
 
 type AIProperties struct {
-	/*AIProperties serves holding information about
-	creature AI. AI types are iota (integers) in
-	creatures.go*/
+	/* AIProperties serves holding information about
+	   creature AI. AI types are iota (integers) in
+	   creatures.go. */
 	AIType int
 }
 
 type FighterProperties struct {
-	/*FighterProperties stores information about
-	things that can live and fight (ie fighters);
-	it may be used for destructible environment
-	elements as well.*/
+	/* FighterProperties stores information about
+	   things that can live and fight (ie fighters);
+	   it may be used for destructible environment
+	   elements as well. */
 	HPMax     int
 	HPCurrent int
 	Attack    int

@@ -21,7 +21,7 @@ freely, subject to the following restrictions:
 package main
 
 const (
-	//ai types
+	// Types of AI.
 	NoAI = iota
 	PlayerAI
 	DumbAI
@@ -29,14 +29,14 @@ const (
 )
 
 func CreaturesTakeTurn(b Board, c Creatures) {
-	/*Function CreaturesTakeTurn is supposed to handle all enemy creatures
-	actions: movement, attacking, etc.
-	It takes Board and Creatures as arguments.
-	Iterates through all Creatures slice, and handles creature behavior:
-	if distance between creature and player is bigger than 1, creature
-	moves towards player. Else, it attacks.
-	It passed Creature's ai type as argument of MoveTowards to force
-	different behavior.*/
+	/* Function CreaturesTakeTurn is supposed to handle all enemy creatures
+	   actions: movement, attacking, etc.
+	   It takes Board and Creatures as arguments.
+	   Iterates through all Creatures slice, and handles creature behavior:
+	   if distance between creature and player is bigger than 1, creature
+	   moves towards player. Else, it attacks.
+	   It passed Creature's ai type as argument of MoveTowards to force
+	   different behavior. */
 	var ai int
 	for _, v := range c {
 		ai = v.AIType

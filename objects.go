@@ -26,27 +26,27 @@ import (
 )
 
 const (
-	//colors
+	// Colors.
 	colorObject     = "blue"
 	colorObjectDark = "dark blue"
 )
 
 type Object struct {
-	/*Objects are every other things on map;
-	  statues, tables, chairs; but also weapons,
-	  armor parts, etc.*/
+	/* Objects are every other things on map;
+	   statues, tables, chairs; but also weapons,
+	   armor parts, etc. */
 	BasicProperties
 	VisibilityProperties
 	CollisionProperties
 }
 
-/*Objects holds every object on map.*/
+// Objects holds every object on map.
 type Objects []*Object
 
 func NewObject(layer, x, y int, character, color, colorDark string,
 	alwaysVisible, blocked, blocksSight bool) (*Object, error) {
-	/*Function NewObject takes all values necessary by its struct,
-	and creates then returns Object*/
+	/* Function NewObject takes all values necessary by its struct,
+	   and creates then returns Object. */
 	var err error
 	if layer < 0 {
 		txt := LayerError(layer)

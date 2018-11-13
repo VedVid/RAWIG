@@ -28,7 +28,7 @@ import (
 )
 
 const (
-	//for setting blt window
+	// Setting BearLibTerminal window.
 	WindowSizeX = 30
 	WindowSizeY = 30
 	GameTitle   = "unnamed game"
@@ -37,14 +37,14 @@ const (
 )
 
 func constrainThreads() {
-	/*Constraining processor and threads is necessary,
-	  because BearLibTerminal often crashes otherwise*/
+	/* Constraining processor and threads is necessary,
+	   because BearLibTerminal often crashes otherwise. */
 	runtime.GOMAXPROCS(1)
 	runtime.LockOSThread()
 }
 
 func InitializeBLT() {
-	/*Constraining threads and setting blt window*/
+	// Constraining threads and setting blt window.
 	constrainThreads()
 	blt.Open()
 	sizeX, sizeY := strconv.Itoa(WindowSizeX), strconv.Itoa(WindowSizeY)

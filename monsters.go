@@ -120,9 +120,9 @@ func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) bool {
 }
 
 func (c *Creature) Move(tx, ty int, b Board) bool {
-	/*Move is method of Creature; it takes target x, y as arguments;
-	check if next move won't put Creature off the screen, then updates
-	Creature coords.*/
+	/* Move is method of Creature; it takes target x, y as arguments;
+	   check if next move won't put Creature off the screen, then updates
+	   Creature coords. */
 	turnSpent := false
 	newX, newY := c.X+tx, c.Y+ty
 	if newX >= 0 &&
@@ -139,9 +139,9 @@ func (c *Creature) Move(tx, ty int, b Board) bool {
 }
 
 func (c *Creature) Die() {
-	/*Method Die is called, when Creature's HP drops below zero.
-	Die() has *Creature as receiver.
-	Receiver properties changes to fit better to corpse.*/
+	/* Method Die is called, when Creature's HP drops below zero.
+	   Die() has *Creature as receiver.
+	   Receiver properties changes to fit better to corpse. */
 	c.Layer = DeadLayer
 	c.Color = "dark red"
 	c.ColorDark = "dark red"

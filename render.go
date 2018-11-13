@@ -23,6 +23,12 @@ package main
 import blt "bearlibterminal"
 
 const (
+	/* Constant values for layers. Their usage is optional,
+	   but (for now, at leas) recommended, because default
+	   rendering functions depends on these values.
+	   They are important for proper clearing characters
+	   that should not be displayed, as, for example,
+	   bracelet under the monster. */
 	BaseLayer = iota
 	BoardLayer
 	DeadLayer

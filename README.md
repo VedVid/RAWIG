@@ -1,7 +1,7 @@
 # RAWIG
 
-gorogue is planned as architecture, ready to modify and expand. It won't be tutorial material nor full game.  
-Currently, gorogue is in early stage of development.
+RAWIG is planned as architecture, ready to modify and expand. It won't be tutorial material nor full game.  
+Currently, RAWIG is in early stage of development.
 
 ### Prerequisites
 

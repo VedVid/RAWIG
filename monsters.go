@@ -52,7 +52,7 @@ type Creatures []*Creature
 func NewCreature(layer, x, y int, character, color, colorDark string,
 	alwaysVisible, blocked, blocksSight bool, ai, hp, attack,
 	defense int) (*Creature, error) {
-	/* Function NewCreture takes all values necessary by its struct,
+	/* Function NewCreature takes all values necessary by its struct,
 	   and creates then returns pointer to Creature. */
 	var err error
 	if layer < 0 {
@@ -81,12 +81,12 @@ func NewCreature(layer, x, y int, character, color, colorDark string,
 	}
 	creatureBasicProperties := BasicProperties{layer, x, y, character, color,
 		colorDark}
-	creatureVisibilityPropeties := VisibilityProperties{alwaysVisible}
+	creatureVisibilityProperties := VisibilityProperties{alwaysVisible}
 	creatureCollisionProperties := CollisionProperties{blocked, blocksSight}
 	creatureAIProperties := AIProperties{ai}
 	creatureFighterProperties := FighterProperties{hp, hp, attack, defense}
 	creatureNew := &Creature{creatureBasicProperties,
-		creatureVisibilityPropeties, creatureCollisionProperties,
+		creatureVisibilityProperties, creatureCollisionProperties,
 		creatureAIProperties, creatureFighterProperties}
 	return creatureNew, err
 }

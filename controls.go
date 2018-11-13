@@ -24,7 +24,7 @@ import blt "bearlibterminal"
 
 func Controls(k int, p *Creature, b Board, c Creatures) bool {
 	/* Function Controls is input handler.
-	   It takes integer k (keycodes are basically numbers,
+	   It takes integer k (key codes are basically numbers,
 	   but creating new "type key int" is not convenient)
 	   and Creature p (which is player).
 	   Controls handle input, then returns integer value that depends

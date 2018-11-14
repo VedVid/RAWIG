@@ -20,7 +20,9 @@ freely, subject to the following restrictions:
 
 package main
 
-import blt "bearlibterminal"
+import (
+	blt "bearlibterminal"
+)
 
 const (
 	/* Constant values for layers. Their usage is optional,
@@ -75,6 +77,10 @@ func PrintObjects(b Board, o Objects, c Creatures) {
 	for _, v := range o {
 		if (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
 			(v.AlwaysVisible == true) {
+			for l := BaseLayer; l < v.Layer; l++ {
+				blt.Layer(l)
+				blt.ClearArea(v.X, v.Y, 1, 1)
+			}
 			blt.Layer(v.Layer)
 			glyph := "[color=" + v.Color + "]" + v.Char
 			blt.Print(v.X, v.Y, glyph)
@@ -85,15 +91,20 @@ func PrintObjects(b Board, o Objects, c Creatures) {
 func PrintCreatures(b Board, c Creatures) {
 	/* Function PrintCreatures is used in RenderAll function.
 	   Takes map of level and slice of Creatures as arguments.
+	   Sorts Creatures by Layer, from highest to lowest.
 	   Iterates through Creatures.
 	   Checks for every creature on its coords if certain conditions are met:
 	   AlwaysVisible bool is set to true, or is in player fov. */
-	for _, v := range c {
-		if (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
-			(v.AlwaysVisible == true) {
-			blt.Layer(v.Layer)
-			glyph := "[color=" + v.Color + "]" + v.Char
-			blt.Print(v.X, v.Y, glyph)
+	c.SortByLayer()
+	for i := (len(c) - 1); i >= 0; i-- {
+		if (IsInFOV(b, c[0].X, c[0].Y, c[i].X, c[i].Y) == true) ||
+			(c[i].AlwaysVisible == true) {
+			for l := BaseLayer; l < c[i].Layer; l++ {
+				blt.Layer(l)
+				blt.ClearArea(c[i].X, c[i].Y, 1, 1)
+			}
+			glyph := "[color=" + c[i].Color + "]" + c[i].Char
+			blt.Print(c[i].X, c[i].Y, glyph)
 		}
 	}
 }

@@ -139,6 +139,29 @@ func (c *Creature) Move(tx, ty int, b Board) bool {
 	return turnSpent
 }
 
+func (c *Creature) PickUp(o Objects) bool {
+	/* PickUp is method that has *Creature as receiver
+	   and slice of *Object as argument.
+	   Creature tries to pick object up.
+	   If creature stands on object that is possible to pick,
+	   object is added to c's inventory, and removed
+	   from "global" slice of objects.
+	   Picking objects up takes turn only if it's
+	   successful attempt. */
+	turnSpent := false
+	for i, v := range o {
+		if v.X == c.X && v.Y == c.Y && v.Pickable == true {
+			item := o[i]
+			c.Inventory = append(c.Inventory, item)
+			o[i] = o[len(o)-1] // Doesn't it leaks a memory? \/
+			o = o[:len(o)-1]   // It's slice of pointers to struct.
+			turnSpent = true
+			break
+		}
+	}
+	return turnSpent
+}
+
 func (c *Creature) Die() {
 	/* Method Die is called, when Creature's HP drops below zero.
 	   Die() has *Creature as receiver.

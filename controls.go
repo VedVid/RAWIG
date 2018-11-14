@@ -22,7 +22,7 @@ package main
 
 import blt "bearlibterminal"
 
-func Controls(k int, p *Creature, b Board, c Creatures) bool {
+func Controls(k int, p *Creature, b Board, c Creatures, o Objects) bool {
 	/* Function Controls is input handler.
 	   It takes integer k (key codes are basically numbers,
 	   but creating new "type key int" is not convenient)
@@ -39,6 +39,9 @@ func Controls(k int, p *Creature, b Board, c Creatures) bool {
 		turnSpent = p.MoveOrAttack(0, 1, b, c)
 	case blt.TK_LEFT:
 		turnSpent = p.MoveOrAttack(-1, 0, b, c)
+
+	case blt.TK_G:
+		turnSpent = p.PickUp(o)
 	}
 	return turnSpent
 }

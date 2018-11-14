@@ -41,7 +41,7 @@ func main() {
 		fmt.Println(err)
 	}
 	var actors = Creatures{player, enemy}
-	obj, err := NewObject(ObjectsLayer, 3, 3, "[", "gray", "dark gray", true, false, false, true, true)
+	obj, err := NewObject(ObjectsLayer, 3, 3, "[", "blue", "dark blue", true, false, false, true, true)
 	var objs = Objects{obj}
 	cells := InitializeEmptyMap()
 	for {
@@ -50,7 +50,7 @@ func main() {
 		if key == blt.TK_ESCAPE || actors[0].HPCurrent <= 0 {
 			break
 		} else {
-			turnSpent := Controls(key, player, cells, actors)
+			turnSpent := Controls(key, player, cells, actors, objs)
 			if turnSpent == true {
 				CreaturesTakeTurn(cells, actors)
 			}

@@ -51,7 +51,7 @@ type Creatures []*Creature
 
 func NewCreature(layer, x, y int, character, color, colorDark string,
 	alwaysVisible, blocked, blocksSight bool, ai, hp, attack,
-	defense int) (*Creature, error) {
+	defense int, equipment Objects) (*Creature, error) {
 	/* Function NewCreature takes all values necessary by its struct,
 	   and creates then returns pointer to Creature. */
 	var err error
@@ -84,7 +84,7 @@ func NewCreature(layer, x, y int, character, color, colorDark string,
 	creatureVisibilityProperties := VisibilityProperties{alwaysVisible}
 	creatureCollisionProperties := CollisionProperties{blocked, blocksSight}
 	creatureAIProperties := AIProperties{ai}
-	creatureFighterProperties := FighterProperties{hp, hp, attack, defense}
+	creatureFighterProperties := FighterProperties{hp, hp, attack, defense, equipment}
 	creatureNew := &Creature{creatureBasicProperties,
 		creatureVisibilityProperties, creatureCollisionProperties,
 		creatureAIProperties, creatureFighterProperties}

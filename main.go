@@ -29,11 +29,14 @@ import (
 )
 
 func main() {
-	player, err := NewPlayer(PlayerLayer, 1, 1, "@", "white", "white", true, true, false, PlayerAI, 20, 5, 2, Objects{})
+	slot, _ := NewObject(ObjectsLayer, 0, 0, "]", "red", "dark red", true, false, false)
+	var playerEq = EquipmentComponent{slot, Objects{}}
+	player, err := NewPlayer(PlayerLayer, 1, 1, "@", "white", "white", true, true, false, PlayerAI, 20, 5, 2, playerEq)
 	if err != nil {
 		fmt.Println(err)
 	}
-	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "green", "green", false, true, false, PatherAI, 10, 4, 1, Objects{})
+	var enemyEq = EquipmentComponent{nil, Objects{}}
+	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "green", "green", false, true, false, PatherAI, 10, 4, 1, enemyEq)
 	if err != nil {
 		fmt.Println(err)
 	}

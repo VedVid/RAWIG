@@ -63,5 +63,10 @@ type FighterProperties struct {
 	HPCurrent int
 	Attack    int
 	Defense   int
-	Equipment Objects
+	EquipmentComponent
+}
+
+type EquipmentComponent struct {
+	Slot      *Object
+	Inventory Objects
 }

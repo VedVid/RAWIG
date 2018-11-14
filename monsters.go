@@ -22,7 +22,6 @@ package main
 
 import (
 	"errors"
-	"sort"
 	"unicode/utf8"
 )
 
@@ -90,15 +89,6 @@ func NewCreature(layer, x, y int, character, color, colorDark string,
 		creatureVisibilityProperties, creatureCollisionProperties,
 		creatureAIProperties, creatureFighterProperties}
 	return creatureNew, err
-}
-
-func (c Creatures) SortByLayer() {
-	/* Method SortByLayer sorts its receiver
-	   slice of *Creature by their Layers, from
-	   highest to lowest. */
-	sort.Slice(c, func(i, j int) bool {
-		return c[i].Layer > c[j].Layer
-	})
 }
 
 func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) bool {

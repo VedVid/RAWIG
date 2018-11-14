@@ -63,10 +63,19 @@ type FighterProperties struct {
 	HPCurrent int
 	Attack    int
 	Defense   int
-	EquipmentComponent
+}
+
+type ObjectProperties struct {
+	/* Not every Object can be picked up - like tables;
+	   also, not every Object can be equipped - like cheese. */
+	Pickable   bool
+	Equippable bool
 }
 
 type EquipmentComponent struct {
+	/* EquipmentComponent helps with inventory management.
+	   Slot is place for equipped item (like helmet on head);
+	   Inventory is list of items in backpack. */
 	Slot      *Object
 	Inventory Objects
 }

@@ -38,13 +38,14 @@ type Object struct {
 	BasicProperties
 	VisibilityProperties
 	CollisionProperties
+	ObjectProperties
 }
 
 // Objects holds every object on map.
 type Objects []*Object
 
 func NewObject(layer, x, y int, character, color, colorDark string,
-	alwaysVisible, blocked, blocksSight bool) (*Object, error) {
+	alwaysVisible, blocked, blocksSight bool, pickable, equippable bool) (*Object, error) {
 	/* Function NewObject takes all values necessary by its struct,
 	   and creates then returns Object. */
 	var err error
@@ -64,7 +65,8 @@ func NewObject(layer, x, y int, character, color, colorDark string,
 		colorDark}
 	objectVisibilityProperties := VisibilityProperties{alwaysVisible}
 	objectCollisionProperties := CollisionProperties{blocked, blocksSight}
+	objectProperties := ObjectProperties{pickable, equippable}
 	objectNew := &Object{objectBasicProperties, objectVisibilityProperties,
-		objectCollisionProperties}
+		objectCollisionProperties, objectProperties}
 	return objectNew, err
 }

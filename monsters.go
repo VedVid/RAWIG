@@ -44,6 +44,7 @@ type Creature struct {
 	CollisionProperties
 	AIProperties
 	FighterProperties
+	EquipmentComponent
 }
 
 // Creatures holds every creature on map.
@@ -84,10 +85,10 @@ func NewCreature(layer, x, y int, character, color, colorDark string,
 	creatureVisibilityProperties := VisibilityProperties{alwaysVisible}
 	creatureCollisionProperties := CollisionProperties{blocked, blocksSight}
 	creatureAIProperties := AIProperties{ai}
-	creatureFighterProperties := FighterProperties{hp, hp, attack, defense, equipment}
+	creatureFighterProperties := FighterProperties{hp, hp, attack, defense}
 	creatureNew := &Creature{creatureBasicProperties,
 		creatureVisibilityProperties, creatureCollisionProperties,
-		creatureAIProperties, creatureFighterProperties}
+		creatureAIProperties, creatureFighterProperties, equipment}
 	return creatureNew, err
 }
 

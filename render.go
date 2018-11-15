@@ -43,6 +43,10 @@ func PrintBoard(b Board, c Creatures) {
 	/* Function PrintBoard is used in RenderAll function.
 	   Takes level map and list of monsters as arguments
 	   and iterates through Board.
+	   It has to check for "]" and "[" characters, because
+	   BearLibTerminal uses these symbols for config.
+	   Instead of checking it here, one could just remember to
+	   always pass "]]" instead of "]".
 	   Prints every tile on its coords if certain conditions are met:
 	   is Explored already, and:
 	   - is in player's field of view (prints "normal" color) or
@@ -76,6 +80,10 @@ func PrintObjects(b Board, o Objects, c Creatures) {
 	   Takes map of level, slice of objects, and all monsters
 	   as arguments.
 	   Iterates through Objects.
+	   It has to check for "]" and "[" characters, because
+	   BearLibTerminal uses these symbols for config.
+	   Instead of checking it here, one could just remember to
+	   always pass "]]" instead of "]".
 	   Prints every object on its coords if certain conditions are met:
 	   AlwaysVisible bool is set to true, or is in player fov. */
 	for _, v := range o {
@@ -96,6 +104,10 @@ func PrintCreatures(b Board, c Creatures) {
 	/* Function PrintCreatures is used in RenderAll function.
 	   Takes map of level and slice of Creatures as arguments.
 	   Iterates through Creatures.
+	   It has to check for "]" and "[" characters, because
+	   BearLibTerminal uses these symbols for config.
+	   Instead of checking it here, one could just remember to
+	   always pass "]]" instead of "]".
 	   Checks for every creature on its coords if certain conditions are met:
 	   AlwaysVisible bool is set to true, or is in player fov. */
 	for _, v := range c {

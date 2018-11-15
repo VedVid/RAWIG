@@ -53,12 +53,16 @@ func PrintBoard(b Board, c Creatures) {
 			t := b[x][y] // Should it be *b[x][y]?
 			blt.Layer(t.Layer)
 			if t.Explored == true {
+				ch := t.Char
+				if t.Char == "[" || t.Char == "]" {
+					ch = t.Char + t.Char
+				}
 				if IsInFOV(b, c[0].X, c[0].Y, t.X, t.Y) == true {
-					glyph := "[color=" + t.Color + "]" + t.Char
+					glyph := "[color=" + t.Color + "]" + ch
 					blt.Print(t.X, t.Y, glyph)
 				} else {
 					if t.AlwaysVisible == true {
-						glyph := "[color=" + t.ColorDark + "]" + t.Char
+						glyph := "[color=" + t.ColorDark + "]" + ch
 						blt.Print(t.X, t.Y, glyph)
 					}
 				}
@@ -78,7 +82,11 @@ func PrintObjects(b Board, o Objects, c Creatures) {
 		if (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
 			(v.AlwaysVisible == true) {
 			blt.Layer(v.Layer)
-			glyph := "[color=" + v.Color + "]" + v.Char
+			ch := v.Char
+			if v.Char == "]" || v.Char == "[" {
+				ch = v.Char + v.Char
+			}
+			glyph := "[color=" + v.Color + "]" + ch
 			blt.Print(v.X, v.Y, glyph)
 		}
 	}
@@ -94,7 +102,11 @@ func PrintCreatures(b Board, c Creatures) {
 		if (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
 			(v.AlwaysVisible == true) {
 			blt.Layer(v.Layer)
-			glyph := "[color=" + v.Color + "]" + v.Char
+			ch := v.Char
+			if v.Char == "]" || v.Char == "[" {
+				ch = v.Char + v.Char
+			}
+			glyph := "[color=" + v.Color + "]" + ch
 			blt.Print(v.X, v.Y, glyph)
 		}
 	}

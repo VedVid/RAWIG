@@ -41,7 +41,7 @@ func main() {
 		fmt.Println(err)
 	}
 	var actors = Creatures{player, enemy}
-	obj, err := NewObject(ObjectsLayer, 3, 3, "}", "blue", "dark blue", true, false, false, true, true)
+	obj, err := NewObject(ObjectsLayer, 3, 3, "[", "blue", "dark blue", true, false, false, true, true)
 	var objs = Objects{obj}
 	if err != nil {
 		fmt.Println(err)

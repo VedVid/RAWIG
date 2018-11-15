@@ -20,7 +20,9 @@ freely, subject to the following restrictions:
 
 package main
 
-import blt "bearlibterminal"
+import (
+	blt "bearlibterminal"
+)
 
 const (
 	/* Constant values for layers. Their usage is optional,

@@ -53,7 +53,7 @@ func main() {
 		if key == blt.TK_ESCAPE || actors[0].HPCurrent <= 0 {
 			break
 		} else {
-			turnSpent := Controls(key, player, cells, actors, objs)
+			turnSpent := Controls(key, player, cells, actors, &objs)
 			if turnSpent == true {
 				CreaturesTakeTurn(cells, actors)
 			}

@@ -22,6 +22,7 @@ package main
 
 import (
 	blt "bearlibterminal"
+	"fmt"
 )
 
 const (
@@ -86,6 +87,9 @@ func PrintObjects(b Board, o Objects, c Creatures) {
 	   always pass "]]" instead of "]".
 	   Prints every object on its coords if certain conditions are met:
 	   AlwaysVisible bool is set to true, or is in player fov. */
+	   fmt.Println()
+	   fmt.Println("PrintObjects")
+	   fmt.Println(len(o))
 	for _, v := range o {
 		if (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
 			(v.AlwaysVisible == true) {

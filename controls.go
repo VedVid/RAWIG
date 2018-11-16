@@ -22,7 +22,6 @@ package main
 
 import (
 	blt "bearlibterminal"
-	"fmt"
 )
 
 func Controls(k int, p *Creature, b Board, c Creatures, o *Objects) bool {
@@ -44,10 +43,7 @@ func Controls(k int, p *Creature, b Board, c Creatures, o *Objects) bool {
 		turnSpent = p.MoveOrAttack(-1, 0, b, c)
 
 	case blt.TK_G:
-		fmt.Println()
-		fmt.Println("PickingUp")
 		turnSpent = p.PickUp(o)
-		fmt.Println(len(*o))
 	}
 	return turnSpent
 }

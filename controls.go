@@ -20,7 +20,9 @@ freely, subject to the following restrictions:
 
 package main
 
-import blt "bearlibterminal"
+import (
+	blt "bearlibterminal"
+)
 
 func Controls(k int, p *Creature, b Board, c Creatures, o Objects) bool {
 	/* Function Controls is input handler.
@@ -41,7 +43,7 @@ func Controls(k int, p *Creature, b Board, c Creatures, o Objects) bool {
 		turnSpent = p.MoveOrAttack(-1, 0, b, c)
 
 	case blt.TK_G:
-		turnSpent = p.PickUp(o)
+		turnSpent = p.PickUp(&o)
 	}
 	return turnSpent
 }

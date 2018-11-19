@@ -43,7 +43,7 @@ func NewPlayer(layer, x, y int, character, color, colorDark string,
 		txt := LayerError(layer)
 		err = errors.New("Player layer is smaller than 0." + txt)
 	}
-	if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
+	if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
 		txt := CoordsError(x, y)
 		err = errors.New("Player coords is out of window range." + txt)
 	}

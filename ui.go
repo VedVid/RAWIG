@@ -20,39 +20,3 @@ freely, subject to the following restrictions:
 
 package main
 
-import (
-	"runtime"
-	"strconv"
-
-	blt "bearlibterminal"
-)
-
-const (
-	// Setting BearLibTerminal window.
-	WindowSizeX = 30
-	WindowSizeY = 30
-	MapSizeX = 30
-	MapSizeY = 29
-	GameTitle   = "unnamed game"
-	FontName    = "UbuntuMono-R.ttf"
-	FontSize    = 18
-)
-
-func constrainThreads() {
-	/* Constraining processor and threads is necessary,
-	   because BearLibTerminal often crashes otherwise. */
-	runtime.GOMAXPROCS(1)
-	runtime.LockOSThread()
-}
-
-func InitializeBLT() {
-	// Constraining threads and setting blt window.
-	constrainThreads()
-	blt.Open()
-	sizeX, sizeY := strconv.Itoa(WindowSizeX), strconv.Itoa(WindowSizeY)
-	sizeFont := strconv.Itoa(FontSize)
-	window := "window: size=" + sizeX + "x" + sizeY
-	blt.Set(window + ", title=' " + GameTitle + "'; font: " + FontName + ", size=" + sizeFont)
-	blt.Clear()
-	blt.Refresh()
-}

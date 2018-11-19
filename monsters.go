@@ -60,7 +60,7 @@ func NewCreature(layer, x, y int, character, color, colorDark string,
 		txt := LayerError(layer)
 		err = errors.New("Creature layer is smaller than 0." + txt)
 	}
-	if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
+	if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
 		txt := CoordsError(x, y)
 		err = errors.New("Creature coords is out of window range." + txt)
 	}
@@ -127,9 +127,9 @@ func (c *Creature) Move(tx, ty int, b Board) bool {
 	turnSpent := false
 	newX, newY := c.X+tx, c.Y+ty
 	if newX >= 0 &&
-		newX <= WindowSizeX-1 &&
+		newX <= MapSizeX-1 &&
 		newY >= 0 &&
-		newY <= WindowSizeX-1 {
+		newY <= MapSizeX-1 {
 		if b[newX][newY].Blocked == false {
 			c.X = newX
 			c.Y = newY

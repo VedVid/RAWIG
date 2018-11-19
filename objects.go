@@ -53,7 +53,7 @@ func NewObject(layer, x, y int, character, color, colorDark string,
 		txt := LayerError(layer)
 		err = errors.New("Object layer is smaller than 0. " + txt)
 	}
-	if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
+	if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
 		txt := CoordsError(x, y)
 		err = errors.New("Object coords is out of window range." + txt)
 	}

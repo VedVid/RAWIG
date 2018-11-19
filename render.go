@@ -51,8 +51,8 @@ func PrintBoard(b Board, c Creatures) {
 	   is Explored already, and:
 	   - is in player's field of view (prints "normal" color) or
 	   - is AlwaysVisible (prints dark color). */
-	for x := 0; x < WindowSizeX; x++ {
-		for y := 0; y < WindowSizeY; y++ {
+	for x := 0; x < MapSizeX; x++ {
+		for y := 0; y < MapSizeY; y++ {
 			// Technically, "t" is new variable with own memory address...
 			t := b[x][y] // Should it be *b[x][y]?
 			blt.Layer(t.Layer)

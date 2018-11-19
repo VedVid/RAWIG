@@ -20,7 +20,9 @@ freely, subject to the following restrictions:
 
 package main
 
-import blt "bearlibterminal"
+import (
+	blt "bearlibterminal"
+)
 
 const (
 	/* Constant values for layers. Their usage is optional,
@@ -41,6 +43,10 @@ func PrintBoard(b Board, c Creatures) {
 	/* Function PrintBoard is used in RenderAll function.
 	   Takes level map and list of monsters as arguments
 	   and iterates through Board.
+	   It has to check for "]" and "[" characters, because
+	   BearLibTerminal uses these symbols for config.
+	   Instead of checking it here, one could just remember to
+	   always pass "]]" instead of "]".
 	   Prints every tile on its coords if certain conditions are met:
 	   is Explored already, and:
 	   - is in player's field of view (prints "normal" color) or
@@ -51,12 +57,16 @@ func PrintBoard(b Board, c Creatures) {
 			t := b[x][y] // Should it be *b[x][y]?
 			blt.Layer(t.Layer)
 			if t.Explored == true {
+				ch := t.Char
+				if t.Char == "[" || t.Char == "]" {
+					ch = t.Char + t.Char
+				}
 				if IsInFOV(b, c[0].X, c[0].Y, t.X, t.Y) == true {
-					glyph := "[color=" + t.Color + "]" + t.Char
+					glyph := "[color=" + t.Color + "]" + ch
 					blt.Print(t.X, t.Y, glyph)
 				} else {
 					if t.AlwaysVisible == true {
-						glyph := "[color=" + t.ColorDark + "]" + t.Char
+						glyph := "[color=" + t.ColorDark + "]" + ch
 						blt.Print(t.X, t.Y, glyph)
 					}
 				}
@@ -70,13 +80,21 @@ func PrintObjects(b Board, o Objects, c Creatures) {
 	   Takes map of level, slice of objects, and all monsters
 	   as arguments.
 	   Iterates through Objects.
+	   It has to check for "]" and "[" characters, because
+	   BearLibTerminal uses these symbols for config.
+	   Instead of checking it here, one could just remember to
+	   always pass "]]" instead of "]".
 	   Prints every object on its coords if certain conditions are met:
 	   AlwaysVisible bool is set to true, or is in player fov. */
 	for _, v := range o {
 		if (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
 			(v.AlwaysVisible == true) {
 			blt.Layer(v.Layer)
-			glyph := "[color=" + v.Color + "]" + v.Char
+			ch := v.Char
+			if v.Char == "]" || v.Char == "[" {
+				ch = v.Char + v.Char
+			}
+			glyph := "[color=" + v.Color + "]" + ch
 			blt.Print(v.X, v.Y, glyph)
 		}
 	}
@@ -86,13 +104,21 @@ func PrintCreatures(b Board, c Creatures) {
 	/* Function PrintCreatures is used in RenderAll function.
 	   Takes map of level and slice of Creatures as arguments.
 	   Iterates through Creatures.
+	   It has to check for "]" and "[" characters, because
+	   BearLibTerminal uses these symbols for config.
+	   Instead of checking it here, one could just remember to
+	   always pass "]]" instead of "]".
 	   Checks for every creature on its coords if certain conditions are met:
 	   AlwaysVisible bool is set to true, or is in player fov. */
 	for _, v := range c {
 		if (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
 			(v.AlwaysVisible == true) {
 			blt.Layer(v.Layer)
-			glyph := "[color=" + v.Color + "]" + v.Char
+			ch := v.Char
+			if v.Char == "]" || v.Char == "[" {
+				ch = v.Char + v.Char
+			}
+			glyph := "[color=" + v.Color + "]" + ch
 			blt.Print(v.X, v.Y, glyph)
 		}
 	}

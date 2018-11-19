@@ -44,6 +44,7 @@ type Creature struct {
 	CollisionProperties
 	AIProperties
 	FighterProperties
+	EquipmentComponent
 }
 
 // Creatures holds every creature on map.
@@ -51,7 +52,7 @@ type Creatures []*Creature
 
 func NewCreature(layer, x, y int, character, color, colorDark string,
 	alwaysVisible, blocked, blocksSight bool, ai, hp, attack,
-	defense int) (*Creature, error) {
+	defense int, equipment EquipmentComponent) (*Creature, error) {
 	/* Function NewCreature takes all values necessary by its struct,
 	   and creates then returns pointer to Creature. */
 	var err error
@@ -87,7 +88,7 @@ func NewCreature(layer, x, y int, character, color, colorDark string,
 	creatureFighterProperties := FighterProperties{hp, hp, attack, defense}
 	creatureNew := &Creature{creatureBasicProperties,
 		creatureVisibilityProperties, creatureCollisionProperties,
-		creatureAIProperties, creatureFighterProperties}
+		creatureAIProperties, creatureFighterProperties, equipment}
 	return creatureNew, err
 }
 
@@ -133,6 +134,30 @@ func (c *Creature) Move(tx, ty int, b Board) bool {
 			c.X = newX
 			c.Y = newY
 			turnSpent = true
+		}
+	}
+	return turnSpent
+}
+
+func (c *Creature) PickUp(o *Objects) bool {
+	/* PickUp is method that has *Creature as receiver
+	   and slice of *Object as argument.
+	   Creature tries to pick object up.
+	   If creature stands on object that is possible to pick,
+	   object is added to c's inventory, and removed
+	   from "global" slice of objects.
+	   Picking objects up takes turn only if it's
+	   successful attempt. */
+	turnSpent := false
+	obj := *o
+	for i := 0; i <= len(obj); i++ {
+		if obj[i].X == c.X && obj[i].Y == c.Y && obj[i].Pickable == true {
+			c.Inventory = append(c.Inventory, obj[i])
+			copy(obj[i:], obj[i+1:])
+			obj[len(obj)-1] = nil
+			*o = obj[:len(obj)-1]
+			turnSpent = true
+			break
 		}
 	}
 	return turnSpent

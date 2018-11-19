@@ -34,7 +34,7 @@ const (
 
 func NewPlayer(layer, x, y int, character, color, colorDark string,
 	alwaysVisible, blocked, blocksSight bool, ai, hp, attack,
-	defense int) (*Creature, error) {
+	defense int, equipment EquipmentComponent) (*Creature, error) {
 	/* Function NewPlayer takes all values necessary by its struct,
 	   and creates then returns pointer to Creature;
 	   so, it's basically NewCreature function. */
@@ -75,6 +75,7 @@ func NewPlayer(layer, x, y int, character, color, colorDark string,
 	playerAIProperties := AIProperties{ai}
 	playerFighterProperties := FighterProperties{hp, hp, attack, defense}
 	playerNew := &Creature{playerBasicProperties, playerVisibilityProperties,
-		playerCollisionProperties, playerAIProperties, playerFighterProperties}
+		playerCollisionProperties, playerAIProperties, playerFighterProperties,
+		equipment}
 	return playerNew, err
 }

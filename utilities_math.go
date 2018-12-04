@@ -38,5 +38,10 @@ func RandInt(max int) int {
 }
 
 func OrderToCharacter(i int) string {
+	/* Function OrderToCharacter takes integer
+	   and converts it to string. Typically,
+	   it will be used with letters, but rune
+	   is alias of int32 and support unicode
+	   well. */
 	return string('a' + (-1+i))
 }

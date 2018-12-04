@@ -23,6 +23,16 @@ package main
 import blt "bearlibterminal"
 
 func PrintMenu(x, y int, header string, options []string) {
+	/* Function PrintMenu takes four arguments: two ints that are
+	   top-left corner of menu, header, and slice of options.
+	   During execution, it joins header and all of options in
+	   one text, with additional formatting.
+	   For example, header "MyMenu" and options ["first", "two"]
+	   would produce that kind of output:
+	       MyMenu
+	       a) first
+	       b) two
+	    */
 	txt := header
 	for i, v := range options {
 		txt = txt + "\n" + OrderToCharacter(i) + ") " + v

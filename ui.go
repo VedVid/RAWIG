@@ -20,23 +20,12 @@ freely, subject to the following restrictions:
 
 package main
 
-import (
-	"math"
-	"math/rand"
-)
+import blt "bearlibterminal"
 
-func RoundFloatToInt(x float64) int {
-	/* Function RoundFloatToInt takes one float64 number,
-	   rounds it to nearest 1.0, then returns it as a integer. */
-	return int(math.Round(x))
-}
-
-func RandInt(max int) int {
-	/* Function RandInt wraps rand.Intn function;
-	   instead of returning 0..n-1 it returns 0..n. */
-	return rand.Intn(max + 1)
-}
-
-func OrderToCharacter(i int) string {
-	return string('a' + (-1+i))
+func PrintMenu(x, y int, header string, options []string) {
+	txt := header
+	for i, v := range options {
+		txt = txt + "\n" + OrderToCharacter(i) + ") " + v
+	}
+	blt.Print(x, y, txt)
 }

@@ -129,7 +129,7 @@ func (c *Creature) Move(tx, ty int, b Board) bool {
 	if newX >= 0 &&
 		newX <= MapSizeX-1 &&
 		newY >= 0 &&
-		newY <= MapSizeX-1 {
+		newY <= MapSizeY-1 {
 		if b[newX][newY].Blocked == false {
 			c.X = newX
 			c.Y = newY

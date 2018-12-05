@@ -21,6 +21,8 @@ freely, subject to the following restrictions:
 package main
 
 import (
+	"strconv"
+
 	blt "bearlibterminal"
 )
 
@@ -124,6 +126,13 @@ func PrintCreatures(b Board, c Creatures) {
 	}
 }
 
+func PrintUI(c *Creature) {
+	name := "Player"
+	blt.Print(UIPosX, UIPosY, name)
+	hp := "[color=red]HP: " + strconv.Itoa(c.HPCurrent) + "\\" + strconv.Itoa(c.HPMax)
+	blt.Print(UIPosX, UIPosY+1, hp)
+}
+
 func PrintLog() {
 	/* Function PrintLog prints game messages at the bottom of screen. */
 	PrintMessages(LogPosX, LogPosY, "")
@@ -144,6 +153,7 @@ func RenderAll(b Board, o Objects, c Creatures) {
 	PrintBoard(b, c)
 	PrintObjects(b, o, c)
 	PrintCreatures(b, c)
+	PrintUI(c[0])
 	PrintLog()
 	blt.Refresh()
 }

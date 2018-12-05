@@ -34,10 +34,10 @@ func LayerError(layer int) string {
 func CoordsError(x, y int) string {
 	/* Function CoordsError is helper function that returns string
 	   to error; it takes coords x, y as arguments and returns string,
-	   with use global WindowSizeX and WindowSizeY constants. */
+	   with use global MapSizeX and MapSizeY constants. */
 	txt := "\n    <x: " + strconv.Itoa(x) + "; y: " + strconv.Itoa(y) +
-		"; map width: " + strconv.Itoa(WindowSizeX) + "; map height: " +
-		strconv.Itoa(WindowSizeY) + ">"
+		"; map width: " + strconv.Itoa(MapSizeX) + "; map height: " +
+		strconv.Itoa(MapSizeY) + ">"
 	return txt
 }
 

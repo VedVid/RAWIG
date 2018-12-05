@@ -135,6 +135,7 @@ func RenderAll(b Board, o Objects, c Creatures) {
 	   At first, it clears whole terminal window, then uses arguments:
 	   CastRays (for raycasting FOV) of first object (assuming that it is player),
 	   then calls functions for printing map, objects and creatures.
+	   Calls PrintLog that writes message log.
 	   At the end, RenderAll calls blt.Refresh() that makes
 	   changes to the game window visible. */
 	blt.Clear()

@@ -24,7 +24,7 @@ func (c *Creature) AttackTarget(t *Creature) {
 	/* Method Attack handles damage rolls for combat. Receiver "c" is attacker,
 	   argument "t" is target. Critical hit is if attack roll is the same as receiver
 	   attack attribute.
-	   Println calls will remain here until message log will be implemented. */
+	   Result of attack is displayed in combat log, but messages need more polish. */
 	att := RandInt(c.Attack) //basic attack roll
 	att2 := 0                //critical bonus
 	def := t.Defense         //opponent's defense

@@ -47,6 +47,8 @@ func PrintMenu(x, y int, header string, options []string) {
 }
 
 func PrintMessages(x, y int, header string) {
+	/* PrintMessages works as PrintMenu, but it
+	   won't format text in special way. */
 	txt := header
 	for _, v := range MsgBuf {
 		txt = txt + "\n" + v
@@ -55,6 +57,9 @@ func PrintMessages(x, y int, header string) {
 }
 
 func AddMessage(message string) {
+	/* AddMessage is function that adds message
+	   to the MessageBuffer. It removes the oldest
+	   line to keep size set in MaxMessageBuffer. */
 	if len(MsgBuf) < MaxMessageBuffer {
 		MsgBuf = append(MsgBuf, message)
 	} else {

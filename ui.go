@@ -20,7 +20,9 @@ freely, subject to the following restrictions:
 
 package main
 
-import blt "bearlibterminal"
+import (
+	blt "bearlibterminal"
+)
 
 const (
 	MaxMessageBuffer = 10
@@ -44,20 +46,18 @@ func PrintMenu(x, y int, header string, options []string) {
 	blt.Print(x, y, txt)
 }
 
-func PrintMessages(x, y int, header string, msg []string) {
+func PrintMessages(x, y int, header string) {
 	txt := header
-	for _, v := range msg {
+	for _, v := range MsgBuf {
 		txt = txt + "\n" + v
 	}
 	blt.Print(x, y, txt)
 }
 
-func AddMessage(message string, messages *[]string) {
-	msgs := *messages
-	if len(msgs) < MaxMessageBuffer {
-		msgs = append(msgs, message)
+func AddMessage(message string) {
+	if len(MsgBuf) < MaxMessageBuffer {
+		MsgBuf = append(MsgBuf, message)
 	} else {
-		msgs = append(msgs[1:], message)
+		MsgBuf = append(MsgBuf[1:], message)
 	}
-	messages = &msgs
 }

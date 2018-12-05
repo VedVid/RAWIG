@@ -28,6 +28,8 @@ import (
 	blt "bearlibterminal"
 )
 
+var MsgBuf = []string{}
+
 func main() {
 	slot, _ := NewObject(ObjectsLayer, 0, 0, "}", "red", "dark red", true, false, false, true, true)
 	var playerEq = EquipmentComponent{slot, Objects{}}
@@ -47,16 +49,15 @@ func main() {
 		fmt.Println(err)
 	}
 	cells := InitializeEmptyMap()
-	var msg = []string{}
 	for {
-		RenderAll(cells, objs, actors, msg)
+		RenderAll(cells, objs, actors)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE || actors[0].HPCurrent <= 0 {
 			break
 		} else {
-			turnSpent := Controls(key, player, cells, actors, &objs, &msg)
+			turnSpent := Controls(key, player, cells, actors, &objs)
 			if turnSpent == true {
-				CreaturesTakeTurn(cells, actors, &msg)
+				CreaturesTakeTurn(cells, actors)
 			}
 		}
 	}

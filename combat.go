@@ -20,7 +20,7 @@ freely, subject to the following restrictions:
 
 package main
 
-func (c *Creature) AttackTarget(t *Creature, msg *[]string) {
+func (c *Creature) AttackTarget(t *Creature) {
 	/* Method Attack handles damage rolls for combat. Receiver "c" is attacker,
 	   argument "t" is target. Critical hit is if attack roll is the same as receiver
 	   attack attribute.
@@ -37,26 +37,26 @@ func (c *Creature) AttackTarget(t *Creature, msg *[]string) {
 	switch {
 	case att < def: // Attack score if lower than target defense.
 		if crit == false {
-			AddMessage("Attack deflected!", msg)
+			AddMessage("Attack deflected!")
 		} else {
 			dmg = att2 // Critical hit, but against heavily armored enemy.
-			AddMessage("Critical hit! <heavily armored enemy>", msg)
+			AddMessage("Critical hit! <heavily armored enemy>")
 		}
 	case att == def: // Attack score is equal to target defense.
 		if crit == false {
 			dmg = 1 // It's just a scratch...
-			AddMessage("Attack successful, but it is just a scratch...", msg)
+			AddMessage("Attack successful, but it is just a scratch...")
 		} else {
 			dmg = att
-			AddMessage("Critical hit, but it barely bypassed opponent's armor.", msg)
+			AddMessage("Critical hit, but it barely bypassed opponent's armor.")
 		}
 	case att > def: // Attack score is bigger than target defense.
 		if crit == false {
 			dmg = att
-			AddMessage("Successful attack!", msg)
+			AddMessage("Successful attack!")
 		} else {
 			dmg = att + att2 // Critical attack!
-			AddMessage("Critical attack!", msg)
+			AddMessage("Critical attack!")
 		}
 	}
 	t.TakeDamage(dmg)

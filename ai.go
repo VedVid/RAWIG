@@ -28,7 +28,7 @@ const (
 	PatherAI
 )
 
-func CreaturesTakeTurn(b Board, c Creatures, msg *[]string) {
+func CreaturesTakeTurn(b Board, c Creatures) {
 	/* Function CreaturesTakeTurn is supposed to handle all enemy creatures
 	   actions: movement, attacking, etc.
 	   It takes Board and Creatures as arguments.
@@ -46,7 +46,7 @@ func CreaturesTakeTurn(b Board, c Creatures, msg *[]string) {
 			if v.DistanceTo(c[0].X, c[0].Y) > 1 {
 				v.MoveTowards(b, c[0].X, c[0].Y, ai)
 			} else {
-				v.AttackTarget(c[0], msg)
+				v.AttackTarget(c[0])
 			}
 		}
 	}

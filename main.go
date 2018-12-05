@@ -47,15 +47,16 @@ func main() {
 		fmt.Println(err)
 	}
 	cells := InitializeEmptyMap()
+	var msg = []string{}
 	for {
-		RenderAll(cells, objs, actors)
+		RenderAll(cells, objs, actors, msg)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE || actors[0].HPCurrent <= 0 {
 			break
 		} else {
-			turnSpent := Controls(key, player, cells, actors, &objs)
+			turnSpent := Controls(key, player, cells, actors, &objs, &msg)
 			if turnSpent == true {
-				CreaturesTakeTurn(cells, actors)
+				CreaturesTakeTurn(cells, actors, &msg)
 			}
 		}
 	}

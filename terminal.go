@@ -33,6 +33,8 @@ const (
 	WindowSizeY = 30
 	MapSizeX = 30
 	MapSizeY = WindowSizeY
+	UIPosX = MapSizeX
+	UIPosY = 0
 	GameTitle   = "unnamed game"
 	FontName    = "UbuntuMono-R.ttf"
 	FontSize    = 18

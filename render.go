@@ -124,7 +124,11 @@ func PrintCreatures(b Board, c Creatures) {
 	}
 }
 
-func RenderAll(b Board, o Objects, c Creatures) {
+func PrintLog(msg []string) {
+	PrintMessages(UIPosX, UIPosY, "Combat log: ", msg)
+}
+
+func RenderAll(b Board, o Objects, c Creatures, msg []string) {
 	/* Function RenderAll prints every tile and character on game screen.
 	   Takes board slice (ie level map), slice of objects, and slice of creatures
 	   as arguments.
@@ -138,5 +142,6 @@ func RenderAll(b Board, o Objects, c Creatures) {
 	PrintBoard(b, c)
 	PrintObjects(b, o, c)
 	PrintCreatures(b, c)
+	PrintLog(msg)
 	blt.Refresh()
 }

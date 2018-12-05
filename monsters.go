@@ -92,7 +92,7 @@ func NewCreature(layer, x, y int, character, color, colorDark string,
 	return creatureNew, err
 }
 
-func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) bool {
+func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures, msg *[]string) bool {
 	/* Method MoveOrAttack decides if Creature will move or attack other Creature;
 	   It has *Creature receiver, and takes tx, ty (coords) integers as arguments,
 	   and map of current level, and list of all Creatures.
@@ -112,7 +112,7 @@ func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) bool {
 		}
 	}
 	if target != nil {
-		c.AttackTarget(target)
+		c.AttackTarget(target, msg)
 		turnSpent = true
 	} else {
 		turnSpent = c.Move(tx, ty, b)

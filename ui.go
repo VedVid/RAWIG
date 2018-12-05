@@ -22,6 +22,10 @@ package main
 
 import blt "bearlibterminal"
 
+const (
+	MaxMessageBuffer = 10
+)
+
 func PrintMenu(x, y int, header string, options []string) {
 	/* Function PrintMenu takes four arguments: two ints that are
 	   top-left corner of menu, header, and slice of options.
@@ -38,4 +42,22 @@ func PrintMenu(x, y int, header string, options []string) {
 		txt = txt + "\n" + OrderToCharacter(i) + ") " + v
 	}
 	blt.Print(x, y, txt)
+}
+
+func PrintMessages(x, y int, header string, msg []string) {
+	txt := header
+	for _, v := range msg {
+		txt = txt + "\n" + v
+	}
+	blt.Print(x, y, txt)
+}
+
+func AddMessage(message string, messages *[]string) {
+	msgs := *messages
+	if len(msgs) < MaxMessageBuffer {
+		msgs = append(msgs, message)
+	} else {
+		msgs = append(msgs[1:], message)
+	}
+	messages = &msgs
 }

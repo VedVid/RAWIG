@@ -25,12 +25,14 @@ import (
 )
 
 const (
-	MaxMessageBuffer = 10
+	MaxMessageBuffer = WindowSizeY - MapSizeY
 )
 
 func PrintMenu(x, y int, header string, options []string) {
 	/* Function PrintMenu takes four arguments: two ints that are
 	   top-left corner of menu, header, and slice of options.
+	   If header is empty, text is moved one tile higher to
+	   avoid wasting space.
 	   During execution, it joins header and all of options in
 	   one text, with additional formatting.
 	   For example, header "MyMenu" and options ["first", "two"]
@@ -39,6 +41,9 @@ func PrintMenu(x, y int, header string, options []string) {
 	       a) first
 	       b) two
 	    */
+	if header == "" {
+		y--
+	}
 	txt := header
 	for i, v := range options {
 		txt = txt + "\n" + OrderToCharacter(i) + ") " + v
@@ -49,6 +54,9 @@ func PrintMenu(x, y int, header string, options []string) {
 func PrintMessages(x, y int, header string) {
 	/* PrintMessages works as PrintMenu, but it
 	   won't format text in special way. */
+	if header == "" {
+		y--
+	}
 	txt := header
 	for _, v := range MsgBuf {
 		txt = txt + "\n" + v

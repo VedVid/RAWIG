@@ -125,7 +125,7 @@ func PrintCreatures(b Board, c Creatures) {
 }
 
 func PrintLog() {
-	PrintMessages(UIPosX, UIPosY, "Combat log: ")
+	PrintMessages(LogPosX, LogPosY, "")
 }
 
 func RenderAll(b Board, o Objects, c Creatures) {

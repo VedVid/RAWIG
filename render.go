@@ -125,6 +125,7 @@ func PrintCreatures(b Board, c Creatures) {
 }
 
 func PrintLog() {
+	/* Function PrintLog prints game messages at the bottom of screen. */
 	PrintMessages(LogPosX, LogPosY, "")
 }
 

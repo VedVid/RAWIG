@@ -127,6 +127,11 @@ func PrintCreatures(b Board, c Creatures) {
 }
 
 func PrintUI(c *Creature) {
+	/* Function PrintUI takes *Creature (it's supposed to be player) as argument.
+	   It prints UI infos on the right side of screen.
+	   For now its functionality is very modest, but it will expand when
+	   new elements of game mechanics will be introduced. So, for now, it
+	   provides only one basic, yet essential information: player's HP. */
 	name := "Player"
 	blt.Print(UIPosX, UIPosY, name)
 	hp := "[color=red]HP: " + strconv.Itoa(c.HPCurrent) + "\\" + strconv.Itoa(c.HPMax)

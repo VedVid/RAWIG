@@ -74,7 +74,9 @@ type ObjectProperties struct {
 
 type EquipmentComponent struct {
 	/* EquipmentComponent helps with inventory management.
-	   Slot is place for equipped item (like helmet on head);
+	   It's part of Creature. Slot is generic place for
+	   equipped items (it could be "head" for helmets,
+	   "feet" for boots, etc).
 	   Inventory is list of items in backpack. */
 	Slot      *Object
 	Inventory Objects

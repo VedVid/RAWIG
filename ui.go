@@ -55,12 +55,12 @@ func PrintMenu(x, y int, header string, options []string) {
 
 func PrintInventoryMenu(x, y int, header string, options Objects) {
 	/* PrintInventoryMenu is helper function that takes Objects
-	   as its main arugment, and adds their names (currently
+	   as its main argument, and adds their names (currently
 	   their symbol representation, due to some strange decisions
 	   made by dev, objects doesn't have names yet) to the opts
 	   slice of strings, then calls PrintMenu using that list.
 	   Unfortunately that kind of "hack" is necessary, because
-	   Go doesn't support generics and optional arguemnts,
+	   Go doesn't support generics and optional arguments,
 	   and still doesn't provide sensible alternatives.
 	   I'd like to just pass Objects to the PrintMenu func. */
 	var opts = []string{}

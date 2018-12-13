@@ -42,6 +42,11 @@ func OrderToCharacter(i int) string {
 	   and converts it to string. Typically,
 	   it will be used with letters, but rune
 	   is alias of int32 and support unicode
-	   well. */
+	   well.
+	   Typically, one would like to return
+	   string('a'-1+i)
+	   to convert "1" to "a", but RAWIG will use
+	   it to deal with bare slices that count
+	   from 0.*/
 	return string('a' + i)
 }

@@ -79,3 +79,12 @@ func NewPlayer(layer, x, y int, character, color, colorDark string,
 		equipment}
 	return playerNew, err
 }
+
+func (p *Creature) InventoryMenu() bool {
+	/* Inventory menu is method of Creature (that is supposed to be a player).
+	   It calls PrintInventoryMenu (that have much better docstring).
+	   It returns false as printing menu doesn't spent turn, but it may change
+	   in near future, because using / equipping items will spent turn. */
+	PrintInventoryMenu(UIPosX, UIPosY, "Inventory:", p.Inventory)
+	return false
+	}

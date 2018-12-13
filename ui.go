@@ -49,6 +49,25 @@ func PrintMenu(x, y int, header string, options []string) {
 		txt = txt + "\n" + OrderToCharacter(i) + ") " + v
 	}
 	blt.Print(x, y, txt)
+	blt.Refresh()
+	blt.Read()
+}
+
+func PrintInventoryMenu(x, y int, header string, options Objects) {
+	/* PrintInventoryMenu is helper function that takes Objects
+	   as its main arugment, and adds their names (currently
+	   their symbol representation, due to some strange decisions
+	   made by dev, objects doesn't have names yet) to the opts
+	   slice of strings, then calls PrintMenu using that list.
+	   Unfortunately that kind of "hack" is necessary, because
+	   Go doesn't support generics and optional arguemnts,
+	   and still doesn't provide sensible alternatives.
+	   I'd like to just pass Objects to the PrintMenu func. */
+	var opts = []string{}
+	for _, v := range options {
+		opts = append(opts, v.Char)
+	}
+	PrintMenu(x, y, header, opts)
 }
 
 func PrintMessages(x, y int, header string) {

@@ -43,5 +43,5 @@ func OrderToCharacter(i int) string {
 	   it will be used with letters, but rune
 	   is alias of int32 and support unicode
 	   well. */
-	return string('a' + (-1+i))
+	return string('a' + i)
 }

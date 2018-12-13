@@ -44,6 +44,8 @@ func Controls(k int, p *Creature, b Board, c Creatures, o *Objects) bool {
 
 	case blt.TK_G:
 		turnSpent = p.PickUp(o)
+	case blt.TK_I:
+		turnSpent = p.InventoryMenu()
 	}
 	return turnSpent
 }

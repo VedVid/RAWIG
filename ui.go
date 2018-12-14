@@ -70,6 +70,14 @@ func PrintInventoryMenu(x, y int, header string, options Objects) {
 	PrintMenu(x, y, header, opts)
 }
 
+func PrintEquipmentMenu(x, y int, header string, options Objects) {
+	var opts = []string{}
+	for _, v := range options {
+		opts = append(opts, v.Char)
+	}
+	PrintMenu(x, y, header, opts)
+}
+
 func PrintMessages(x, y int, header string) {
 	/* PrintMessages works as PrintMenu, but it
 	   won't format text in special way. */

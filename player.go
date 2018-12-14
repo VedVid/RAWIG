@@ -88,3 +88,8 @@ func (p *Creature) InventoryMenu() bool {
 	PrintInventoryMenu(UIPosX, UIPosY, "Inventory:", p.Inventory)
 	return false
 	}
+
+func (p *Creature) EquipmentMenu() bool {
+	PrintEquipmentMenu(UIPosX, UIPosY, "Equipment:", Objects{p.Slot})
+	return false
+}

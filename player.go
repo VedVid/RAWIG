@@ -90,6 +90,7 @@ func (p *Creature) InventoryMenu() bool {
 	}
 
 func (p *Creature) EquipmentMenu() bool {
+	/* Same as InventoryMenu method. */
 	PrintEquipmentMenu(UIPosX, UIPosY, "Equipment:", Objects{p.Slot})
 	return false
 }

@@ -40,7 +40,7 @@ func PrintMenu(x, y int, header string, options []string) {
 	       MyMenu
 	       a) first
 	       b) two
-	    */
+	    It refreshed terminal and waits for player input at the end. */
 	if header == "" {
 		y--
 	}
@@ -71,6 +71,7 @@ func PrintInventoryMenu(x, y int, header string, options Objects) {
 }
 
 func PrintEquipmentMenu(x, y int, header string, options Objects) {
+	/* Same as PrintInventoryMenu. */
 	var opts = []string{}
 	for _, v := range options {
 		opts = append(opts, v.Char)

@@ -164,21 +164,29 @@ func (c *Creature) PickUp(o *Objects) bool {
 }
 
 func (c *Creature) Drop(objects *Objects, index int) bool {
-	//dropped object should appear on map
-	//but it won't be removed from c's inventory yet
+	/* Drop is method that has Creature as receiver and takes
+	   "global" list of objects as main argument, and additional
+	   integer that is index of item to be dropped from c's Inventory.
+	   At first, turnSpent is set to false, to make it true
+	   at the end of function. It may be considered as obsolete WET,
+	   because 'return true' would be sufficient, but it is
+	   a bit more readable now.
+	   Objs is dereferenced objects and it is absolutely necessary
+	   to do any actions on these objects.
+	   Drop do two things:
+	   at first, it adds specific item to the game map,
+	   then it removes this item from its owner Inventory. */
 	turnSpent := false
-	//start of adding item to the map
 	objs := *objects
+	// Add item to the map.
 	object := c.Inventory[index]
 	object.X, object.Y = c.X, c.Y
 	objs = append(objs, object)
 	*objects = objs
-	//end of adding item to the map
-	//start of removing item from inventory
+	// Then remove item from inventory.
 	copy(c.Inventory[index:], c.Inventory[index+1:])
 	c.Inventory[len(c.Inventory)-1] = nil
 	c.Inventory = c.Inventory[:len(c.Inventory)-1]
-	//end of removing item from inventory
 	turnSpent = true
 	return turnSpent
 }

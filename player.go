@@ -94,12 +94,22 @@ func (p *Creature) InventoryMenu(o *Objects) bool {
 	}
 
 func (p *Creature) EquipmentMenu() bool {
-	/* Same as InventoryMenu method. */
+	/* EquipmentMenu is method of Creature (that is supposed to be player)
+	   that prints menu with all equipped objects.
+	   Currently it returns false all the time, because there is no
+	   other things to do with it than printing menu. */
 	PrintEquipmentMenu(UIPosX, UIPosY, "Equipment:", Objects{p.Slot})
 	return false
 }
 
 func (p *Creature) HandleInventory(o *Objects, option int) bool {
+	/* HandleInventory is method that has pointer to Creature as receiver,
+	   but it is supposed to be player every time. It takes
+	   slice of game objects and chosen option (that is index of item in Inventory)
+	   as arguments.
+	   If option is valid index, ie is not out of Inventory bounds, it calls
+	   InventoryActions method for handling actions that are possible for
+	   this specific item. */
 	turnSpent := false
 	if option <= len(p.Inventory) { //valid input
 		turnSpent = p.InventoryActions(o, option)

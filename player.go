@@ -102,17 +102,17 @@ func (p *Creature) EquipmentMenu() bool {
 func (p *Creature) HandleInventory(option int) bool {
 	turnSpent := false
 	if option <= len(p.Inventory) { //valid input
-		turnSpent = InventoryActions(p.Inventory[option])
+		turnSpent = p.InventoryActions(option)
 	}
 	return turnSpent
 }
 
-func InventoryActions(o *Object) bool {
+func (p *Creature) InventoryActions(option int) bool {
 	//it's very basic example; it should create additional menu
 	//to choose to drop or use item or whatever is possible to do with it
 	//but it won't just now as it's kind of proof-of-concept
 	turnSpent := false
-	fmt.Println("You are working with: " + o.Char)
+	fmt.Println("You are working with: " + p.Inventory[option].Char)
 	for {
 		key := blt.Read()
 		if key == blt.TK_ENTER {

@@ -23,6 +23,8 @@ package main
 import (
 	"math"
 	"math/rand"
+
+	blt "bearlibterminal"
 )
 
 func RoundFloatToInt(x float64) int {
@@ -49,4 +51,14 @@ func OrderToCharacter(i int) string {
 	   it to deal with bare slices that count
 	   from 0.*/
 	return string('a' + i)
+}
+
+func KeyToOrder(key int) int {
+	/* Function KeyToOrder takes user input as integer
+	   (in BearLibTerminal player input is passed as 0x...)
+	   and return another int that is smaller by
+	   first-key (ie "a" key).
+	   It will need extensive error-checking
+	   (or maybe just LBYL?) for wrong input. */
+	return key - blt.TK_A
 }

@@ -174,8 +174,9 @@ func (c *Creature) Drop(objects *Objects, object *Object) bool {
 	object.X, object.Y = c.X, c.Y
 	objs = append(objs, object)
 	fmt.Println(len(objs))
-	objects = &objs
+	*objects = objs
 	fmt.Println(len(*objects))
+	fmt.Println(objects)
 	turnSpent = true
 	return turnSpent
 }

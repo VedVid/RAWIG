@@ -123,17 +123,17 @@ func (p *Creature) InventoryActions(o *Objects, option int) bool {
 	//but it won't just now as it's kind of proof-of-concept
 	turnSpent := false
 	for {
-		key := blt.Read()
 		PrintMenu(UIPosX, UIPosY, (*o)[option].Char, []string{"Use", "Drop", "Exit"})
+		key := blt.Read()
 		if key == blt.TK_A {
 			fmt.Println("Using items is not implemented yet. ")
+			turnSpent = true
 			break
 		} else if key == blt.TK_B {
 			p.Drop(o, option)
 			turnSpent = true
 			break
 		} else if key == blt.TK_C {
-			turnSpent = false
 			break
 		}
 	}

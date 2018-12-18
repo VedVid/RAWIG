@@ -83,13 +83,13 @@ func NewPlayer(layer, x, y int, character, color, colorDark string,
 	return playerNew, err
 }
 
-func (p *Creature) InventoryMenu() bool {
+func (p *Creature) InventoryMenu(o *Objects) bool {
 	/* Inventory menu is method of Creature (that is supposed to be a player).
 	   It calls PrintInventoryMenu (that have much better docstring).
 	   It returns false as printing menu doesn't spent turn, but it may change
 	   in near future, because using / equipping items will spent turn. */
 	PrintInventoryMenu(UIPosX, UIPosY, "Inventory:", p.Inventory)
-	turnSpent := p.HandleInventory(KeyToOrder(blt.Read())) //it's ugly one-liner
+	turnSpent := p.HandleInventory(o, KeyToOrder(blt.Read())) //it's ugly one-liner
 	return turnSpent
 	}
 
@@ -99,15 +99,15 @@ func (p *Creature) EquipmentMenu() bool {
 	return false
 }
 
-func (p *Creature) HandleInventory(option int) bool {
+func (p *Creature) HandleInventory(o *Objects, option int) bool {
 	turnSpent := false
 	if option <= len(p.Inventory) { //valid input
-		turnSpent = p.InventoryActions(option)
+		turnSpent = p.InventoryActions(o, option)
 	}
 	return turnSpent
 }
 
-func (p *Creature) InventoryActions(option int) bool {
+func (p *Creature) InventoryActions(o *Objects, option int) bool {
 	//it's very basic example; it should create additional menu
 	//to choose to drop or use item or whatever is possible to do with it
 	//but it won't just now as it's kind of proof-of-concept
@@ -116,7 +116,7 @@ func (p *Creature) InventoryActions(option int) bool {
 	for {
 		key := blt.Read()
 		if key == blt.TK_ENTER {
-			fmt.Println("You dropped this item.")
+			p.Drop(o, p.Inventory[option])
 			turnSpent = true
 			break
 		} else if key == blt.TK_ESCAPE {

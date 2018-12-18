@@ -22,6 +22,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"unicode/utf8"
 )
 
@@ -160,6 +161,22 @@ func (c *Creature) PickUp(o *Objects) bool {
 			break
 		}
 	}
+	return turnSpent
+}
+
+func (c *Creature) Drop(objects *Objects, object *Object) bool {
+	//dropped object should appear on map
+	//but it won't be removed from c's inventory yet
+	turnSpent := false
+	fmt.Println(len(*objects))
+	objs := *objects
+	fmt.Println(len(objs))
+	object.X, object.Y = c.X, c.Y
+	objs = append(objs, object)
+	fmt.Println(len(objs))
+	objects = &objs
+	fmt.Println(len(*objects))
+	turnSpent = true
 	return turnSpent
 }
 

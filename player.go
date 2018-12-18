@@ -85,8 +85,8 @@ func NewPlayer(layer, x, y int, character, color, colorDark string,
 func (p *Creature) InventoryMenu(o *Objects) bool {
 	/* Inventory menu is method of Creature (that is supposed to be a player).
 	   It calls PrintInventoryMenu (that have much better docstring).
-	   It returns false as printing menu doesn't spent turn, but it may change
-	   in near future, because using / equipping items will spent turn. */
+	   It returns boolean value that depends if real action (like using /
+	   dropping item) was performed. */
 	PrintInventoryMenu(UIPosX, UIPosY, "Inventory:", p.Inventory)
 	turnSpent := p.HandleInventory(o, KeyToOrder(blt.Read())) //it's ugly one-liner
 	return turnSpent

@@ -45,6 +45,11 @@ func PrintMenu(x, y int, header string, options []string) {
 		y--
 	}
 	txt := header
+	for x := UIPosX; x <= UIPosX+UISizeX; x++ {
+		for y := UIPosY; y <= UIPosY+UISizeY; y++ {
+			blt.Print(x, y, "[color=black]█")
+		}
+	}
 	for i, v := range options {
 		txt = txt + "\n" + OrderToCharacter(i) + ") " + v
 	}

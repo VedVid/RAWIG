@@ -21,8 +21,8 @@ RAWIG is small, personal project, and doesn't have proper, detailed roadmap. How
 Every revision before v 0.1 is potentially unstable. 
 
 **0.2**  
-- menuses (inventory, character screen)  
-- message log  
+- menuses (inventory, character screen) *done*  
+- message log *done*  
 - objects (elements of dungeon, consumables, equipment)  
 
 **0.3**  

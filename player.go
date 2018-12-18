@@ -22,7 +22,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"strconv"
 	"unicode/utf8"
 
@@ -122,7 +121,6 @@ func (p *Creature) InventoryActions(o *Objects, option int) bool {
 	//to choose to drop or use item or whatever is possible to do with it
 	//but it won't just now as it's kind of proof-of-concept
 	turnSpent := false
-	fmt.Println("You are working with: " + p.Inventory[option].Char)
 	for {
 		key := blt.Read()
 		if key == blt.TK_ENTER {
@@ -130,7 +128,6 @@ func (p *Creature) InventoryActions(o *Objects, option int) bool {
 			turnSpent = true
 			break
 		} else if key == blt.TK_ESCAPE {
-			fmt.Println("You closed the menu.")
 			turnSpent = false
 			break
 		}

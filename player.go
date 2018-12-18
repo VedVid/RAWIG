@@ -22,6 +22,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"unicode/utf8"
 
@@ -123,11 +124,15 @@ func (p *Creature) InventoryActions(o *Objects, option int) bool {
 	turnSpent := false
 	for {
 		key := blt.Read()
-		if key == blt.TK_ENTER {
+		PrintMenu(UIPosX, UIPosY, (*o)[option].Char, []string{"Use", "Drop", "Exit"})
+		if key == blt.TK_A {
+			fmt.Println("Using items is not implemented yet. ")
+			break
+		} else if key == blt.TK_B {
 			p.Drop(o, option)
 			turnSpent = true
 			break
-		} else if key == blt.TK_ESCAPE {
+		} else if key == blt.TK_C {
 			turnSpent = false
 			break
 		}

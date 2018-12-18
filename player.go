@@ -116,7 +116,7 @@ func (p *Creature) InventoryActions(o *Objects, option int) bool {
 	for {
 		key := blt.Read()
 		if key == blt.TK_ENTER {
-			p.Drop(o, p.Inventory[option])
+			p.Drop(o, option)
 			turnSpent = true
 			break
 		} else if key == blt.TK_ESCAPE {

@@ -84,3 +84,9 @@ func InitialDefenseError(defense int) string {
 	txt := "\n    <fighter defense: " + strconv.Itoa(defense) + ">"
 	return txt
 }
+
+func EquippableSlotError(equippable bool, slot int) string {
+	txt := "\n    <equippable: " + strconv.FormatBool(equippable) + "; slot: " +
+		strconv.Itoa(slot) + ">"
+	return txt
+}

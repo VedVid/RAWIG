@@ -31,6 +31,13 @@ const (
 	colorObjectDark = "dark blue"
 )
 
+const (
+	// Slots for inventory handling.
+	SlotNA = iota
+
+	SlotWeapon
+)
+
 type Object struct {
 	/* Objects are every other things on map;
 	   statues, tables, chairs; but also weapons,
@@ -45,7 +52,7 @@ type Object struct {
 type Objects []*Object
 
 func NewObject(layer, x, y int, character, color, colorDark string,
-	alwaysVisible, blocked, blocksSight bool, pickable, equippable bool) (*Object, error) {
+	alwaysVisible, blocked, blocksSight bool, pickable, equippable bool, slot int) (*Object, error) {
 	/* Function NewObject takes all values necessary by its struct,
 	   and creates then returns Object. */
 	var err error
@@ -60,6 +67,10 @@ func NewObject(layer, x, y int, character, color, colorDark string,
 	if utf8.RuneCountInString(character) != 1 {
 		txt := CharacterLengthError(character)
 		err = errors.New("Object character string length is not equal to 1." + txt)
+	}
+	if (equippable == false && slot != SlotNA) || (equippable == true && slot == SlotNA) {
+		txt := EquippableSlotError(equippable, slot)
+		err = errors.New("'equippable' and 'slot' values does not match." + txt)
 	}
 	objectBasicProperties := BasicProperties{layer, x, y, character, color,
 		colorDark}

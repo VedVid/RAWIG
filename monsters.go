@@ -175,7 +175,9 @@ func (c *Creature) Drop(objects *Objects, index int) bool {
 	*objects = objs
 	//end of adding item to the map
 	//start of removing item from inventory
-
+	copy(c.Inventory[index:], c.Inventory[index+1:])
+	c.Inventory[len(c.Inventory)-1] = nil
+	c.Inventory = c.Inventory[:len(c.Inventory)-1]
 	//end of removing item from inventory
 	turnSpent = true
 	return turnSpent

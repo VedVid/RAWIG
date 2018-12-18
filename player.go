@@ -22,8 +22,11 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"unicode/utf8"
+
+	blt "bearlibterminal"
 )
 
 const (
@@ -86,11 +89,41 @@ func (p *Creature) InventoryMenu() bool {
 	   It returns false as printing menu doesn't spent turn, but it may change
 	   in near future, because using / equipping items will spent turn. */
 	PrintInventoryMenu(UIPosX, UIPosY, "Inventory:", p.Inventory)
-	return false
+	turnSpent := p.HandleInventory(KeyToOrder(blt.Read())) //it's ugly one-liner
+	return turnSpent
 	}
 
 func (p *Creature) EquipmentMenu() bool {
 	/* Same as InventoryMenu method. */
 	PrintEquipmentMenu(UIPosX, UIPosY, "Equipment:", Objects{p.Slot})
 	return false
+}
+
+func (p *Creature) HandleInventory(option int) bool {
+	turnSpent := false
+	if option <= len(p.Inventory) { //valid input
+		turnSpent = InventoryActions(p.Inventory[option])
+	}
+	return turnSpent
+}
+
+func InventoryActions(o *Object) bool {
+	//it's very basic example; it should create additional menu
+	//to choose to drop or use item or whatever is possible to do with it
+	//but it won't just now as it's kind of proof-of-concept
+	turnSpent := false
+	fmt.Println("You are working with: " + o.Char)
+	for {
+		key := blt.Read()
+		if key == blt.TK_ENTER {
+			fmt.Println("You dropped this item.")
+			turnSpent = true
+			break
+		} else if key == blt.TK_ESCAPE {
+			fmt.Println("You closed the menu.")
+			turnSpent = false
+			break
+		}
+	}
+	return turnSpent
 }

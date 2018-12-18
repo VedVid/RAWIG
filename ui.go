@@ -50,7 +50,6 @@ func PrintMenu(x, y int, header string, options []string) {
 	}
 	blt.Print(x, y, txt)
 	blt.Refresh()
-	blt.Read()
 }
 
 func PrintInventoryMenu(x, y int, header string, options Objects) {

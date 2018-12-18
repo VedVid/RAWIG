@@ -53,7 +53,7 @@ func NewTile(layer, x, y int, character, color, colorDark string,
 		txt := LayerError(layer)
 		err = errors.New("Tile layer is smaller than 0." + txt)
 	}
-	if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
+	if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
 		txt := CoordsError(x, y)
 		err = errors.New("Tile coords is out of window range." + txt)
 	}
@@ -77,12 +77,12 @@ func InitializeEmptyMap() Board {
 	   lack simple way to do it, therefore it's necessary to use
 	   the first for loop.
 	   The second, nested loop initializes specific Tiles withing Board. */
-	b := make([][]*Tile, WindowSizeX)
+	b := make([][]*Tile, MapSizeX)
 	for i := range b {
-		b[i] = make([]*Tile, WindowSizeY)
+		b[i] = make([]*Tile, MapSizeY)
 	}
-	for x := 0; x < WindowSizeX; x++ {
-		for y := 0; y < WindowSizeY; y++ {
+	for x := 0; x < MapSizeX; x++ {
+		for y := 0; y < MapSizeY; y++ {
 			//workaround to missing _, err := ... idiom that won't work here
 			var err error
 			b[x][y], err = NewTile(BoardLayer, x, y, ".", colorTile,

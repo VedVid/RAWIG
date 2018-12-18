@@ -29,8 +29,18 @@ import (
 
 const (
 	// Setting BearLibTerminal window.
-	WindowSizeX = 30
-	WindowSizeY = 30
+	WindowSizeX = 50
+	WindowSizeY = 25
+	MapSizeX = 30
+	MapSizeY = 20
+	UIPosX = MapSizeX
+	UIPosY = 0
+	UISizeX = WindowSizeX - MapSizeX
+	UISizeY = WindowSizeY
+	LogSizeX = MapSizeX
+	LogSizeY = WindowSizeY - MapSizeY
+	LogPosX = 0
+	LogPosY = MapSizeY
 	GameTitle   = "unnamed game"
 	FontName    = "UbuntuMono-R.ttf"
 	FontSize    = 18

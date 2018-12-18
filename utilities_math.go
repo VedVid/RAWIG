@@ -23,6 +23,8 @@ package main
 import (
 	"math"
 	"math/rand"
+
+	blt "bearlibterminal"
 )
 
 func RoundFloatToInt(x float64) int {
@@ -35,4 +37,28 @@ func RandInt(max int) int {
 	/* Function RandInt wraps rand.Intn function;
 	   instead of returning 0..n-1 it returns 0..n. */
 	return rand.Intn(max + 1)
+}
+
+func OrderToCharacter(i int) string {
+	/* Function OrderToCharacter takes integer
+	   and converts it to string. Typically,
+	   it will be used with letters, but rune
+	   is alias of int32 and support unicode
+	   well.
+	   Typically, one would like to return
+	   string('a'-1+i)
+	   to convert "1" to "a", but RAWIG will use
+	   it to deal with bare slices that count
+	   from 0.*/
+	return string('a' + i)
+}
+
+func KeyToOrder(key int) int {
+	/* Function KeyToOrder takes user input as integer
+	   (in BearLibTerminal player input is passed as 0x...)
+	   and return another int that is smaller by
+	   first-key (ie "a" key).
+	   It will need extensive error-checking
+	   (or maybe just LBYL?) for wrong input. */
+	return key - blt.TK_A
 }

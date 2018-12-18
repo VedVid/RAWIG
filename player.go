@@ -22,8 +22,11 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"unicode/utf8"
+
+	blt "bearlibterminal"
 )
 
 const (
@@ -43,7 +46,7 @@ func NewPlayer(layer, x, y int, character, color, colorDark string,
 		txt := LayerError(layer)
 		err = errors.New("Player layer is smaller than 0." + txt)
 	}
-	if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
+	if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
 		txt := CoordsError(x, y)
 		err = errors.New("Player coords is out of window range." + txt)
 	}
@@ -78,4 +81,61 @@ func NewPlayer(layer, x, y int, character, color, colorDark string,
 		playerCollisionProperties, playerAIProperties, playerFighterProperties,
 		equipment}
 	return playerNew, err
+}
+
+func (p *Creature) InventoryMenu(o *Objects) bool {
+	/* Inventory menu is method of Creature (that is supposed to be a player).
+	   It calls PrintInventoryMenu (that have much better docstring).
+	   It returns boolean value that depends if real action (like using /
+	   dropping item) was performed. */
+	PrintInventoryMenu(UIPosX, UIPosY, "Inventory:", p.Inventory)
+	turnSpent := p.HandleInventory(o, KeyToOrder(blt.Read())) //it's ugly one-liner
+	return turnSpent
+	}
+
+func (p *Creature) EquipmentMenu() bool {
+	/* EquipmentMenu is method of Creature (that is supposed to be player)
+	   that prints menu with all equipped objects.
+	   Currently it returns false all the time, because there is no
+	   other things to do with it than printing menu. */
+	PrintEquipmentMenu(UIPosX, UIPosY, "Equipment:", Objects{p.Slot})
+	return false
+}
+
+func (p *Creature) HandleInventory(o *Objects, option int) bool {
+	/* HandleInventory is method that has pointer to Creature as receiver,
+	   but it is supposed to be player every time. It takes
+	   slice of game objects and chosen option (that is index of item in Inventory)
+	   as arguments.
+	   If option is valid index, ie is not out of Inventory bounds, it calls
+	   InventoryActions method for handling actions that are possible for
+	   this specific item. */
+	turnSpent := false
+	if option <= len(p.Inventory) { //valid input
+		turnSpent = p.InventoryActions(o, option)
+	}
+	return turnSpent
+}
+
+func (p *Creature) InventoryActions(o *Objects, option int) bool {
+	//it's very basic example; it should create additional menu
+	//to choose to drop or use item or whatever is possible to do with it
+	//but it won't just now as it's kind of proof-of-concept
+	turnSpent := false
+	for {
+		PrintMenu(UIPosX, UIPosY, (*o)[option].Char, []string{"Use", "Drop", "Exit"})
+		key := blt.Read()
+		if key == blt.TK_A {
+			fmt.Println("Using items is not implemented yet. ")
+			turnSpent = true
+			break
+		} else if key == blt.TK_B {
+			p.Drop(o, option)
+			turnSpent = true
+			break
+		} else if key == blt.TK_C {
+			break
+		}
+	}
+	return turnSpent
 }

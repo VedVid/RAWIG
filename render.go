@@ -21,6 +21,8 @@ freely, subject to the following restrictions:
 package main
 
 import (
+	"strconv"
+
 	blt "bearlibterminal"
 )
 
@@ -51,8 +53,8 @@ func PrintBoard(b Board, c Creatures) {
 	   is Explored already, and:
 	   - is in player's field of view (prints "normal" color) or
 	   - is AlwaysVisible (prints dark color). */
-	for x := 0; x < WindowSizeX; x++ {
-		for y := 0; y < WindowSizeY; y++ {
+	for x := 0; x < MapSizeX; x++ {
+		for y := 0; y < MapSizeY; y++ {
 			// Technically, "t" is new variable with own memory address...
 			t := b[x][y] // Should it be *b[x][y]?
 			blt.Layer(t.Layer)
@@ -124,6 +126,23 @@ func PrintCreatures(b Board, c Creatures) {
 	}
 }
 
+func PrintUI(c *Creature) {
+	/* Function PrintUI takes *Creature (it's supposed to be player) as argument.
+	   It prints UI infos on the right side of screen.
+	   For now its functionality is very modest, but it will expand when
+	   new elements of game mechanics will be introduced. So, for now, it
+	   provides only one basic, yet essential information: player's HP. */
+	name := "Player"
+	blt.Print(UIPosX, UIPosY, name)
+	hp := "[color=red]HP: " + strconv.Itoa(c.HPCurrent) + "\\" + strconv.Itoa(c.HPMax)
+	blt.Print(UIPosX, UIPosY+1, hp)
+}
+
+func PrintLog() {
+	/* Function PrintLog prints game messages at the bottom of screen. */
+	PrintMessages(LogPosX, LogPosY, "")
+}
+
 func RenderAll(b Board, o Objects, c Creatures) {
 	/* Function RenderAll prints every tile and character on game screen.
 	   Takes board slice (ie level map), slice of objects, and slice of creatures
@@ -131,6 +150,7 @@ func RenderAll(b Board, o Objects, c Creatures) {
 	   At first, it clears whole terminal window, then uses arguments:
 	   CastRays (for raycasting FOV) of first object (assuming that it is player),
 	   then calls functions for printing map, objects and creatures.
+	   Calls PrintLog that writes message log.
 	   At the end, RenderAll calls blt.Refresh() that makes
 	   changes to the game window visible. */
 	blt.Clear()
@@ -138,5 +158,7 @@ func RenderAll(b Board, o Objects, c Creatures) {
 	PrintBoard(b, c)
 	PrintObjects(b, o, c)
 	PrintCreatures(b, c)
+	PrintUI(c[0])
+	PrintLog()
 	blt.Refresh()
 }

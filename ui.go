@@ -41,15 +41,11 @@ func PrintMenu(x, y int, header string, options []string) {
 	       a) first
 	       b) two
 	    It refreshed terminal and waits for player input at the end. */
+	blt.ClearArea(UIPosX, UIPosY, UISizeX, UISizeY)
 	if header == "" {
 		y--
 	}
 	txt := header
-	for x := UIPosX; x <= UIPosX+UISizeX; x++ {
-		for y := UIPosY; y <= UIPosY+UISizeY; y++ {
-			blt.Print(x, y, "[color=black]█")
-		}
-	}
 	for i, v := range options {
 		txt = txt + "\n" + OrderToCharacter(i) + ") " + v
 	}

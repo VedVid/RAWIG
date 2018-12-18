@@ -167,10 +167,14 @@ func (c *Creature) Drop(objects *Objects, object *Object) bool {
 	//dropped object should appear on map
 	//but it won't be removed from c's inventory yet
 	turnSpent := false
+	//start of adding item to the map
 	objs := *objects
 	object.X, object.Y = c.X, c.Y
 	objs = append(objs, object)
 	*objects = objs
+	//end of adding item to the map
+	//start of removing item from inventory
+	//end of removing item from inventory
 	turnSpent = true
 	return turnSpent
 }

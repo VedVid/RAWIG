@@ -23,7 +23,7 @@ Every revision before v 0.1 is potentially unstable.
 **0.2**  
 - menuses (inventory, character screen) *done*  
 - message log *done*  
-- objects (elements of dungeon, consumables, equipment)  
+- objects (elements of dungeon, consumables, equipment)  *work in progress*
 
 **0.3**  
 - [l]ooking command  

@@ -67,9 +67,13 @@ type FighterProperties struct {
 
 type ObjectProperties struct {
 	/* Not every Object can be picked up - like tables;
-	   also, not every Object can be equipped - like cheese. */
+	   also, not every Object can be equipped - like cheese.
+	   It's place for other properties - like slot it will
+	   occupy, use cases, etc. */
 	Pickable   bool
 	Equippable bool
+	Slot       int
+	Use        int
 }
 
 type EquipmentComponent struct {

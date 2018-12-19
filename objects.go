@@ -38,6 +38,13 @@ const (
 	SlotWeapon
 )
 
+const (
+	// Use cases, mostly for consumables.
+	UseNA = iota
+
+	UseHeal
+)
+
 type Object struct {
 	/* Objects are every other things on map;
 	   statues, tables, chairs; but also weapons,
@@ -52,7 +59,7 @@ type Object struct {
 type Objects []*Object
 
 func NewObject(layer, x, y int, character, color, colorDark string,
-	alwaysVisible, blocked, blocksSight bool, pickable, equippable bool, slot int) (*Object, error) {
+	alwaysVisible, blocked, blocksSight bool, pickable, equippable bool, slot, use int) (*Object, error) {
 	/* Function NewObject takes all values necessary by its struct,
 	   and creates then returns Object. */
 	var err error
@@ -76,7 +83,7 @@ func NewObject(layer, x, y int, character, color, colorDark string,
 		colorDark}
 	objectVisibilityProperties := VisibilityProperties{alwaysVisible}
 	objectCollisionProperties := CollisionProperties{blocked, blocksSight}
-	objectProperties := ObjectProperties{pickable, equippable}
+	objectProperties := ObjectProperties{pickable, equippable, slot, use}
 	objectNew := &Object{objectBasicProperties, objectVisibilityProperties,
 		objectCollisionProperties, objectProperties}
 	return objectNew, err

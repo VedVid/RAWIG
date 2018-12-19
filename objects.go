@@ -47,6 +47,7 @@ const (
 
 const (
 	// Values for handling inventory actions.
+	ItemPass = "pass"
 	ItemDrop = "drop"
 	ItemEquip = "equip"
 	ItemUse = "use"

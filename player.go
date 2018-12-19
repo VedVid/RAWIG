@@ -127,8 +127,14 @@ func (p *Creature) InventoryActions(o *Objects, option int) bool {
 		for {
 			options := GatherItemOptions(object)
 			PrintMenu(UIPosX, UIPosY, object.Char, options)
-			chosen := options[KeyToOrder(blt.Read())]
-			switch chosen {
+			var chosenStr string
+			chosenInt := KeyToOrder(blt.Read())
+			if chosenInt > len(options)-1 {
+				chosenStr = ItemPass
+			} else {
+				chosenStr = options[chosenInt]
+			}
+			switch chosenStr {
 			case ItemEquip:
 				fmt.Println("Equipping items is not implemented yet. ")
 				break Loop

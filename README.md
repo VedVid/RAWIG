@@ -31,7 +31,7 @@ Every revision before v 0.1 is potentially unstable.
 
 ### Influences
 
-RAWIG is built from scratch. Yet, due historical reasons, it is influenced by [Jotaf's roguebasin python+libtcod tutorial](http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python%2Blibtcod). It's fair to give him a credit here.
+RAWIG is built from scratch. Yet, due historical reasons, it is influenced by [roguebasin python+libtcod tutorial](http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python%2Blibtcod). It's fair to give Jotaf, original author of this tutorial, a credit here.
 
 ### Contributors
 

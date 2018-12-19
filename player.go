@@ -127,7 +127,6 @@ func (p *Creature) InventoryActions(o *Objects, option int) bool {
 		for {
 			options := GatherItemOptions(object)
 			PrintMenu(UIPosX, UIPosY, object.Char, options)
-			//turnSpent = HandleInventoryActions(object, options, KeyToOrder(blt.Read()))
 			chosen := options[KeyToOrder(blt.Read())]
 			switch chosen {
 			case ItemEquip:

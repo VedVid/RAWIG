@@ -22,6 +22,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"unicode/utf8"
 )
 
@@ -100,15 +101,28 @@ func NewObject(layer, x, y int, character, color, colorDark string,
 
 func GatherItemOptions(o *Object) []string {
 	var options = []string{}
-	if o.Pickable == true {
-		options = append(options, ItemDrop)
-	}
 	if o.Equippable == true {
 		options = append(options, ItemEquip)
 	}
 	if o.Use != UseNA {
 		options = append(options, ItemUse)
 	}
+	if o.Pickable == true {
+		options = append(options, ItemDrop)
+	}
 	options = append(options, ItemBack)
+	fmt.Println(o)
 	return options
+}
+
+func (o *Object) UseItem(c *Creature) bool {
+	turnSpent := false
+	switch o.Use {
+	case UseHeal:
+		c.HPCurrent = c.HPMax
+		turnSpent = true
+	default:
+		break //here will be error handling for wrong UseCase
+	}
+	return turnSpent
 }

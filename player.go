@@ -122,7 +122,7 @@ func (p *Creature) InventoryActions(o *Objects, option int) bool {
 	//to choose to drop or use item or whatever is possible to do with it
 	//but it won't just now as it's kind of proof-of-concept
 	turnSpent := false
-	object := (*o)[option]
+	object := p.Inventory[option]
 	Loop:
 		for {
 			options := GatherItemOptions(object)
@@ -143,7 +143,7 @@ func (p *Creature) InventoryActions(o *Objects, option int) bool {
 				turnSpent = true
 				break Loop
 			case ItemUse:
-				fmt.Println("Using items is not implemented yet. ")
+				turnSpent = object.UseItem(p)
 				break Loop
 			case ItemBack:
 				break Loop

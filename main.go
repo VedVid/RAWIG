@@ -31,20 +31,25 @@ import (
 var MsgBuf = []string{}
 
 func main() {
-	slot, _ := NewObject(ObjectsLayer, 0, 0, "}", "red", "dark red", true, false, false, true, true, SlotWeapon, UseHeal)
-	item, _ := NewObject(ObjectsLayer, 0, 0, "O", "blue", "dark blue", true, false, false, true, false, SlotNA, UseNA)
+	slot, _ := NewObject(ObjectsLayer, 0, 0, "}", "red", "dark red", true,
+		false, false, true, true, SlotWeapon, UseNA)
+	item, _ := NewObject(ObjectsLayer, 0, 0, "O", "blue", "dark blue", true,
+		false, false, true, false, SlotNA, UseHeal)
 	var playerEq = EquipmentComponent{slot, Objects{item}}
-	player, err := NewPlayer(PlayerLayer, 1, 1, "@", "white", "white", true, true, false, PlayerAI, 20, 5, 2, playerEq)
+	player, err := NewPlayer(PlayerLayer, 1, 1, "@", "white", "white", true,
+		true, false, PlayerAI, 20, 5, 2, playerEq)
 	if err != nil {
 		fmt.Println(err)
 	}
 	var enemyEq = EquipmentComponent{nil, Objects{}}
-	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "green", "green", false, true, false, PatherAI, 10, 4, 1, enemyEq)
+	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "green", "green",
+		false, true, false, PatherAI, 10, 4, 1, enemyEq)
 	if err != nil {
 		fmt.Println(err)
 	}
 	var actors = Creatures{player, enemy}
-	obj, err := NewObject(ObjectsLayer, 3, 3, "(", "blue", "dark blue", true, false, false, true, false, SlotNA, UseNA)
+	obj, err := NewObject(ObjectsLayer, 3, 3, "(", "blue", "dark blue", true,
+		false, false, true, false, SlotNA, UseNA)
 	var objs = Objects{obj}
 	if err != nil {
 		fmt.Println(err)

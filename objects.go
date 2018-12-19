@@ -22,7 +22,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"unicode/utf8"
 )
 
@@ -111,7 +110,6 @@ func GatherItemOptions(o *Object) []string {
 		options = append(options, ItemDrop)
 	}
 	options = append(options, ItemBack)
-	fmt.Println(o)
 	return options
 }
 

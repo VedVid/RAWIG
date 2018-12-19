@@ -38,6 +38,22 @@ const (
 	SlotWeapon
 )
 
+const (
+	// Use cases, mostly for consumables.
+	UseNA = iota
+
+	UseHeal
+)
+
+const (
+	// Values for handling inventory actions.
+	ItemPass = "pass"
+	ItemDrop = "drop"
+	ItemEquip = "equip"
+	ItemUse = "use"
+	ItemBack = "back"
+)
+
 type Object struct {
 	/* Objects are every other things on map;
 	   statues, tables, chairs; but also weapons,
@@ -52,7 +68,7 @@ type Object struct {
 type Objects []*Object
 
 func NewObject(layer, x, y int, character, color, colorDark string,
-	alwaysVisible, blocked, blocksSight bool, pickable, equippable bool, slot int) (*Object, error) {
+	alwaysVisible, blocked, blocksSight bool, pickable, equippable bool, slot, use int) (*Object, error) {
 	/* Function NewObject takes all values necessary by its struct,
 	   and creates then returns Object. */
 	var err error
@@ -76,8 +92,35 @@ func NewObject(layer, x, y int, character, color, colorDark string,
 		colorDark}
 	objectVisibilityProperties := VisibilityProperties{alwaysVisible}
 	objectCollisionProperties := CollisionProperties{blocked, blocksSight}
-	objectProperties := ObjectProperties{pickable, equippable}
+	objectProperties := ObjectProperties{pickable, equippable, slot, use}
 	objectNew := &Object{objectBasicProperties, objectVisibilityProperties,
 		objectCollisionProperties, objectProperties}
 	return objectNew, err
+}
+
+func GatherItemOptions(o *Object) []string {
+	var options = []string{}
+	if o.Equippable == true {
+		options = append(options, ItemEquip)
+	}
+	if o.Use != UseNA {
+		options = append(options, ItemUse)
+	}
+	if o.Pickable == true {
+		options = append(options, ItemDrop)
+	}
+	options = append(options, ItemBack)
+	return options
+}
+
+func (o *Object) UseItem(c *Creature) bool {
+	turnSpent := false
+	switch o.Use {
+	case UseHeal:
+		c.HPCurrent = c.HPMax
+		turnSpent = true
+	default:
+		break //here will be error handling for wrong UseCase
+	}
+	return turnSpent
 }

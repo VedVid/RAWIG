@@ -26,12 +26,6 @@ import (
 )
 
 const (
-	// Colors.
-	colorCreature     = "green"
-	colorCreatureDark = "dark green"
-)
-
-const (
 	// Special characters.
 	CorpseChar = "%"
 )

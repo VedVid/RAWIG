@@ -32,7 +32,6 @@ import (
 const (
 	// Values that are important for creating and backtracking graph.
 	nodeInitialWeight = -1 // Nodes not traversed.
-	nodeGoalWeight    = 0  // Value for goal node.
 )
 
 type Node struct {

@@ -29,12 +29,6 @@ import (
 	blt "bearlibterminal"
 )
 
-const (
-	// Colors.
-	colorPlayer     = "white"
-	colorPlayerDark = "white"
-)
-
 func NewPlayer(layer, x, y int, character, color, colorDark string,
 	alwaysVisible, blocked, blocksSight bool, ai, hp, attack,
 	defense int, equipment EquipmentComponent) (*Creature, error) {

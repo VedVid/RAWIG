@@ -26,12 +26,6 @@ import (
 )
 
 const (
-	// Colors.
-	colorObject     = "blue"
-	colorObjectDark = "dark blue"
-)
-
-const (
 	// Slots for inventory handling.
 	SlotNA = iota
 

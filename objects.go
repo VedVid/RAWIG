@@ -93,6 +93,10 @@ func NewObject(layer, x, y int, character, color, colorDark string,
 }
 
 func GatherItemOptions(o *Object) []string {
+	/* Function GatherItemOptions takes pointer to specific Object
+	   as argument and returns slice of strings that is list of
+	   possible actions. ItemBack that is necessary, yet last value
+	   to include, to provide way to close menu. */
 	var options = []string{}
 	if o.Equippable == true {
 		options = append(options, ItemEquip)
@@ -108,6 +112,11 @@ func GatherItemOptions(o *Object) []string {
 }
 
 func (o *Object) UseItem(c *Creature) bool {
+	/* Method UseItem has Object as receiver and takes Creature as argument.
+	   It uses Use value of receiver to determine what action will be performed.
+	   If there is no valid o.Use, it breaks switch statement (need proper
+	   error handling).
+	   Returns turnSpent that is true, unless o.Use is invalid. */
 	turnSpent := false
 	switch o.Use {
 	case UseHeal:

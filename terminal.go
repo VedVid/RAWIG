@@ -54,7 +54,7 @@ func constrainThreads() {
 }
 
 func InitializeBLT() {
-	// Constraining threads and setting blt window.
+	/* Constraining threads and setting BearLibTerminal window. */
 	constrainThreads()
 	blt.Open()
 	sizeX, sizeY := strconv.Itoa(WindowSizeX), strconv.Itoa(WindowSizeY)

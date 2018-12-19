@@ -79,13 +79,17 @@ func InitialAttackError(attack int) string {
 
 func InitialDefenseError(defense int) string {
 	/* Function InitialDefenseError is helper function that returns string
-	   to error; it takes creature's attack value as argument and returns string.
+	   to error; it takes creature's defense value as argument.
 	   Defense value should not be negative. */
 	txt := "\n    <fighter defense: " + strconv.Itoa(defense) + ">"
 	return txt
 }
 
 func EquippableSlotError(equippable bool, slot int) string {
+	/* Function EquippableSlotError is helper function that returns string
+	   to error; it takes equippable bool and slot int as arguments.
+	   Slot should not be 0 if equippable is set to true, and should be 0
+	   if equippable is set to false. */
 	txt := "\n    <equippable: " + strconv.FormatBool(equippable) + "; slot: " +
 		strconv.Itoa(slot) + ">"
 	return txt

@@ -112,9 +112,21 @@ func (p *Creature) HandleInventory(o *Objects, option int) bool {
 }
 
 func (p *Creature) InventoryActions(o *Objects, option int) bool {
-	//it's very basic example; it should create additional menu
-	//to choose to drop or use item or whatever is possible to do with it
-	//but it won't just now as it's kind of proof-of-concept
+	/* InventoryActions is method that has *Creature as receiver
+	   (that is supposed to be player) and takes *Objects and index
+	   of specific item (ie integer) as arguments.
+	   It loops rendering menu until proper input is provided.
+	   Loop is pretty complicated:
+	   - is labelled as Loop to make breaking simpler
+	   - at first, it uses GatherItemOptions to group all actions
+	     that are possible for this specific item
+	   - gets player input and checks if it's valid;
+	     valid input is binded to chosenStr variable;
+	     invalid is, before binding, transformed to ItemPass value
+	   - switch expression is called:
+	     * all cases are resolved by external functions
+	     * equipping items is not implemented yet
+	     * with invalid input, loop continues */
 	turnSpent := false
 	object := p.Inventory[option]
 	Loop:

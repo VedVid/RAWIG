@@ -45,6 +45,14 @@ const (
 	UseHeal
 )
 
+const (
+	// Values for handling inventory actions.
+	ItemDrop = "drop"
+	ItemEquip = "equip"
+	ItemUse = "use"
+	ItemBack = "back"
+)
+
 type Object struct {
 	/* Objects are every other things on map;
 	   statues, tables, chairs; but also weapons,
@@ -87,4 +95,19 @@ func NewObject(layer, x, y int, character, color, colorDark string,
 	objectNew := &Object{objectBasicProperties, objectVisibilityProperties,
 		objectCollisionProperties, objectProperties}
 	return objectNew, err
+}
+
+func GatherItemOptions(o *Object) []string {
+	var options = []string{}
+	if o.Pickable == true {
+		options = append(options, ItemDrop)
+	}
+	if o.Equippable == true {
+		options = append(options, ItemEquip)
+	}
+	if o.Use != UseNA {
+		options = append(options, ItemUse)
+	}
+	options = append(options, ItemBack)
+	return options
 }

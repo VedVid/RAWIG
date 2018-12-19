@@ -122,20 +122,29 @@ func (p *Creature) InventoryActions(o *Objects, option int) bool {
 	//to choose to drop or use item or whatever is possible to do with it
 	//but it won't just now as it's kind of proof-of-concept
 	turnSpent := false
-	for {
-		PrintMenu(UIPosX, UIPosY, (*o)[option].Char, []string{"Use", "Drop", "Exit"})
-		key := blt.Read()
-		if key == blt.TK_A {
-			fmt.Println("Using items is not implemented yet. ")
-			turnSpent = true
-			break
-		} else if key == blt.TK_B {
-			p.Drop(o, option)
-			turnSpent = true
-			break
-		} else if key == blt.TK_C {
-			break
+	object := (*o)[option]
+	Loop:
+		for {
+			options := GatherItemOptions(object)
+			PrintMenu(UIPosX, UIPosY, object.Char, options)
+			//turnSpent = HandleInventoryActions(object, options, KeyToOrder(blt.Read()))
+			chosen := options[KeyToOrder(blt.Read())]
+			switch chosen {
+			case ItemEquip:
+				fmt.Println("Equipping items is not implemented yet. ")
+				break Loop
+			case ItemDrop:
+				p.Drop(o, option)
+				turnSpent = true
+				break Loop
+			case ItemUse:
+				fmt.Println("Using items is not implemented yet. ")
+				break Loop
+			case ItemBack:
+				break Loop
+			default:
+				continue Loop
+			}
 		}
-	}
 	return turnSpent
 }

@@ -48,18 +48,13 @@ type CollisionProperties struct {
 	BlocksSight bool
 }
 
-type AIProperties struct {
-	/* AIProperties serves holding information about
-	   creature AI. AI types are iota (integers) in
-	   creatures.go. */
-	AIType int
-}
-
 type FighterProperties struct {
 	/* FighterProperties stores information about
 	   things that can live and fight (ie fighters);
 	   it may be used for destructible environment
-	   elements as well. */
+	   elements as well.
+	   AI types are iota (integers) in creatures.go. */
+	AIType    int
 	HPMax     int
 	HPCurrent int
 	Attack    int

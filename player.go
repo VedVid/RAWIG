@@ -69,10 +69,9 @@ func NewPlayer(layer, x, y int, character, name, color, colorDark string,
 		colorDark}
 	playerVisibilityProperties := VisibilityProperties{alwaysVisible}
 	playerCollisionProperties := CollisionProperties{blocked, blocksSight}
-	playerAIProperties := AIProperties{ai}
-	playerFighterProperties := FighterProperties{hp, hp, attack, defense}
+	playerFighterProperties := FighterProperties{ai,hp, hp, attack, defense}
 	playerNew := &Creature{playerBasicProperties, playerVisibilityProperties,
-		playerCollisionProperties, playerAIProperties, playerFighterProperties,
+		playerCollisionProperties, playerFighterProperties,
 		equipment}
 	return playerNew, err
 }

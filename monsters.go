@@ -36,7 +36,6 @@ type Creature struct {
 	BasicProperties
 	VisibilityProperties
 	CollisionProperties
-	AIProperties
 	FighterProperties
 	EquipmentComponent
 }
@@ -78,11 +77,10 @@ func NewCreature(layer, x, y int, character, name, color, colorDark string,
 		colorDark}
 	creatureVisibilityProperties := VisibilityProperties{alwaysVisible}
 	creatureCollisionProperties := CollisionProperties{blocked, blocksSight}
-	creatureAIProperties := AIProperties{ai}
-	creatureFighterProperties := FighterProperties{hp, hp, attack, defense}
+	creatureFighterProperties := FighterProperties{ai, hp, hp, attack, defense}
 	creatureNew := &Creature{creatureBasicProperties,
 		creatureVisibilityProperties, creatureCollisionProperties,
-		creatureAIProperties, creatureFighterProperties, equipment}
+		creatureFighterProperties, equipment}
 	return creatureNew, err
 }
 

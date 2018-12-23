@@ -53,7 +53,8 @@ type FighterProperties struct {
 	   things that can live and fight (ie fighters);
 	   it may be used for destructible environment
 	   elements as well.
-	   AI types are iota (integers) in creatures.go. */
+	   AI types are iota (integers) defined
+	   in creatures.go. */
 	AIType    int
 	HPMax     int
 	HPCurrent int

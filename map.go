@@ -76,7 +76,7 @@ func InitializeEmptyMap() Board {
 	   It starts by declaring 2d slice of *Tile - unfortunately, Go seems to
 	   lack simple way to do it, therefore it's necessary to use
 	   the first for loop.
-	   The second, nested loop initializes specific Tiles withing Board. */
+	   The second, nested loop initializes specific Tiles within Board bounds. */
 	b := make([][]*Tile, MapSizeX)
 	for i := range b {
 		b[i] = make([]*Tile, MapSizeY)

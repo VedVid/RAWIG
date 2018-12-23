@@ -88,7 +88,7 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 
 func PrintMessages(x, y int, header string) {
 	/* PrintMessages works as PrintMenu, but it
-	   won't format text in special way. */
+	   will not format text in special way. */
 	if header == "" {
 		y--
 	}

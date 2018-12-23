@@ -112,6 +112,13 @@ func GatherItemOptions(o *Object) []string {
 }
 
 func CheckEqSlot(i int) string {
+	/* Function CheckEqSlot is helper function that takes integer
+	   (Slot's integer defined at the top of this file) from
+	   specific Object, then return string that will be used
+	   as part of item "name" in PrintEquipmentMenu function
+	   (ui.go).
+	   Unfortunately, this function has to be updated manually
+	   after changing / adding Slots in other places. */
 	s := ""
 	switch i {
 	case SlotNA:

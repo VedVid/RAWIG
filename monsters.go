@@ -85,6 +85,15 @@ func NewCreature(layer, x, y int, character, name, color, colorDark string,
 }
 
 func GetAllSlots(c *Creature) Objects {
+	/* GetAllSlots is helper function that takes Creature as argument
+	   and returns Objects.
+	   It creates new slice of Objects with all Creature Slots
+	   (for now it is only c.SlotWeapon, but one can add c.SlotHelmet etc.,
+	   but needs to remember to compose it in EquipmentComponent as well.
+	   GetAllSlots should be "generic" function that will  not require
+	   further work, but unfortunately - it is not. It means that
+	   after every moment of tinkering with Slots in other documents,
+	   this function has to be updated manually. */
 	var o = Objects{c.SlotWeapon}
 	return o
 }
@@ -143,7 +152,7 @@ func (c *Creature) PickUp(o *Objects) bool {
 	   If creature stands on object that is possible to pick,
 	   object is added to c's inventory, and removed
 	   from "global" slice of objects.
-	   Picking objects up takes turn only if it's
+	   Picking objects up takes turn only if it is
 	   successful attempt. */
 	turnSpent := false
 	obj := *o
@@ -189,7 +198,7 @@ func (c *Creature) Drop(objects *Objects, index int) bool {
 }
 
 func (c *Creature) Die() {
-	/* Method Die is called, when Creature's HP drops below zero.
+	/* Method Die is called when Creature's HP drops below zero.
 	   Die() has *Creature as receiver.
 	   Receiver properties changes to fit better to corpse. */
 	c.Layer = DeadLayer

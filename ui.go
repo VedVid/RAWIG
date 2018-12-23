@@ -77,10 +77,10 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 	sort.Slice(options, func(i, j int) bool {
 		return options[i].Slot < options[j].Slot
 	})
-	for i, v := range options {
+	for _, v := range options {
 		// needs error checking for "" strings
-		eqSlot := CheckEqSlot(i)
-		txt := "[" + eqSlot + "] " + v.Name
+		eqSlot := CheckEqSlot(v.Slot)
+		txt := "[[" + eqSlot + "]] " + v.Name
 		opts = append(opts, txt)
 	}
 	PrintMenu(x, y, header, opts)

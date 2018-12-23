@@ -61,7 +61,7 @@ type Object struct {
 // Objects holds every object on map.
 type Objects []*Object
 
-func NewObject(layer, x, y int, character, color, colorDark string,
+func NewObject(layer, x, y int, character, name, color, colorDark string,
 	alwaysVisible, blocked, blocksSight bool, pickable, equippable bool, slot, use int) (*Object, error) {
 	/* Function NewObject takes all values necessary by its struct,
 	   and creates then returns Object. */
@@ -82,7 +82,7 @@ func NewObject(layer, x, y int, character, color, colorDark string,
 		txt := EquippableSlotError(equippable, slot)
 		err = errors.New("'equippable' and 'slot' values does not match." + txt)
 	}
-	objectBasicProperties := BasicProperties{layer, x, y, character, color,
+	objectBasicProperties := BasicProperties{layer, x, y, character, name,color,
 		colorDark}
 	objectVisibilityProperties := VisibilityProperties{alwaysVisible}
 	objectCollisionProperties := CollisionProperties{blocked, blocksSight}

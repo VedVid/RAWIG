@@ -44,7 +44,7 @@ type Tile struct {
    to hold data of its every cell. */
 type Board [][]*Tile
 
-func NewTile(layer, x, y int, character, color, colorDark string,
+func NewTile(layer, x, y int, character, name, color, colorDark string,
 	alwaysVisible, explored, blocked, blocksSight bool) (*Tile, error) {
 	/* Function NewTile takes all values necessary by its struct,
 	   and creates then returns Tile. */
@@ -61,7 +61,7 @@ func NewTile(layer, x, y int, character, color, colorDark string,
 		txt := CharacterLengthError(character)
 		err = errors.New("Tile character string length is not equal to 1." + txt)
 	}
-	tileBasicProperties := BasicProperties{layer, x, y, character, color,
+	tileBasicProperties := BasicProperties{layer, x, y, character, name, color,
 		colorDark}
 	tileVisibilityProperties := VisibilityProperties{alwaysVisible}
 	tileCollisionProperties := CollisionProperties{blocked, blocksSight}
@@ -85,7 +85,7 @@ func InitializeEmptyMap() Board {
 		for y := 0; y < MapSizeY; y++ {
 			//workaround to missing _, err := ... idiom that won't work here
 			var err error
-			b[x][y], err = NewTile(BoardLayer, x, y, ".", colorTile,
+			b[x][y], err = NewTile(BoardLayer, x, y, ".", "", colorTile,
 				colorTileDark, true, false, false, false)
 			if err != nil {
 				fmt.Println(err)

@@ -27,6 +27,7 @@ type BasicProperties struct {
 	Layer     int
 	X, Y      int
 	Char      string
+	Name      string
 	Color     string
 	ColorDark string
 }

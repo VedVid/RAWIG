@@ -29,7 +29,7 @@ import (
 	blt "bearlibterminal"
 )
 
-func NewPlayer(layer, x, y int, character, color, colorDark string,
+func NewPlayer(layer, x, y int, character, name, color, colorDark string,
 	alwaysVisible, blocked, blocksSight bool, ai, hp, attack,
 	defense int, equipment EquipmentComponent) (*Creature, error) {
 	/* Function NewPlayer takes all values necessary by its struct,
@@ -65,7 +65,7 @@ func NewPlayer(layer, x, y int, character, color, colorDark string,
 		txt := InitialDefenseError(defense)
 		err = errors.New("Player defense value is smaller than 0." + txt)
 	}
-	playerBasicProperties := BasicProperties{layer, x, y, character, color,
+	playerBasicProperties := BasicProperties{layer, x, y, character, name, color,
 		colorDark}
 	playerVisibilityProperties := VisibilityProperties{alwaysVisible}
 	playerCollisionProperties := CollisionProperties{blocked, blocksSight}

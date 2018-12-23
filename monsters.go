@@ -44,7 +44,7 @@ type Creature struct {
 // Creatures holds every creature on map.
 type Creatures []*Creature
 
-func NewCreature(layer, x, y int, character, color, colorDark string,
+func NewCreature(layer, x, y int, character, name, color, colorDark string,
 	alwaysVisible, blocked, blocksSight bool, ai, hp, attack,
 	defense int, equipment EquipmentComponent) (*Creature, error) {
 	/* Function NewCreature takes all values necessary by its struct,
@@ -74,7 +74,7 @@ func NewCreature(layer, x, y int, character, color, colorDark string,
 		txt := InitialDefenseError(defense)
 		err = errors.New("Creature defense value is smaller than 0." + txt)
 	}
-	creatureBasicProperties := BasicProperties{layer, x, y, character, color,
+	creatureBasicProperties := BasicProperties{layer, x, y, character, name, color,
 		colorDark}
 	creatureVisibilityProperties := VisibilityProperties{alwaysVisible}
 	creatureCollisionProperties := CollisionProperties{blocked, blocksSight}

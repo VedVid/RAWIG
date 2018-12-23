@@ -66,7 +66,7 @@ func PrintInventoryMenu(x, y int, header string, options Objects) {
 	   I'd like to just pass Objects to the PrintMenu func. */
 	var opts = []string{}
 	for _, v := range options {
-		opts = append(opts, v.Char)
+		opts = append(opts, v.Name)
 	}
 	PrintMenu(x, y, header, opts)
 }
@@ -80,7 +80,7 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 	for i, v := range options {
 		// needs error checking for "" strings
 		eqSlot := CheckEqSlot(i)
-		txt := "[" + eqSlot + "] " + v.Char
+		txt := "[" + eqSlot + "] " + v.Name
 		opts = append(opts, txt)
 	}
 	PrintMenu(x, y, header, opts)

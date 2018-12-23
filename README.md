@@ -20,6 +20,12 @@ RAWIG is small, personal project, and doesn't have proper, detailed roadmap. How
 
 Every revision before v 0.1 is potentially unstable. 
 
+**Implemented already:**  
+- rendering system  
+- maps, monsters, items  
+- pathfinding  
+- melee combat
+
 **0.2**  
 - menuses (inventory, character screen) *done*  
 - message log *done*  

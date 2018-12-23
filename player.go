@@ -133,7 +133,7 @@ func (p *Creature) InventoryActions(o *Objects, option int) bool {
 Loop:
 	for {
 		options := GatherItemOptions(object)
-		PrintMenu(UIPosX, UIPosY, object.Char, options)
+		PrintMenu(UIPosX, UIPosY, object.Name, options)
 		var chosenStr string
 		chosenInt := KeyToOrder(blt.Read())
 		if chosenInt > len(options)-1 {

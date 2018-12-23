@@ -41,11 +41,11 @@ const (
 
 const (
 	// Values for handling inventory actions.
-	ItemPass = "pass"
-	ItemDrop = "drop"
+	ItemPass  = "pass"
+	ItemDrop  = "drop"
 	ItemEquip = "equip"
-	ItemUse = "use"
-	ItemBack = "back"
+	ItemUse   = "use"
+	ItemBack  = "back"
 )
 
 type Object struct {
@@ -109,6 +109,19 @@ func GatherItemOptions(o *Object) []string {
 	}
 	options = append(options, ItemBack)
 	return options
+}
+
+func CheckEqSlot(i int) string {
+	s := ""
+	switch i {
+	case SlotNA:
+		s = ""
+	case SlotWeapon:
+		s = "weapon"
+	default:
+		s = ""
+	}
+	return s
 }
 
 func (o *Object) UseItem(c *Creature) bool {

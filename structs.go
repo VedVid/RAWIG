@@ -82,6 +82,6 @@ type EquipmentComponent struct {
 	   equipped items (it could be "head" for helmets,
 	   "feet" for boots, etc).
 	   Inventory is list of items in backpack. */
-	Slot      *Object
-	Inventory Objects
+	SlotWeapon *Object
+	Inventory  Objects
 }

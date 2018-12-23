@@ -86,6 +86,11 @@ func NewCreature(layer, x, y int, character, color, colorDark string,
 	return creatureNew, err
 }
 
+func GetAllSlots(c *Creature) Objects {
+	var o = Objects{c.SlotWeapon}
+	return o
+}
+
 func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) bool {
 	/* Method MoveOrAttack decides if Creature will move or attack other Creature;
 	   It has *Creature receiver, and takes tx, ty (coords) integers as arguments,

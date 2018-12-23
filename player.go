@@ -85,14 +85,16 @@ func (p *Creature) InventoryMenu(o *Objects) bool {
 	PrintInventoryMenu(UIPosX, UIPosY, "Inventory:", p.Inventory)
 	turnSpent := p.HandleInventory(o, KeyToOrder(blt.Read())) //it's ugly one-liner
 	return turnSpent
-	}
+}
 
 func (p *Creature) EquipmentMenu() bool {
 	/* EquipmentMenu is method of Creature (that is supposed to be player)
 	   that prints menu with all equipped objects.
 	   Currently it returns false all the time, because there is no
 	   other things to do with it than printing menu. */
-	PrintEquipmentMenu(UIPosX, UIPosY, "Equipment:", Objects{p.Slot})
+	eq := GetAllSlots(p)
+	PrintEquipmentMenu(UIPosX, UIPosY, "Equipment:", eq)
+	blt.Read()
 	return false
 }
 
@@ -129,33 +131,33 @@ func (p *Creature) InventoryActions(o *Objects, option int) bool {
 	     * with invalid input, loop continues */
 	turnSpent := false
 	object := p.Inventory[option]
-	Loop:
-		for {
-			options := GatherItemOptions(object)
-			PrintMenu(UIPosX, UIPosY, object.Char, options)
-			var chosenStr string
-			chosenInt := KeyToOrder(blt.Read())
-			if chosenInt > len(options)-1 {
-				chosenStr = ItemPass
-			} else {
-				chosenStr = options[chosenInt]
-			}
-			switch chosenStr {
-			case ItemEquip:
-				fmt.Println("Equipping items is not implemented yet. ")
-				break Loop
-			case ItemDrop:
-				p.Drop(o, option)
-				turnSpent = true
-				break Loop
-			case ItemUse:
-				turnSpent = object.UseItem(p)
-				break Loop
-			case ItemBack:
-				break Loop
-			default:
-				continue Loop
-			}
+Loop:
+	for {
+		options := GatherItemOptions(object)
+		PrintMenu(UIPosX, UIPosY, object.Char, options)
+		var chosenStr string
+		chosenInt := KeyToOrder(blt.Read())
+		if chosenInt > len(options)-1 {
+			chosenStr = ItemPass
+		} else {
+			chosenStr = options[chosenInt]
 		}
+		switch chosenStr {
+		case ItemEquip:
+			fmt.Println("Equipping items is not implemented yet. ")
+			break Loop
+		case ItemDrop:
+			p.Drop(o, option)
+			turnSpent = true
+			break Loop
+		case ItemUse:
+			turnSpent = object.UseItem(p)
+			break Loop
+		case ItemBack:
+			break Loop
+		default:
+			continue Loop
+		}
+	}
 	return turnSpent
 }

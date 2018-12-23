@@ -22,6 +22,7 @@ package main
 
 import (
 	blt "bearlibterminal"
+	"sort"
 )
 
 const (
@@ -71,10 +72,16 @@ func PrintInventoryMenu(x, y int, header string, options Objects) {
 }
 
 func PrintEquipmentMenu(x, y int, header string, options Objects) {
-	/* Same as PrintInventoryMenu. */
+	/* Similar to PrintInventoryMenu. */
 	var opts = []string{}
-	for _, v := range options {
-		opts = append(opts, v.Char)
+	sort.Slice(options, func(i, j int) bool {
+		return options[i].Slot < options[j].Slot
+	})
+	for i, v := range options {
+		// needs error checking for "" strings
+		eqSlot := CheckEqSlot(i)
+		txt := "[" + eqSlot + "] " + v.Char
+		opts = append(opts, txt)
 	}
 	PrintMenu(x, y, header, opts)
 }

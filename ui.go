@@ -72,7 +72,9 @@ func PrintInventoryMenu(x, y int, header string, options Objects) {
 }
 
 func PrintEquipmentMenu(x, y int, header string, options Objects) {
-	/* Similar to PrintInventoryMenu. */
+	/* Similar to PrintInventoryMenu, but it sorts options
+	   by their Slots initially, and slot in showed before
+	   item name. */
 	var opts = []string{}
 	sort.Slice(options, func(i, j int) bool {
 		return options[i].Slot < options[j].Slot

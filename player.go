@@ -135,8 +135,7 @@ Loop:
 			fmt.Println("Equipping items is not implemented yet. ")
 			break Loop
 		case ItemDrop:
-			p.Drop(o, option)
-			turnSpent = true
+			turnSpent = p.Drop(o, option)
 			break Loop
 		case ItemUse:
 			turnSpent = object.UseItem(p)

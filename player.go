@@ -86,17 +86,6 @@ func (p *Creature) InventoryMenu(o *Objects) bool {
 	return turnSpent
 }
 
-func (p *Creature) EquipmentMenu() bool {
-	/* EquipmentMenu is method of Creature (that is supposed to be player)
-	   that prints menu with all equipped objects.
-	   Currently it returns false all the time, because there is no
-	   other things to do with it than printing menu. */
-	eq := GetAllSlots(p)
-	PrintEquipmentMenu(UIPosX, UIPosY, "Equipment:", eq)
-	blt.Read()
-	return false
-}
-
 func (p *Creature) HandleInventory(o *Objects, option int) bool {
 	/* HandleInventory is method that has pointer to Creature as receiver,
 	   but it is supposed to be player every time. It takes
@@ -106,7 +95,7 @@ func (p *Creature) HandleInventory(o *Objects, option int) bool {
 	   InventoryActions method for handling actions that are possible for
 	   this specific item. */
 	turnSpent := false
-	if option <= len(p.Inventory) { //valid input
+	if option <= len(p.Inventory)-1 { //valid input
 		turnSpent = p.InventoryActions(o, option)
 	}
 	return turnSpent
@@ -146,8 +135,7 @@ Loop:
 			fmt.Println("Equipping items is not implemented yet. ")
 			break Loop
 		case ItemDrop:
-			p.Drop(o, option)
-			turnSpent = true
+			turnSpent = p.Drop(o, option)
 			break Loop
 		case ItemUse:
 			turnSpent = object.UseItem(p)
@@ -158,5 +146,32 @@ Loop:
 			continue Loop
 		}
 	}
+	return turnSpent
+}
+
+func (p *Creature) EquipmentMenu() bool {
+	/* EquipmentMenu is method of Creature (that is supposed to be player)
+	   that prints menu with all equipped objects.
+	   Currently it returns false all the time, because there is no
+	   other things to do with it than printing menu. */
+	eq := GetAllSlots(p)
+	PrintEquipmentMenu(UIPosX, UIPosY, "Equipment:", eq)
+	turnSpent := p.HandleEquipment(KeyToOrder(blt.Read()))
+	return turnSpent
+}
+
+func (p *Creature) HandleEquipment(option int) bool {
+	turnSpent := false
+	option++ // Minimal default option is 0; minimal proper slot iota is 1.
+	Loop:
+		for {
+			switch option {
+			case SlotWeapon:
+				//turnSpent = p.EquipmentActions(p.SlotWeapon, SlotWeapon)
+				break Loop
+			default:
+				continue Loop
+			}
+		}
 	return turnSpent
 }

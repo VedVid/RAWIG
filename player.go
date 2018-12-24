@@ -95,7 +95,7 @@ func (p *Creature) HandleInventory(o *Objects, option int) bool {
 	   InventoryActions method for handling actions that are possible for
 	   this specific item. */
 	turnSpent := false
-	if option <= len(p.Inventory) { //valid input
+	if option <= len(p.Inventory)-1 { //valid input
 		turnSpent = p.InventoryActions(o, option)
 	}
 	return turnSpent

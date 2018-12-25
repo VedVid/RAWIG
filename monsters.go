@@ -169,7 +169,7 @@ func (c *Creature) PickUp(o *Objects) bool {
 	return turnSpent
 }
 
-func (c *Creature) Drop(objects *Objects, index int) bool {
+func (c *Creature) DropFromInventory(objects *Objects, index int) bool {
 	/* Drop is method that has Creature as receiver and takes
 	   "global" list of objects as main argument, and additional
 	   integer that is index of item to be dropped from c's Inventory.

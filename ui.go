@@ -76,7 +76,9 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 	   by their Slots initially, and slot in showed before
 	   item name.
 	   Note that it shows Creature's slots,
-	   not all equippable objects in inventory. */
+	   not all equippable objects in inventory.
+	   Because of this, it is necessary to find "true" length
+	   of options, skipping all nil pointers. */
 	var opts = []string{}
 	sort.Slice(options, func(i, j int) bool {
 		return options[i].Slot < options[j].Slot

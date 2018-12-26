@@ -169,7 +169,40 @@ func (c *Creature) PickUp(o *Objects) bool {
 	return turnSpent
 }
 
-func (c *Creature) Drop(objects *Objects, index int) bool {
+func (c *Creature) DropFromEquipment(objects *Objects, slot int) bool {
+	turnSpent := false
+	objs := *objects
+	var object *Object
+	switch slot { // match slot with object
+	case SlotNA:
+		break //wrong slot
+	case SlotWeapon:
+		object = c.SlotWeapon
+	default:
+		break
+	}
+	if object == nil {
+		return turnSpent // turn is not spent because there is no object to drop
+	}
+	// else {
+	// add item to map
+	object.X, object.Y = c.X, c.Y
+	objs = append(objs, object)
+	*objects = objs
+	// then remove from slot
+	switch slot {
+	case SlotNA:
+		break //wrong slot
+	case SlotWeapon:
+		c.SlotWeapon = nil
+	default:
+		break
+	}
+	turnSpent = true
+	return turnSpent
+}
+
+func (c *Creature) DropFromInventory(objects *Objects, index int) bool {
 	/* Drop is method that has Creature as receiver and takes
 	   "global" list of objects as main argument, and additional
 	   integer that is index of item to be dropped from c's Inventory.

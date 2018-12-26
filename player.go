@@ -163,16 +163,12 @@ func (p *Creature) EquipmentMenu(o *Objects) bool {
 func (p *Creature) HandleEquipment(o *Objects, option int) bool {
 	turnSpent := false
 	option++ // Minimal default option is 0; minimal proper slot iota is 1.
-	Loop:
-		for {
-			switch option {
-			case SlotWeapon:
-				turnSpent = p.EquipmentActions(o, p.SlotWeapon, SlotWeapon)
-				break Loop
-			default:
-				continue Loop
-			}
-		}
+	switch option {
+	case SlotWeapon:
+		turnSpent = p.EquipmentActions(o, p.SlotWeapon, SlotWeapon)
+	default:
+		break
+	}
 	return turnSpent
 }
 

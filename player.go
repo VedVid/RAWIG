@@ -167,11 +167,43 @@ func (p *Creature) HandleEquipment(o *Objects, option int) bool {
 		for {
 			switch option {
 			case SlotWeapon:
-				//turnSpent = p.EquipmentActions(p.SlotWeapon, SlotWeapon)
+				turnSpent = p.EquipmentActions(o, p.SlotWeapon, SlotWeapon)
 				break Loop
 			default:
 				continue Loop
 			}
 		}
+	return turnSpent
+}
+
+func (p *Creature) EquipmentActions(o *Objects, object *Object, slot int) bool {
+	turnSpent := false
+Loop:
+	for {
+		options := GatherItemOptions(object)
+		PrintMenu(UIPosX, UIPosY, object.Name, options)
+		var chosenStr string
+		chosenInt := KeyToOrder(blt.Read())
+		if chosenInt > len(options)-1 {
+			chosenStr = ItemPass
+		} else {
+			chosenStr = options[chosenInt]
+		}
+		switch chosenStr {
+		case ItemEquip:
+			fmt.Println("Equipping items is not implemented yet. ")
+			break Loop
+		case ItemDrop:
+			turnSpent = p.DropFromEquipment(o, slot)
+			break Loop
+		case ItemUse:
+			turnSpent = object.UseItem(p)
+			break Loop
+		case ItemBack:
+			break Loop
+		default:
+			continue Loop
+		}
+	}
 	return turnSpent
 }

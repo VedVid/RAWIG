@@ -22,6 +22,7 @@ package main
 
 import (
 	blt "bearlibterminal"
+	"fmt"
 	"sort"
 )
 
@@ -77,17 +78,27 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 	   item name.
 	   Note that it shows Creature's slots,
 	   not all equippable objects in inventory. */
+	fmt.Println(1)
 	var opts = []string{}
+	fmt.Println(2)
 	sort.Slice(options, func(i, j int) bool {
 		return options[i].Slot < options[j].Slot
 	})
+	fmt.Println(3)
 	for _, v := range options {
+		fmt.Println("a")
 		// needs error checking for "" strings
+		fmt.Println(v)
 		eqSlot := CheckEqSlot(v.Slot)
+		fmt.Println("b")
 		txt := "[[" + eqSlot + "]] " + v.Name
+		fmt.Println("c")
 		opts = append(opts, txt)
+		fmt.Println("d")
 	}
+	fmt.Println(4)
 	PrintMenu(x, y, header, opts)
+	fmt.Println(5)
 }
 
 func PrintMessages(x, y int, header string) {

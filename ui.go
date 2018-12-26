@@ -85,7 +85,6 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 	})
 	for _, v := range options {
 		// needs error checking for "" strings
-		fmt.Println(v)
 		eqSlot := CheckEqSlot(v.Slot)
 		txt := "[[" + eqSlot + "]] " + v.Name
 		opts = append(opts, txt)

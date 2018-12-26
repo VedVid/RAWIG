@@ -78,21 +78,19 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 	   Note that it shows Creature's slots,
 	   not all equippable objects in inventory.
 	   Because of this, it is necessary to find "true" length
-	   of options, skipping all nil pointers. */
+	   of options, skipping all nil pointers.
+	   Unfortunately, it may crash in future, with
+	   more slots involved. */
 	var opts = []string{}
 	sort.Slice(options, func(i, j int) bool {
 		return options[i].Slot < options[j].Slot
 	})
-	lenOptions := 0
 	for _, v := range options {
 		if v != nil {
-			lenOptions++
+			eqSlot := CheckEqSlot(v.Slot)
+			txt := "[[" + eqSlot + "]] " + v.Name
+			opts = append(opts, txt)
 		}
-	}
-	for i := 0; i < lenOptions; i++ {
-		eqSlot := CheckEqSlot(options[i].Slot)
-		txt := "[[" + eqSlot + "]] " + options[i].Name
-		opts = append(opts, txt)
 	}
 	PrintMenu(x, y, header, opts)
 }

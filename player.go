@@ -186,7 +186,11 @@ Loop:
 		fmt.Println(1)
 		options := GatherEquipmentOptions(object)
 		fmt.Println(2)
-		PrintMenu(UIPosX, UIPosY, object.Name, options)
+		if object == nil {
+			PrintMenu(UIPosX, UIPosY, "", options)
+		} else {
+			PrintMenu(UIPosX, UIPosY, object.Name, options)
+		}
 		fmt.Println(3)
 		var chosenStr string
 		fmt.Println(4)

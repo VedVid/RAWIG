@@ -183,30 +183,50 @@ func (p *Creature) EquipmentActions(o *Objects, object *Object, slot int) bool {
 	turnSpent := false
 Loop:
 	for {
-		options := GatherItemOptions(object)
+		fmt.Println(1)
+		options := GatherEquipmentOptions(object)
+		fmt.Println(2)
 		PrintMenu(UIPosX, UIPosY, object.Name, options)
+		fmt.Println(3)
 		var chosenStr string
+		fmt.Println(4)
 		chosenInt := KeyToOrder(blt.Read())
+		fmt.Println(5)
 		if chosenInt > len(options)-1 {
+			fmt.Println(6)
 			chosenStr = ItemPass
+			fmt.Println(7)
 		} else {
+			fmt.Println(8)
 			chosenStr = options[chosenInt]
+			fmt.Println(9)
 		}
+		fmt.Println(10)
 		switch chosenStr {
+		//fmt.Println(11)
 		case ItemEquip:
+			fmt.Println(12)
 			fmt.Println("Equipping items is not implemented yet. ")
+			fmt.Println(13)
 			break Loop
 		case ItemDrop:
+			fmt.Println(14)
 			turnSpent = p.DropFromEquipment(o, slot)
+			fmt.Println(15)
 			break Loop
 		case ItemUse:
+			fmt.Println(16)
 			turnSpent = object.UseItem(p)
+			fmt.Println(17)
 			break Loop
 		case ItemBack:
+			fmt.Println(18)
 			break Loop
 		default:
+			fmt.Println(19)
 			continue Loop
 		}
 	}
+	fmt.Println(20)
 	return turnSpent
 }

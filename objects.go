@@ -113,6 +113,24 @@ func GatherItemOptions(o *Object) []string {
 	return options
 }
 
+func GatherEquipmentOptions(o *Object) []string {
+	// Again, similar architecture EQ to ITEM,
+	// but to set things apart - another function.
+	// Additionally, GatherEquipmentOptions
+	// checks for nil (ITEM should as well, then generate
+	// error message probably); if it's nil,
+	// it let player equip new weapon in slot
+	var options = []string{}
+	if o != nil {
+		options = GatherItemOptions(o)
+	} else {
+		// there is no object in slot, so
+		// print list of equippables
+		options = append(options, ItemEquip, ItemBack)
+	}
+	return options
+}
+
 func CheckEqSlot(i int) string {
 	/* Function CheckEqSlot is helper function that takes integer
 	   (Slot's integer defined at the top of this file) from

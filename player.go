@@ -161,6 +161,9 @@ func (p *Creature) EquipmentMenu(o *Objects) bool {
 }
 
 func (p *Creature) HandleEquipment(o *Objects, option int) bool {
+	/* HandleEquipment is method of Creature (that is supposed to be player)
+	   that calls EquipmentActions with proper player Slot, and
+	   Slot int indicator, as arguments. */
 	turnSpent := false
 	option++ // Minimal default option is 0; minimal proper slot iota is 1.
 	switch option {
@@ -173,11 +176,19 @@ func (p *Creature) HandleEquipment(o *Objects, option int) bool {
 }
 
 func (p *Creature) EquipmentActions(o *Objects, object *Object, slot int) bool {
+	/* Method EquipmentActions works as InventoryActions but for Equipment.
+	   Refer to InventoryActions for more detailed info, but remember that
+	   Inventory and Equipment, even if using the same architecture, may
+	   call different functions, for example for dropping stuff. */
 	turnSpent := false
 Loop:
 	for {
-		options := GatherItemOptions(object)
-		PrintMenu(UIPosX, UIPosY, object.Name, options)
+		options := GatherEquipmentOptions(object)
+		if object == nil {
+			PrintMenu(UIPosX, UIPosY, "", options)
+		} else {
+			PrintMenu(UIPosX, UIPosY, object.Name, options)
+		}
 		var chosenStr string
 		chosenInt := KeyToOrder(blt.Read())
 		if chosenInt > len(options)-1 {
@@ -186,6 +197,7 @@ Loop:
 			chosenStr = options[chosenInt]
 		}
 		switch chosenStr {
+		//fmt.Println(11)
 		case ItemEquip:
 			fmt.Println("Equipping items is not implemented yet. ")
 			break Loop

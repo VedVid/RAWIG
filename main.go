@@ -21,11 +21,10 @@ freely, subject to the following restrictions:
 package main
 
 import (
+	blt "bearlibterminal"
 	"fmt"
 	"math/rand"
 	"time"
-
-	blt "bearlibterminal"
 )
 
 var MsgBuf = []string{}

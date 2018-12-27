@@ -197,7 +197,6 @@ Loop:
 			chosenStr = options[chosenInt]
 		}
 		switch chosenStr {
-		//fmt.Println(11)
 		case ItemEquip:
 			fmt.Println("Equipping items is not implemented yet. ")
 			break Loop

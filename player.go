@@ -184,11 +184,11 @@ func (p *Creature) EquipmentActions(o *Objects, object *Object, slot int) bool {
 Loop:
 	for {
 		options := GatherEquipmentOptions(object)
-		if object == nil {
-			PrintMenu(UIPosX, UIPosY, "", options)
-		} else {
-			PrintMenu(UIPosX, UIPosY, object.Name, options)
+		header := "Equipment: "
+		if object != nil {
+			header = object.Name
 		}
+		PrintMenu(UIPosX, UIPosY, header, options)
 		var chosenStr string
 		chosenInt := KeyToOrder(blt.Read())
 		if chosenInt > len(options)-1 {

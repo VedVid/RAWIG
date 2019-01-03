@@ -170,17 +170,10 @@ func (c *Creature) PickUp(o *Objects) bool {
 }
 
 func (c *Creature) DropFromEquipment(objects *Objects, slot int) bool {
+	slot = slot-1 //it's necessary to match c.Equipment (starts from 0) and slots' iotas (that starts from 1) (try to make SlotNA = -1, SlotWeaponPrimary = iota Slot WeaponSecondary, SlotMax)
 	turnSpent := false
 	objs := *objects
-	var object *Object
-	switch slot { // match slot with object
-	case SlotNA:
-		break //wrong slot
-	case SlotWeapon:
-		object = c.SlotWeapon
-	default:
-		break
-	}
+	object := c.Equipment[slot]
 	if object == nil {
 		return turnSpent // turn is not spent because there is no object to drop
 	}
@@ -190,14 +183,7 @@ func (c *Creature) DropFromEquipment(objects *Objects, slot int) bool {
 	objs = append(objs, object)
 	*objects = objs
 	// then remove from slot
-	switch slot {
-	case SlotNA:
-		break //wrong slot
-	case SlotWeapon:
-		c.SlotWeapon = nil
-	default:
-		break
-	}
+	c.Equipment[slot] = nil
 	turnSpent = true
 	return turnSpent
 }

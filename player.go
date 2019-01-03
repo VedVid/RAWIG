@@ -167,7 +167,7 @@ func (p *Creature) HandleEquipment(o *Objects, option int) bool {
 	turnSpent := false
 	eq := p.Equipment[option]
 	if eq != nil {
-		turnSpent = p.EquipmentActions(o, eq)
+		turnSpent = p.EquipmentActions(o, eq, option)
 	}
 	return turnSpent
 }

@@ -29,12 +29,12 @@ const (
 	/* Slots for inventory handling.
 	   Their order here is important, because it
 	   will be order of slots in Equipemnt menu. */
-	SlotNA = -1
+	SlotNA = iota-1
 
-	SlotWeaponPrimary = 0
-	SlotWeaponSecondary = 1
+	SlotWeaponPrimary
+	SlotWeaponSecondary
 
-	SlotMax = 2
+	SlotMax
 )
 
 var SlotStrings = map[int]string{

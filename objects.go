@@ -139,19 +139,6 @@ func GatherEquipmentOptions(o *Object) []string {
 	return options
 }
 
-func CheckEqSlot(slot int) string {
-	/* Function CheckEqSlot is helper function that takes integer
-	   (Slot's integer defined at the top of this file) from
-	   specific Object, then return string that will be used
-	   as part of item "name" in PrintEquipmentMenu function
-	   (ui.go).
-	   Unfortunately, this function has to be updated manually
-	   after changing / adding Slots in other places. */
-	s := ""
-	s = SlotStrings[slot] //add error handling if s == ""
-	return s
-}
-
 func (o *Object) UseItem(c *Creature) bool {
 	/* Method UseItem has Object as receiver and takes Creature as argument.
 	   It uses Use value of receiver to determine what action will be performed.

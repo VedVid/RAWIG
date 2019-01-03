@@ -22,7 +22,6 @@ package main
 
 import (
 	blt "bearlibterminal"
-	"sort"
 )
 
 const (
@@ -82,9 +81,6 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 	   Unfortunately, it may crash in future, with
 	   more slots involved. */
 	var opts = []string{}
-	sort.Slice(options, func(i, j int) bool {
-		return options[i].Slot < options[j].Slot
-	})
 	for i, v := range options {
 		txt := ""
 		if v != nil {
@@ -92,14 +88,7 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 			txt = "[[" + eqSlot + "]] " + v.Name
 			opts = append(opts, txt)
 		} else {
-			switch i+1 {
-			case SlotNA:
-				txt = ""
-			case SlotWeapon:
-				txt = "[[weapon]] empty"
-			default:
-				txt = ""
-			}
+			txt = "[[" + SlotStrings[i] + "]] empty"
 			opts = append(opts, txt)
 		}
 	}

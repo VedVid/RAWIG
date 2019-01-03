@@ -94,7 +94,7 @@ func GetAllSlots(c *Creature) Objects {
 	   further work, but unfortunately - it is not. It means that
 	   after every moment of tinkering with Slots in other documents,
 	   this function has to be updated manually. */
-	var o = Objects{c.SlotWeapon}
+	var o = c.Equipment
 	return o
 }
 
@@ -172,15 +172,7 @@ func (c *Creature) PickUp(o *Objects) bool {
 func (c *Creature) DropFromEquipment(objects *Objects, slot int) bool {
 	turnSpent := false
 	objs := *objects
-	var object *Object
-	switch slot { // match slot with object
-	case SlotNA:
-		break //wrong slot
-	case SlotWeapon:
-		object = c.SlotWeapon
-	default:
-		break
-	}
+	object := c.Equipment[slot]
 	if object == nil {
 		return turnSpent // turn is not spent because there is no object to drop
 	}
@@ -190,14 +182,7 @@ func (c *Creature) DropFromEquipment(objects *Objects, slot int) bool {
 	objs = append(objs, object)
 	*objects = objs
 	// then remove from slot
-	switch slot {
-	case SlotNA:
-		break //wrong slot
-	case SlotWeapon:
-		c.SlotWeapon = nil
-	default:
-		break
-	}
+	c.Equipment[slot] = nil
 	turnSpent = true
 	return turnSpent
 }

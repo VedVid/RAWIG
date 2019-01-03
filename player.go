@@ -77,12 +77,19 @@ func NewPlayer(layer, x, y int, character, name, color, colorDark string,
 }
 
 func (p *Creature) InventoryMenu(o *Objects) bool {
-	/* Inventory menu is method of Creature (that is supposed to be a player).
-	   It calls PrintInventoryMenu (that have much better docstring).
-	   It returns boolean value that depends if real action (like using /
-	   dropping item) was performed. */
-	PrintInventoryMenu(UIPosX, UIPosY, "Inventory:", p.Inventory)
-	turnSpent := p.HandleInventory(o, KeyToOrder(blt.Read())) //it's ugly one-liner
+	turnSpent := false
+	for {
+		PrintInventoryMenu(UIPosX, UIPosY, "Inventory", p.Inventory)
+		key := blt.Read()
+		option := KeyToOrder(key)
+		if option == len(p.Inventory) {
+			break
+		} else if option < len(p.Inventory) {
+			turnSpent = p.HandleInventory(o, option)
+		} else {
+			continue
+		}
+	}
 	return turnSpent
 }
 

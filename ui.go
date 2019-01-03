@@ -22,7 +22,6 @@ package main
 
 import (
 	blt "bearlibterminal"
-	"fmt"
 )
 
 const (
@@ -42,39 +41,16 @@ func PrintMenu(x, y int, header string, options []string) {
 	       a) first
 	       b) two
 	    It refreshed terminal and waits for player input at the end. */
-	fmt.Println()
-	fmt.Println("PrintMenu starting")
-	fmt.Println("blt.ClearArea...")
 	blt.ClearArea(UIPosX, UIPosY, UISizeX, UISizeY)
 	if header == "" {
-		fmt.Println("header==''''")
-		fmt.Println("y--...")
 		y--
-		fmt.Println("done!")
-		fmt.Println("exit if")
 	}
-	fmt.Println("header != ''''")
-	fmt.Println("after if")
-	fmt.Println("txt := header...")
 	txt := header
-	fmt.Println("done!")
-	fmt.Println("before for loop...")
 	for i, v := range options {
-		fmt.Println("in for loop")
-		fmt.Println(i)
-		fmt.Println(v)
-		fmt.Println("txt...")
 		txt = txt + "\n" + OrderToCharacter(i) + ") " + v
-		fmt.Println("done!")
 	}
-	fmt.Println("after for loop")
-	fmt.Println("blt.Print(x, y, txt)...")
 	blt.Print(x, y, txt)
-	fmt.Println("done!")
-	fmt.Println("blt.Refresh()...")
 	blt.Refresh()
-	fmt.Println("done!")
-	fmt.Println("end of function")
 }
 
 func PrintInventoryMenu(x, y int, header string, options Objects) {

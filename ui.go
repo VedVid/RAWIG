@@ -22,8 +22,6 @@ package main
 
 import (
 	blt "bearlibterminal"
-	"fmt"
-	"sort"
 )
 
 const (
@@ -83,13 +81,6 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 	   Unfortunately, it may crash in future, with
 	   more slots involved. */
 	var opts = []string{}
-	fmt.Println(options)
-	//options = [0xc00007a000 <nil>]
-	sort.Slice(options, func(i, j int) bool {
-		return options[i].Slot < options[j].Slot
-	})
-	//crash
-	fmt.Println("after sorting")
 	for i, v := range options {
 		txt := ""
 		if v != nil {

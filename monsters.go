@@ -94,7 +94,7 @@ func GetAllSlots(c *Creature) Objects {
 	   further work, but unfortunately - it is not. It means that
 	   after every moment of tinkering with Slots in other documents,
 	   this function has to be updated manually. */
-	var o = Objects{c.SlotWeapon}
+	var o = c.Equipment
 	return o
 }
 

@@ -34,7 +34,7 @@ func NewPlayer(layer, x, y int, character, name, color, colorDark string,
 	defense int, equipment EquipmentComponent) (*Creature, error) {
 	/* Function NewPlayer takes all values necessary by its struct,
 	   and creates then returns pointer to Creature;
-	   so, it's basically NewCreature function. */
+	   so, it is basically NewCreature function. */
 	var err error
 	if layer < 0 {
 		txt := LayerError(layer)
@@ -77,6 +77,14 @@ func NewPlayer(layer, x, y int, character, name, color, colorDark string,
 }
 
 func (p *Creature) InventoryMenu(o *Objects) bool {
+	/* InventoryMenu is method of *Creature that takes *Objects as argument
+	   and returns boolean value - indicator if action took turn or not.
+	   It starts by loop that prints creature's (player) inventory and
+	   waits for input. Then changes input to alphabetic order.
+	   Handling input is simple - if input is within inventory range,
+	   it invokes HandleInventory; if key is one point larger than
+	   length of inventory, it backs menu (by breaking the loop);
+	   otherwise, it loops. */
 	turnSpent := false
 	for {
 		PrintInventoryMenu(UIPosX, UIPosY, "Inventory", p.Inventory)
@@ -98,9 +106,8 @@ func (p *Creature) HandleInventory(o *Objects, option int) bool {
 	   but it is supposed to be player every time. It takes
 	   slice of game objects and chosen option (that is index of item in Inventory)
 	   as arguments.
-	   If option is valid index, ie is not out of Inventory bounds, it calls
-	   InventoryActions method for handling actions that are possible for
-	   this specific item. */
+	   It calls InventoryActions method for handling actions that are possible
+	   for specific item. */
 	turnSpent := p.InventoryActions(o, option)
 	return turnSpent
 }
@@ -114,7 +121,7 @@ func (p *Creature) InventoryActions(o *Objects, option int) bool {
 	   - is labelled as Loop to make breaking simpler
 	   - at first, it uses GatherItemOptions to group all actions
 	     that are possible for this specific item
-	   - gets player input and checks if it's valid;
+	   - gets player input and checks if is valid;
 	     valid input is binded to chosenStr variable;
 	     invalid is, before binding, transformed to ItemPass value
 	   - switch expression is called:
@@ -154,6 +161,10 @@ Loop:
 }
 
 func (p *Creature) EquipmentMenu(o *Objects) bool {
+	/* EquipmentMenu works as InventoryMenu, but at the start of loop
+	   it checks all equipment slots if they are empty or not.
+	   It is almost the same function as used in handling inventory,
+	   but maybe it is worth to be explicit here. */
 	turnSpent := false
 	for {
 		eq := GetAllSlots(p)

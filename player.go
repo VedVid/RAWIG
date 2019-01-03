@@ -77,12 +77,19 @@ func NewPlayer(layer, x, y int, character, name, color, colorDark string,
 }
 
 func (p *Creature) InventoryMenu(o *Objects) bool {
-	/* Inventory menu is method of Creature (that is supposed to be a player).
-	   It calls PrintInventoryMenu (that have much better docstring).
-	   It returns boolean value that depends if real action (like using /
-	   dropping item) was performed. */
-	PrintInventoryMenu(UIPosX, UIPosY, "Inventory:", p.Inventory)
-	turnSpent := p.HandleInventory(o, KeyToOrder(blt.Read())) //it's ugly one-liner
+	turnSpent := false
+	for {
+		PrintInventoryMenu(UIPosX, UIPosY, "Inventory", p.Inventory)
+		key := blt.Read()
+		option := KeyToOrder(key)
+		if option == len(p.Inventory) {
+			break
+		} else if option < len(p.Inventory) {
+			turnSpent = p.HandleInventory(o, option)
+		} else {
+			continue
+		}
+	}
 	return turnSpent
 }
 
@@ -94,10 +101,7 @@ func (p *Creature) HandleInventory(o *Objects, option int) bool {
 	   If option is valid index, ie is not out of Inventory bounds, it calls
 	   InventoryActions method for handling actions that are possible for
 	   this specific item. */
-	turnSpent := false
-	if option <= len(p.Inventory)-1 { //valid input
-		turnSpent = p.InventoryActions(o, option)
-	}
+	turnSpent := p.InventoryActions(o, option)
 	return turnSpent
 }
 
@@ -150,13 +154,20 @@ Loop:
 }
 
 func (p *Creature) EquipmentMenu(o *Objects) bool {
-	/* EquipmentMenu is method of Creature (that is supposed to be player)
-	   that prints menu with all equipped objects.
-	   Currently it returns false all the time, because there is no
-	   other things to do with it than printing menu. */
-	eq := GetAllSlots(p)
-	PrintEquipmentMenu(UIPosX, UIPosY, "Equipment:", eq)
-	turnSpent := p.HandleEquipment(o, KeyToOrder(blt.Read()))
+	turnSpent := false
+	for {
+		eq := GetAllSlots(p)
+		PrintEquipmentMenu(UIPosX, UIPosY, "Equipment: ", eq)
+		key := blt.Read()
+		option := KeyToOrder(key)
+		if option == len(p.Equipment) {
+			break
+		} else if option < len(p.Equipment) {
+			turnSpent = p.HandleEquipment(o, option)
+		} else {
+			continue
+		}
+	}
 	return turnSpent
 }
 
@@ -165,9 +176,6 @@ func (p *Creature) HandleEquipment(o *Objects, option int) bool {
 	   that calls EquipmentActions with proper player Slot, and
 	   Slot int indicator, as arguments. */
 	turnSpent := false
-	if option > len(p.Equipment)-1 {
-		return turnSpent
-	}
 	eq := p.Equipment[option]
 	if eq != nil {
 		turnSpent = p.EquipmentActions(o, eq, option)

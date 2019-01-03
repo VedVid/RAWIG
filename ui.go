@@ -67,6 +67,7 @@ func PrintInventoryMenu(x, y int, header string, options Objects) {
 	for _, v := range options {
 		opts = append(opts, v.Name)
 	}
+	opts = append(opts, ItemBack)
 	PrintMenu(x, y, header, opts)
 }
 
@@ -90,6 +91,7 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 		}
 		opts = append(opts, txt)
 	}
+	opts = append(opts, ItemBack)
 	PrintMenu(x, y, header, opts)
 }
 

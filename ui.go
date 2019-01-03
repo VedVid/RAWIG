@@ -81,16 +81,14 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 	   Unfortunately, it may crash in future, with
 	   more slots involved. */
 	var opts = []string{}
-	for i, v := range options {
+	for i := 0; i < len(options); i++ {
 		txt := ""
-		if v != nil {
-			eqSlot := CheckEqSlot(v.Slot)
-			txt = "[[" + eqSlot + "]] " + v.Name
-			opts = append(opts, txt)
+		if options[i] != nil {
+			txt = "[[" + SlotStrings[i] + "]] " + options[i].Name
 		} else {
 			txt = "[[" + SlotStrings[i] + "]] empty"
-			opts = append(opts, txt)
 		}
+		opts = append(opts, txt)
 	}
 	PrintMenu(x, y, header, opts)
 }

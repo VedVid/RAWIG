@@ -29,9 +29,9 @@ const (
 	/* Slots for inventory handling.
 	   Their order here is important, because it
 	   will be order of slots in Equipemnt menu. */
-	SlotNA = -1
+	SlotNA = iota-1
 
-	SlotWeaponPrimary = iota
+	SlotWeaponPrimary
 	SlotWeaponSecondary
 
 	SlotMax

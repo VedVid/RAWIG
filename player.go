@@ -165,7 +165,7 @@ func (p *Creature) HandleEquipment(o *Objects, option int) bool {
 	   that calls EquipmentActions with proper player Slot, and
 	   Slot int indicator, as arguments. */
 	turnSpent := false
-	if option > len(p.Equipment) {
+	if option > len(p.Equipment)-1 {
 		return turnSpent
 	}
 	eq := p.Equipment[option]

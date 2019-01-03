@@ -170,7 +170,6 @@ func (c *Creature) PickUp(o *Objects) bool {
 }
 
 func (c *Creature) DropFromEquipment(objects *Objects, slot int) bool {
-	slot = slot-1 //it's necessary to match c.Equipment (starts from 0) and slots' iotas (that starts from 1) (try to make SlotNA = -1, SlotWeaponPrimary = iota Slot WeaponSecondary, SlotMax)
 	turnSpent := false
 	objs := *objects
 	object := c.Equipment[slot]

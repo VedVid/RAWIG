@@ -22,7 +22,6 @@ package main
 
 import (
 	blt "bearlibterminal"
-	"fmt"
 )
 
 const (
@@ -84,7 +83,6 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 	var opts = []string{}
 	for i := 0; i < len(options); i++ {
 		txt := ""
-		fmt.Println(SlotStrings)
 		if options[i] != nil {
 			txt = "[[" + SlotStrings[i] + "]] " + options[i].Name
 		} else {

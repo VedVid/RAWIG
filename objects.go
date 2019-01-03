@@ -31,10 +31,10 @@ const (
 	   will be order of slots in Equipemnt menu. */
 	SlotNA = -1
 
-	SlotWeaponPrimary = iota
-	SlotWeaponSecondary
+	SlotWeaponPrimary = 0
+	SlotWeaponSecondary = 1
 
-	SlotMax
+	SlotMax = 2
 )
 
 var SlotStrings = map[int]string{

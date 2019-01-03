@@ -90,6 +90,7 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 		}
 		opts = append(opts, txt)
 	}
+	opts = append(opts, ItemBack)
 	PrintMenu(x, y, header, opts)
 }
 

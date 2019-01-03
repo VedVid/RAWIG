@@ -150,13 +150,20 @@ Loop:
 }
 
 func (p *Creature) EquipmentMenu(o *Objects) bool {
-	/* EquipmentMenu is method of Creature (that is supposed to be player)
-	   that prints menu with all equipped objects.
-	   Currently it returns false all the time, because there is no
-	   other things to do with it than printing menu. */
-	eq := GetAllSlots(p)
-	PrintEquipmentMenu(UIPosX, UIPosY, "Equipment:", eq)
-	turnSpent := p.HandleEquipment(o, KeyToOrder(blt.Read()))
+	turnSpent := false
+	for {
+		eq := GetAllSlots(p)
+		PrintEquipmentMenu(UIPosX, UIPosY, "Equipment: ", eq)
+		key := blt.Read()
+		option := KeyToOrder(key)
+		if option == len(p.Equipment) {
+			break
+		} else if option < len(p.Equipment) {
+			turnSpent = p.HandleEquipment(o, option)
+		} else {
+			continue
+		}
+	}
 	return turnSpent
 }
 
@@ -165,9 +172,6 @@ func (p *Creature) HandleEquipment(o *Objects, option int) bool {
 	   that calls EquipmentActions with proper player Slot, and
 	   Slot int indicator, as arguments. */
 	turnSpent := false
-	if option > len(p.Equipment)-1 {
-		return turnSpent
-	}
 	eq := p.Equipment[option]
 	if eq != nil {
 		turnSpent = p.EquipmentActions(o, eq, option)

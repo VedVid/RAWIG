@@ -92,14 +92,7 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 			txt = "[[" + eqSlot + "]] " + v.Name
 			opts = append(opts, txt)
 		} else {
-			switch i {
-			case SlotNA:
-				txt = ""
-			case SlotWeapon:
-				txt = "[[weapon]] empty"
-			default:
-				txt = ""
-			}
+			txt = "[[" + SlotStrings[i] + "]] empty"
 			opts = append(opts, txt)
 		}
 	}

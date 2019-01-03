@@ -94,10 +94,7 @@ func (p *Creature) HandleInventory(o *Objects, option int) bool {
 	   If option is valid index, ie is not out of Inventory bounds, it calls
 	   InventoryActions method for handling actions that are possible for
 	   this specific item. */
-	turnSpent := false
-	if option <= len(p.Inventory)-1 { //valid input
-		turnSpent = p.InventoryActions(o, option)
-	}
+	turnSpent := p.InventoryActions(o, option)
 	return turnSpent
 }
 

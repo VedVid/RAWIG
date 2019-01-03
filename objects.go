@@ -31,7 +31,10 @@ const (
 	   will be order of slots in Equipemnt menu. */
 	SlotNA = iota
 
-	SlotWeapon
+	SlotWeaponPrimary
+	SlotWeaponSecondary
+
+	SlotMax
 )
 
 const (

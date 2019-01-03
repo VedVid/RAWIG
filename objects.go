@@ -29,10 +29,18 @@ const (
 	/* Slots for inventory handling.
 	   Their order here is important, because it
 	   will be order of slots in Equipemnt menu. */
-	SlotNA = iota
+	SlotNA = iota-1
 
-	SlotWeapon
+	SlotWeaponPrimary
+	SlotWeaponSecondary
+
+	SlotMax
 )
+
+var SlotStrings = map[int]string{
+	SlotWeaponPrimary: "weapon1",
+	SlotWeaponSecondary: "weapon2",
+}
 
 const (
 	// Use cases, mostly for consumables.
@@ -131,7 +139,7 @@ func GatherEquipmentOptions(o *Object) []string {
 	return options
 }
 
-func CheckEqSlot(i int) string {
+func CheckEqSlot(slot int) string {
 	/* Function CheckEqSlot is helper function that takes integer
 	   (Slot's integer defined at the top of this file) from
 	   specific Object, then return string that will be used
@@ -140,14 +148,7 @@ func CheckEqSlot(i int) string {
 	   Unfortunately, this function has to be updated manually
 	   after changing / adding Slots in other places. */
 	s := ""
-	switch i {
-	case SlotNA:
-		s = ""
-	case SlotWeapon:
-		s = "weapon"
-	default:
-		s = ""
-	}
+	s = SlotStrings[slot] //add error handling if s == ""
 	return s
 }
 

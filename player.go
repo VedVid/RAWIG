@@ -165,11 +165,9 @@ func (p *Creature) HandleEquipment(o *Objects, option int) bool {
 	   that calls EquipmentActions with proper player Slot, and
 	   Slot int indicator, as arguments. */
 	turnSpent := false
-	switch option {
-	case SlotWeapon:
-		turnSpent = p.EquipmentActions(o, p.SlotWeapon, SlotWeapon)
-	default:
-		break
+	eq := p.Equipment[option]
+	if eq != nil {
+		turnSpent = p.EquipmentActions(o, eq)
 	}
 	return turnSpent
 }

@@ -155,24 +155,6 @@ func (c *Creature) PickUp(o *Objects) bool {
 	return turnSpent
 }
 
-func (c *Creature) DropFromEquipment(objects *Objects, slot int) bool {
-	turnSpent := false
-	objs := *objects
-	object := c.Equipment[slot]
-	if object == nil {
-		return turnSpent // turn is not spent because there is no object to drop
-	}
-	// else {
-	// add item to map
-	object.X, object.Y = c.X, c.Y
-	objs = append(objs, object)
-	*objects = objs
-	// then remove from slot
-	c.Equipment[slot] = nil
-	turnSpent = true
-	return turnSpent
-}
-
 func (c *Creature) DropFromInventory(objects *Objects, index int) bool {
 	/* Drop is method that has Creature as receiver and takes
 	   "global" list of objects as main argument, and additional
@@ -197,6 +179,35 @@ func (c *Creature) DropFromInventory(objects *Objects, index int) bool {
 	copy(c.Inventory[index:], c.Inventory[index+1:])
 	c.Inventory[len(c.Inventory)-1] = nil
 	c.Inventory = c.Inventory[:len(c.Inventory)-1]
+	turnSpent = true
+	return turnSpent
+}
+
+func (c *Creature) DropFromEquipment(objects *Objects, slot int) bool {
+	/* DropFromEquipment is method of *Creature that takes "global" objects,
+	   and int (as index) as arguments, and returns bool (result depends if
+	   action was successful, therefore if took a turn).
+	   This function is very similar to DropFromInventory, but is kept
+	   due to explicitness.
+	   The difference is that Equipment checks Equipment index, not
+	   specific object, so additionally checks for nils, and instead of
+	   removing item from slice, makes it nil.
+	   This behavior is important, because while Inventory is "dynamic"
+	   slice, Equipment is supposed to be "fixed size" - slots are present
+	   all the time, but the can be empty (ie nil) or occupied (ie object). */
+	turnSpent := false
+	objs := *objects
+	object := c.Equipment[slot]
+	if object == nil {
+		return turnSpent // turn is not spent because there is no object to drop
+	}
+	// else {
+	// add item to map
+	object.X, object.Y = c.X, c.Y
+	objs = append(objs, object)
+	*objects = objs
+	// then remove from slot
+	c.Equipment[slot] = nil
 	turnSpent = true
 	return turnSpent
 }

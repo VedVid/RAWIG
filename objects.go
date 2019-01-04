@@ -122,12 +122,11 @@ func GatherItemOptions(o *Object) []string {
 }
 
 func GatherEquipmentOptions(o *Object) []string {
-	// Again, similar architecture EQ to ITEM,
-	// but to set things apart - another function.
-	// Additionally, GatherEquipmentOptions
-	// checks for nil (ITEM should as well, then generate
-	// error message probably); if it's nil,
-	// it let player equip new weapon in slot
+	/* GatherEquipmentOptions is function that is
+	   very similar to GatherItemOptions, but kept
+	   due to explicitness.
+	   The difference is that Equipment check slots
+	   for nil to let player equip new weapon. */
 	var options = []string{}
 	if o != nil {
 		options = GatherItemOptions(o)

@@ -122,12 +122,11 @@ func GatherItemOptions(o *Object) []string {
 }
 
 func GatherEquipmentOptions(o *Object) []string {
-	// Again, similar architecture EQ to ITEM,
-	// but to set things apart - another function.
-	// Additionally, GatherEquipmentOptions
-	// checks for nil (ITEM should as well, then generate
-	// error message probably); if it's nil,
-	// it let player equip new weapon in slot
+	/* GatherEquipmentOptions is function that is
+	   very similar to GatherItemOptions, but kept
+	   due to explicitness.
+	   The difference is that Equipment check slots
+	   for nil to let player equip new weapon. */
 	var options = []string{}
 	if o != nil {
 		options = GatherItemOptions(o)
@@ -137,19 +136,6 @@ func GatherEquipmentOptions(o *Object) []string {
 		options = append(options, ItemEquip, ItemBack)
 	}
 	return options
-}
-
-func CheckEqSlot(slot int) string {
-	/* Function CheckEqSlot is helper function that takes integer
-	   (Slot's integer defined at the top of this file) from
-	   specific Object, then return string that will be used
-	   as part of item "name" in PrintEquipmentMenu function
-	   (ui.go).
-	   Unfortunately, this function has to be updated manually
-	   after changing / adding Slots in other places. */
-	s := ""
-	s = SlotStrings[slot] //add error handling if s == ""
-	return s
 }
 
 func (o *Object) UseItem(c *Creature) bool {

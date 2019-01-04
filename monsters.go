@@ -84,20 +84,6 @@ func NewCreature(layer, x, y int, character, name, color, colorDark string,
 	return creatureNew, err
 }
 
-func GetAllSlots(c *Creature) Objects {
-	/* GetAllSlots is helper function that takes Creature as argument
-	   and returns Objects.
-	   It creates new slice of Objects with all Creature Slots
-	   (for now it is only c.SlotWeapon, but one can add c.SlotHelmet etc.,
-	   but needs to remember to compose it in EquipmentComponent as well.
-	   GetAllSlots should be "generic" function that will  not require
-	   further work, but unfortunately - it is not. It means that
-	   after every moment of tinkering with Slots in other documents,
-	   this function has to be updated manually. */
-	var o = c.Equipment
-	return o
-}
-
 func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) bool {
 	/* Method MoveOrAttack decides if Creature will move or attack other Creature;
 	   It has *Creature receiver, and takes tx, ty (coords) integers as arguments,
@@ -169,24 +155,6 @@ func (c *Creature) PickUp(o *Objects) bool {
 	return turnSpent
 }
 
-func (c *Creature) DropFromEquipment(objects *Objects, slot int) bool {
-	turnSpent := false
-	objs := *objects
-	object := c.Equipment[slot]
-	if object == nil {
-		return turnSpent // turn is not spent because there is no object to drop
-	}
-	// else {
-	// add item to map
-	object.X, object.Y = c.X, c.Y
-	objs = append(objs, object)
-	*objects = objs
-	// then remove from slot
-	c.Equipment[slot] = nil
-	turnSpent = true
-	return turnSpent
-}
-
 func (c *Creature) DropFromInventory(objects *Objects, index int) bool {
 	/* Drop is method that has Creature as receiver and takes
 	   "global" list of objects as main argument, and additional
@@ -211,6 +179,35 @@ func (c *Creature) DropFromInventory(objects *Objects, index int) bool {
 	copy(c.Inventory[index:], c.Inventory[index+1:])
 	c.Inventory[len(c.Inventory)-1] = nil
 	c.Inventory = c.Inventory[:len(c.Inventory)-1]
+	turnSpent = true
+	return turnSpent
+}
+
+func (c *Creature) DropFromEquipment(objects *Objects, slot int) bool {
+	/* DropFromEquipment is method of *Creature that takes "global" objects,
+	   and int (as index) as arguments, and returns bool (result depends if
+	   action was successful, therefore if took a turn).
+	   This function is very similar to DropFromInventory, but is kept
+	   due to explicitness.
+	   The difference is that Equipment checks Equipment index, not
+	   specific object, so additionally checks for nils, and instead of
+	   removing item from slice, makes it nil.
+	   This behavior is important, because while Inventory is "dynamic"
+	   slice, Equipment is supposed to be "fixed size" - slots are present
+	   all the time, but the can be empty (ie nil) or occupied (ie object). */
+	turnSpent := false
+	objs := *objects
+	object := c.Equipment[slot]
+	if object == nil {
+		return turnSpent // turn is not spent because there is no object to drop
+	}
+	// else {
+	// add item to map
+	object.X, object.Y = c.X, c.Y
+	objs = append(objs, object)
+	*objects = objs
+	// then remove from slot
+	c.Equipment[slot] = nil
 	turnSpent = true
 	return turnSpent
 }

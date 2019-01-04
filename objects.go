@@ -122,11 +122,13 @@ func GatherItemOptions(o *Object) []string {
 }
 
 func GatherEquipmentOptions(o *Object) []string {
-	/* GatherEquipmentOptions is function that is
-	   very similar to GatherItemOptions, but kept
-	   due to explicitness.
-	   The difference is that Equipment check slots
-	   for nil to let player equip new weapon. */
+	/* GatherEquipmentOptions is function that takes object as argument
+	   and returns slice of string.
+	   If object is not nil, it calls GatherItemOptions to create
+	   list of options based on object properties.
+	   If object is nil, it creates slice with two options:
+	   one for equipping item in empty slot, and one for going
+	   back to previous menu. */
 	var options = []string{}
 	if o != nil {
 		options = GatherItemOptions(o)

@@ -84,20 +84,6 @@ func NewCreature(layer, x, y int, character, name, color, colorDark string,
 	return creatureNew, err
 }
 
-func GetAllSlots(c *Creature) Objects {
-	/* GetAllSlots is helper function that takes Creature as argument
-	   and returns Objects.
-	   It creates new slice of Objects with all Creature Slots
-	   (for now it is only c.SlotWeapon, but one can add c.SlotHelmet etc.,
-	   but needs to remember to compose it in EquipmentComponent as well.
-	   GetAllSlots should be "generic" function that will  not require
-	   further work, but unfortunately - it is not. It means that
-	   after every moment of tinkering with Slots in other documents,
-	   this function has to be updated manually. */
-	var o = c.Equipment
-	return o
-}
-
 func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) bool {
 	/* Method MoveOrAttack decides if Creature will move or attack other Creature;
 	   It has *Creature receiver, and takes tx, ty (coords) integers as arguments,

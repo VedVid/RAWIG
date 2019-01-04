@@ -167,8 +167,7 @@ func (p *Creature) EquipmentMenu(o *Objects) bool {
 	   but maybe it is worth to be explicit here. */
 	turnSpent := false
 	for {
-		eq := GetAllSlots(p)
-		PrintEquipmentMenu(UIPosX, UIPosY, "Equipment: ", eq)
+		PrintEquipmentMenu(UIPosX, UIPosY, "Equipment: ", p.Equipment)
 		key := blt.Read()
 		option := KeyToOrder(key)
 		if option == len(p.Equipment) {

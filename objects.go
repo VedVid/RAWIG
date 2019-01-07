@@ -22,6 +22,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"unicode/utf8"
 )
 
@@ -101,12 +102,13 @@ func NewObject(layer, x, y int, character, name, color, colorDark string,
 	return objectNew, err
 }
 
-func GatherItemOptions(o *Object) []string {
+func GatherItemOptions(o *Object) ([]string, error) {
 	/* Function GatherItemOptions takes pointer to specific Object
 	   as argument and returns slice of strings that is list of
 	   possible actions. ItemBack that is necessary, yet last value
 	   to include, to provide way to close menu. */
 	var options = []string{}
+	var err error
 	if o.Equippable == true {
 		options = append(options, ItemEquip)
 	}
@@ -116,7 +118,11 @@ func GatherItemOptions(o *Object) []string {
 	if o.Pickable == true {
 		options = append(options, ItemDrop)
 	}
-	return options
+	if len(options) == 0 {
+		txt := ItemOptionsEmptyError()
+		err = errors.New("Object " + o.Name + " has no valid properties." + txt)
+	}
+	return options, err
 }
 
 func GatherEquipmentOptions(o *Object) []string {
@@ -129,7 +135,11 @@ func GatherEquipmentOptions(o *Object) []string {
 	   back to previous menu. */
 	var options = []string{}
 	if o != nil {
-		options = GatherItemOptions(o)
+		var err error
+		options, err = GatherItemOptions(o)
+		if err != nil {
+			fmt.Println(err)
+		}
 	} else {
 		// there is no object in slot, so
 		// print list of equippables

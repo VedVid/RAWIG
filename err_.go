@@ -94,3 +94,11 @@ func EquippableSlotError(equippable bool, slot int) string {
 		strconv.Itoa(slot) + ">"
 	return txt
 }
+
+func ItemOptionsEmptyError() string {
+	/* Function ItemOptionsEmptyError is helper function that returns string
+	   to error; it is called if object does not have any use/eq properties
+	   set to true. */
+	txt := "\n    <equippable==false, use==UseNA, pickable==false>"
+	return txt
+}

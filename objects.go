@@ -117,7 +117,6 @@ func GatherItemOptions(o *Object) []string {
 	if o.Pickable == true {
 		options = append(options, ItemDrop)
 	}
-	options = append(options, ItemBack)
 	return options
 }
 
@@ -135,7 +134,7 @@ func GatherEquipmentOptions(o *Object) []string {
 	} else {
 		// there is no object in slot, so
 		// print list of equippables
-		options = append(options, ItemEquip, ItemBack)
+		options = append(options, ItemEquip)
 	}
 	return options
 }

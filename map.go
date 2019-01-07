@@ -26,12 +26,6 @@ import (
 	"unicode/utf8"
 )
 
-const (
-	// Colors.
-	colorTile     = "light gray"
-	colorTileDark = "dark gray"
-)
-
 type Tile struct {
 	// Tiles are map cells - floors, walls, doors.
 	BasicProperties

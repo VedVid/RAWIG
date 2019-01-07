@@ -49,6 +49,7 @@ func PrintMenu(x, y int, header string, options []string) {
 	for i, v := range options {
 		txt = txt + "\n" + OrderToCharacter(i) + ") " + v
 	}
+	txt = txt + "\n[[ESC]] back"
 	blt.Print(x, y, txt)
 	blt.Refresh()
 }
@@ -67,7 +68,6 @@ func PrintInventoryMenu(x, y int, header string, options Objects) {
 	for _, v := range options {
 		opts = append(opts, v.Name)
 	}
-	opts = append(opts, ItemBack)
 	PrintMenu(x, y, header, opts)
 }
 
@@ -91,7 +91,6 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 		}
 		opts = append(opts, txt)
 	}
-	opts = append(opts, ItemBack)
 	PrintMenu(x, y, header, opts)
 }
 

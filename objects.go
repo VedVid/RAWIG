@@ -55,7 +55,6 @@ const (
 	ItemDrop  = "drop"
 	ItemEquip = "equip"
 	ItemUse   = "use"
-	ItemBack  = "back"
 )
 
 type Object struct {

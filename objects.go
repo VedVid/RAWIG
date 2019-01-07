@@ -148,19 +148,22 @@ func GatherEquipmentOptions(o *Object) []string {
 	return options
 }
 
-func (o *Object) UseItem(c *Creature) bool {
+func (o *Object) UseItem(c *Creature) (bool, error) {
 	/* Method UseItem has Object as receiver and takes Creature as argument.
 	   It uses Use value of receiver to determine what action will be performed.
 	   If there is no valid o.Use, it breaks switch statement (need proper
 	   error handling).
 	   Returns turnSpent that is true, unless o.Use is invalid. */
 	turnSpent := false
+	var err error
 	switch o.Use {
 	case UseHeal:
 		c.HPCurrent = c.HPMax
 		turnSpent = true
 	default:
-		break //here will be error handling for wrong UseCase
+		txt := UseItemError()
+		err = errors.New("Item has wrong use case specified." + txt)
+		break
 	}
-	return turnSpent
+	return turnSpent, err
 }

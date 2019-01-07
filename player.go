@@ -132,7 +132,10 @@ func (p *Creature) InventoryActions(o *Objects, option int) bool {
 	object := p.Inventory[option]
 Loop:
 	for {
-		options := GatherItemOptions(object)
+		options, err1 := GatherItemOptions(object)
+		if err1 != nil {
+			fmt.Println(err1)
+		}
 		PrintMenu(UIPosX, UIPosY, object.Name, options)
 		var chosenStr string
 		chosenInt := KeyToOrder(blt.Read())
@@ -151,7 +154,11 @@ Loop:
 			turnSpent = p.DropFromInventory(o, option)
 			break Loop
 		case ItemUse:
-			turnSpent = object.UseItem(p)
+			var err2 error
+			turnSpent, err2 = object.UseItem(p)
+			if err2 != nil {
+				fmt.Println(err2)
+			}
 			break Loop
 		default:
 			continue Loop
@@ -224,7 +231,11 @@ Loop:
 			turnSpent = p.DropFromEquipment(o, slot)
 			break Loop
 		case ItemUse:
-			turnSpent = object.UseItem(p)
+			var err error
+			turnSpent, err = object.UseItem(p)
+			if err != nil {
+				fmt.Println(err)
+			}
 			break Loop
 		default:
 			continue Loop

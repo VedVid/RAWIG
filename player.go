@@ -90,7 +90,7 @@ func (p *Creature) InventoryMenu(o *Objects) bool {
 		PrintInventoryMenu(UIPosX, UIPosY, "Inventory", p.Inventory)
 		key := blt.Read()
 		option := KeyToOrder(key)
-		if option == len(p.Inventory) {
+		if option == KeyToOrder(blt.TK_ESCAPE) {
 			break
 		} else if option < len(p.Inventory) {
 			turnSpent = p.HandleInventory(o, option)
@@ -132,11 +132,16 @@ func (p *Creature) InventoryActions(o *Objects, option int) bool {
 	object := p.Inventory[option]
 Loop:
 	for {
-		options := GatherItemOptions(object)
+		options, err1 := GatherItemOptions(object)
+		if err1 != nil {
+			fmt.Println(err1)
+		}
 		PrintMenu(UIPosX, UIPosY, object.Name, options)
 		var chosenStr string
 		chosenInt := KeyToOrder(blt.Read())
-		if chosenInt > len(options)-1 {
+		if chosenInt == KeyToOrder(blt.TK_ESCAPE) {
+			break Loop
+		} else if chosenInt > len(options)-1 {
 			chosenStr = ItemPass
 		} else {
 			chosenStr = options[chosenInt]
@@ -149,9 +154,11 @@ Loop:
 			turnSpent = p.DropFromInventory(o, option)
 			break Loop
 		case ItemUse:
-			turnSpent = object.UseItem(p)
-			break Loop
-		case ItemBack:
+			var err2 error
+			turnSpent, err2 = object.UseItem(p)
+			if err2 != nil {
+				fmt.Println(err2)
+			}
 			break Loop
 		default:
 			continue Loop
@@ -170,7 +177,7 @@ func (p *Creature) EquipmentMenu(o *Objects) bool {
 		PrintEquipmentMenu(UIPosX, UIPosY, "Equipment: ", p.Equipment)
 		key := blt.Read()
 		option := KeyToOrder(key)
-		if option == len(p.Equipment) {
+		if option == KeyToOrder(blt.TK_ESCAPE) {
 			break
 		} else if option < len(p.Equipment) {
 			turnSpent = p.HandleEquipment(o, option)
@@ -209,7 +216,9 @@ Loop:
 		PrintMenu(UIPosX, UIPosY, header, options)
 		var chosenStr string
 		chosenInt := KeyToOrder(blt.Read())
-		if chosenInt > len(options)-1 {
+		if chosenInt == KeyToOrder(blt.TK_ESCAPE) {
+			break Loop
+		} else if chosenInt > len(options)-1 {
 			chosenStr = ItemPass
 		} else {
 			chosenStr = options[chosenInt]
@@ -222,9 +231,11 @@ Loop:
 			turnSpent = p.DropFromEquipment(o, slot)
 			break Loop
 		case ItemUse:
-			turnSpent = object.UseItem(p)
-			break Loop
-		case ItemBack:
+			var err error
+			turnSpent, err = object.UseItem(p)
+			if err != nil {
+				fmt.Println(err)
+			}
 			break Loop
 		default:
 			continue Loop

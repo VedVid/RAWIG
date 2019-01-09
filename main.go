@@ -31,7 +31,7 @@ var MsgBuf = []string{}
 
 func main() {
 	slot, _ := NewObject(ObjectsLayer, 0, 0, "}", "weapon", "red", "dark red", true,
-		false, false, true, true, false, SlotWeaponPrimary, UseNA)
+		false, false, true, true, false, SlotWeaponPrimary, UseHeal)
 	item, _ := NewObject(ObjectsLayer, 0, 0, "O", "heal", "blue", "dark blue", true,
 		false, false, true, false, true, SlotNA, UseHeal)
 	var playerEq = EquipmentComponent{Objects{slot, nil}, Objects{item}}

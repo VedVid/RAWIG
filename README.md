@@ -23,7 +23,7 @@ Every revision before v 0.1 is potentially unstable.
 **Implemented already:**  
 - rendering system  
 - maps, monsters, items  
-- pathfinding  
+- fov, pathfinding  
 - melee combat
 
 **0.2**  

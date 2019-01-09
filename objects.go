@@ -72,7 +72,7 @@ type Object struct {
 type Objects []*Object
 
 func NewObject(layer, x, y int, character, name, color, colorDark string,
-	alwaysVisible, blocked, blocksSight bool, pickable, equippable bool, slot, use int) (*Object, error) {
+	alwaysVisible, blocked, blocksSight bool, pickable, equippable, consumable bool, slot, use int) (*Object, error) {
 	/* Function NewObject takes all values necessary by its struct,
 	   and creates then returns Object. */
 	var err error
@@ -88,15 +88,23 @@ func NewObject(layer, x, y int, character, name, color, colorDark string,
 		txt := CharacterLengthError(character)
 		err = errors.New("Object character string length is not equal to 1." + txt)
 	}
+	if consumable == true && use == UseNA {
+		txt := ConsumableWithoutUseError()
+		err = errors.New("Object is consumable, but has undefined use case." + txt)
+	}
 	if (equippable == false && slot != SlotNA) || (equippable == true && slot == SlotNA) {
 		txt := EquippableSlotError(equippable, slot)
 		err = errors.New("'equippable' and 'slot' values does not match." + txt)
+	}
+	if equippable == true && consumable == true {
+		err = errors.New("For now, <equippable> and <consumable> should not exists at the same time.")
 	}
 	objectBasicProperties := BasicProperties{layer, x, y, character, name,color,
 		colorDark}
 	objectVisibilityProperties := VisibilityProperties{alwaysVisible}
 	objectCollisionProperties := CollisionProperties{blocked, blocksSight}
-	objectProperties := ObjectProperties{pickable, equippable, slot, use}
+	objectProperties := ObjectProperties{pickable, equippable, consumable,
+	slot, use}
 	objectNew := &Object{objectBasicProperties, objectVisibilityProperties,
 		objectCollisionProperties, objectProperties}
 	return objectNew, err
@@ -165,5 +173,33 @@ func (o *Object) UseItem(c *Creature) (bool, error) {
 		err = errors.New("Item has wrong use case specified." + txt)
 		break
 	}
+	if err == nil {
+		err2 := DestroyItem(o, c)
+		if err2 != nil {
+			fmt.Println(err2)
+		}
+	}
 	return turnSpent, err
+}
+
+func DestroyItem(o *Object, c *Creature) error {
+	var err error
+	if o.Consumable == true {
+		index := -1
+		for i := 0; i < len(c.Inventory); i++ {
+			if c.Inventory[i] == o {
+				index = i
+				break
+			}
+		}
+		if index < 0 {
+			txt := ItemToDestroyNotFound()
+			err = errors.New("Consumable to destroy is not found in inventory." + txt)
+		} else {
+			copy(c.Inventory[index:], c.Inventory[index+1:])
+			c.Inventory[len(c.Inventory)-1] = nil
+			c.Inventory = c.Inventory[:len(c.Inventory)-1]
+		}
+	}
+	return err
 }

@@ -109,3 +109,15 @@ func UseItemError() string {
 	txt := "\n    <use case expected, but not found>"
 	return txt
 }
+
+func ConsumableWithoutUseError() string {
+	/* Function ConsumableWithoutUseError is helper function that returns string
+	   to error; it is called if object has set consumable to true and use to UseNA. */
+	txt := "\n    <expected use case != UseNA or consumable set to false>"
+	return txt
+}
+
+func ItemToDestroyNotFound() string {
+	txt := "\n    <searching for valid index failed>"
+	return txt
+}

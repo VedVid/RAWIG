@@ -117,7 +117,10 @@ func ConsumableWithoutUseError() string {
 	return txt
 }
 
-func ItemToDestroyNotFound() string {
+func ItemToDestroyNotFoundError() string {
+	/* Function ItemToDestroyNotFoundError is helper function that returns string
+	   to error; it is called if, after iterating whole Creature's Inventory,
+	   index of specific Object was not found. */
 	txt := "\n    <searching for valid index failed>"
 	return txt
 }

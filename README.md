@@ -14,6 +14,10 @@ To work with RAWIG, you need:
 
 RAWIG is standalone application, not a library. You can modify files and compile project by `go build` in root.
 
+### Disclaimer
+
+Refer to "development" branch - "master" is only for releases.
+
 ### Roadmap
 
 RAWIG is small, personal project, and doesn't have proper, detailed roadmap. However, TODO list is maintained.

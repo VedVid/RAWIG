@@ -66,9 +66,12 @@ type ObjectProperties struct {
 	/* Not every Object can be picked up - like tables;
 	   also, not every Object can be equipped - like cheese.
 	   It's place for other properties - like slot it will
-	   occupy, use cases, etc. */
+	   occupy, use cases, etc.
+	   Note that currently Equippable can not be Consumable,
+	   due to removing from Inventory / Equipment problems. */
 	Pickable   bool
 	Equippable bool
+	Consumable bool
 	Slot       int
 	Use        int
 }

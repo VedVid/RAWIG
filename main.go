@@ -31,9 +31,9 @@ var MsgBuf = []string{}
 
 func main() {
 	slot, _ := NewObject(ObjectsLayer, 0, 0, "}", "weapon", "red", "dark red", true,
-		false, false, true, true, SlotWeaponPrimary, UseNA)
+		false, false, true, true, false, SlotWeaponPrimary, UseHeal)
 	item, _ := NewObject(ObjectsLayer, 0, 0, "O", "heal", "blue", "dark blue", true,
-		false, false, true, false, SlotNA, UseHeal)
+		false, false, true, false, true, SlotNA, UseHeal)
 	var playerEq = EquipmentComponent{Objects{slot, nil}, Objects{item}}
 	player, err := NewPlayer(PlayerLayer, 1, 1, "@", "player", "white", "white", true,
 		true, false, PlayerAI, 20, 5, 2, playerEq)
@@ -47,8 +47,8 @@ func main() {
 		fmt.Println(err)
 	}
 	var actors = Creatures{player, enemy}
-	obj, err := NewObject(ObjectsLayer, 3, 3, "(", "junk", "blue", "dark blue", true,
-		false, false, true, false, SlotNA, UseNA)
+	obj, err := NewObject(ObjectsLayer, 3, 3, "(", "heal2", "blue", "dark blue", true,
+		false, false, true, false, false, SlotNA, UseHeal)
 	var objs = Objects{obj}
 	if err != nil {
 		fmt.Println(err)

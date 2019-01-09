@@ -161,6 +161,8 @@ func (o *Object) UseItem(c *Creature) (bool, error) {
 	   It uses Use value of receiver to determine what action will be performed.
 	   If there is no valid o.Use, it breaks switch statement (need proper
 	   error handling).
+	   It tries to remove item from inventory by calling DestroyItem function,
+	   but item will be removed only if its Consumable is set to true.
 	   Returns turnSpent that is true, unless o.Use is invalid. */
 	turnSpent := false
 	var err error
@@ -183,6 +185,9 @@ func (o *Object) UseItem(c *Creature) (bool, error) {
 }
 
 func DestroyItem(o *Object, c *Creature) error {
+	/* Function DestroyItem takes Object and Creature as arguments, and returns error.
+	   At first, it iterates through Creature's Inventory, and creates an error if
+	   proper index is not found. Otherwise, it removes item from inventory. */
 	var err error
 	if o.Consumable == true {
 		index := -1
@@ -193,7 +198,7 @@ func DestroyItem(o *Object, c *Creature) error {
 			}
 		}
 		if index < 0 {
-			txt := ItemToDestroyNotFound()
+			txt := ItemToDestroyNotFoundError()
 			err = errors.New("Consumable to destroy is not found in inventory." + txt)
 		} else {
 			copy(c.Inventory[index:], c.Inventory[index+1:])

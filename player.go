@@ -225,7 +225,7 @@ Loop:
 		}
 		switch chosenStr {
 		case ItemEquip:
-			fmt.Println("Equipping items is not implemented yet. ")
+			turnSpent = HandleEquipping(p, object, slot)
 			break Loop
 		case ItemDrop:
 			turnSpent = p.DropFromEquipment(o, slot)
@@ -242,4 +242,15 @@ Loop:
 		}
 	}
 	return turnSpent
+}
+
+func HandleEquipping(c *Creature, o *Object, slot int) bool {
+	turnSpent := false
+	if o != nil {
+		//print list of all equippables in inventory, because slot is empty
+		return turnSpent
+	} else {
+		//dequip item from slot
+		return turnSpent
+	}
 }

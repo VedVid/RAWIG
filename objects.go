@@ -164,7 +164,7 @@ func HandleEquipping(c *Creature, o *Object, slot int) bool {
 		return turnSpent
 	} else {
 		//dequip item from slot
-		turnSpent = c.DequipItem(object, slot)
+		turnSpent = c.DequipItem(o, slot)
 	}
 	return turnSpent
 }

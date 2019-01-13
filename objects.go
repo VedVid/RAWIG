@@ -97,6 +97,7 @@ func NewObject(layer, x, y int, character, name, color, colorDark string,
 		err = errors.New("'equippable' and 'slot' values does not match." + txt)
 	}
 	if equippable == true && consumable == true {
+		//TODO: temporary
 		err = errors.New("For now, <equippable> and <consumable> should not exists at the same time.")
 	}
 	objectBasicProperties := BasicProperties{layer, x, y, character, name,color,

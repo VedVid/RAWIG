@@ -160,7 +160,7 @@ func GatherEquipmentOptions(o *Object) []string {
 
 func HandleEquipping(c *Creature, o *Object, slot int) bool {
 	turnSpent := false
-	if o != nil {
+	if o == nil {
 		//print list of all equippables in inventory, because slot is empty
 		return turnSpent
 	} else {

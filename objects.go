@@ -52,10 +52,10 @@ const (
 
 const (
 	// Values for handling inventory actions.
-	ItemPass  = "pass"
-	ItemDrop  = "drop"
-	ItemEquip = "equip"
-	ItemUse   = "use"
+	ItemPass   = "pass"
+	ItemDrop   = "drop"
+	ItemDequip = "dequip"
+	ItemUse    = "use"
 )
 
 type Object struct {
@@ -119,7 +119,7 @@ func GatherItemOptions(o *Object) ([]string, error) {
 	var options = []string{}
 	var err error
 	if o.Equippable == true {
-		options = append(options, ItemEquip)
+		options = append(options, ItemDequip)
 	}
 	if o.Use != UseNA {
 		options = append(options, ItemUse)
@@ -152,7 +152,7 @@ func GatherEquipmentOptions(o *Object) []string {
 	} else {
 		// there is no object in slot, so
 		// print list of equippables
-		options = append(options, ItemEquip)
+		options = append(options, ItemDequip)
 	}
 	return options
 }

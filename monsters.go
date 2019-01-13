@@ -213,6 +213,9 @@ func (c *Creature) DropFromEquipment(objects *Objects, slot int) bool {
 }
 
 func (c *Creature) DequipItem(o *Object, slot int) bool {
+	/* DequipItem is method of Creature. It is called when receiver is about
+	   to dequip weapon from "ready" equipment slot.
+	   At first, weapon is added to Inventory, then Equipment slot is set to nil. */
 	turnSpent := false
 	c.Inventory = append(c.Inventory, o) //adding items to inventory should have own function, that will check "bounds" of inventory
 	c.Equipment[slot] = nil

@@ -157,6 +157,18 @@ func GatherEquipmentOptions(o *Object) []string {
 	return options
 }
 
+func HandleEquipping(c *Creature, o *Object, slot int) bool {
+	turnSpent := false
+	if o != nil {
+		//print list of all equippables in inventory, because slot is empty
+		return turnSpent
+	} else {
+		//dequip item from slot
+		turnSpent = c.DequipItem(object, slot)
+	}
+	return turnSpent
+}
+
 func (o *Object) UseItem(c *Creature) (bool, error) {
 	/* Method UseItem has Object as receiver and takes Creature as argument.
 	   It uses Use value of receiver to determine what action will be performed.

@@ -243,14 +243,3 @@ Loop:
 	}
 	return turnSpent
 }
-
-func HandleEquipping(c *Creature, o *Object, slot int) bool {
-	turnSpent := false
-	if o != nil {
-		//print list of all equippables in inventory, because slot is empty
-		return turnSpent
-	} else {
-		//dequip item from slot
-		return turnSpent
-	}
-}

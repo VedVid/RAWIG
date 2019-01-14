@@ -52,10 +52,11 @@ const (
 
 const (
 	// Values for handling inventory actions.
-	ItemPass  = "pass"
-	ItemDrop  = "drop"
-	ItemEquip = "equip"
-	ItemUse   = "use"
+	ItemPass   = "pass"
+	ItemDrop   = "drop"
+	ItemEquip  = "equip"
+	ItemDequip = "dequip"
+	ItemUse    = "use"
 )
 
 type Object struct {
@@ -119,7 +120,7 @@ func GatherItemOptions(o *Object) ([]string, error) {
 	var options = []string{}
 	var err error
 	if o.Equippable == true {
-		options = append(options, ItemEquip)
+		options = append(options, ItemDequip)
 	}
 	if o.Use != UseNA {
 		options = append(options, ItemUse)
@@ -155,6 +156,23 @@ func GatherEquipmentOptions(o *Object) []string {
 		options = append(options, ItemEquip)
 	}
 	return options
+}
+
+func HandleEquipping(c *Creature, o *Object, slot int) bool {
+	/* HandleEquipping is helper function that is called in "Equipment menu".
+	   If specific weapon slot (c.Equipment[slot], or o) is nil, it means
+	   that slot is empty and game should provide list of all equippable items
+	   from inventory. Else, it unequips this item. */
+	turnSpent := false
+	if o == nil {
+		//print list of all equippables in inventory, because slot is empty
+		fmt.Println("It should print list of all equippables in inventory, but it is not doing it right now.")
+		return turnSpent
+	} else {
+		//dequip item from slot
+		turnSpent = c.DequipItem(o, slot)
+	}
+	return turnSpent
 }
 
 func (o *Object) UseItem(c *Creature) (bool, error) {

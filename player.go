@@ -179,7 +179,7 @@ func (p *Creature) EquipmentMenu(o *Objects) bool {
 		option := KeyToOrder(key)
 		if option == KeyToOrder(blt.TK_ESCAPE) {
 			break
-		} else if option < len(p.Equipment) {
+		} else if option < SlotMax {
 			turnSpent = p.HandleEquipment(o, option)
 		} else {
 			continue
@@ -192,11 +192,8 @@ func (p *Creature) HandleEquipment(o *Objects, option int) bool {
 	/* HandleEquipment is method of Creature (that is supposed to be player)
 	   that calls EquipmentActions with proper player Slot, and
 	   Slot int indicator, as arguments. */
-	turnSpent := false
 	eq := p.Equipment[option]
-	if eq != nil {
-		turnSpent = p.EquipmentActions(o, eq, option)
-	}
+	turnSpent := p.EquipmentActions(o, eq, option)
 	return turnSpent
 }
 

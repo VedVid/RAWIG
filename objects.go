@@ -153,7 +153,7 @@ func GatherEquipmentOptions(o *Object) []string {
 	} else {
 		// there is no object in slot, so
 		// print list of equippables
-		options = append(options, ItemDequip)
+		options = append(options, ItemEquip)
 	}
 	return options
 }

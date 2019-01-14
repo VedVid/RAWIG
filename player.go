@@ -147,7 +147,7 @@ Loop:
 			chosenStr = options[chosenInt]
 		}
 		switch chosenStr {
-		case ItemDequip:
+		case ItemEquip, ItemDequip:
 			fmt.Println("Equipping items is not implemented yet. ")
 			break Loop
 		case ItemDrop:
@@ -221,7 +221,7 @@ Loop:
 			chosenStr = options[chosenInt]
 		}
 		switch chosenStr {
-		case ItemDequip:
+		case ItemEquip, ItemDequip:
 			turnSpent = HandleEquipping(p, object, slot)
 			break Loop
 		case ItemDrop:

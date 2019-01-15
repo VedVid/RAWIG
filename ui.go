@@ -94,6 +94,21 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 	PrintMenu(x, y, header, opts)
 }
 
+func PrintEquippables(x, y int, header string, options Objects) {
+	var opts = []string{}
+	for i := 0; i < len(options); i++ {
+		txt := ""
+		if options[i] == nil {
+			continue
+		}
+		if options[i].Equippable == true {
+			txt = options[i].Name
+		}
+		opts = append(opts, txt)
+	}
+	PrintMenu(x, y, header, opts)
+}
+
 func PrintMessages(x, y int, header string) {
 	/* PrintMessages works as PrintMenu, but it
 	   will not format text in special way. */

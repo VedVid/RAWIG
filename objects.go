@@ -165,8 +165,7 @@ func HandleEquipping(c *Creature, o *Object, slot int) bool {
 	   from inventory. Else, it unequips this item. */
 	turnSpent := false
 	if o == nil {
-		//print list of all equippables in inventory, because slot is empty
-		fmt.Println("It should print list of all equippables in inventory, but it is not doing it right now.")
+		turnSpent = c.HandleEquippables()
 		return turnSpent
 	} else {
 		//dequip item from slot

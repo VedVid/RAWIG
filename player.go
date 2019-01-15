@@ -240,3 +240,9 @@ Loop:
 	}
 	return turnSpent
 }
+
+func (p *Creature) HandleEquippables() bool {
+	turnSpent := false
+	PrintEquippables(UIPosX, UIPosY, "Equippables", p.Inventory)
+	return turnSpent
+}

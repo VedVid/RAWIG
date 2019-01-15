@@ -192,8 +192,13 @@ func (p *Creature) HandleEquipment(o *Objects, option int) bool {
 	/* HandleEquipment is method of Creature (that is supposed to be player)
 	   that calls EquipmentActions with proper player Slot, and
 	   Slot int indicator, as arguments. */
+	turnSpent := false
 	eq := p.Equipment[option]
-	turnSpent := p.EquipmentActions(o, eq, option)
+	if eq != nil {
+		turnSpent = p.EquipmentActions(o, eq, option)
+	} else {
+		turnSpent = p.EquippablesMenu()
+	}
 	return turnSpent
 }
 
@@ -221,9 +226,16 @@ Loop:
 			chosenStr = options[chosenInt]
 		}
 		switch chosenStr {
-		case ItemEquip, ItemDequip:
-			turnSpent = HandleEquipping(p, object, slot)
+		case ItemDequip:
+			var err error
+			turnSpent, err = p.DequipItem(object, slot)
+			if err != nil {
+				fmt.Println(err)
+			}
 			break Loop
+		case ItemEquip:
+			err := "ItemEquip should not be possible to be here. \n    <EquipmentActions>"
+			fmt.Println(err)
 		case ItemDrop:
 			turnSpent = p.DropFromEquipment(o, slot)
 			break Loop
@@ -238,5 +250,37 @@ Loop:
 			continue Loop
 		}
 	}
+	return turnSpent
+}
+
+func (p *Creature) EquippablesMenu() bool {
+	/* EquippablesMenu is method od Creature (that is supposed to be player).
+	   It returns true if action was success, false otherwise.
+	   At start, GetEquippablesFromInventory is called to create new slice
+	   of equippables separated from inventory. Then function waits for player
+	   input and, if possible, calls HandleEquippables to fill empty slot. */
+	turnSpent := false
+	eq := GetEquippablesFromInventory(p)
+	for {
+		PrintEquippables(UIPosX, UIPosY, "Equippables: ", eq)
+		key := blt.Read()
+		option := KeyToOrder(key)
+		if option == KeyToOrder(blt.TK_ESCAPE) {
+			break
+		} else if option < len(eq) {
+			turnSpent = p.HandleEquippables(eq, option)
+		} else {
+			continue
+		}
+	}
+	return turnSpent
+}
+
+func (p *Creature) HandleEquippables(eq Objects, option int) bool {
+	//it is work in progress function that will bind equippable from inventory to equipment slot
+	turnSpent := false
+	//creating new slice of objects every time when menu is created is not very efficient
+	fmt.Print("It is item to be equipped: ")
+	fmt.Println(*eq[option])
 	return turnSpent
 }

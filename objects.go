@@ -158,21 +158,15 @@ func GatherEquipmentOptions(o *Object) []string {
 	return options
 }
 
-func HandleEquipping(c *Creature, o *Object, slot int) bool {
-	/* HandleEquipping is helper function that is called in "Equipment menu".
-	   If specific weapon slot (c.Equipment[slot], or o) is nil, it means
-	   that slot is empty and game should provide list of all equippable items
-	   from inventory. Else, it unequips this item. */
-	turnSpent := false
-	if o == nil {
-		//print list of all equippables in inventory, because slot is empty
-		fmt.Println("It should print list of all equippables in inventory, but it is not doing it right now.")
-		return turnSpent
-	} else {
-		//dequip item from slot
-		turnSpent = c.DequipItem(o, slot)
+func GetEquippablesFromInventory(c *Creature) Objects {
+	var eq = Objects{}
+	for i := 0; i < len(c.Inventory); i++ {
+		item := c.Inventory[i]
+		if item.Equippable == true {
+			eq = append(eq, item)
+		}
 	}
-	return turnSpent
+	return eq
 }
 
 func (o *Object) UseItem(c *Creature) (bool, error) {

@@ -124,3 +124,10 @@ func ItemToDestroyNotFoundError() string {
 	txt := "\n    <searching for valid index failed>"
 	return txt
 }
+
+func DequipNilError(c *Creature, slot int) string {
+	name, x, y := c.Name, strconv.Itoa(c.X), strconv.Itoa(c.Y)
+	txt := "\n    <creature: " + name + "; x: " + x + ", y: " + y + ">" +
+		"\n    <slot: " + strconv.Itoa(slot) + ">"
+	return txt
+}

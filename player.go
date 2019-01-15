@@ -192,8 +192,13 @@ func (p *Creature) HandleEquipment(o *Objects, option int) bool {
 	/* HandleEquipment is method of Creature (that is supposed to be player)
 	   that calls EquipmentActions with proper player Slot, and
 	   Slot int indicator, as arguments. */
+	turnSpent := false
 	eq := p.Equipment[option]
-	turnSpent := p.EquipmentActions(o, eq, option)
+	if eq != nil {
+		turnSpent = p.EquipmentActions(o, eq, option)
+	} else {
+		turnSpent = HandleEquipping(p, eq, -1)
+	}
 	return turnSpent
 }
 

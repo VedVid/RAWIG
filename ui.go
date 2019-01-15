@@ -95,6 +95,8 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 }
 
 func PrintEquippables(x, y int, header string, options Objects) {
+	/* PrintEquippables is function that prints list of equippables,
+	   isolated from options slice. */
 	var opts = []string{}
 	for i := 0; i < len(options); i++ {
 		txt := ""

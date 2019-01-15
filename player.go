@@ -254,6 +254,11 @@ Loop:
 }
 
 func (p *Creature) EquippablesMenu() bool {
+	/* EquippablesMenu is method od Creature (that is supposed to be player).
+	   It returns true if action was success, false otherwise.
+	   At start, GetEquippablesFromInventory is called to create new slice
+	   of equippables separated from inventory. Then function waits for player
+	   input and, if possible, calls HandleEquippables to fill empty slot. */
 	turnSpent := false
 	eq := GetEquippablesFromInventory(p)
 	for {
@@ -272,6 +277,7 @@ func (p *Creature) EquippablesMenu() bool {
 }
 
 func (p *Creature) HandleEquippables(eq Objects, option int) bool {
+	//it is work in progress function that will bind equippable from inventory to equipment slot
 	turnSpent := false
 	//creating new slice of objects every time when menu is created is not very efficient
 	fmt.Print("It is item to be equipped: ")

@@ -158,6 +158,17 @@ func GatherEquipmentOptions(o *Object) []string {
 	return options
 }
 
+func GetEquippablesFromInventory(c *Creature) Objects {
+	var eq = Objects{}
+	for i := 0; i < len(c.Inventory); i++ {
+		item := c.Inventory[i]
+		if item.Equippable == true {
+			eq = append(eq, item)
+		}
+	}
+	return eq
+}
+
 func HandleEquipping(c *Creature, o *Object, slot int) bool {
 	/* HandleEquipping is helper function that is called in "Equipment menu".
 	   If specific weapon slot (c.Equipment[slot], or o) is nil, it means
@@ -165,7 +176,7 @@ func HandleEquipping(c *Creature, o *Object, slot int) bool {
 	   from inventory. Else, it unequips this item. */
 	turnSpent := false
 	if o == nil {
-		turnSpent = c.HandleEquippables()
+		turnSpent = c.EquippablesMenu()
 		return turnSpent
 	} else {
 		turnSpent = c.DequipItem(o, slot)

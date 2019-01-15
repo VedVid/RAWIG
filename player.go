@@ -241,8 +241,28 @@ Loop:
 	return turnSpent
 }
 
-func (p *Creature) HandleEquippables() bool {
+func (p *Creature) EquippablesMenu() bool {
 	turnSpent := false
-	PrintEquippables(UIPosX, UIPosY, "Equippables", p.Inventory)
+	eq := GetEquippablesFromInventory(p)
+	for {
+		PrintEquippables(UIPosX, UIPosY, "Equippables: ", p.Inventory)
+		key := blt.Read()
+		option := KeyToOrder(key)
+		if option == KeyToOrder(blt.TK_ESCAPE) {
+			break
+		} else if option < len(eq) {
+			turnSpent = p.HandleEquippables(eq, option)
+		} else {
+			continue
+		}
+	}
+	return turnSpent
+}
+
+func (p *Creature) HandleEquippables(eq Objects, option int) bool {
+	turnSpent := false
+	//creating new slice of objects every time when menu is created is not very efficient
+	fmt.Print("It is item to be equipped: ")
+	fmt.Println(*eq[option])
 	return turnSpent
 }

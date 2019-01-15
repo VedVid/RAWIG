@@ -197,7 +197,7 @@ func (p *Creature) HandleEquipment(o *Objects, option int) bool {
 	if eq != nil {
 		turnSpent = p.EquipmentActions(o, eq, option)
 	} else {
-		turnSpent = HandleEquipping(p, eq, -1)
+		turnSpent = p.EquippablesMenu()
 	}
 	return turnSpent
 }
@@ -226,8 +226,8 @@ Loop:
 			chosenStr = options[chosenInt]
 		}
 		switch chosenStr {
-		case ItemEquip, ItemDequip:
-			turnSpent = HandleEquipping(p, object, slot)
+		case ItemDequip:
+			turnSpent = p.DequipItem(object, slot)
 			break Loop
 		case ItemDrop:
 			turnSpent = p.DropFromEquipment(o, slot)

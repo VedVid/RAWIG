@@ -227,8 +227,15 @@ Loop:
 		}
 		switch chosenStr {
 		case ItemDequip:
-			turnSpent = p.DequipItem(object, slot)
+			var err error
+			turnSpent, err = p.DequipItem(object, slot)
+			if err != nil {
+				fmt.Println(err)
+			}
 			break Loop
+		case ItemEquip:
+			err := "ItemEquip should not be possible to be here. \n    <EquipmentActions>"
+			fmt.Println(err)
 		case ItemDrop:
 			turnSpent = p.DropFromEquipment(o, slot)
 			break Loop

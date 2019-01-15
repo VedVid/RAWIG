@@ -95,18 +95,10 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 }
 
 func PrintEquippables(x, y int, header string, options Objects) {
-	/* PrintEquippables is function that prints list of equippables,
-	   isolated from options slice. */
+	/* PrintEquippables is function that prints list of equippables. */
 	var opts = []string{}
-	for i := 0; i < len(options); i++ {
-		txt := ""
-		if options[i] == nil {
-			continue
-		}
-		if options[i].Equippable == true {
-			txt = options[i].Name
-		}
-		opts = append(opts, txt)
+	for _, v := range options {
+		opts = append(opts, v.Name)
 	}
 	PrintMenu(x, y, header, opts)
 }

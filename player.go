@@ -245,7 +245,7 @@ func (p *Creature) EquippablesMenu() bool {
 	turnSpent := false
 	eq := GetEquippablesFromInventory(p)
 	for {
-		PrintEquippables(UIPosX, UIPosY, "Equippables: ", p.Inventory)
+		PrintEquippables(UIPosX, UIPosY, "Equippables: ", eq)
 		key := blt.Read()
 		option := KeyToOrder(key)
 		if option == KeyToOrder(blt.TK_ESCAPE) {

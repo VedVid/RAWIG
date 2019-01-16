@@ -212,6 +212,27 @@ func (c *Creature) DropFromEquipment(objects *Objects, slot int) bool {
 	return turnSpent
 }
 
+func (c *Creature) EquipItem(o *Object, slot int) (bool, error) {
+	var err error
+	if o == nil {
+		txt := EquipNilError(c)
+		err = errors.New("Creature tried to equip *Object that was nil." + txt)
+	}
+	if c.Equipment[slot] != nil {
+		txt := EquipSlotNotNilError(c, slot)
+		err = errors.New("Creature tried to equip item into already occupied slot." + txt)
+	}
+	turnSpent := false
+	// Equip item...
+	c.Equipment[slot] = o
+	// ...then remove it from inventory.
+	//copy(c.Inventory[index:], c.Inventory[index+1:])
+	//c.Inventory[len(c.Inventory)-1] = nil
+	//c.Inventory = c.Inventory[:len(c.Inventory)-1]
+	turnSpent = true
+	return turnSpent, err
+}
+
 func (c *Creature) DequipItem(o *Object, slot int) (bool, error) {
 	/* DequipItem is method of Creature. It is called when receiver is about
 	   to dequip weapon from "ready" equipment slot.

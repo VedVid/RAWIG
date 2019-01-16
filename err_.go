@@ -125,6 +125,19 @@ func ItemToDestroyNotFoundError() string {
 	return txt
 }
 
+func EquipNilError(c *Creature) string {
+	name, x, y := c.Name, strconv.Itoa(c.X), strconv.Itoa(c.Y)
+	txt := "\n    <creature: " + name + "; x: " + x + ", y: " + y + ">"
+	return txt
+}
+
+func EquipSlotNotNilError(c *Creature, slot int) string {
+	name, x, y := c.Name, strconv.Itoa(c.X), strconv.Itoa(c.Y)
+	txt := "\n    <creature: " + name + "; x: " + x + ", y: " + y + ">" +
+		"\n    <slot: " + strconv.Itoa(slot) + ">"
+	return txt
+}
+
 func DequipNilError(c *Creature, slot int) string {
 	name, x, y := c.Name, strconv.Itoa(c.X), strconv.Itoa(c.Y)
 	txt := "\n    <creature: " + name + "; x: " + x + ", y: " + y + ">" +

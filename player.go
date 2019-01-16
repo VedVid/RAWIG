@@ -273,6 +273,7 @@ func (p *Creature) EquippablesMenu(slot int) bool {
 			break
 		} else if option < len(eq) {
 			turnSpent = p.HandleEquippables(eq, option, slot)
+			break
 		} else {
 			continue
 		}

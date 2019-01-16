@@ -147,7 +147,7 @@ Loop:
 			chosenStr = options[chosenInt]
 		}
 		switch chosenStr {
-		case ItemEquip, ItemDequip:
+		case ItemEquip:
 			fmt.Println("Equipping items is not implemented yet. ")
 			break Loop
 		case ItemDrop:

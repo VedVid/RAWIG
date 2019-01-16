@@ -22,6 +22,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"unicode/utf8"
 )
 
@@ -226,9 +227,13 @@ func (c *Creature) EquipItem(o *Object, slot int) (bool, error) {
 	// Equip item...
 	c.Equipment[slot] = o
 	// ...then remove it from inventory.
-	//copy(c.Inventory[index:], c.Inventory[index+1:])
-	//c.Inventory[len(c.Inventory)-1] = nil
-	//c.Inventory = c.Inventory[:len(c.Inventory)-1]
+	index, err := FindObjectIndex(o, c.Inventory)
+	if err != nil {
+		fmt.Println(err)
+	}
+	copy(c.Inventory[index:], c.Inventory[index+1:])
+	c.Inventory[len(c.Inventory)-1] = nil
+	c.Inventory = c.Inventory[:len(c.Inventory)-1]
 	turnSpent = true
 	return turnSpent, err
 }

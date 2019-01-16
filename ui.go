@@ -22,7 +22,6 @@ package main
 
 import (
 	blt "bearlibterminal"
-	"fmt"
 )
 
 const (
@@ -42,7 +41,6 @@ func PrintMenu(x, y int, header string, options []string) {
 	       a) first
 	       b) two
 	    It refreshed terminal and waits for player input at the end. */
-	fmt.Println(6)
 	blt.ClearArea(UIPosX, UIPosY, UISizeX, UISizeY)
 	if header == "" {
 		y--
@@ -83,7 +81,6 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 	   of options, skipping all nil pointers.
 	   Unfortunately, it may crash in future, with
 	   more slots involved. */
-	fmt.Println(7)
 	var opts = []string{}
 	for i := 0; i < len(options); i++ {
 		txt := ""
@@ -98,7 +95,6 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 }
 
 func PrintEquippables(x, y int, header string, options Objects) {
-	fmt.Println(8)
 	/* PrintEquippables is function that prints list of equippables. */
 	var opts = []string{}
 	for _, v := range options {

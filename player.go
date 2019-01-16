@@ -172,7 +172,6 @@ func (p *Creature) EquipmentMenu(o *Objects) bool {
 	   it checks all equipment slots if they are empty or not.
 	   It is almost the same function as used in handling inventory,
 	   but maybe it is worth to be explicit here. */
-	fmt.Println(1)
 	turnSpent := false
 	for {
 		PrintEquipmentMenu(UIPosX, UIPosY, "Equipment: ", p.Equipment)
@@ -193,7 +192,6 @@ func (p *Creature) HandleEquipment(o *Objects, option int) bool {
 	/* HandleEquipment is method of Creature (that is supposed to be player)
 	   that calls EquipmentActions with proper player Slot, and
 	   Slot int indicator, as arguments. */
-	   fmt.Println(2)
 	turnSpent := false
 	eq := p.Equipment[option]
 	if eq != nil {
@@ -210,7 +208,6 @@ func (p *Creature) EquipmentActions(o *Objects, object *Object, slot int) bool {
 	   Inventory and Equipment, even if using the same architecture, may
 	   call different functions, for example for dropping stuff. */
 	turnSpent := false
-	fmt.Println(3)
 Loop:
 	for {
 		options := GatherEquipmentOptions(object)
@@ -263,7 +260,6 @@ func (p *Creature) EquippablesMenu(slot int) bool {
 	   of equippables separated from inventory. Then function waits for player
 	   input and, if possible, calls HandleEquippables to fill empty slot. */
 	turnSpent := false
-	fmt.Println(4)
 	eq := GetEquippablesFromInventory(p)
 	for {
 		PrintEquippables(UIPosX, UIPosY, "Equippables: ", eq)
@@ -283,7 +279,6 @@ func (p *Creature) EquippablesMenu(slot int) bool {
 
 func (p *Creature) HandleEquippables(eq Objects, option, slot int) bool {
 	turnSpent := false
-	fmt.Println(5)
 	turnSpent, err := p.EquipItem(eq[option], slot)
 	if err != nil {
 		fmt.Println(err)

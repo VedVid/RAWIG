@@ -215,7 +215,6 @@ func (c *Creature) DropFromEquipment(objects *Objects, slot int) bool {
 
 func (c *Creature) EquipItem(o *Object, slot int) (bool, error) {
 	var err error
-	fmt.Println(9)
 	if o == nil {
 		txt := EquipNilError(c)
 		err = errors.New("Creature tried to equip *Object that was nil." + txt)
@@ -243,7 +242,6 @@ func (c *Creature) DequipItem(o *Object, slot int) (bool, error) {
 	/* DequipItem is method of Creature. It is called when receiver is about
 	   to dequip weapon from "ready" equipment slot.
 	   At first, weapon is added to Inventory, then Equipment slot is set to nil. */
-	fmt.Println(10)
 	var err error
 	if o == nil {
 		txt := DequipNilError(c, slot)

@@ -280,7 +280,7 @@ func (p *Creature) HandleEquippables(eq Objects, option int) bool {
 	//it is work in progress function that will bind equippable from inventory to equipment slot
 	turnSpent := false
 	//creating new slice of objects every time when menu is created is not very efficient
-	fmt.Print("It is item to be equipped: ")
-	fmt.Println(*eq[option])
+	//fmt.Print("It is item to be equipped: ")
+	//fmt.Println(*eq[option])
 	return turnSpent
 }

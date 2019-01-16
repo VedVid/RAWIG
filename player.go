@@ -197,7 +197,7 @@ func (p *Creature) HandleEquipment(o *Objects, option int) bool {
 	if eq != nil {
 		turnSpent = p.EquipmentActions(o, eq, option)
 	} else {
-		turnSpent = p.EquippablesMenu()
+		turnSpent = p.EquippablesMenu(option)
 	}
 	return turnSpent
 }
@@ -253,7 +253,7 @@ Loop:
 	return turnSpent
 }
 
-func (p *Creature) EquippablesMenu() bool {
+func (p *Creature) EquippablesMenu(slot int) bool {
 	/* EquippablesMenu is method od Creature (that is supposed to be player).
 	   It returns true if action was success, false otherwise.
 	   At start, GetEquippablesFromInventory is called to create new slice
@@ -268,7 +268,7 @@ func (p *Creature) EquippablesMenu() bool {
 		if option == KeyToOrder(blt.TK_ESCAPE) {
 			break
 		} else if option < len(eq) {
-			turnSpent = p.HandleEquippables(eq, option)
+			turnSpent = p.HandleEquippables(eq, option, slot)
 		} else {
 			continue
 		}
@@ -276,11 +276,11 @@ func (p *Creature) EquippablesMenu() bool {
 	return turnSpent
 }
 
-func (p *Creature) HandleEquippables(eq Objects, option int) bool {
-	//it is work in progress function that will bind equippable from inventory to equipment slot
+func (p *Creature) HandleEquippables(eq Objects, option, slot int) bool {
 	turnSpent := false
-	//creating new slice of objects every time when menu is created is not very efficient
-	//fmt.Print("It is item to be equipped: ")
-	//fmt.Println(*eq[option])
+	turnSpent, err := p.EquipItem(eq[option], slot)
+	if err != nil {
+		fmt.Println(err)
+	}
 	return turnSpent
 }

@@ -67,8 +67,8 @@ func KeyToOrder(key int) int {
 func FindObjectIndex(item *Object, arr Objects) (int, error) {
 	var err error
 	index := -1
-	for i, v := range arr {
-		if item == v {
+	for i := 0; i < len(arr); i++ {
+		if arr[i] == item {
 			index = i
 			break
 		}

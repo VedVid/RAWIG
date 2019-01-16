@@ -21,6 +21,7 @@ freely, subject to the following restrictions:
 package main
 
 import (
+	"errors"
 	"math"
 	"math/rand"
 
@@ -61,4 +62,19 @@ func KeyToOrder(key int) int {
 	   It will need extensive error-checking
 	   (or maybe just LBYL?) for wrong input. */
 	return key - blt.TK_A
+}
+
+func FindObjectIndex(item *Object, arr Objects) (int, error) {
+	var err error
+	index := -1
+	for i := 0; i < len(arr); i++ {
+		if arr[i] == item {
+			index = i
+			break
+		}
+	}
+	if index < 0 {
+		err = errors.New("*Object not found in []*Object.")
+	}
+	return index, err
 }

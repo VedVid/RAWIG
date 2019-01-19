@@ -147,8 +147,8 @@ Loop:
 			chosenStr = options[chosenInt]
 		}
 		switch chosenStr {
-		case ItemEquip:
-			fmt.Println("Equipping items is not implemented yet. ")
+		case ItemEquip, ItemDequip:
+			turnSpent = p.EquipFromInventory(object)
 			break Loop
 		case ItemDrop:
 			turnSpent = p.DropFromInventory(o, option)
@@ -162,6 +162,33 @@ Loop:
 			break Loop
 		default:
 			continue Loop
+		}
+	}
+	return turnSpent
+}
+
+func (p *Creature) EquipFromInventory(o *Object) bool {
+	turnSpent := false
+	for {
+		PrintEquipmentMenu(UIPosX, UIPosY, "Equipment:", p.Equipment)
+		key := blt.Read()
+		option := KeyToOrder(key)
+		if option == KeyToOrder(blt.TK_ESCAPE) {
+			break
+		} else if option < SlotMax {
+			if p.Equipment[option] != nil {
+				_, err := p.DequipItem(option)
+				if err != nil {
+					fmt.Println(err)
+				}
+			}
+			var err error
+			turnSpent, err = p.EquipItem(o, option)
+			if err != nil {
+				fmt.Println(err)
+			}
+		} else {
+			continue
 		}
 	}
 	return turnSpent
@@ -228,7 +255,7 @@ Loop:
 		switch chosenStr {
 		case ItemDequip:
 			var err error
-			turnSpent, err = p.DequipItem(object, slot)
+			turnSpent, err = p.DequipItem(slot)
 			if err != nil {
 				fmt.Println(err)
 			}

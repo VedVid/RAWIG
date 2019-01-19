@@ -190,6 +190,7 @@ func (p *Creature) EquipFromInventory(o *Object) bool {
 					fmt.Println(err)
 				}
 			}
+			break
 		} else {
 			continue
 		}

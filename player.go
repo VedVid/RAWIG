@@ -147,8 +147,8 @@ Loop:
 			chosenStr = options[chosenInt]
 		}
 		switch chosenStr {
-		case ItemEquip:
-			fmt.Println("Equipping items is not implemented yet. ")
+		case ItemEquip, ItemDequip:
+			turnSpent = p.EquipFromInventory(object)
 			break Loop
 		case ItemDrop:
 			turnSpent = p.DropFromInventory(o, option)
@@ -162,6 +162,37 @@ Loop:
 			break Loop
 		default:
 			continue Loop
+		}
+	}
+	return turnSpent
+}
+
+func (p *Creature) EquipFromInventory(o *Object) bool {
+	/* EquipFromInventory is method of Creature (that is supposed to be player)
+	   that takes Object (already chosen item from inventory) as argument, and
+	   returns true if actions is success.
+	   This method is used to equip item directly from inventory. */
+	turnSpent := false
+	for {
+		PrintEquipmentMenu(UIPosX, UIPosY, "Equipment:", p.Equipment)
+		key := blt.Read()
+		option := KeyToOrder(key)
+		if option == KeyToOrder(blt.TK_ESCAPE) {
+			break
+		} else if option < SlotMax {
+			if p.Equipment[option] != nil {
+				_, err := p.DequipItem(option)
+				if err != nil {
+					fmt.Println(err)
+				}
+			}
+			var err error
+			turnSpent, err = p.EquipItem(o, option)
+			if err != nil {
+				fmt.Println(err)
+			}
+		} else {
+			continue
 		}
 	}
 	return turnSpent
@@ -228,7 +259,7 @@ Loop:
 		switch chosenStr {
 		case ItemDequip:
 			var err error
-			turnSpent, err = p.DequipItem(object, slot)
+			turnSpent, err = p.DequipItem(slot)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -278,6 +309,10 @@ func (p *Creature) EquippablesMenu(slot int) bool {
 }
 
 func (p *Creature) HandleEquippables(eq Objects, option, slot int) bool {
+	/* HandleEquippables is method of Creature (player) that takes
+	   list of equippables (ie slice of *Object), and two ints as arguments.
+	   It returns true if action is success.
+	   The body if this function calls EquipItem and handles it error. */
 	turnSpent := false
 	turnSpent, err := p.EquipItem(eq[option], slot)
 	if err != nil {

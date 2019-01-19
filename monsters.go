@@ -214,6 +214,17 @@ func (c *Creature) DropFromEquipment(objects *Objects, slot int) bool {
 }
 
 func (c *Creature) EquipItem(o *Object, slot int) (bool, error) {
+	/* EquipItem is method of *Creature that takes *Object and int (that is
+	   indicator to index of Equipment slot) as arguments; it returns
+	   bool and error.
+	   At first, EquipItem checks for errors:
+	    - if object to equip exists
+	    - if this equipment slot is not occupied
+	     * it may be subject of change, because by default, equipping item
+	       by player to occupied slot is supposed to free slot at first;
+	       check EquipFromInventory in player.go;
+	       = I am still not sure if it should work in this way...
+	   then equips item and removes it from inventory. */
 	var err error
 	if o == nil {
 		txt := EquipNilError(c)
@@ -238,17 +249,17 @@ func (c *Creature) EquipItem(o *Object, slot int) (bool, error) {
 	return turnSpent, err
 }
 
-func (c *Creature) DequipItem(o *Object, slot int) (bool, error) {
+func (c *Creature) DequipItem(slot int) (bool, error) {
 	/* DequipItem is method of Creature. It is called when receiver is about
 	   to dequip weapon from "ready" equipment slot.
 	   At first, weapon is added to Inventory, then Equipment slot is set to nil. */
 	var err error
-	if o == nil {
+	if c.Equipment[slot] == nil {
 		txt := DequipNilError(c, slot)
 		err = errors.New("Creature tried to DequipItem that was nil." + txt)
 	}
 	turnSpent := false
-	c.Inventory = append(c.Inventory, o) //adding items to inventory should have own function, that will check "bounds" of inventory
+	c.Inventory = append(c.Inventory, c.Equipment[slot]) //adding items to inventory should have own function, that will check "bounds" of inventory
 	c.Equipment[slot] = nil
 	turnSpent = true
 	return turnSpent, err

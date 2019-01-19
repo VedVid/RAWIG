@@ -168,6 +168,10 @@ Loop:
 }
 
 func (p *Creature) EquipFromInventory(o *Object) bool {
+	/* EquipFromInventory is method of Creature (that is supposed to be player)
+	   that takes Object (already chosen item from inventory) as argument, and
+	   returns true if actions is success.
+	   This method is used to equip item directly from inventory. */
 	turnSpent := false
 	for {
 		PrintEquipmentMenu(UIPosX, UIPosY, "Equipment:", p.Equipment)
@@ -305,6 +309,10 @@ func (p *Creature) EquippablesMenu(slot int) bool {
 }
 
 func (p *Creature) HandleEquippables(eq Objects, option, slot int) bool {
+	/* HandleEquippables is method of Creature (player) that takes
+	   list of equippables (ie slice of *Object), and two ints as arguments.
+	   It returns true if action is success.
+	   The body if this function calls EquipItem and handles it error. */
 	turnSpent := false
 	turnSpent, err := p.EquipItem(eq[option], slot)
 	if err != nil {

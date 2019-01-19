@@ -32,9 +32,11 @@ var MsgBuf = []string{}
 func main() {
 	slot, _ := NewObject(ObjectsLayer, 0, 0, "}", "weapon", "red", "dark red", true,
 		false, false, true, true, false, SlotWeaponPrimary, UseHeal)
+	slot2, _ := NewObject(ObjectsLayer, 0, 0, "{", "weapon2", "green", "dark green", true,
+		false, false, true, true, false, SlotWeaponPrimary, UseNA)
 	item, _ := NewObject(ObjectsLayer, 0, 0, "O", "heal", "blue", "dark blue", true,
 		false, false, true, false, true, SlotNA, UseHeal)
-	var playerEq = EquipmentComponent{Objects{slot, nil}, Objects{item}}
+	var playerEq = EquipmentComponent{Objects{slot, slot2}, Objects{item}}
 	player, err := NewPlayer(PlayerLayer, 1, 1, "@", "player", "white", "white", true,
 		true, false, PlayerAI, 20, 5, 2, playerEq)
 	if err != nil {

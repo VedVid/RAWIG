@@ -220,10 +220,6 @@ func (c *Creature) EquipItem(o *Object, slot int) (bool, error) {
 	   At first, EquipItem checks for errors:
 	    - if object to equip exists
 	    - if this equipment slot is not occupied
-	     * it may be subject of change, because by default, equipping item
-	       by player to occupied slot is supposed to free slot at first;
-	       check EquipFromInventory in player.go;
-	       = I am still not sure if it should work in this way...
 	   then equips item and removes it from inventory. */
 	var err error
 	if o == nil {

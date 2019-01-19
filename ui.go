@@ -125,4 +125,6 @@ func AddMessage(message string) {
 	} else {
 		MsgBuf = append(MsgBuf[1:], message)
 	}
+	PrintLog()
+	blt.Refresh()
 }

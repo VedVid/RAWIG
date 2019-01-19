@@ -181,16 +181,16 @@ func (p *Creature) EquipFromInventory(o *Object) bool {
 			break
 		} else if option < SlotMax {
 			if p.Equipment[option] != nil {
-				_, err := p.DequipItem(option)
+				AddMessage("This slot is already occupied.")
+				continue
+			} else {
+				var err error
+				turnSpent, err = p.EquipItem(o, option)
 				if err != nil {
 					fmt.Println(err)
 				}
 			}
-			var err error
-			turnSpent, err = p.EquipItem(o, option)
-			if err != nil {
-				fmt.Println(err)
-			}
+			break
 		} else {
 			continue
 		}

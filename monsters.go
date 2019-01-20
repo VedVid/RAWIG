@@ -95,7 +95,7 @@ func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) bool {
 	   It's supposed to take player as receiver (attack / moving enemies is
 	   handled differently - check ai.go and combat.go). */
 	var target *Creature
-	var turnSpent bool
+	turnSpent := false
 	for i, _ := range all {
 		if all[i].X == c.X+tx && all[i].Y == c.Y+ty {
 			if all[i].HPCurrent > 0 {

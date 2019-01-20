@@ -197,6 +197,7 @@ func (o *Object) UseItem(c *Creature) (bool, error) {
 		err2 := DestroyItem(o, c)
 		if err2 != nil {
 			fmt.Println(err2)
+			// It could be case to set turnSpent to false again.
 		}
 	}
 	return turnSpent, err

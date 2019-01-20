@@ -124,3 +124,33 @@ func ItemToDestroyNotFoundError() string {
 	txt := "\n    <searching for valid index failed>"
 	return txt
 }
+
+func EquipNilError(c *Creature) string {
+	/* Function EquipNilError is helper function that returns string to error;
+	   it takes Creature as argument; is called if Creature tries to equip
+	   Item that is nil. */
+	name, x, y := c.Name, strconv.Itoa(c.X), strconv.Itoa(c.Y)
+	txt := "\n    <creature: " + name + "; x: " + x + ", y: " + y + ">"
+	return txt
+}
+
+func EquipSlotNotNilError(c *Creature, slot int) string {
+	/* Function EquipSlotNotNilError is helper function that returns string
+	   to error; it takes *Creature and int (that is indicator of Equipment slot)
+	   as arguments. It is called if Creature tries to equip item to
+	   slot that is not nil. */
+	name, x, y := c.Name, strconv.Itoa(c.X), strconv.Itoa(c.Y)
+	txt := "\n    <creature: " + name + "; x: " + x + ", y: " + y + ">" +
+		"\n    <slot: " + strconv.Itoa(slot) + ">"
+	return txt
+}
+
+func DequipNilError(c *Creature, slot int) string {
+	/* Function DequipNilError is helper function that returns string to error;
+	   it takes *Creature and int (that is indicator of Equipment slot) as
+	   arguments. It is called if Creature tries to dequip item that is nil. */
+	name, x, y := c.Name, strconv.Itoa(c.X), strconv.Itoa(c.Y)
+	txt := "\n    <creature: " + name + "; x: " + x + ", y: " + y + ">" +
+		"\n    <slot: " + strconv.Itoa(slot) + ">"
+	return txt
+}

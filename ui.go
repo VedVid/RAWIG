@@ -94,6 +94,15 @@ func PrintEquipmentMenu(x, y int, header string, options Objects) {
 	PrintMenu(x, y, header, opts)
 }
 
+func PrintEquippables(x, y int, header string, options Objects) {
+	/* PrintEquippables is function that prints list of equippables. */
+	var opts = []string{}
+	for _, v := range options {
+		opts = append(opts, v.Name)
+	}
+	PrintMenu(x, y, header, opts)
+}
+
 func PrintMessages(x, y int, header string) {
 	/* PrintMessages works as PrintMenu, but it
 	   will not format text in special way. */
@@ -116,4 +125,6 @@ func AddMessage(message string) {
 	} else {
 		MsgBuf = append(MsgBuf[1:], message)
 	}
+	PrintLog()
+	blt.Refresh()
 }

@@ -52,10 +52,10 @@ const (
 
 const (
 	// Values for handling inventory actions.
-	ItemPass  = "pass"
-	ItemDrop  = "drop"
-	ItemEquip = "equip"
-	ItemUse   = "use"
+	ItemPass   = "pass"
+	ItemDrop   = "drop"
+	ItemEquip  = "equip"
+	ItemUse    = "use"
 )
 
 type Object struct {
@@ -97,6 +97,7 @@ func NewObject(layer, x, y int, character, name, color, colorDark string,
 		err = errors.New("'equippable' and 'slot' values does not match." + txt)
 	}
 	if equippable == true && consumable == true {
+		//TODO: temporary
 		err = errors.New("For now, <equippable> and <consumable> should not exists at the same time.")
 	}
 	objectBasicProperties := BasicProperties{layer, x, y, character, name,color,
@@ -154,6 +155,23 @@ func GatherEquipmentOptions(o *Object) []string {
 		options = append(options, ItemEquip)
 	}
 	return options
+}
+
+func GetEquippablesFromInventory(c *Creature) Objects {
+	/* GetEquippablesFromInventory is function that takes *Creature as arguments
+	   and returns []*Object.
+	   It creates empty slice of Object pointers, then adds every *Object
+	   from *Creature's Inventory that is not nil, and has Equippable bool set to true.
+	   This function is used to create list of all equippable items from
+	   someone's Inventory. */
+	var eq = Objects{}
+	for i := 0; i < len(c.Inventory); i++ {
+		item := c.Inventory[i]
+		if item != nil && item.Equippable == true {
+			eq = append(eq, item)
+		}
+	}
+	return eq
 }
 
 func (o *Object) UseItem(c *Creature) (bool, error) {

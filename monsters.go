@@ -22,6 +22,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"unicode/utf8"
 )
 
@@ -210,6 +211,54 @@ func (c *Creature) DropFromEquipment(objects *Objects, slot int) bool {
 	c.Equipment[slot] = nil
 	turnSpent = true
 	return turnSpent
+}
+
+func (c *Creature) EquipItem(o *Object, slot int) (bool, error) {
+	/* EquipItem is method of *Creature that takes *Object and int (that is
+	   indicator to index of Equipment slot) as arguments; it returns
+	   bool and error.
+	   At first, EquipItem checks for errors:
+	    - if object to equip exists
+	    - if this equipment slot is not occupied
+	   then equips item and removes it from inventory. */
+	var err error
+	if o == nil {
+		txt := EquipNilError(c)
+		err = errors.New("Creature tried to equip *Object that was nil." + txt)
+	}
+	if c.Equipment[slot] != nil {
+		txt := EquipSlotNotNilError(c, slot)
+		err = errors.New("Creature tried to equip item into already occupied slot." + txt)
+	}
+	turnSpent := false
+	// Equip item...
+	c.Equipment[slot] = o
+	// ...then remove it from inventory.
+	index, err := FindObjectIndex(o, c.Inventory)
+	if err != nil {
+		fmt.Println(err)
+	}
+	copy(c.Inventory[index:], c.Inventory[index+1:])
+	c.Inventory[len(c.Inventory)-1] = nil
+	c.Inventory = c.Inventory[:len(c.Inventory)-1]
+	turnSpent = true
+	return turnSpent, err
+}
+
+func (c *Creature) DequipItem(slot int) (bool, error) {
+	/* DequipItem is method of Creature. It is called when receiver is about
+	   to dequip weapon from "ready" equipment slot.
+	   At first, weapon is added to Inventory, then Equipment slot is set to nil. */
+	var err error
+	if c.Equipment[slot] == nil {
+		txt := DequipNilError(c, slot)
+		err = errors.New("Creature tried to DequipItem that was nil." + txt)
+	}
+	turnSpent := false
+	c.Inventory = append(c.Inventory, c.Equipment[slot]) //adding items to inventory should have own function, that will check "bounds" of inventory
+	c.Equipment[slot] = nil
+	turnSpent = true
+	return turnSpent, err
 }
 
 func (c *Creature) Die() {

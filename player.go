@@ -148,7 +148,7 @@ Loop:
 		}
 		switch chosenStr {
 		case ItemEquip:
-			fmt.Println("Equipping items is not implemented yet. ")
+			turnSpent = p.EquipFromInventory(object)
 			break Loop
 		case ItemDrop:
 			turnSpent = p.DropFromInventory(o, option)
@@ -167,11 +167,43 @@ Loop:
 	return turnSpent
 }
 
+func (p *Creature) EquipFromInventory(o *Object) bool {
+	/* EquipFromInventory is method of Creature (that is supposed to be player)
+	   that takes Object (already chosen item from inventory) as argument, and
+	   returns true if actions is success.
+	   This method is used to equip item directly from inventory. */
+	turnSpent := false
+	for {
+		PrintEquipmentMenu(UIPosX, UIPosY, "Equipment:", p.Equipment)
+		key := blt.Read()
+		option := KeyToOrder(key)
+		if option == KeyToOrder(blt.TK_ESCAPE) {
+			break
+		} else if option < SlotMax {
+			if p.Equipment[option] != nil {
+				AddMessage("This slot is already occupied.")
+				continue
+			} else {
+				var err error
+				turnSpent, err = p.EquipItem(o, option)
+				if err != nil {
+					fmt.Println(err)
+				}
+			}
+			break
+		} else {
+			continue
+		}
+	}
+	return turnSpent
+}
+
 func (p *Creature) EquipmentMenu(o *Objects) bool {
-	/* EquipmentMenu works as InventoryMenu, but at the start of loop
-	   it checks all equipment slots if they are empty or not.
-	   It is almost the same function as used in handling inventory,
-	   but maybe it is worth to be explicit here. */
+	/* EquipmentMenu start similar to InventoryMenu - it prints Equipment
+	   and waits for player input, then checks if input is valid.
+	   If test will pass, it tries to dequip item from selected slot;
+	   if this slot is already empty, it call EquippablesMenu to
+	   provide list of all equippables items from Inventory. */
 	turnSpent := false
 	for {
 		PrintEquipmentMenu(UIPosX, UIPosY, "Equipment: ", p.Equipment)
@@ -179,8 +211,16 @@ func (p *Creature) EquipmentMenu(o *Objects) bool {
 		option := KeyToOrder(key)
 		if option == KeyToOrder(blt.TK_ESCAPE) {
 			break
-		} else if option < len(p.Equipment) {
-			turnSpent = p.HandleEquipment(o, option)
+		} else if option < SlotMax {
+			if p.Equipment[option] != nil {
+				var err error
+				turnSpent, err = p.DequipItem(option)
+				if err != nil {
+					fmt.Println(err)
+				}
+			} else {
+				turnSpent = p.EquippablesMenu(option)
+			}
 		} else {
 			continue
 		}
@@ -196,6 +236,8 @@ func (p *Creature) HandleEquipment(o *Objects, option int) bool {
 	eq := p.Equipment[option]
 	if eq != nil {
 		turnSpent = p.EquipmentActions(o, eq, option)
+	} else {
+		turnSpent = p.EquippablesMenu(option)
 	}
 	return turnSpent
 }
@@ -225,8 +267,8 @@ Loop:
 		}
 		switch chosenStr {
 		case ItemEquip:
-			fmt.Println("Equipping items is not implemented yet. ")
-			break Loop
+			err := "ItemEquip should not be possible to be here. \n    <EquipmentActions>"
+			fmt.Println(err)
 		case ItemDrop:
 			turnSpent = p.DropFromEquipment(o, slot)
 			break Loop
@@ -240,6 +282,43 @@ Loop:
 		default:
 			continue Loop
 		}
+	}
+	return turnSpent
+}
+
+func (p *Creature) EquippablesMenu(slot int) bool {
+	/* EquippablesMenu is method od Creature (that is supposed to be player).
+	   It returns true if action was success, false otherwise.
+	   At start, GetEquippablesFromInventory is called to create new slice
+	   of equippables separated from inventory. Then function waits for player
+	   input and, if possible, calls HandleEquippables to fill empty slot. */
+	turnSpent := false
+	eq := GetEquippablesFromInventory(p)
+	for {
+		PrintEquippables(UIPosX, UIPosY, "Equippables: ", eq)
+		key := blt.Read()
+		option := KeyToOrder(key)
+		if option == KeyToOrder(blt.TK_ESCAPE) {
+			break
+		} else if option < len(eq) {
+			turnSpent = p.HandleEquippables(eq, option, slot)
+			break
+		} else {
+			continue
+		}
+	}
+	return turnSpent
+}
+
+func (p *Creature) HandleEquippables(eq Objects, option, slot int) bool {
+	/* HandleEquippables is method of Creature (player) that takes
+	   list of equippables (ie slice of *Object), and two ints as arguments.
+	   It returns true if action is success.
+	   The body if this function calls EquipItem and handles it error. */
+	turnSpent := false
+	turnSpent, err := p.EquipItem(eq[option], slot)
+	if err != nil {
+		fmt.Println(err)
 	}
 	return turnSpent
 }

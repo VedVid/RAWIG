@@ -209,7 +209,7 @@ func DestroyItem(o *Object, c *Creature) error {
 	   proper index is not found. Otherwise, it removes item from inventory. */
 	var err error
 	if o.Consumable == true {
-		index := -1
+		index := WrongIndexValue
 		for i := 0; i < len(c.Inventory); i++ {
 			if c.Inventory[i] == o {
 				index = i

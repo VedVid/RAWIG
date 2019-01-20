@@ -28,6 +28,11 @@ import (
 	blt "bearlibterminal"
 )
 
+const (
+	// Values to catch errors.
+	WrongIndexValue = -1
+)
+
 func RoundFloatToInt(x float64) int {
 	/* Function RoundFloatToInt takes one float64 number,
 	   rounds it to nearest 1.0, then returns it as a integer. */
@@ -66,7 +71,7 @@ func KeyToOrder(key int) int {
 
 func FindObjectIndex(item *Object, arr Objects) (int, error) {
 	var err error
-	index := -1
+	index := WrongIndexValue
 	for i := 0; i < len(arr); i++ {
 		if arr[i] == item {
 			index = i

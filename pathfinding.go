@@ -88,7 +88,7 @@ func FindAdjacent(b Board, nodes [][]*Node, frontiers []*Node, start *Node, w in
 				if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
 					continue //node is out of map bounds
 				}
-				if nodes[x][y].Weight != (-1) {
+				if nodes[x][y].Weight != nodeInitialWeight {
 					continue //node is marked as traversed already
 				}
 				if x == frontiers[i].X && y == frontiers[i].Y {

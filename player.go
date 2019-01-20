@@ -228,64 +228,6 @@ func (p *Creature) EquipmentMenu(o *Objects) bool {
 	return turnSpent
 }
 
-func (p *Creature) HandleEquipment(o *Objects, option int) bool {
-	/* HandleEquipment is method of Creature (that is supposed to be player)
-	   that calls EquipmentActions with proper player Slot, and
-	   Slot int indicator, as arguments. */
-	turnSpent := false
-	eq := p.Equipment[option]
-	if eq != nil {
-		turnSpent = p.EquipmentActions(o, eq, option)
-	} else {
-		turnSpent = p.EquippablesMenu(option)
-	}
-	return turnSpent
-}
-
-func (p *Creature) EquipmentActions(o *Objects, object *Object, slot int) bool {
-	/* Method EquipmentActions works as InventoryActions but for Equipment.
-	   Refer to InventoryActions for more detailed info, but remember that
-	   Inventory and Equipment, even if using the same architecture, may
-	   call different functions, for example for dropping stuff. */
-	turnSpent := false
-Loop:
-	for {
-		options := GatherEquipmentOptions(object)
-		header := "Equipment: "
-		if object != nil {
-			header = object.Name
-		}
-		PrintMenu(UIPosX, UIPosY, header, options)
-		var chosenStr string
-		chosenInt := KeyToOrder(blt.Read())
-		if chosenInt == KeyToOrder(blt.TK_ESCAPE) {
-			break Loop
-		} else if chosenInt > len(options)-1 {
-			chosenStr = ItemPass
-		} else {
-			chosenStr = options[chosenInt]
-		}
-		switch chosenStr {
-		case ItemEquip:
-			err := "ItemEquip should not be possible to be here. \n    <EquipmentActions>"
-			fmt.Println(err)
-		case ItemDrop:
-			turnSpent = p.DropFromEquipment(o, slot)
-			break Loop
-		case ItemUse:
-			var err error
-			turnSpent, err = object.UseItem(p)
-			if err != nil {
-				fmt.Println(err)
-			}
-			break Loop
-		default:
-			continue Loop
-		}
-	}
-	return turnSpent
-}
-
 func (p *Creature) EquippablesMenu(slot int) bool {
 	/* EquippablesMenu is method od Creature (that is supposed to be player).
 	   It returns true if action was success, false otherwise.

@@ -55,7 +55,6 @@ const (
 	ItemPass   = "pass"
 	ItemDrop   = "drop"
 	ItemEquip  = "equip"
-	ItemDequip = "dequip"
 	ItemUse    = "use"
 )
 
@@ -120,7 +119,7 @@ func GatherItemOptions(o *Object) ([]string, error) {
 	var options = []string{}
 	var err error
 	if o.Equippable == true {
-		options = append(options, ItemDequip)
+		options = append(options, ItemEquip)
 	}
 	if o.Use != UseNA {
 		options = append(options, ItemUse)

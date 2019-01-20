@@ -147,7 +147,7 @@ Loop:
 			chosenStr = options[chosenInt]
 		}
 		switch chosenStr {
-		case ItemEquip, ItemDequip:
+		case ItemEquip:
 			turnSpent = p.EquipFromInventory(object)
 			break Loop
 		case ItemDrop:
@@ -257,13 +257,6 @@ Loop:
 			chosenStr = options[chosenInt]
 		}
 		switch chosenStr {
-		case ItemDequip:
-			var err error
-			turnSpent, err = p.DequipItem(slot)
-			if err != nil {
-				fmt.Println(err)
-			}
-			break Loop
 		case ItemEquip:
 			err := "ItemEquip should not be possible to be here. \n    <EquipmentActions>"
 			fmt.Println(err)

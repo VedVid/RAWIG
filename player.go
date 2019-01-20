@@ -212,12 +212,13 @@ func (p *Creature) EquipmentMenu(o *Objects) bool {
 		if option == KeyToOrder(blt.TK_ESCAPE) {
 			break
 		} else if option < SlotMax {
-			var err error
-			turnSpent, err = p.DequipItem(option)
-			if err != nil {
-				// It is not "real" error;
-				// it is player that wants to equip something
-				// into empty slot.
+			if p.Equipment[option] != nil {
+				var err error
+				turnSpent, err = p.DequipItem(option)
+				if err != nil {
+					fmt.Println(err)
+				}
+			} else {
 				turnSpent = p.EquippablesMenu(option)
 			}
 		} else {

@@ -205,20 +205,15 @@ func (o *Object) UseItem(c *Creature) (bool, error) {
 
 func DestroyItem(o *Object, c *Creature) error {
 	/* Function DestroyItem takes Object and Creature as arguments, and returns error.
-	   At first, it iterates through Creature's Inventory, and creates an error if
-	   proper index is not found. Otherwise, it removes item from inventory. */
+       At first, it iterates through Creature's Inventory, and creates an error if
+       proper index is not found. Otherwise, it removes item from inventory. */
 	var err error
 	if o.Consumable == true {
-		index := WrongIndexValue
-		for i := 0; i < len(c.Inventory); i++ {
-			if c.Inventory[i] == o {
-				index = i
-				break
-			}
-		}
-		if index < 0 {
+		index, err_ := FindObjectIndex(o, c.Inventory)
+		if err_ != nil {
+			err = err_ // It looks like ugly hack.
 			txt := ItemToDestroyNotFoundError()
-			err = errors.New("Consumable to destroy is not found in inventory." + txt)
+			fmt.Println(txt)
 		} else {
 			copy(c.Inventory[index:], c.Inventory[index+1:])
 			c.Inventory[len(c.Inventory)-1] = nil

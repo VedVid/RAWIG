@@ -214,7 +214,10 @@ func (p *Creature) EquipmentMenu(o *Objects) bool {
 			var err error
 			turnSpent, err = p.DequipItem(option)
 			if err != nil {
-				fmt.Println(err)
+				// It is not "real" error;
+				// it is player that wants to equip something
+				// into empty slot.
+				turnSpent = p.EquippablesMenu(option)
 			}
 		} else {
 			continue

@@ -161,7 +161,7 @@ func GetEquippablesFromInventory(c *Creature) Objects {
 	var eq = Objects{}
 	for i := 0; i < len(c.Inventory); i++ {
 		item := c.Inventory[i]
-		if item.Equippable == true {
+		if item != nil && item.Equippable == true {
 			eq = append(eq, item)
 		}
 	}

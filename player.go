@@ -211,7 +211,11 @@ func (p *Creature) EquipmentMenu(o *Objects) bool {
 		if option == KeyToOrder(blt.TK_ESCAPE) {
 			break
 		} else if option < SlotMax {
-			turnSpent = p.HandleEquipment(o, option)
+			var err error
+			turnSpent, err = p.DequipItem(option)
+			if err != nil {
+				fmt.Println(err)
+			}
 		} else {
 			continue
 		}

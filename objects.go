@@ -55,7 +55,6 @@ const (
 	ItemPass   = "pass"
 	ItemDrop   = "drop"
 	ItemEquip  = "equip"
-	ItemDequip = "dequip"
 	ItemUse    = "use"
 )
 
@@ -120,7 +119,7 @@ func GatherItemOptions(o *Object) ([]string, error) {
 	var options = []string{}
 	var err error
 	if o.Equippable == true {
-		options = append(options, ItemDequip)
+		options = append(options, ItemEquip)
 	}
 	if o.Use != UseNA {
 		options = append(options, ItemUse)
@@ -159,10 +158,16 @@ func GatherEquipmentOptions(o *Object) []string {
 }
 
 func GetEquippablesFromInventory(c *Creature) Objects {
+	/* GetEquippablesFromInventory is function that takes *Creature as arguments
+	   and returns []*Object.
+	   It creates empty slice of Object pointers, then adds every *Object
+	   from *Creature's Inventory that is not nil, and has Equippable bool set to true.
+	   This function is used to create list of all equippable items from
+	   someone's Inventory. */
 	var eq = Objects{}
 	for i := 0; i < len(c.Inventory); i++ {
 		item := c.Inventory[i]
-		if item.Equippable == true {
+		if item != nil && item.Equippable == true {
 			eq = append(eq, item)
 		}
 	}

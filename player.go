@@ -147,7 +147,7 @@ Loop:
 			chosenStr = options[chosenInt]
 		}
 		switch chosenStr {
-		case ItemEquip, ItemDequip:
+		case ItemEquip:
 			turnSpent = p.EquipFromInventory(object)
 			break Loop
 		case ItemDrop:
@@ -199,10 +199,11 @@ func (p *Creature) EquipFromInventory(o *Object) bool {
 }
 
 func (p *Creature) EquipmentMenu(o *Objects) bool {
-	/* EquipmentMenu works as InventoryMenu, but at the start of loop
-	   it checks all equipment slots if they are empty or not.
-	   It is almost the same function as used in handling inventory,
-	   but maybe it is worth to be explicit here. */
+	/* EquipmentMenu start similar to InventoryMenu - it prints Equipment
+	   and waits for player input, then checks if input is valid.
+	   If test will pass, it tries to dequip item from selected slot;
+	   if this slot is already empty, it call EquippablesMenu to
+	   provide list of all equippables items from Inventory. */
 	turnSpent := false
 	for {
 		PrintEquipmentMenu(UIPosX, UIPosY, "Equipment: ", p.Equipment)
@@ -211,7 +212,15 @@ func (p *Creature) EquipmentMenu(o *Objects) bool {
 		if option == KeyToOrder(blt.TK_ESCAPE) {
 			break
 		} else if option < SlotMax {
-			turnSpent = p.HandleEquipment(o, option)
+			if p.Equipment[option] != nil {
+				var err error
+				turnSpent, err = p.DequipItem(option)
+				if err != nil {
+					fmt.Println(err)
+				}
+			} else {
+				turnSpent = p.EquippablesMenu(option)
+			}
 		} else {
 			continue
 		}
@@ -257,13 +266,6 @@ Loop:
 			chosenStr = options[chosenInt]
 		}
 		switch chosenStr {
-		case ItemDequip:
-			var err error
-			turnSpent, err = p.DequipItem(slot)
-			if err != nil {
-				fmt.Println(err)
-			}
-			break Loop
 		case ItemEquip:
 			err := "ItemEquip should not be possible to be here. \n    <EquipmentActions>"
 			fmt.Println(err)

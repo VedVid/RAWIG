@@ -69,7 +69,7 @@ func NewPlayer(layer, x, y int, character, name, color, colorDark string,
 		colorDark}
 	playerVisibilityProperties := VisibilityProperties{alwaysVisible}
 	playerCollisionProperties := CollisionProperties{blocked, blocksSight}
-	playerFighterProperties := FighterProperties{ai,hp, hp, attack, defense}
+	playerFighterProperties := FighterProperties{ai, hp, hp, attack, defense}
 	playerNew := &Creature{playerBasicProperties, playerVisibilityProperties,
 		playerCollisionProperties, playerFighterProperties,
 		equipment}
@@ -158,6 +158,7 @@ Loop:
 			turnSpent, err2 = object.UseItem(p)
 			if err2 != nil {
 				fmt.Println(err2)
+				turnSpent = false
 			}
 			break Loop
 		default:
@@ -213,16 +214,62 @@ func (p *Creature) EquipmentMenu(o *Objects) bool {
 			break
 		} else if option < SlotMax {
 			if p.Equipment[option] != nil {
-				var err error
-				turnSpent, err = p.DequipItem(option)
-				if err != nil {
-					fmt.Println(err)
-				}
+				turnSpent = p.EquipmentActions(o, option)
 			} else {
 				turnSpent = p.EquippablesMenu(option)
 			}
 		} else {
 			continue
+		}
+	}
+	return turnSpent
+}
+
+func (p *Creature) EquipmentActions(o *Objects, slot int) bool {
+	/* Method EquipmentActions works as InventoryActions but for Equipment.
+	   Refer to InventoryActions for more detailed info, but remember that
+	   Inventory and Equipment, even if using the same architecture, may
+	   call different functions, for example for dropping stuff. */
+	turnSpent := false
+	object := p.Equipment[slot]
+Loop:
+	for {
+		options, err1 := GatherEquipmentOptions(object)
+		if err1 != nil {
+			fmt.Println(err1)
+		}
+		PrintMenu(UIPosX, UIPosY, object.Name, options)
+		var chosenStr string
+		chosenInt := KeyToOrder(blt.Read())
+		if chosenInt == KeyToOrder(blt.TK_ESCAPE) {
+			break Loop
+		} else if chosenInt > len(options)-1 {
+			chosenStr = ItemPass
+		} else {
+			chosenStr = options[chosenInt]
+		}
+		switch chosenStr {
+		case ItemDequip:
+			var err2 error
+			turnSpent, err2 = p.DequipItem(slot)
+			if err2 != nil {
+				fmt.Println(err2)
+				turnSpent = false
+			}
+			break Loop
+		case ItemDrop:
+			turnSpent = p.DropFromEquipment(o, slot)
+			break Loop
+		case ItemUse:
+			var err3 error
+			turnSpent, err3 = object.UseItem(p)
+			if err3 != nil {
+				fmt.Println(err3)
+				turnSpent = false
+			}
+			break Loop
+		default:
+			continue Loop
 		}
 	}
 	return turnSpent

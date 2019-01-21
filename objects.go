@@ -30,7 +30,7 @@ const (
 	/* Slots for inventory handling.
 	   Their order here is important, because it
 	   will be order of slots in Equipemnt menu. */
-	SlotNA = iota-1
+	SlotNA = iota - 1
 
 	SlotWeaponPrimary
 	SlotWeaponSecondary
@@ -39,7 +39,7 @@ const (
 )
 
 var SlotStrings = map[int]string{
-	SlotWeaponPrimary: "weapon1",
+	SlotWeaponPrimary:   "weapon1",
 	SlotWeaponSecondary: "weapon2",
 }
 
@@ -55,6 +55,7 @@ const (
 	ItemPass   = "pass"
 	ItemDrop   = "drop"
 	ItemEquip  = "equip"
+	ItemDequip = "dequip"
 	ItemUse    = "use"
 )
 
@@ -100,12 +101,12 @@ func NewObject(layer, x, y int, character, name, color, colorDark string,
 		//TODO: temporary
 		err = errors.New("For now, <equippable> and <consumable> should not exists at the same time.")
 	}
-	objectBasicProperties := BasicProperties{layer, x, y, character, name,color,
+	objectBasicProperties := BasicProperties{layer, x, y, character, name, color,
 		colorDark}
 	objectVisibilityProperties := VisibilityProperties{alwaysVisible}
 	objectCollisionProperties := CollisionProperties{blocked, blocksSight}
 	objectProperties := ObjectProperties{pickable, equippable, consumable,
-	slot, use}
+		slot, use}
 	objectNew := &Object{objectBasicProperties, objectVisibilityProperties,
 		objectCollisionProperties, objectProperties}
 	return objectNew, err
@@ -120,6 +121,29 @@ func GatherItemOptions(o *Object) ([]string, error) {
 	var err error
 	if o.Equippable == true {
 		options = append(options, ItemEquip)
+	}
+	if o.Use != UseNA {
+		options = append(options, ItemUse)
+	}
+	if o.Pickable == true {
+		options = append(options, ItemDrop)
+	}
+	if len(options) == 0 {
+		txt := ItemOptionsEmptyError()
+		err = errors.New("Object " + o.Name + " has no valid properties." + txt)
+	}
+	return options, err
+}
+
+func GatherEquipmentOptions(o *Object) ([]string, error) {
+	/* Function GatherEquipmentOptions takes pointer to specific Object
+	   as argument and returns slice of strings that is list of
+	   possible actions. ItemBack that is necessary, yet last value
+	   to include, to provide way to close menu. */
+	var options = []string{}
+	var err error
+	if o.Equippable == true {
+		options = append(options, ItemDequip)
 	}
 	if o.Use != UseNA {
 		options = append(options, ItemUse)
@@ -182,8 +206,8 @@ func (o *Object) UseItem(c *Creature) (bool, error) {
 
 func DestroyItem(o *Object, c *Creature) error {
 	/* Function DestroyItem takes Object and Creature as arguments, and returns error.
-       At first, it iterates through Creature's Inventory, and creates an error if
-       proper index is not found. Otherwise, it removes item from inventory. */
+	   At first, it iterates through Creature's Inventory, and creates an error if
+	   proper index is not found. Otherwise, it removes item from inventory. */
 	var err error
 	if o.Consumable == true {
 		index, err_ := FindObjectIndex(o, c.Inventory)

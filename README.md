@@ -28,16 +28,17 @@ Every revision before v 0.1 is potentially unstable.
 - rendering system  
 - maps, monsters, items  
 - fov, pathfinding  
-- melee combat
-
-**0.2**  
-- menuses (inventory, character screen) *done*  
-- message log *done*  
-- objects (consumables, equipment)  *work in progress*
+- melee combat  
+- menus  
+- inventory system
 
 **0.3**  
 - [l]ooking command  
 - ranged combat  
+
+**0.4**  
+- save/load  
+- json to store data
 
 ### Influences
 

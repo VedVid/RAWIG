@@ -226,6 +226,10 @@ func (p *Creature) EquipmentMenu(o *Objects) bool {
 }
 
 func (p *Creature) EquipmentActions(o *Objects, slot int) bool {
+	/* Method EquipmentActions works as InventoryActions but for Equipment.
+	   Refer to InventoryActions for more detailed info, but remember that
+	   Inventory and Equipment, even if using the same architecture, may
+	   call different functions, for example for dropping stuff. */
 	turnSpent := false
 	object := p.Equipment[slot]
 Loop:

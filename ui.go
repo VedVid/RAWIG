@@ -22,6 +22,9 @@ package main
 
 import (
 	blt "bearlibterminal"
+	"errors"
+	"fmt"
+	"unicode/utf8"
 )
 
 const (
@@ -119,7 +122,19 @@ func PrintMessages(x, y int, header string) {
 func AddMessage(message string) {
 	/* AddMessage is function that adds message
 	   to the MessageBuffer. It removes the oldest
-	   line to keep size set in MaxMessageBuffer. */
+	   line to keep size set in MaxMessageBuffer.
+	   But first, it checks if passed message is
+	   not longer than whole message log.
+	   This is mostly harmless, so AddMessage
+	   does not returns error, but prints it
+	   at its own. */
+	var err error
+	messageLen := utf8.RuneCountInString(message)
+	if messageLen > LogSizeX {
+		txt := MessageLengthError(message, messageLen, LogSizeX)
+		err = errors.New("Message is too long to fit message log. " + txt)
+		fmt.Println(err)
+	}
 	if len(MsgBuf) < MaxMessageBuffer {
 		MsgBuf = append(MsgBuf, message)
 	} else {

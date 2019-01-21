@@ -51,6 +51,17 @@ func CharacterLengthError(character string) string {
 	return txt
 }
 
+func MessageLengthError(message string, messageLength, logSize int) string {
+	/* Function MessageLengthError is helper function that returns string
+	   to error; it is called when message added to msg log is longer than
+	   log itself; it prints whole message, message length, and width of log. */
+	txt := "\n    <message: \n" +
+		"        '" + message + "';\n" +
+		"    length of message: " + strconv.Itoa(messageLength) + ";\n" +
+		"         width of log: " + strconv.Itoa(logSize) + ">"
+	return txt
+}
+
 func PlayerAIError(ai int) string {
 	/* Function PlayerAIError is helper function that returns string to error;
 	   it takes ai code (integer) as argument and returns string.

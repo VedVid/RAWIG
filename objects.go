@@ -134,29 +134,6 @@ func GatherItemOptions(o *Object) ([]string, error) {
 	return options, err
 }
 
-func GatherEquipmentOptions(o *Object) []string {
-	/* GatherEquipmentOptions is function that takes object as argument
-	   and returns slice of string.
-	   If object is not nil, it calls GatherItemOptions to create
-	   list of options based on object properties.
-	   If object is nil, it creates slice with two options:
-	   one for equipping item in empty slot, and one for going
-	   back to previous menu. */
-	var options = []string{}
-	if o != nil {
-		var err error
-		options, err = GatherItemOptions(o)
-		if err != nil {
-			fmt.Println(err)
-		}
-	} else {
-		// there is no object in slot, so
-		// print list of equippables
-		options = append(options, ItemEquip)
-	}
-	return options
-}
-
 func GetEquippablesFromInventory(c *Creature) Objects {
 	/* GetEquippablesFromInventory is function that takes *Creature as arguments
 	   and returns []*Object.

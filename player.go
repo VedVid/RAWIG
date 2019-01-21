@@ -213,16 +213,56 @@ func (p *Creature) EquipmentMenu(o *Objects) bool {
 			break
 		} else if option < SlotMax {
 			if p.Equipment[option] != nil {
-				var err error
-				turnSpent, err = p.DequipItem(option)
-				if err != nil {
-					fmt.Println(err)
-				}
+				turnSpent = p.EquipmentActions(o, option)
 			} else {
 				turnSpent = p.EquippablesMenu(option)
 			}
 		} else {
 			continue
+		}
+	}
+	return turnSpent
+}
+
+func (p *Creature) EquipmentActions(o *Objects, slot int) bool {
+	turnSpent := false
+	object := p.Equipment[slot]
+Loop:
+	for {
+		options, err1 := GatherEquipmentOptions(object)
+		if err1 != nil {
+			fmt.Println(err1)
+		}
+		PrintMenu(UIPosX, UIPosY, object.Name, options)
+		var chosenStr string
+		chosenInt := KeyToOrder(blt.Read())
+		if chosenInt == KeyToOrder(blt.TK_ESCAPE) {
+			break Loop
+		} else if chosenInt > len(options)-1 {
+			chosenStr = ItemPass
+		} else {
+			chosenStr = options[chosenInt]
+		}
+		switch chosenStr {
+			case ItemDequip:
+				var err2 error
+				turnSpent, err2 = p.DequipItem(slot)
+				if err2 != nil {
+					fmt.Println(err2)
+				}
+				break Loop
+		case ItemDrop:
+			turnSpent = p.DropFromEquipment(o, slot)
+			break Loop
+		case ItemUse:
+			var err3 error
+			turnSpent, err3 = object.UseItem(p)
+			if err3 != nil {
+				fmt.Println(err3)
+			}
+			break Loop
+		default:
+			continue Loop
 		}
 	}
 	return turnSpent

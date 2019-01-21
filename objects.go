@@ -55,6 +55,7 @@ const (
 	ItemPass   = "pass"
 	ItemDrop   = "drop"
 	ItemEquip  = "equip"
+	ItemDequip = "dequip"
 	ItemUse    = "use"
 )
 
@@ -120,6 +121,29 @@ func GatherItemOptions(o *Object) ([]string, error) {
 	var err error
 	if o.Equippable == true {
 		options = append(options, ItemEquip)
+	}
+	if o.Use != UseNA {
+		options = append(options, ItemUse)
+	}
+	if o.Pickable == true {
+		options = append(options, ItemDrop)
+	}
+	if len(options) == 0 {
+		txt := ItemOptionsEmptyError()
+		err = errors.New("Object " + o.Name + " has no valid properties." + txt)
+	}
+	return options, err
+}
+
+func GatherEquipmentOptions(o *Object) ([]string, error) {
+	/* Function GatherEquipmentOptions takes pointer to specific Object
+	   as argument and returns slice of strings that is list of
+	   possible actions. ItemBack that is necessary, yet last value
+	   to include, to provide way to close menu. */
+	var options = []string{}
+	var err error
+	if o.Equippable == true {
+		options = append(options, ItemDequip)
 	}
 	if o.Use != UseNA {
 		options = append(options, ItemUse)

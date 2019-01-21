@@ -3,3 +3,11 @@ v0.1.1:
  [MOD] pathfinding reworked
  [FIX] some coding style inconsistences fixes
  [FIX] typos, grammar issues (by adam-weiler and trayo)
+
+v0.1
+ - rendering system
+ - map
+ - field of view
+ - monsters
+ - ai
+ - combat system

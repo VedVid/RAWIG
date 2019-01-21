@@ -1,5 +1,6 @@
 v0.2
  [ADD] items
+ [ADD] player hud
  [ADD] inventory / equipment system
  [ADD] message log
 

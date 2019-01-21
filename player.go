@@ -158,6 +158,7 @@ Loop:
 			turnSpent, err2 = object.UseItem(p)
 			if err2 != nil {
 				fmt.Println(err2)
+				turnSpent = false
 			}
 			break Loop
 		default:
@@ -249,6 +250,7 @@ Loop:
 				turnSpent, err2 = p.DequipItem(slot)
 				if err2 != nil {
 					fmt.Println(err2)
+					turnSpent = false
 				}
 				break Loop
 		case ItemDrop:
@@ -259,6 +261,7 @@ Loop:
 			turnSpent, err3 = object.UseItem(p)
 			if err3 != nil {
 				fmt.Println(err3)
+				turnSpent = false
 			}
 			break Loop
 		default:

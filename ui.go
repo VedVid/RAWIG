@@ -118,8 +118,8 @@ func PrintMessages(x, y int, header string) {
 	blt.Print(x, y, txt)
 }
 
-func HandleMessage(message string) { //working on it https://play.golang.org/p/xIj8zAjygL4
-	s := strings.Fields(message)     // or here: https://play.golang.org/p/CewNHeSCeeQ
+func HandleMessage(message string) { //working on it https://play.golang.org/p/tsBS9IGOVbc
+	s := strings.Fields(message)
 	var txts = []string{}
 	txt := ""
 	for _, v := range s {

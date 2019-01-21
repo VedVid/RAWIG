@@ -69,7 +69,7 @@ func NewPlayer(layer, x, y int, character, name, color, colorDark string,
 		colorDark}
 	playerVisibilityProperties := VisibilityProperties{alwaysVisible}
 	playerCollisionProperties := CollisionProperties{blocked, blocksSight}
-	playerFighterProperties := FighterProperties{ai,hp, hp, attack, defense}
+	playerFighterProperties := FighterProperties{ai, hp, hp, attack, defense}
 	playerNew := &Creature{playerBasicProperties, playerVisibilityProperties,
 		playerCollisionProperties, playerFighterProperties,
 		equipment}
@@ -249,14 +249,14 @@ Loop:
 			chosenStr = options[chosenInt]
 		}
 		switch chosenStr {
-			case ItemDequip:
-				var err2 error
-				turnSpent, err2 = p.DequipItem(slot)
-				if err2 != nil {
-					fmt.Println(err2)
-					turnSpent = false
-				}
-				break Loop
+		case ItemDequip:
+			var err2 error
+			turnSpent, err2 = p.DequipItem(slot)
+			if err2 != nil {
+				fmt.Println(err2)
+				turnSpent = false
+			}
+			break Loop
 		case ItemDrop:
 			turnSpent = p.DropFromEquipment(o, slot)
 			break Loop

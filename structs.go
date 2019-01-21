@@ -83,5 +83,5 @@ type EquipmentComponent struct {
 	   "feet" for boots, etc).
 	   Inventory is list of items in backpack. */
 	Equipment Objects
-	Inventory  Objects
+	Inventory Objects
 }

@@ -171,7 +171,7 @@ func BacktrackPath(nodes [][]*Node, start *Node) (int, int, error) {
 			if x == start.X && y == start.Y {
 				continue // This node is the current node.
 			}
-			if nodes[x][y].Weight < 0 {
+			if nodes[x][y].Weight == nodeInitialWeight {
 				continue // Node is not part of path.
 			}
 			if nodes[x][y].Weight < direction.Weight {
@@ -202,7 +202,7 @@ func RenderWeights(nodes [][]*Node) {
 	for x := 0; x < MapSizeX; x++ {
 		for y := 0; y < MapSizeY; y++ {
 			glyph := strconv.Itoa(nodes[x][y].Weight)
-			if nodes[x][y].Weight < 0 {
+			if nodes[x][y].Weight == nodeInitialWeight {
 				glyph = "-"
 			} else if nodes[x][y].Weight > 9 {
 				glyph = "+"

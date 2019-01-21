@@ -70,6 +70,10 @@ func KeyToOrder(key int) int {
 }
 
 func FindObjectIndex(item *Object, arr Objects) (int, error) {
+	/* Function FindObjectIndex takes object, and slice of objects
+	   as arguments. It returns integer and error.
+	   It is supposed to find index item in arr. If fails,
+	   returns error. */
 	var err error
 	index := WrongIndexValue
 	for i := 0; i < len(arr); i++ {
@@ -78,7 +82,7 @@ func FindObjectIndex(item *Object, arr Objects) (int, error) {
 			break
 		}
 	}
-	if index < 0 {
+	if index == WrongIndexValue {
 		err = errors.New("*Object not found in []*Object.")
 	}
 	return index, err

@@ -1,3 +1,8 @@
+v0.2
+ [ADD] items
+ [ADD] inventory / equipment system
+ [ADD] message log
+
 v0.1.1:
  [ADD] new RenderWeights function that helps with debugging pathfinding algorithms 
  [MOD] pathfinding reworked

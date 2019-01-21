@@ -22,8 +22,6 @@ package main
 
 import (
 	blt "bearlibterminal"
-	"strings"
-	"unicode/utf8"
 )
 
 const (
@@ -116,24 +114,6 @@ func PrintMessages(x, y int, header string) {
 		txt = txt + "\n" + v
 	}
 	blt.Print(x, y, txt)
-}
-
-func HandleMessage(message string) { //working on it https://play.golang.org/p/tsBS9IGOVbc
-	s := strings.Fields(message)
-	var txts = []string{}
-	txt := ""
-	for _, v := range s {
-		sep := " "
-		if txt == "" {
-			sep = ""
-		}
-		if utf8.RuneCountInString(txt + sep + v) < LogSizeX {
-			txt = txt + sep + v
-		} else {
-			txts = append(txts, txt)
-			txt = v
-		}
-	}
 }
 
 func AddMessage(message string) {

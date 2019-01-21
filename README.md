@@ -24,10 +24,16 @@ RAWIG is small, personal project, and doesn't have proper, detailed roadmap. How
 
 Every revision before v 0.1 is potentially unstable. 
 
+**Implemented already:**  
+- rendering system  
+- maps, monsters, items  
+- fov, pathfinding  
+- melee combat
+
 **0.2**  
-- menuses (inventory, character screen)  
-- message log  
-- objects (elements of dungeon, consumables, equipment)  
+- menuses (inventory, character screen) *done*  
+- message log *done*  
+- objects (consumables, equipment)  *work in progress*
 
 **0.3**  
 - [l]ooking command  
@@ -35,7 +41,7 @@ Every revision before v 0.1 is potentially unstable.
 
 ### Influences
 
-RAWIG is built from scratch. Yet, due historical reasons, it is influenced by [Jotaf's roguebasin python+libtcod tutorial](http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python%2Blibtcod). It's fair to give him a credit here.
+RAWIG is built from scratch. Yet, due historical reasons, it is influenced by [roguebasin python+libtcod tutorial](http://www.roguebasin.com/index.php?title=Complete_Roguelike_Tutorial,_using_python%2Blibtcod). It's fair to give Jotaf, original author of this tutorial, a credit here.
 
 ### Contributors
 

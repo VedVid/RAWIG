@@ -20,13 +20,11 @@ freely, subject to the following restrictions:
 
 package main
 
-import "fmt"
-
 func (c *Creature) AttackTarget(t *Creature) {
 	/* Method Attack handles damage rolls for combat. Receiver "c" is attacker,
 	   argument "t" is target. Critical hit is if attack roll is the same as receiver
 	   attack attribute.
-	   Println calls will remain here until message log will be implemented. */
+	   Result of attack is displayed in combat log, but messages need more polish. */
 	att := RandInt(c.Attack) //basic attack roll
 	att2 := 0                //critical bonus
 	def := t.Defense         //opponent's defense
@@ -39,26 +37,26 @@ func (c *Creature) AttackTarget(t *Creature) {
 	switch {
 	case att < def: // Attack score if lower than target defense.
 		if crit == false {
-			fmt.Println("Attack deflected!")
+			AddMessage("Attack deflected!")
 		} else {
 			dmg = att2 // Critical hit, but against heavily armored enemy.
-			fmt.Println("Critical hit! <heavily armored enemy>")
+			AddMessage("Critical hit! <heavily armored enemy>")
 		}
 	case att == def: // Attack score is equal to target defense.
 		if crit == false {
 			dmg = 1 // It's just a scratch...
-			fmt.Println("Attack successful, but it is just a scratch...")
+			AddMessage("Attack successful, but it is just a scratch...")
 		} else {
 			dmg = att
-			fmt.Println("Critical hit, but it barely bypassed opponent's armor.")
+			AddMessage("Critical hit, but it barely bypassed opponent's armor.")
 		}
 	case att > def: // Attack score is bigger than target defense.
 		if crit == false {
 			dmg = att
-			fmt.Println("Successful attack!")
+			AddMessage("Successful attack!")
 		} else {
 			dmg = att + att2 // Critical attack!
-			fmt.Println("Critical attack!")
+			AddMessage("Critical attack!")
 		}
 	}
 	t.TakeDamage(dmg)

@@ -31,7 +31,7 @@ func Controls(k int, p *Creature, b Board, c Creatures, o *Objects) bool {
 	   and Creature p (which is player).
 	   Controls handle input, then returns integer value that depends
 	   if player spent turn by action or not. */
-	var turnSpent bool
+	turnSpent := false
 	switch k {
 	case blt.TK_UP:
 		turnSpent = p.MoveOrAttack(0, -1, b, c)
@@ -44,6 +44,10 @@ func Controls(k int, p *Creature, b Board, c Creatures, o *Objects) bool {
 
 	case blt.TK_G:
 		turnSpent = p.PickUp(o)
+	case blt.TK_I:
+		turnSpent = p.InventoryMenu(o)
+	case blt.TK_E:
+		turnSpent = p.EquipmentMenu(o)
 	}
 	return turnSpent
 }

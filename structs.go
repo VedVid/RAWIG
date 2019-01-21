@@ -27,6 +27,7 @@ type BasicProperties struct {
 	Layer     int
 	X, Y      int
 	Char      string
+	Name      string
 	Color     string
 	ColorDark string
 }
@@ -47,18 +48,14 @@ type CollisionProperties struct {
 	BlocksSight bool
 }
 
-type AIProperties struct {
-	/* AIProperties serves holding information about
-	   creature AI. AI types are iota (integers) in
-	   creatures.go. */
-	AIType int
-}
-
 type FighterProperties struct {
 	/* FighterProperties stores information about
 	   things that can live and fight (ie fighters);
 	   it may be used for destructible environment
-	   elements as well. */
+	   elements as well.
+	   AI types are iota (integers) defined
+	   in creatures.go. */
+	AIType    int
 	HPMax     int
 	HPCurrent int
 	Attack    int
@@ -67,15 +64,24 @@ type FighterProperties struct {
 
 type ObjectProperties struct {
 	/* Not every Object can be picked up - like tables;
-	   also, not every Object can be equipped - like cheese. */
+	   also, not every Object can be equipped - like cheese.
+	   It's place for other properties - like slot it will
+	   occupy, use cases, etc.
+	   Note that currently Equippable can not be Consumable,
+	   due to removing from Inventory / Equipment problems. */
 	Pickable   bool
 	Equippable bool
+	Consumable bool
+	Slot       int
+	Use        int
 }
 
 type EquipmentComponent struct {
 	/* EquipmentComponent helps with inventory management.
-	   Slot is place for equipped item (like helmet on head);
+	   It's part of Creature. Slot is generic place for
+	   equipped items (it could be "head" for helmets,
+	   "feet" for boots, etc).
 	   Inventory is list of items in backpack. */
-	Slot      *Object
-	Inventory Objects
+	Equipment Objects
+	Inventory  Objects
 }

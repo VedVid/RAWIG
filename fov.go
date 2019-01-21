@@ -63,7 +63,7 @@ func CastRays(b Board, sx, sy int) {
 		for j := 0; j < FOVLength; j++ {
 			x -= rayX
 			y -= rayY
-			if x < 0 || y < 0 || x > WindowSizeX-1 || y > WindowSizeY-1 {
+			if x < 0 || y < 0 || x > MapSizeX-1 || y > MapSizeY-1 {
 				break
 			}
 			bx2, by2 := RoundFloatToInt(x), RoundFloatToInt(y)
@@ -98,7 +98,7 @@ func IsInFOV(b Board, sx, sy, tx, ty int) bool {
 		for j := 0; j < FOVLength; j++ {
 			x -= rayX
 			y -= rayY
-			if x < 0 || y < 0 || x > WindowSizeX-1 || y > WindowSizeY-1 {
+			if x < 0 || y < 0 || x > MapSizeX-1 || y > MapSizeY-1 {
 				break
 			}
 			bx, by := RoundFloatToInt(x), RoundFloatToInt(y)

@@ -32,7 +32,6 @@ import (
 const (
 	// Values that are important for creating and backtracking graph.
 	nodeInitialWeight = -1 // Nodes not traversed.
-	nodeGoalWeight    = 0  // Value for goal node.
 )
 
 type Node struct {
@@ -57,12 +56,12 @@ func TilesToNodes(b Board) [][]*Node {
 	   type Nodes [][]*Node.
 	   During initialization, every newly created Node has
 	   its Weight set to -1 to mark that it's not traversed. */
-	nodes := make([][]*Node, WindowSizeX)
+	nodes := make([][]*Node, MapSizeX)
 	for i := range nodes {
-		nodes[i] = make([]*Node, WindowSizeY)
+		nodes[i] = make([]*Node, MapSizeY)
 	}
-	for x := 0; x < WindowSizeX; x++ {
-		for y := 0; y < WindowSizeY; y++ {
+	for x := 0; x < MapSizeX; x++ {
+		for y := 0; y < MapSizeY; y++ {
 			nodes[x][y] = &Node{x, y, nodeInitialWeight}
 		}
 	}
@@ -86,10 +85,10 @@ func FindAdjacent(b Board, nodes [][]*Node, frontiers []*Node, start *Node, w in
 	for i := 0; i < len(frontiers); i++ {
 		for x := (frontiers[i].X - 1); x <= (frontiers[i].X + 1); x++ {
 			for y := (frontiers[i].Y - 1); y <= (frontiers[i].Y + 1); y++ {
-				if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
+				if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
 					continue //node is out of map bounds
 				}
-				if nodes[x][y].Weight != (-1) {
+				if nodes[x][y].Weight != nodeInitialWeight {
 					continue //node is marked as traversed already
 				}
 				if x == frontiers[i].X && y == frontiers[i].Y {
@@ -166,17 +165,18 @@ func BacktrackPath(nodes [][]*Node, start *Node) (int, int, error) {
 	direction := *start
 	for x := (start.X - 1); x <= (start.X + 1); x++ {
 		for y := (start.Y - 1); y <= (start.Y + 1); y++ {
-			if x < 0 || x >= WindowSizeX || y < 0 || y >= WindowSizeY {
+			if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
 				continue // Node is out of map bounds.
 			}
 			if x == start.X && y == start.Y {
 				continue // This node is the current node.
 			}
-			if nodes[x][y].Weight < 0 {
+			if nodes[x][y].Weight == nodeInitialWeight {
 				continue // Node is not part of path.
 			}
 			if nodes[x][y].Weight < direction.Weight {
 				direction = *nodes[x][y] // Node is closer to goal than current node.
+				break
 			}
 		}
 	}
@@ -199,10 +199,10 @@ func RenderWeights(nodes [][]*Node) {
 	   It's supposed to be called near the end of
 	   MoveTowardsPath method. */
 	blt.Clear()
-	for x := 0; x < WindowSizeX; x++ {
-		for y := 0; y < WindowSizeY; y++ {
+	for x := 0; x < MapSizeX; x++ {
+		for y := 0; y < MapSizeY; y++ {
 			glyph := strconv.Itoa(nodes[x][y].Weight)
-			if nodes[x][y].Weight < 0 {
+			if nodes[x][y].Weight == nodeInitialWeight {
 				glyph = "-"
 			} else if nodes[x][y].Weight > 9 {
 				glyph = "+"

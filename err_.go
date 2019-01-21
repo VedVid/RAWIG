@@ -34,10 +34,10 @@ func LayerError(layer int) string {
 func CoordsError(x, y int) string {
 	/* Function CoordsError is helper function that returns string
 	   to error; it takes coords x, y as arguments and returns string,
-	   with use global WindowSizeX and WindowSizeY constants. */
+	   with use global MapSizeX and MapSizeY constants. */
 	txt := "\n    <x: " + strconv.Itoa(x) + "; y: " + strconv.Itoa(y) +
-		"; map width: " + strconv.Itoa(WindowSizeX) + "; map height: " +
-		strconv.Itoa(WindowSizeY) + ">"
+		"; map width: " + strconv.Itoa(MapSizeX) + "; map height: " +
+		strconv.Itoa(MapSizeY) + ">"
 	return txt
 }
 
@@ -48,6 +48,17 @@ func CharacterLengthError(character string) string {
 	   one-letter long. */
 	txt := "\n    <length: " + strconv.Itoa(utf8.RuneCountInString(character)) +
 		"; character: " + character + ">"
+	return txt
+}
+
+func MessageLengthError(message string, messageLength, logSize int) string {
+	/* Function MessageLengthError is helper function that returns string
+	   to error; it is called when message added to msg log is longer than
+	   log itself; it prints whole message, message length, and width of log. */
+	txt := "\n    <message: \n" +
+		"        '" + message + "';\n" +
+		"    length of message: " + strconv.Itoa(messageLength) + ";\n" +
+		"         width of log: " + strconv.Itoa(logSize) + ">"
 	return txt
 }
 
@@ -79,8 +90,78 @@ func InitialAttackError(attack int) string {
 
 func InitialDefenseError(defense int) string {
 	/* Function InitialDefenseError is helper function that returns string
-	   to error; it takes creature's attack value as argument and returns string.
+	   to error; it takes creature's defense value as argument.
 	   Defense value should not be negative. */
 	txt := "\n    <fighter defense: " + strconv.Itoa(defense) + ">"
+	return txt
+}
+
+func EquippableSlotError(equippable bool, slot int) string {
+	/* Function EquippableSlotError is helper function that returns string
+	   to error; it takes equippable bool and slot int as arguments.
+	   Slot should not be 0 if equippable is set to true, and should be 0
+	   if equippable is set to false. */
+	txt := "\n    <equippable: " + strconv.FormatBool(equippable) + "; slot: " +
+		strconv.Itoa(slot) + ">"
+	return txt
+}
+
+func ItemOptionsEmptyError() string {
+	/* Function ItemOptionsEmptyError is helper function that returns string
+	   to error; it is called if object does not have any use/eq properties
+	   set to true. */
+	txt := "\n    <equippable==false, use==UseNA, pickable==false>"
+	return txt
+}
+
+func UseItemError() string {
+	/* Function UseItemError is helper function that returns string to error;
+	   it is called if object is supposed to have use case, but case is wrong. */
+	txt := "\n    <use case expected, but not found>"
+	return txt
+}
+
+func ConsumableWithoutUseError() string {
+	/* Function ConsumableWithoutUseError is helper function that returns string
+	   to error; it is called if object has set consumable to true and use to UseNA. */
+	txt := "\n    <expected use case != UseNA or consumable set to false>"
+	return txt
+}
+
+func ItemToDestroyNotFoundError() string {
+	/* Function ItemToDestroyNotFoundError is helper function that returns string
+	   to error; it is called if, after iterating whole Creature's Inventory,
+	   index of specific Object was not found. */
+	txt := "\n    <searching for valid index failed>"
+	return txt
+}
+
+func EquipNilError(c *Creature) string {
+	/* Function EquipNilError is helper function that returns string to error;
+	   it takes Creature as argument; is called if Creature tries to equip
+	   Item that is nil. */
+	name, x, y := c.Name, strconv.Itoa(c.X), strconv.Itoa(c.Y)
+	txt := "\n    <creature: " + name + "; x: " + x + ", y: " + y + ">"
+	return txt
+}
+
+func EquipSlotNotNilError(c *Creature, slot int) string {
+	/* Function EquipSlotNotNilError is helper function that returns string
+	   to error; it takes *Creature and int (that is indicator of Equipment slot)
+	   as arguments. It is called if Creature tries to equip item to
+	   slot that is not nil. */
+	name, x, y := c.Name, strconv.Itoa(c.X), strconv.Itoa(c.Y)
+	txt := "\n    <creature: " + name + "; x: " + x + ", y: " + y + ">" +
+		"\n    <slot: " + strconv.Itoa(slot) + ">"
+	return txt
+}
+
+func DequipNilError(c *Creature, slot int) string {
+	/* Function DequipNilError is helper function that returns string to error;
+	   it takes *Creature and int (that is indicator of Equipment slot) as
+	   arguments. It is called if Creature tries to dequip item that is nil. */
+	name, x, y := c.Name, strconv.Itoa(c.X), strconv.Itoa(c.Y)
+	txt := "\n    <creature: " + name + "; x: " + x + ", y: " + y + ">" +
+		"\n    <slot: " + strconv.Itoa(slot) + ">"
 	return txt
 }

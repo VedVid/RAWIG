@@ -28,6 +28,7 @@ import (
 
 const (
 	vectorSymbol = "X"
+	vectorColor  = "white"
 )
 
 type Vector struct {
@@ -125,8 +126,13 @@ func PrintVector(vec *Vector, b Board, o Objects, c Creatures) {
 	blt.Clear()
 	RenderAll(b, o, c)
 	blt.Layer(LookLayer)
-	ch := "[color=white]" + vectorSymbol
-	for i, _ := range(vec.TilesX) {
+	ch := "[color=" + vectorColor + "]" + vectorSymbol
+	length := len(vec.TilesX)
+	for i := 0; i < length; i++ {
+		if i == 0 && length > 1 {
+			// Do not draw over player, unless he is targeting self.
+			continue
+		}
 		x := vec.TilesX[i]
 		y := vec.TilesY[i]
 		blt.Print(x, y, ch)

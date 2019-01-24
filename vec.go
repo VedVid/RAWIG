@@ -65,6 +65,11 @@ func NewVector(sx, sy, tx, ty int) (*Vector, error) {
 }
 
 func ComputeVector(vec *Vector) {
+	/* Function ComputeVector takes *Vector as argument.
+	   It uses Brensenham's Like algorithm to compute tile values
+	   (stored in initially empty TilesX and TilesY) between
+	   starting point (vec.StartX, vec.StartY) and goal
+	   (vec.TargetX, vec.TargetY). */
 	vec.TilesX = nil
 	vec.TilesY = nil
 	sx, sy := vec.StartX, vec.StartY
@@ -111,6 +116,12 @@ func ComputeVector(vec *Vector) {
 }
 
 func PrintVector(vec *Vector, b Board, o Objects, c Creatures) {
+	/* Function PrintVector has to take Vector, and (unfortunately,
+	   due to flawed game architecture) Board, "global" Objects, and
+	   Creatures.
+	   At start, it clears whole screen and redraws it.
+	   Then, it uses tile coords of Vector (ie TilesX and TilesY)
+	   to set coordinates of printing line symbol. */
 	blt.Clear()
 	RenderAll(b, o, c)
 	blt.Layer(LookLayer)

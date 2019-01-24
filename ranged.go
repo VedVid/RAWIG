@@ -26,6 +26,16 @@ import (
 )
 
 func (c *Creature) Look(b Board, o Objects, cs Creatures) {
+	/* Look is method of Creature (that is supposed to be player).
+	   It has to take Board, "global" Objects and Creatures as arguments,
+	   because function PrintVector need to call RenderAll function.
+	   At first, Look creates new para-vector, with player coords as
+	   starting point, and dynamic end position.
+	   Then ComputeVector checks what tiles are present
+	   between Start and End, and adds their coords to vector values.
+	   Line from Vector is drawn, then game waits for player input,
+	   that will change position of "looking" cursors.
+	   Loop breaks with Escape key as input. */
 	startX, startY := c.X, c.Y
 	targetX, targetY := startX, startY
 	for {

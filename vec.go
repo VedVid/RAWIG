@@ -54,3 +54,7 @@ func NewVector(sx, sy, tx, ty int) (*Vector, error) {
 	newVector := &Vector{sx, sy, tx, ty, values}
 	return newVector, err
 }
+
+//func PrintVector
+
+//func ComputeVector - look at CastRays in fov.go

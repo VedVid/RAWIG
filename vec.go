@@ -20,7 +20,18 @@ freely, subject to the following restrictions:
 
 package main
 
+import (
+	"errors"
+)
+
 type Vector struct {
+	/* Vector is struct that is supposed to help
+	   with creating simple, straight lines between
+	   two points. It has start point, target point,
+	   and slice of bools.
+	   These bools should be set to false by default.
+	   For every passable tile from Start to Target,
+	   one bool will be changed to true. */
 	StartX  int
 	StartY  int
 	TargetX int
@@ -28,8 +39,17 @@ type Vector struct {
 	Values  []bool
 }
 
-func NewVector(sx, sy, tx, ty, length int) *Vector {
+func NewVector(sx, sy, tx, ty, length int) (*Vector, error) {
+	/* Function NewVector creates new Vector with sx, sy as sources coords and
+	   tx, ty as target coords. Vector has length also, and number of
+	   "false" Values is equal to passed length. */
+	var err error
+	if sx < 0 || sx >= MapSizeX || sy < 0 || sy >= MapSizeY ||
+		tx < 0 || tx >= MapSizeX || ty < 0 || ty >= MapSizeY {
+			txt := VectorCoordinatesOutOfMapBounds(sx, sy, tx, ty)
+			err = errors.New("Vector coordinates are out of map bounds." + txt)
+	}
 	values := make([]bool, length)
 	newVector := &Vector{sx, sy, tx, ty, values}
-	return newVector
+	return newVector, err
 }

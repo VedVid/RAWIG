@@ -22,6 +22,12 @@ package main
 
 import (
 	"errors"
+
+	blt "bearlibterminal"
+)
+
+const (
+	vectorSymbol = "X"
 )
 
 type Vector struct {
@@ -57,8 +63,6 @@ func NewVector(sx, sy, tx, ty int) (*Vector, error) {
 	[]int{}, []int{}}
 	return newVector, err
 }
-
-//func PrintVector
 
 func ComputeVector(vec *Vector) {
 	vec.TilesX = nil
@@ -104,4 +108,15 @@ func ComputeVector(vec *Vector) {
 		vec.TilesX = ReverseIntSlice(vec.TilesX)
 		vec.TilesY = ReverseIntSlice(vec.TilesY)
 	}
+}
+
+func PrintVector(vec *Vector) {
+	blt.Layer(LookLayer)
+	ch := "[color=white]" + vectorSymbol
+	for i, _ := range(vec.TilesX) {
+		x := vec.TilesX[i]
+		y := vec.TilesY[i]
+		blt.Print(x, y, ch)
+	}
+	blt.Refresh()
 }

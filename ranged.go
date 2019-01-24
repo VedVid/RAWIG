@@ -34,6 +34,7 @@ func (c *Creature) Look() {
 			fmt.Println(err)
 		}
 		ComputeVector(vec)
+		PrintVector(vec)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE {
 			break

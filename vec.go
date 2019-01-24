@@ -60,35 +60,6 @@ func NewVector(sx, sy, tx, ty int) (*Vector, error) {
 
 //func PrintVector
 
-func CastRays(b Board, sx, sy int) {
-	/* Function castRays is simple raycasting function for turning tiles to
-	   explored.
-	   It casts (fovRays / fovStep) rays (bigger fovStep means faster but
-	   more error-prone raycasting) from player to coordinates in fovLength range.
-	   Source of algorithm:
-	   http://www.roguebasin.com/index.php?title=Raycasting_in_python [20170712] */
-	for i := 0; i < FOVRays; i += FOVStep {
-		rayX := sinBase[i]
-		rayY := cosBase[i]
-		x := float64(sx)
-		y := float64(sy)
-		bx, by := RoundFloatToInt(x), RoundFloatToInt(y)
-		b[bx][by].Explored = true
-		for j := 0; j < FOVLength; j++ {
-			x -= rayX
-			y -= rayY
-			if x < 0 || y < 0 || x > MapSizeX-1 || y > MapSizeY-1 {
-				break
-			}
-			bx2, by2 := RoundFloatToInt(x), RoundFloatToInt(y)
-			b[bx2][by2].Explored = true
-			if b[bx2][by2].BlocksSight == true {
-				break
-			}
-		}
-	}
-}
-
 func ComputeVector(vec *Vector) {
 	vec.TilesX = nil
 	vec.TilesY = nil
@@ -130,6 +101,7 @@ func ComputeVector(vec *Vector) {
 		}
 	}
 	if rev == true {
-		//reverse the slice
+		vec.TilesX = ReverseIntSlice(vec.TilesX)
+		vec.TilesY = ReverseIntSlice(vec.TilesY)
 	}
 }

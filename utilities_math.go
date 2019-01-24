@@ -106,3 +106,14 @@ func AbsoluteValue(i int) int {
 	}
 	return i
 }
+
+func ReverseIntSlice(arr []int) []int {
+	/* Function ReverseIntSlice takes slice of int and returns
+	   it in reversed order. It is odd that "battery included"
+	   language like Go does not have built-in functions for it. */
+	var reversed = []int{}
+	for i := len(arr)-1; i >= 0; i-- {
+		reversed = append(reversed, arr[i])
+	}
+	return reversed
+}

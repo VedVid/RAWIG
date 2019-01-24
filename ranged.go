@@ -22,13 +22,17 @@ package main
 
 import (
 	blt "bearlibterminal"
+	"fmt"
 )
 
 func (c *Creature) Look() {
 	startX, startY := c.X, c.Y
 	targetX, targetY := startX, startY
 	for {
-		//PrintVector
+		vec, err := NewVector(startX, startY, targetX, targetY)
+		if err != nil {
+			fmt.Println(err)
+		}
 		key := blt.Read()
 		if key == blt.TK_ESCAPE {
 			break

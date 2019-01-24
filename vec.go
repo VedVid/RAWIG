@@ -39,16 +39,17 @@ type Vector struct {
 	Values  []bool
 }
 
-func NewVector(sx, sy, tx, ty, length int) (*Vector, error) {
+func NewVector(sx, sy, tx, ty int) (*Vector, error) {
 	/* Function NewVector creates new Vector with sx, sy as sources coords and
 	   tx, ty as target coords. Vector has length also, and number of
-	   "false" Values is equal to passed length. */
+	   "false" Values is equal to distance between source and target. */
 	var err error
 	if sx < 0 || sx >= MapSizeX || sy < 0 || sy >= MapSizeY ||
 		tx < 0 || tx >= MapSizeX || ty < 0 || ty >= MapSizeY {
 			txt := VectorCoordinatesOutOfMapBounds(sx, sy, tx, ty)
 			err = errors.New("Vector coordinates are out of map bounds." + txt)
 	}
+	length := DistanceBetween(sx, sy, tx, ty)
 	values := make([]bool, length)
 	newVector := &Vector{sx, sy, tx, ty, values}
 	return newVector, err

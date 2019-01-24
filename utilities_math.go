@@ -98,3 +98,11 @@ func DistanceBetween(sourceX, sourceY, targetX, targetY int) int {
 	distance := RoundFloatToInt(math.Sqrt(math.Pow(dx, 2) + math.Pow(dy, 2)))
 	return distance
 }
+
+func AbsoluteValue(i int) int {
+	/* Function AbsoluteValue returns absolute (ie "non negative") value. */
+	if i < 0 {
+		return -i
+	}
+	return i
+}

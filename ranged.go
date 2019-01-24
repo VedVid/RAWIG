@@ -24,32 +24,25 @@ import (
 	blt "bearlibterminal"
 )
 
-func Controls(k int, p *Creature, b Board, c Creatures, o *Objects) bool {
-	/* Function Controls is input handler.
-	   It takes integer k (key codes are basically numbers,
-	   but creating new "type key int" is not convenient)
-	   and Creature p (which is player).
-	   Controls handle input, then returns integer value that depends
-	   if player spent turn by action or not. */
-	turnSpent := false
-	switch k {
-	case blt.TK_UP:
-		turnSpent = p.MoveOrAttack(0, -1, b, c)
-	case blt.TK_RIGHT:
-		turnSpent = p.MoveOrAttack(1, 0, b, c)
-	case blt.TK_DOWN:
-		turnSpent = p.MoveOrAttack(0, 1, b, c)
-	case blt.TK_LEFT:
-		turnSpent = p.MoveOrAttack(-1, 0, b, c)
-
-	case blt.TK_L:
-		p.Look() // Looking is free action.
-	case blt.TK_G:
-		turnSpent = p.PickUp(o)
-	case blt.TK_I:
-		turnSpent = p.InventoryMenu(o)
-	case blt.TK_E:
-		turnSpent = p.EquipmentMenu(o)
+func (c *Creature) Look() {
+	startX, startY := c.X, c.Y
+	targetX, targetY := startX, startY
+	for {
+		//PrintVector
+		key := blt.Read()
+		if key == blt.TK_ESCAPE {
+			break
+		}
+		switch key {
+		case blt.TK_UP:
+			targetY--
+		case blt.TK_RIGHT:
+			targetX++
+		case blt.TK_DOWN:
+			targetY++
+		case blt.TK_LEFT:
+			targetX--
+		}
 	}
-	return turnSpent
 }
+

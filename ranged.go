@@ -33,6 +33,7 @@ func (c *Creature) Look() {
 		if err != nil {
 			fmt.Println(err)
 		}
+		ComputeVector(vec)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE {
 			break
@@ -49,4 +50,3 @@ func (c *Creature) Look() {
 		}
 	}
 }
-

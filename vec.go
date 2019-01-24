@@ -37,6 +37,8 @@ type Vector struct {
 	TargetX int
 	TargetY int
 	Values  []bool
+	TilesX  []int
+	TilesY  []int
 }
 
 func NewVector(sx, sy, tx, ty int) (*Vector, error) {
@@ -51,10 +53,83 @@ func NewVector(sx, sy, tx, ty int) (*Vector, error) {
 	}
 	length := DistanceBetween(sx, sy, tx, ty)
 	values := make([]bool, length)
-	newVector := &Vector{sx, sy, tx, ty, values}
+	newVector := &Vector{sx, sy, tx, ty, values,
+	[]int{}, []int{}}
 	return newVector, err
 }
 
 //func PrintVector
 
-//func ComputeVector - look at CastRays in fov.go
+func CastRays(b Board, sx, sy int) {
+	/* Function castRays is simple raycasting function for turning tiles to
+	   explored.
+	   It casts (fovRays / fovStep) rays (bigger fovStep means faster but
+	   more error-prone raycasting) from player to coordinates in fovLength range.
+	   Source of algorithm:
+	   http://www.roguebasin.com/index.php?title=Raycasting_in_python [20170712] */
+	for i := 0; i < FOVRays; i += FOVStep {
+		rayX := sinBase[i]
+		rayY := cosBase[i]
+		x := float64(sx)
+		y := float64(sy)
+		bx, by := RoundFloatToInt(x), RoundFloatToInt(y)
+		b[bx][by].Explored = true
+		for j := 0; j < FOVLength; j++ {
+			x -= rayX
+			y -= rayY
+			if x < 0 || y < 0 || x > MapSizeX-1 || y > MapSizeY-1 {
+				break
+			}
+			bx2, by2 := RoundFloatToInt(x), RoundFloatToInt(y)
+			b[bx2][by2].Explored = true
+			if b[bx2][by2].BlocksSight == true {
+				break
+			}
+		}
+	}
+}
+
+func ComputeVector(vec *Vector) {
+	vec.TilesX = nil
+	vec.TilesY = nil
+	sx, sy := vec.StartX, vec.StartY
+	tx, ty := vec.TargetX, vec.TargetY
+	steep := AbsoluteValue(ty - sy) > AbsoluteValue(tx - sx)
+	if steep == true {
+		sx, sy = sy, sx
+		tx, ty = ty, tx
+	}
+	rev := false
+	if sx > tx {
+		sx, tx = tx, sx
+		sy, ty = ty, sy
+		rev = true
+	}
+	dx := tx - sx
+	dy := AbsoluteValue(ty - sy)
+	errValue := dx / 2
+	y := sy
+	var stepY int
+	if sy < ty {
+		stepY = 1
+	} else {
+		stepY = (-1)
+	}
+	for x := sx; x <= tx; x++ {
+		if steep == true {
+			vec.TilesX = append(vec.TilesX, y)
+			vec.TilesY = append(vec.TilesY, x)
+		} else {
+			vec.TilesX = append(vec.TilesX, x)
+			vec.TilesY = append(vec.TilesY, y)
+		}
+		errValue -= dy
+		if errValue < 0 {
+			y += stepY
+			errValue += dx
+		}
+	}
+	if rev == true {
+		//reverse the slice
+	}
+}

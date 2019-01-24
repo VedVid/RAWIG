@@ -87,3 +87,33 @@ func FindObjectIndex(item *Object, arr Objects) (int, error) {
 	}
 	return index, err
 }
+
+func DistanceBetween(sourceX, sourceY, targetX, targetY int) int {
+	/* Function DistanceBetween takes coords of source and target;
+	   it computes distance between these two tiles.
+	   As Go uses float64 for such a computations, it is necessary
+	   to transform ints to float64 then round result to int. */
+	dx := float64(targetX - sourceX)
+	dy := float64(targetY - sourceY)
+	distance := RoundFloatToInt(math.Sqrt(math.Pow(dx, 2) + math.Pow(dy, 2)))
+	return distance
+}
+
+func AbsoluteValue(i int) int {
+	/* Function AbsoluteValue returns absolute (ie "non negative") value. */
+	if i < 0 {
+		return -i
+	}
+	return i
+}
+
+func ReverseIntSlice(arr []int) []int {
+	/* Function ReverseIntSlice takes slice of int and returns
+	   it in reversed order. It is odd that "battery included"
+	   language like Go does not have built-in functions for it. */
+	var reversed = []int{}
+	for i := len(arr) - 1; i >= 0; i-- {
+		reversed = append(reversed, arr[i])
+	}
+	return reversed
+}

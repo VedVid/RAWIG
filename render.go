@@ -39,6 +39,7 @@ const (
 	ObjectsLayer
 	CreaturesLayer
 	PlayerLayer
+	LookLayer
 )
 
 func PrintBoard(b Board, c Creatures) {

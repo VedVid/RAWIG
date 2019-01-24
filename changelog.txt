@@ -1,19 +1,22 @@
+v0.3
+ [NEW] "look" command
+
 v0.2
- [ADD] items
- [ADD] player hud
- [ADD] inventory / equipment system
- [ADD] message log
+ [NEW] items
+ [NEW] player hud
+ [NEW] inventory / equipment system
+ [NEW] message log
 
 v0.1.1:
- [ADD] new RenderWeights function that helps with debugging pathfinding algorithms 
+ [NEW] new RenderWeights function that helps with debugging pathfinding algorithms 
  [MOD] pathfinding reworked
  [FIX] some coding style inconsistences fixes
  [FIX] typos, grammar issues (by adam-weiler and trayo)
 
 v0.1
- - rendering system
- - map
- - field of view
- - monsters
- - ai
- - combat system
+ [NEW] rendering system
+ [NEW] game map
+ [NEW] field of view
+ [NEW] monsters
+ [NEW] ai
+ [NEW] combat system

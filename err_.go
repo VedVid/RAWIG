@@ -165,3 +165,16 @@ func DequipNilError(c *Creature, slot int) string {
 		"\n    <slot: " + strconv.Itoa(slot) + ">"
 	return txt
 }
+
+func VectorCoordinatesOutOfMapBounds(startX, startY, targetX, targetY int) string {
+	/* Function VectorCoordinatesOutOfMapBounds is helper function that returns
+	   string to error; it takes vector source and vector target coords as arguments.
+	   It is called if source or target is out of map bounds. */
+	sx, sy := strconv.Itoa(startX), strconv.Itoa(startY)
+	tx, ty := strconv.Itoa(targetX), strconv.Itoa(targetY)
+	txt := "\n    <MapSizeX: 0.." + strconv.Itoa(MapSizeX-1) + "; MapSizeY: 0.." +
+		strconv.Itoa(MapSizeY-1) + ";" +
+		"\n    VectorStartPoint:  " + sx + ", " + sy + "; " +
+		"\n    VectorTargetPoint: " + tx + ", " + ty + ">"
+	return txt
+}

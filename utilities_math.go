@@ -112,7 +112,7 @@ func ReverseIntSlice(arr []int) []int {
 	   it in reversed order. It is odd that "battery included"
 	   language like Go does not have built-in functions for it. */
 	var reversed = []int{}
-	for i := len(arr)-1; i >= 0; i-- {
+	for i := len(arr) - 1; i >= 0; i-- {
 		reversed = append(reversed, arr[i])
 	}
 	return reversed

@@ -55,13 +55,13 @@ func NewVector(sx, sy, tx, ty int) (*Vector, error) {
 	var err error
 	if sx < 0 || sx >= MapSizeX || sy < 0 || sy >= MapSizeY ||
 		tx < 0 || tx >= MapSizeX || ty < 0 || ty >= MapSizeY {
-			txt := VectorCoordinatesOutOfMapBounds(sx, sy, tx, ty)
-			err = errors.New("Vector coordinates are out of map bounds." + txt)
+		txt := VectorCoordinatesOutOfMapBounds(sx, sy, tx, ty)
+		err = errors.New("Vector coordinates are out of map bounds." + txt)
 	}
 	length := DistanceBetween(sx, sy, tx, ty)
 	values := make([]bool, length)
 	newVector := &Vector{sx, sy, tx, ty, values,
-	[]int{}, []int{}}
+		[]int{}, []int{}}
 	return newVector, err
 }
 
@@ -75,7 +75,7 @@ func ComputeVector(vec *Vector) {
 	vec.TilesY = nil
 	sx, sy := vec.StartX, vec.StartY
 	tx, ty := vec.TargetX, vec.TargetY
-	steep := AbsoluteValue(ty - sy) > AbsoluteValue(tx - sx)
+	steep := AbsoluteValue(ty-sy) > AbsoluteValue(tx-sx)
 	if steep == true {
 		sx, sy = sy, sx
 		tx, ty = ty, tx

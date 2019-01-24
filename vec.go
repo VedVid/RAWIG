@@ -110,7 +110,9 @@ func ComputeVector(vec *Vector) {
 	}
 }
 
-func PrintVector(vec *Vector) {
+func PrintVector(vec *Vector, b Board, o Objects, c Creatures) {
+	blt.Clear()
+	RenderAll(b, o, c)
 	blt.Layer(LookLayer)
 	ch := "[color=white]" + vectorSymbol
 	for i, _ := range(vec.TilesX) {

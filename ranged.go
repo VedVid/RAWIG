@@ -25,7 +25,7 @@ import (
 	"fmt"
 )
 
-func (c *Creature) Look() {
+func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 	startX, startY := c.X, c.Y
 	targetX, targetY := startX, startY
 	for {
@@ -34,7 +34,7 @@ func (c *Creature) Look() {
 			fmt.Println(err)
 		}
 		ComputeVector(vec)
-		PrintVector(vec)
+		PrintVector(vec, b, o, cs)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE {
 			break

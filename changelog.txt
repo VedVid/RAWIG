@@ -1,3 +1,6 @@
+v0.3
+ [ADD] "look" command
+
 v0.2
  [ADD] items
  [ADD] player hud

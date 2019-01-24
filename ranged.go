@@ -44,7 +44,8 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 			fmt.Println(err)
 		}
 		ComputeVector(vec)
-		PrintVector(vec, b, o, cs)
+		ValidateVector(vec, b)
+		PrintVector(vec, VectorColorNeutral, VectorColorNeutral, b, o, cs)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE {
 			break

@@ -21,10 +21,8 @@ freely, subject to the following restrictions:
 package main
 
 import (
-	"errors"
-	"fmt"
-
 	blt "bearlibterminal"
+	"errors"
 )
 
 const (
@@ -124,8 +122,6 @@ func ValidateVector(vec *Vector, b Board) bool {
 	   It is important function for ranged combat visualisation - function
 	   checks if line is not blocked by map tiles. */
 	length := len(vec.TilesX)
-	fmt.Println(length)
-	fmt.Println(len(vec.Values))
 	for i := 0; i < length; i++ {
 		x, y := vec.TilesX[i], vec.TilesY[i]
 		if b[x][y].Blocked == true {

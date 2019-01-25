@@ -119,7 +119,7 @@ func ComputeVector(vec *Vector) {
 	}
 }
 
-func ValidateVector(vec *Vector, b Board) {
+func ValidateVector(vec *Vector, b Board) bool {
 	/* Function ValidateVector takes Vector and Board as arguments.
 	   It is important function for ranged combat visualisation - function
 	   checks if line is not blocked by map tiles. */
@@ -133,6 +133,12 @@ func ValidateVector(vec *Vector, b Board) {
 		}
 		vec.Values[i] = true
 	}
+	if vec.Values[len(vec.Values)-1] == true {
+		// Vector is valid - path is passable.
+		return true
+	}
+	// Vector is invalid - blocked tiles in path.
+	return false
 }
 
 func PrintVector(vec *Vector, color1, color2 string, b Board, o Objects, c Creatures) {

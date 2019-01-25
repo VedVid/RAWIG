@@ -44,7 +44,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 			fmt.Println(err)
 		}
 		ComputeVector(vec)
-		ValidateVector(vec, b)
+		_ = ValidateVector(vec, b)
 		PrintVector(vec, VectorColorNeutral, VectorColorNeutral, b, o, cs)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE {
@@ -61,4 +61,11 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 			targetX--
 		}
 	}
+}
+
+func (c *Creature) Target(b Board, o Objects, cs Creatures) {
+	length := FOVLength //hardcoded for now; will be passed as argument later
+	startX, startY := c.X, c.Y
+	targets := MonstersInFov()
+	targetable := MonstersInRange(targets, length) //use ValidateVector
 }

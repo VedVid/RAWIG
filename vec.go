@@ -117,15 +117,24 @@ func ComputeVector(vec *Vector) {
 	}
 }
 
-func ValidateVector(vec *Vector, b Board) bool {
+func ValidateVector(vec *Vector, b Board, c Creatures) bool {
 	/* Function ValidateVector takes Vector and Board as arguments.
 	   It is important function for ranged combat visualisation - function
-	   checks if line is not blocked by map tiles. */
+	   checks if line is not blocked by map tiles or other creatures.
+	   In future, it should check for objects as well.*/
 	length := len(vec.TilesX)
+Loop:
 	for i := 0; i < length; i++ {
 		x, y := vec.TilesX[i], vec.TilesY[i]
 		if b[x][y].Blocked == true {
 			break
+		}
+		for j := 0; j < len(c); j++ {
+			if x == c[j].X && y == c[j].Y && c[j].Blocked == true {
+				// Breaks on first enemy.
+				vec.Values[i] = true
+				break Loop
+			}
 		}
 		vec.Values[i] = true
 	}

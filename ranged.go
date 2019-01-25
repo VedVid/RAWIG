@@ -46,7 +46,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 			fmt.Println(err)
 		}
 		ComputeVector(vec)
-		_ = ValidateVector(vec, b)
+		_ = ValidateVector(vec, b, cs)
 		PrintVector(vec, VectorColorNeutral, VectorColorNeutral, b, o, cs)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE {
@@ -78,7 +78,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 			fmt.Println(err)
 		}
 		ComputeVector(vec)
-		_ = ValidateVector(vec, b)
+		_ = ValidateVector(vec, b, targets)
 		PrintVector(vec, VectorColorGood, VectorColorBad, b, o, cs)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE {
@@ -146,7 +146,7 @@ func (c *Creature) MonstersInRange(b Board, cs Creatures, length int) (Creatures
 			fmt.Println(err)
 		}
 		if DistanceBetween(c.X, c.Y, v.X, v.Y) <= length {
-			if ValidateVector(vec, b) == true {
+			if ValidateVector(vec, b, cs) == true {
 				inRange = append(inRange, cs[i])
 			} else {
 				outOfRange = append(outOfRange, cs[i])

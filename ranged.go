@@ -73,7 +73,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 	}
 	targetX, targetY := target.X, target.Y
 	for {
-		vec, err := NewVector(c.X, c.Y, target.X, target.Y)
+		vec, err := NewVector(c.X, c.Y, targetX, targetY)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -93,7 +93,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 		case blt.TK_RIGHT:
 			targetX++
 		case blt.TK_DOWN:
-			targetY--
+			targetY++
 		case blt.TK_LEFT:
 			targetX--
 		}

@@ -66,6 +66,6 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 	length := FOVLength //hardcoded for now; will be passed as argument later
 	startX, startY := c.X, c.Y
-	targets := MonstersInFov(b, c, cs)
+	targets := c.MonstersInFov(b, cs)
 	targetable := MonstersInRange(targets, length) //use ValidateVector
 }

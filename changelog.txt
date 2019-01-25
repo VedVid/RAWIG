@@ -1,5 +1,6 @@
 v0.3
  [NEW] "look" command
+ [NEW] ranged combat
  [NEW] finding monsters in attack range
 
 v0.2

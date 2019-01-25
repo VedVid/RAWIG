@@ -71,6 +71,33 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 	if err != nil {
 		fmt.Println(err)
 	}
+	targetX, targetY := target.X, target.Y
+	for {
+		vec, err := NewVector(c.X, c.Y, target.X, target.Y)
+		if err != nil {
+			fmt.Println(err)
+		}
+		ComputeVector(vec)
+		_ = ValidateVector(vec, b)
+		PrintVector(vec, VectorColorGood, VectorColorBad, b, o, cs)
+		key := blt.Read()
+		if key == blt.TK_ESCAPE {
+			break
+		}
+		if key == blt.TK_F {
+			break //fire!
+		}
+		switch key {
+		case blt.TK_UP:
+			targetY--
+		case blt.TK_RIGHT:
+			targetX++
+		case blt.TK_DOWN:
+			targetY--
+		case blt.TK_LEFT:
+			targetX--
+		}
+	}
 }
 
 func (c *Creature) FindTargets(length int, b Board, cs Creatures) Creatures {

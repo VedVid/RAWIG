@@ -137,6 +137,25 @@ func (c *Creature) FindTarget(targets Creatures) (*Creature, error) {
 	return target, err
 }
 
+func (c *Creature) MonstersInRange(b Board, cs Creatures, length int) (Creatures, Creatures) {
+	var inRange = Creatures{}
+	var outOfRange = Creatures{}
+	for i, v := range cs {
+		vec, err := NewVector(c.X, c.Y, v.X, c.Y)
+		if err != nil {
+			fmt.Println(err)
+		}
+		if DistanceBetween(c.X, c.Y, v.X, v.Y) <= length {
+			if ValidateVector(vec, b) == true {
+				inRange = append(inRange, cs[i])
+			} else {
+				outOfRange = append(outOfRange, cs[i])
+			}
+		}
+	}
+	return inRange, outOfRange
+}
+
 func ZeroLastTarget(c *Creature) {
 	if LastTarget == c {
 		LastTarget = nil

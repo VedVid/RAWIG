@@ -112,3 +112,14 @@ func IsInFOV(b Board, sx, sy, tx, ty int) bool {
 	}
 	return false
 }
+
+func MonstersInFov(b Board, c *Creature, cs Creatures) Creatures {
+	var inFov = Creatures{}
+	for i := 1; i < len(cs); i++ { //skip player
+		v := cs[i]
+		if IsInFOV(b, c.X, c.Y, v.X, v.Y) == true {
+			inFov = append(inFov, cs[i])
+		}
+	}
+	return inFov
+}

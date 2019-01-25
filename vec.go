@@ -169,3 +169,18 @@ func PrintVector(vec *Vector, color1, color2 string, b Board, o Objects, c Creat
 	}
 	blt.Refresh()
 }
+
+func (c *Creature) MonstersInRange(b Board, cs Creatures, length int) Creatures {
+	var inRange = Creatures{}
+	for i, v := range cs {
+		vec, err := NewVector(c.X, c.Y, v.X, c.Y)
+		if err != nil {
+			fmt.Println(err)
+		}
+		if ValidateVector(vec, b) == true &&
+			DistanceBetween(c.X, c.Y, v.X, v.Y) <= length {
+			inRange = append(inRange, cs[i])
+		}
+	}
+	return inRange
+}

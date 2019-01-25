@@ -23,6 +23,7 @@ package main
 import (
 	blt "bearlibterminal"
 	"fmt"
+	"sort"
 )
 
 func (c *Creature) Look(b Board, o Objects, cs Creatures) {
@@ -67,4 +68,21 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 	length := FOVLength //hardcoded for now; will be passed as argument later
 	targets := c.MonstersInFov(b, cs)
 	targetable, unreachable := c.MonstersInRange(b, targets, length) //use ValidateVector
+	sort.Slice(targetable, func(i, j int) bool {
+		return targetable[i].DistanceBetweenCreatures(c) <
+			targetable[j].DistanceBetweenCreatures(c)
+	})
+	sort.Slice(unreachable, func(i, j int) bool {
+		return unreachable[i].DistanceBetweenCreatures(c) <
+			unreachable[j].DistanceBetweenCreatures(c)
+	})
+	targets = nil
+	targets = append(targets, targetable...)
+	targets = append(targets, unreachable...)
+	var target *Creature
+	if len(targets) == 0 {
+		target = c
+	} else {
+		target = targetable[0]
+	}
 }

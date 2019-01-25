@@ -178,7 +178,7 @@ func (c *Creature) MonstersInRange(b Board, cs Creatures, length int) (Creatures
 		if err != nil {
 			fmt.Println(err)
 		}
-		if DistanceBetween(c.X, c.Y, v.X, v.Y) <= length {
+		if DistanceBetweenCreatures(c.X, c.Y, v.X, v.Y) <= length {
 			if ValidateVector(vec, b) == true {
 				inRange = append(inRange, cs[i])
 			} else {

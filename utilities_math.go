@@ -99,6 +99,11 @@ func DistanceBetween(sourceX, sourceY, targetX, targetY int) int {
 	return distance
 }
 
+func (c *Creature) DistanceBetweenCreatures(c2 *Creature) int {
+	distance := DistanceBetween(c.X, c.Y, c2.X, c2.Y)
+	return distance
+}
+
 func AbsoluteValue(i int) int {
 	/* Function AbsoluteValue returns absolute (ie "non negative") value. */
 	if i < 0 {

@@ -272,4 +272,5 @@ func (c *Creature) Die() {
 	c.Blocked = false
 	c.BlocksSight = false
 	c.AIType = NoAI
+	ZeroLastTarget(c)
 }

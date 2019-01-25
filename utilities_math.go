@@ -122,3 +122,12 @@ func ReverseIntSlice(arr []int) []int {
 	}
 	return reversed
 }
+
+func CreatureIsInSlice(c *Creature, arr Creatures) bool {
+	for _, v := range arr {
+		if c == v {
+			return true
+		}
+	}
+	return false
+}

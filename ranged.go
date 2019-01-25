@@ -22,6 +22,7 @@ package main
 
 import (
 	blt "bearlibterminal"
+	"errors"
 	"fmt"
 	"sort"
 )
@@ -65,7 +66,14 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 }
 
 func (c *Creature) Target(b Board, o Objects, cs Creatures) {
-	length := FOVLength //hardcoded for now; will be passed as argument later
+	targets := c.FindTargets(FOVLength, b, cs)
+	target, err := c.FindTarget(targets)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+func (c *Creature) FindTargets(length int, b Board, cs Creatures) Creatures {
 	targets := c.MonstersInFov(b, cs)
 	targetable, unreachable := c.MonstersInRange(b, targets, length) //use ValidateVector
 	sort.Slice(targetable, func(i, j int) bool {
@@ -79,10 +87,31 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 	targets = nil
 	targets = append(targets, targetable...)
 	targets = append(targets, unreachable...)
+	return targets
+}
+
+func (c *Creature) FindTarget(targets Creatures) (*Creature, error) {
 	var target *Creature
 	if len(targets) == 0 {
 		target = c
 	} else {
-		target = targetable[0]
+		if LastTarget != nil && CreatureIsInSlice(LastTarget, targets) {
+			target = LastTarget
+		} else {
+			target = targets[0]
+			LastTarget = target
+		}
+	}
+	var err error
+	if target == nil {
+		txt := TargetNilError(c, targets)
+		err = errors.New("Could not find target, even the 'self' one." + txt)
+	}
+	return target, err
+}
+
+func ZeroLastTarget(c *Creature) {
+	if LastTarget == c {
+		LastTarget = nil
 	}
 }

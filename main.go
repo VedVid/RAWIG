@@ -28,6 +28,7 @@ import (
 )
 
 var MsgBuf = []string{}
+var LastTarget *Creature
 
 func main() {
 	slot, _ := NewObject(ObjectsLayer, 0, 0, "}", "weapon", "red", "dark red", true,

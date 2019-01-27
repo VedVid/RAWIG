@@ -88,6 +88,23 @@ func FindObjectIndex(item *Object, arr Objects) (int, error) {
 	return index, err
 }
 
+func FindCreatureIndex(creature *Creature, arr Creatures) (int, error) {
+	/* Function FindCreatureIndex works as FindObjectIndex,
+	   but for monsters. */
+	var err error
+	index := WrongIndexValue
+	for i := 0; i < len(arr); i++ {
+		if arr[i] == creature {
+			index = i
+			break
+		}
+		if index == WrongIndexValue {
+			err = errors.New("*Creature not found in []*Creature.")
+		}
+		return index, err
+	}
+}
+
 func DistanceBetween(sourceX, sourceY, targetX, targetY int) int {
 	/* Function DistanceBetween takes coords of source and target;
 	   it computes distance between these two tiles.

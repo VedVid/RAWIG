@@ -100,11 +100,10 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 			monster := FindMonsterByXY(targetX, targetY, cs)
 			if monster != nil {
 				target = NextTarget(monster, targets)
-				targetX, targetY = target.X, target.Y
 			} else {
 				target = NextTarget(target, targets)
-				targetX, targetY = target.X, target.Y
 			}
+			targetX, targetY = target.X, target.Y
 			continue //switch target
 		}
 		switch key {

@@ -68,14 +68,14 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 	var target *Creature
 	targets := c.FindTargets(FOVLength, b, cs)
-	if LastTarget == nil {
+	if LastTarget != nil && IsInFOV(b, c.X, c.Y, LastTarget.X, LastTarget.Y) == true {
+		target = LastTarget
+	} else {
 		var err error
 		target, err = c.FindTarget(targets)
 		if err != nil {
 			fmt.Println(err)
 		}
-	} else {
-		target = LastTarget
 	}
 	targetX, targetY := target.X, target.Y
 	for {

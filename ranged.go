@@ -97,7 +97,9 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 			}
 			break //fire!
 		} else if key == blt.TK_TAB {
-			break //switch target
+			target = NextTarget(target, targets)
+			targetX, targetY = target.X, target.Y
+			continue //switch target
 		}
 		switch key {
 		case blt.TK_UP:
@@ -147,6 +149,20 @@ func (c *Creature) FindTarget(targets Creatures) (*Creature, error) {
 		err = errors.New("Could not find target, even the 'self' one." + txt)
 	}
 	return target, err
+}
+
+func NextTarget(target *Creature, targets Creatures) *Creature {
+	i, err := FindCreatureIndex(target, targets)
+	if err != nil {
+		fmt.Println(err)
+	}
+	var t *Creature
+	if len(targets) > i+1 {
+		t = targets[i+1]
+	} else {
+		t = targets[0] //player?
+	}
+	return t
 }
 
 func (c *Creature) MonstersInRange(b Board, cs Creatures, length int) (Creatures, Creatures) {

@@ -96,6 +96,8 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 				LastTarget = monster
 			}
 			break //fire!
+		} else if key == blt.TK_TAB {
+			break //switch target
 		}
 		switch key {
 		case blt.TK_UP:

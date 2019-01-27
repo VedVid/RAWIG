@@ -85,6 +85,9 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 			break
 		}
 		if key == blt.TK_F {
+			if target != nil {
+				LastTarget = target
+			}
 			break //fire!
 		}
 		switch key {

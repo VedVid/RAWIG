@@ -157,6 +157,8 @@ func NextTarget(target *Creature, targets Creatures) *Creature {
 	}
 	if len(targets) >= currentIndex {
 		target = targets[currentIndex+1]
+	} else {
+		target = targets[0] //won't it be player?
 	}
 	return target
 }

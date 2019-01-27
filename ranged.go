@@ -158,10 +158,7 @@ func (c *Creature) FindTarget(targets Creatures) (*Creature, error) {
 }
 
 func NextTarget(target *Creature, targets Creatures) *Creature {
-	i, err := FindCreatureIndex(target, targets)
-	if err != nil {
-		fmt.Println(err)
-	}
+	i, _ := FindCreatureIndex(target, targets)
 	var t *Creature
 	if len(targets) > i+1 {
 		t = targets[i+1]

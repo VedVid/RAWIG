@@ -101,8 +101,8 @@ func FindCreatureIndex(creature *Creature, arr Creatures) (int, error) {
 		if index == WrongIndexValue {
 			err = errors.New("*Creature not found in []*Creature.")
 		}
-		return index, err
 	}
+	return index, err
 }
 
 func DistanceBetween(sourceX, sourceY, targetX, targetY int) int {

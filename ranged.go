@@ -90,9 +90,6 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 		if key == blt.TK_ESCAPE {
 			break
 		}
-		if key == blt.TK_TAB {
-			target = NextTarget(target, targets)
-		}
 		if key == blt.TK_F {
 			monster := FindMonsterByXY(targetX, targetY, cs)
 			if monster != nil {
@@ -148,17 +145,6 @@ func (c *Creature) FindTarget(targets Creatures) (*Creature, error) {
 		err = errors.New("Could not find target, even the 'self' one." + txt)
 	}
 	return target, err
-}
-
-func NextTarget(target *Creature, targets Creatures) *Creature {
-	currentIndex, err := FindCreatureIndex(target, targets)
-	if err != nil {
-		fmt.Println(err)
-	}
-	if len(targets) >= currentIndex {
-		target = targets[currentIndex+1]
-	}
-	return target
 }
 
 func (c *Creature) MonstersInRange(b Board, cs Creatures, length int) (Creatures, Creatures) {

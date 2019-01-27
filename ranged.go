@@ -85,8 +85,9 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 			break
 		}
 		if key == blt.TK_F {
-			if target != nil {
-				LastTarget = target
+			monster := FindMonsterByXY(targetX, targetY, cs)
+			if monster != nil {
+				LastTarget = monster
 			}
 			break //fire!
 		}

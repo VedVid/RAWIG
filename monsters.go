@@ -274,3 +274,14 @@ func (c *Creature) Die() {
 	c.AIType = NoAI
 	ZeroLastTarget(c)
 }
+
+func FindMonsterByXY(x, y int, c Creatures) *Creature {
+	var monster *Creature
+	for i := 0; i < len(c); i++ {
+		if x == c[i].X && y == c[i].Y {
+			monster = c[i]
+			break
+		}
+	}
+	return monster
+}

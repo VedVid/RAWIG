@@ -92,6 +92,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 		}
 		if key == blt.TK_TAB {
 			target = NextTarget(target, targets)
+			continue
 		}
 		if key == blt.TK_F {
 			monster := FindMonsterByXY(targetX, targetY, cs)

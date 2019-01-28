@@ -85,17 +85,13 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 			fmt.Println(err)
 		}
 		_ = ComputeVector(vec)
-		_, _, _, _ = ValidateVector(vec, b, targets, o)
+		_, _, monster, _ := ValidateVector(vec, b, targets, o)
 		PrintVector(vec, VectorColorGood, VectorColorBad, b, o, cs)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE {
 			break
 		}
 		if key == blt.TK_F {
-			//find first monster in path
-			//take it as monster
-			//then attack it
-			monster := FindMonsterByXY(targetX, targetY, cs)
 			if monster != nil {
 				LastTarget = monster
 			}

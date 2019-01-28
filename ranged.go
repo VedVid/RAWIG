@@ -176,7 +176,7 @@ func (c *Creature) MonstersInRange(b Board, cs Creatures, length int) (Creatures
 	var inRange = Creatures{}
 	var outOfRange = Creatures{}
 	for i, v := range cs {
-		vec, err := NewVector(c.X, c.Y, v.X, c.Y)
+		vec, err := NewVector(c.X, c.Y, v.X, v.Y)
 		if err != nil {
 			fmt.Println(err)
 		}

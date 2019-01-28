@@ -119,22 +119,40 @@ func ComputeVector(vec *Vector) int {
 	return trueLength
 }
 
-func ValidateVector(vec *Vector, b Board, c Creatures) bool {
+func ValidateVector(vec *Vector, b Board, c Creatures,
+	o Objects) (bool, *Tile, *Creature, *Object) {
 	/* Function ValidateVector takes Vector and Board as arguments.
 	   It is important function for ranged combat visualisation - function
-	   checks if line is not blocked by map tiles or other creatures.
-	   In future, it should check for objects as well.*/
+	   checks if line is not blocked by map tiles or other creatures,
+	   or objects. Returns first blocked value.
+	   Four values to return looks bad, but it may be better than
+	   code duplication if there would be three different functions
+	   for Tile, Creature and Object. */
+	var tile *Tile
+	var monster *Creature
+	var object *Object
+	valid := false
 	length := len(vec.TilesX)
 Loop:
 	for i := 0; i < length; i++ {
 		x, y := vec.TilesX[i], vec.TilesY[i]
 		if b[x][y].Blocked == true {
+			// Breaks on blocked tiles.
+			tile = b[x][y]
 			break
 		}
 		for j := 0; j < len(c); j++ {
 			if x == c[j].X && y == c[j].Y && c[j].Blocked == true {
 				// Breaks on first enemy.
 				vec.Values[i] = true
+				monster = c[j]
+				break Loop
+			}
+		}
+		for k := 0; k < len(o); k++ {
+			if x == o[k].X && y == o[k].Y && o[k].Blocked == true {
+				// Breaks on blocking objects.
+				object = o[k]
 				break Loop
 			}
 		}
@@ -142,10 +160,10 @@ Loop:
 	}
 	if vec.Values[len(vec.Values)-1] == true {
 		// Vector is valid - path is passable.
-		return true
+		valid = true
 	}
 	// Vector is invalid - blocked tiles in path.
-	return false
+	return valid, tile, monster, object
 }
 
 func PrintVector(vec *Vector, color1, color2 string, b Board, o Objects, c Creatures) {

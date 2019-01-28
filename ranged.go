@@ -46,7 +46,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 			fmt.Println(err)
 		}
 		_ = ComputeVector(vec)
-		_ = ValidateVector(vec, b, cs)
+		_, _, _, _ = ValidateVector(vec, b, cs, o)
 		PrintVector(vec, VectorColorNeutral, VectorColorNeutral, b, o, cs)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE {
@@ -85,7 +85,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 			fmt.Println(err)
 		}
 		_ = ComputeVector(vec)
-		_ = ValidateVector(vec, b, targets)
+		_, _, _, _ = ValidateVector(vec, b, targets, o)
 		PrintVector(vec, VectorColorGood, VectorColorBad, b, o, cs)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE {

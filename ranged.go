@@ -165,10 +165,13 @@ func (c *Creature) FindTarget(targets Creatures) (*Creature, error) {
 func NextTarget(target *Creature, targets Creatures) *Creature {
 	i, _ := FindCreatureIndex(target, targets)
 	var t *Creature
-	if len(targets) > i+1 {
+	length := len(targets)
+	if length > i+1 {
 		t = targets[i+1]
+	} else if length == 0 {
+		t = target
 	} else {
-		t = targets[0] //player?
+		t = targets[0]
 	}
 	return t
 }

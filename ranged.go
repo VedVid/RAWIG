@@ -189,6 +189,9 @@ func (c *Creature) MonstersInRange(b Board, cs Creatures, o Objects,
 		}
 		if ComputeVector(vec) <= length {
 			valid, _, _, _ := ValidateVector(vec, b, cs, o)
+			if cs[i].HPCurrent <= 0 {
+				continue
+			}
 			if valid == true {
 				inRange = append(inRange, cs[i])
 			} else {

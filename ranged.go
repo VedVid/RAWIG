@@ -67,7 +67,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 
 func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 	var target *Creature
-	targets := c.FindTargets(FOVLength, b, cs)
+	targets := c.FindTargets(FOVLength, b, cs, o)
 	if LastTarget != nil && LastTarget != c &&
 		IsInFOV(b, c.X, c.Y, LastTarget.X, LastTarget.Y) == true {
 		target = LastTarget
@@ -123,9 +123,9 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 	}
 }
 
-func (c *Creature) FindTargets(length int, b Board, cs Creatures) Creatures {
+func (c *Creature) FindTargets(length int, b Board, cs Creatures, o Objects) Creatures {
 	targets := c.MonstersInFov(b, cs)
-	targetable, unreachable := c.MonstersInRange(b, targets, length)
+	targetable, unreachable := c.MonstersInRange(b, targets, o, length)
 	sort.Slice(targetable, func(i, j int) bool {
 		return targetable[i].DistanceBetweenCreatures(c) <
 			targetable[j].DistanceBetweenCreatures(c)
@@ -171,7 +171,8 @@ func NextTarget(target *Creature, targets Creatures) *Creature {
 	return t
 }
 
-func (c *Creature) MonstersInRange(b Board, cs Creatures, length int) (Creatures, Creatures) {
+func (c *Creature) MonstersInRange(b Board, cs Creatures, o Objects,
+	length int) (Creatures, Creatures) {
 	var inRange = Creatures{}
 	var outOfRange = Creatures{}
 	for i, v := range cs {
@@ -180,7 +181,8 @@ func (c *Creature) MonstersInRange(b Board, cs Creatures, length int) (Creatures
 			fmt.Println(err)
 		}
 		if ComputeVector(vec) <= length {
-			if ValidateVector(vec, b, cs) == true {
+			valid, _, _, _ := ValidateVector(vec, b, cs, o)
+			if valid == true {
 				inRange = append(inRange, cs[i])
 			} else {
 				outOfRange = append(outOfRange, cs[i])

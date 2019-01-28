@@ -100,6 +100,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 					LastTarget = monsterHit
 				}
 			}
+			fmt.Println("attack LastTarget!")
 			break //fire!
 		} else if key == blt.TK_TAB {
 			monster := FindMonsterByXY(targetX, targetY, cs)

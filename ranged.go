@@ -45,7 +45,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 		if err != nil {
 			fmt.Println(err)
 		}
-		ComputeVector(vec)
+		_ = ComputeVector(vec)
 		_ = ValidateVector(vec, b, cs)
 		PrintVector(vec, VectorColorNeutral, VectorColorNeutral, b, o, cs)
 		key := blt.Read()
@@ -84,7 +84,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 		if err != nil {
 			fmt.Println(err)
 		}
-		ComputeVector(vec)
+		_ = ComputeVector(vec)
 		_ = ValidateVector(vec, b, targets)
 		PrintVector(vec, VectorColorGood, VectorColorBad, b, o, cs)
 		key := blt.Read()
@@ -180,7 +180,7 @@ func (c *Creature) MonstersInRange(b Board, cs Creatures, length int) (Creatures
 		if err != nil {
 			fmt.Println(err)
 		}
-		if DistanceBetween(c.X, c.Y, v.X, v.Y) <= length {
+		if ComputeVector(vec) <= length {
 			if ValidateVector(vec, b, cs) == true {
 				inRange = append(inRange, cs[i])
 			} else {

@@ -66,7 +66,7 @@ func NewVector(sx, sy, tx, ty int) (*Vector, error) {
 	return newVector, err
 }
 
-func ComputeVector(vec *Vector) {
+func ComputeVector(vec *Vector) int {
 	/* Function ComputeVector takes *Vector as argument.
 	   It uses Brensenham's Like algorithm to compute tile values
 	   (stored in initially empty TilesX and TilesY) between
@@ -115,6 +115,8 @@ func ComputeVector(vec *Vector) {
 		vec.TilesX = ReverseIntSlice(vec.TilesX)
 		vec.TilesY = ReverseIntSlice(vec.TilesY)
 	}
+	trueLength := len(vec.TilesX)
+	return trueLength
 }
 
 func ValidateVector(vec *Vector, b Board, c Creatures) bool {

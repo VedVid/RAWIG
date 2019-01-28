@@ -22,7 +22,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"math"
 	"math/rand"
 
@@ -111,7 +110,6 @@ func DistanceBetween(sourceX, sourceY, targetX, targetY int) int {
 	   it computes distance between these two tiles.
 	   As Go uses float64 for such a computations, it is necessary
 	   to transform ints to float64 then round result to int. */
-	fmt.Println("t, s: ", sourceX, sourceY, targetX, targetY)
 	dx := float64(targetX - sourceX)
 	dy := float64(targetY - sourceY)
 	distance := RoundFloatToInt(math.Sqrt(math.Pow(dx, 2) + math.Pow(dy, 2)))

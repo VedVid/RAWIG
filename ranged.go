@@ -126,7 +126,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 func (c *Creature) FindTargets(length int, b Board, cs Creatures) Creatures {
 	targets := c.MonstersInFov(b, cs)
 	fmt.Println(targets)
-	targetable, unreachable := c.MonstersInRange(b, targets, length) //use ValidateVector
+	targetable, unreachable := c.MonstersInRange(b, targets, length)
 	sort.Slice(targetable, func(i, j int) bool {
 		return targetable[i].DistanceBetweenCreatures(c) <
 			targetable[j].DistanceBetweenCreatures(c)

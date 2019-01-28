@@ -98,10 +98,13 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 			}
 			break //fire!
 		} else if key == blt.TK_TAB {
+			fmt.Println("targets: ", len(targets))
 			monster := FindMonsterByXY(targetX, targetY, cs)
 			if monster != nil {
+				fmt.Println("monster != nil")
 				target = NextTarget(monster, targets)
 			} else {
+				fmt.Println("monster == nil")
 				target = NextTarget(target, targets)
 			}
 			targetX, targetY = target.X, target.Y
@@ -122,6 +125,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 
 func (c *Creature) FindTargets(length int, b Board, cs Creatures) Creatures {
 	targets := c.MonstersInFov(b, cs)
+	fmt.Println(targets)
 	targetable, unreachable := c.MonstersInRange(b, targets, length) //use ValidateVector
 	sort.Slice(targetable, func(i, j int) bool {
 		return targetable[i].DistanceBetweenCreatures(c) <

@@ -95,13 +95,15 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 			monsterAimed := FindMonsterByXY(targetX, targetY, cs)
 			if monsterAimed != nil {
 				LastTarget = monsterAimed
+				c.AttackTarget(monsterAimed)
 			} else {
 				if monsterHit != nil {
 					LastTarget = monsterHit
+					c.AttackTarget(monsterHit)
 				}
 			}
-			fmt.Println("attack LastTarget!")
-			break //fire!
+			//fire volley in empty space
+			break
 		} else if key == blt.TK_TAB {
 			monster := FindMonsterByXY(targetX, targetY, cs)
 			if monster != nil {

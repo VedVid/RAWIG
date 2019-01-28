@@ -92,6 +92,9 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 			break
 		}
 		if key == blt.TK_F {
+			//find first monster in path
+			//take it as monster
+			//then attack it
 			monster := FindMonsterByXY(targetX, targetY, cs)
 			if monster != nil {
 				LastTarget = monster

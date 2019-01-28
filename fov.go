@@ -123,3 +123,14 @@ func (c *Creature) MonstersInFov(b Board, cs Creatures) Creatures {
 	}
 	return inFov
 }
+
+func (c *Creature) ObjectsInFov(b Board, o Objects) Objects {
+	var inFov = Objects{}
+	for i := 0; i < len(o); i++ {
+		v := o[i]
+		if IsInFOV(b, c.X, c.Y, v.X, v.Y) == true {
+			inFov = append(inFov, o[i])
+		}
+	}
+	return inFov
+}

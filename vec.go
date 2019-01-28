@@ -21,14 +21,15 @@ freely, subject to the following restrictions:
 package main
 
 import (
-	"errors"
-
 	blt "bearlibterminal"
+	"errors"
 )
 
 const (
-	vectorSymbol = "X"
-	vectorColor  = "white"
+	vectorSymbol = "X" // Maybe vectorSymbol should be customized, as colors?
+	VectorColorNeutral  = "white"
+	VectorColorGood = "green"
+	VectorColorBad = "red"
 )
 
 type Vector struct {
@@ -51,7 +52,7 @@ type Vector struct {
 func NewVector(sx, sy, tx, ty int) (*Vector, error) {
 	/* Function NewVector creates new Vector with sx, sy as sources coords and
 	   tx, ty as target coords. Vector has length also, and number of
-	   "false" Values is equal to distance between source and target. */
+	   "false" Values is equal to 1 + distance between source and target. */
 	var err error
 	if sx < 0 || sx >= MapSizeX || sy < 0 || sy >= MapSizeY ||
 		tx < 0 || tx >= MapSizeX || ty < 0 || ty >= MapSizeY {
@@ -59,13 +60,13 @@ func NewVector(sx, sy, tx, ty int) (*Vector, error) {
 		err = errors.New("Vector coordinates are out of map bounds." + txt)
 	}
 	length := DistanceBetween(sx, sy, tx, ty)
-	values := make([]bool, length)
+	values := make([]bool, length+1)
 	newVector := &Vector{sx, sy, tx, ty, values,
 		[]int{}, []int{}}
 	return newVector, err
 }
 
-func ComputeVector(vec *Vector) {
+func ComputeVector(vec *Vector) int {
 	/* Function ComputeVector takes *Vector as argument.
 	   It uses Brensenham's Like algorithm to compute tile values
 	   (stored in initially empty TilesX and TilesY) between
@@ -114,9 +115,58 @@ func ComputeVector(vec *Vector) {
 		vec.TilesX = ReverseIntSlice(vec.TilesX)
 		vec.TilesY = ReverseIntSlice(vec.TilesY)
 	}
+	trueLength := len(vec.TilesX)
+	return trueLength
 }
 
-func PrintVector(vec *Vector, b Board, o Objects, c Creatures) {
+func ValidateVector(vec *Vector, b Board, c Creatures,
+	o Objects) (bool, *Tile, *Creature, *Object) {
+	/* Function ValidateVector takes Vector and Board as arguments.
+	   It is important function for ranged combat visualisation - function
+	   checks if line is not blocked by map tiles or other creatures,
+	   or objects. Returns first blocked value.
+	   Four values to return looks bad, but it may be better than
+	   code duplication if there would be three different functions
+	   for Tile, Creature and Object. */
+	var tile *Tile
+	var monster *Creature
+	var object *Object
+	valid := false
+	length := len(vec.TilesX)
+Loop:
+	for i := 0; i < length; i++ {
+		x, y := vec.TilesX[i], vec.TilesY[i]
+		if b[x][y].Blocked == true {
+			// Breaks on blocked tiles.
+			tile = b[x][y]
+			break
+		}
+		for j := 0; j < len(c); j++ {
+			if x == c[j].X && y == c[j].Y && c[j].Blocked == true {
+				// Breaks on first enemy.
+				vec.Values[i] = true
+				monster = c[j]
+				break Loop
+			}
+		}
+		for k := 0; k < len(o); k++ {
+			if x == o[k].X && y == o[k].Y && o[k].Blocked == true {
+				// Breaks on blocking objects.
+				object = o[k]
+				break Loop
+			}
+		}
+		vec.Values[i] = true
+	}
+	if vec.Values[len(vec.Values)-1] == true {
+		// Vector is valid - path is passable.
+		valid = true
+	}
+	// Vector is invalid - blocked tiles in path.
+	return valid, tile, monster, object
+}
+
+func PrintVector(vec *Vector, color1, color2 string, b Board, o Objects, c Creatures) {
 	/* Function PrintVector has to take Vector, and (unfortunately,
 	   due to flawed game architecture) Board, "global" Objects, and
 	   Creatures.
@@ -126,7 +176,8 @@ func PrintVector(vec *Vector, b Board, o Objects, c Creatures) {
 	blt.Clear()
 	RenderAll(b, o, c)
 	blt.Layer(LookLayer)
-	ch := "[color=" + vectorColor + "]" + vectorSymbol
+	ch1 := "[color=" + color1 + "]" + vectorSymbol
+	ch2 := "[color=" + color2 + "]" + vectorSymbol
 	length := len(vec.TilesX)
 	for i := 0; i < length; i++ {
 		if i == 0 && length > 1 {
@@ -135,7 +186,11 @@ func PrintVector(vec *Vector, b Board, o Objects, c Creatures) {
 		}
 		x := vec.TilesX[i]
 		y := vec.TilesY[i]
-		blt.Print(x, y, ch)
+		if vec.Values[i] == true {
+			blt.Print(x, y, ch1)
+		} else {
+			blt.Print(x, y, ch2)
+		}
 	}
 	blt.Refresh()
 }

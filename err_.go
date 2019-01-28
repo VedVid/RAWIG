@@ -178,3 +178,9 @@ func VectorCoordinatesOutOfMapBounds(startX, startY, targetX, targetY int) strin
 		"\n    VectorTargetPoint: " + tx + ", " + ty + ">"
 	return txt
 }
+
+func TargetNilError(c *Creature, cs Creatures) string {
+	txt := "\n    <source: name==" + c.Name + "; coords: " + strconv.Itoa(c.X) +
+		", " + strconv.Itoa(c.Y) + "; targets: " + strconv.Itoa(len(cs)) + ">"
+	return txt
+}

@@ -22,7 +22,9 @@ package main
 
 import (
 	blt "bearlibterminal"
+	"errors"
 	"fmt"
+	"sort"
 )
 
 func (c *Creature) Look(b Board, o Objects, cs Creatures) {
@@ -43,8 +45,9 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 		if err != nil {
 			fmt.Println(err)
 		}
-		ComputeVector(vec)
-		PrintVector(vec, b, o, cs)
+		_ = ComputeVector(vec)
+		_, _, _, _ = ValidateVector(vec, b, cs, o)
+		PrintVector(vec, VectorColorNeutral, VectorColorNeutral, b, o, cs)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE {
 			break
@@ -59,5 +62,143 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 		case blt.TK_LEFT:
 			targetX--
 		}
+	}
+}
+
+func (c *Creature) Target(b Board, o Objects, cs Creatures) {
+	var target *Creature
+	targets := c.FindTargets(FOVLength, b, cs, o)
+	if LastTarget != nil && LastTarget != c &&
+		IsInFOV(b, c.X, c.Y, LastTarget.X, LastTarget.Y) == true {
+		target = LastTarget
+	} else {
+		var err error
+		target, err = c.FindTarget(targets)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+	targetX, targetY := target.X, target.Y
+	for {
+		vec, err := NewVector(c.X, c.Y, targetX, targetY)
+		if err != nil {
+			fmt.Println(err)
+		}
+		_ = ComputeVector(vec)
+		_, _, monsterHit, _ := ValidateVector(vec, b, targets, o)
+		PrintVector(vec, VectorColorGood, VectorColorBad, b, o, cs)
+		key := blt.Read()
+		if key == blt.TK_ESCAPE {
+			break
+		}
+		if key == blt.TK_F {
+			monsterAimed := FindMonsterByXY(targetX, targetY, cs)
+			if monsterAimed != nil {
+				LastTarget = monsterAimed
+			} else {
+				if monsterHit != nil {
+					LastTarget = monsterHit
+				}
+			}
+			fmt.Println("attack LastTarget!")
+			break //fire!
+		} else if key == blt.TK_TAB {
+			monster := FindMonsterByXY(targetX, targetY, cs)
+			if monster != nil {
+				target = NextTarget(monster, targets)
+			} else {
+				target = NextTarget(target, targets)
+			}
+			targetX, targetY = target.X, target.Y
+			continue //switch target
+		}
+		switch key {
+		case blt.TK_UP:
+			targetY--
+		case blt.TK_RIGHT:
+			targetX++
+		case blt.TK_DOWN:
+			targetY++
+		case blt.TK_LEFT:
+			targetX--
+		}
+	}
+}
+
+func (c *Creature) FindTargets(length int, b Board, cs Creatures, o Objects) Creatures {
+	targets := c.MonstersInFov(b, cs)
+	targetable, unreachable := c.MonstersInRange(b, targets, o, length)
+	sort.Slice(targetable, func(i, j int) bool {
+		return targetable[i].DistanceBetweenCreatures(c) <
+			targetable[j].DistanceBetweenCreatures(c)
+	})
+	sort.Slice(unreachable, func(i, j int) bool {
+		return unreachable[i].DistanceBetweenCreatures(c) <
+			unreachable[j].DistanceBetweenCreatures(c)
+	})
+	targets = nil
+	targets = append(targets, targetable...)
+	targets = append(targets, unreachable...)
+	return targets
+}
+
+func (c *Creature) FindTarget(targets Creatures) (*Creature, error) {
+	var target *Creature
+	if len(targets) == 0 {
+		target = c
+	} else {
+		if LastTarget != nil && CreatureIsInSlice(LastTarget, targets) {
+			target = LastTarget
+		} else {
+			target = targets[0]
+			LastTarget = target
+		}
+	}
+	var err error
+	if target == nil {
+		txt := TargetNilError(c, targets)
+		err = errors.New("Could not find target, even the 'self' one." + txt)
+	}
+	return target, err
+}
+
+func NextTarget(target *Creature, targets Creatures) *Creature {
+	i, _ := FindCreatureIndex(target, targets)
+	var t *Creature
+	length := len(targets)
+	if length > i+1 {
+		t = targets[i+1]
+	} else if length == 0 {
+		t = target
+	} else {
+		t = targets[0]
+	}
+	return t
+}
+
+func (c *Creature) MonstersInRange(b Board, cs Creatures, o Objects,
+	length int) (Creatures, Creatures) {
+	var inRange = Creatures{}
+	var outOfRange = Creatures{}
+	for i, v := range cs {
+		vec, err := NewVector(c.X, c.Y, v.X, v.Y)
+		if err != nil {
+			fmt.Println(err)
+		}
+		if ComputeVector(vec) <= length {
+			valid, _, _, _ := ValidateVector(vec, b, cs, o)
+			if valid == true {
+				inRange = append(inRange, cs[i])
+			} else {
+				outOfRange = append(outOfRange, cs[i])
+			}
+		}
+	}
+	return inRange, outOfRange
+}
+
+func ZeroLastTarget(c *Creature) {
+	if LastTarget == c {
+		LastTarget = nil
 	}
 }

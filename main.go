@@ -28,6 +28,7 @@ import (
 )
 
 var MsgBuf = []string{}
+var LastTarget *Creature
 
 func main() {
 	slot, _ := NewObject(ObjectsLayer, 0, 0, "}", "weapon", "red", "dark red", true,
@@ -48,7 +49,13 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	var actors = Creatures{player, enemy}
+	var enemyEq2 = EquipmentComponent{nil, Objects{}}
+	enemy2, err2 := NewCreature(CreaturesLayer, 11, 11, "T", "enemy", "green", "green",
+		false, true, false, PatherAI, 10, 4, 1, enemyEq2)
+	if err2 != nil {
+		fmt.Println(err)
+	}
+	var actors = Creatures{player, enemy, enemy2}
 	obj, err := NewObject(ObjectsLayer, 3, 3, "(", "heal2", "blue", "dark blue", true,
 		false, false, true, false, false, SlotNA, UseHeal)
 	var objs = Objects{obj}

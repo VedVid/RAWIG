@@ -272,4 +272,19 @@ func (c *Creature) Die() {
 	c.Blocked = false
 	c.BlocksSight = false
 	c.AIType = NoAI
+	ZeroLastTarget(c)
+}
+
+func FindMonsterByXY(x, y int, c Creatures) *Creature {
+	/* Function FindMonsterByXY takes desired coords and list
+	   of all available creatures. It iterates through this list,
+	   and returns nil or creature that occupies specified coords. */
+	var monster *Creature
+	for i := 0; i < len(c); i++ {
+		if x == c[i].X && y == c[i].Y {
+			monster = c[i]
+			break
+		}
+	}
+	return monster
 }

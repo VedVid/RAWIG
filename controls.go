@@ -43,7 +43,7 @@ func Controls(k int, p *Creature, b Board, c Creatures, o *Objects) bool {
 		turnSpent = p.MoveOrAttack(-1, 0, b, c)
 
 	case blt.TK_F:
-		p.Target(b, *o, c)
+		turnSpent = p.Target(b, *o, c)
 	case blt.TK_L:
 		p.Look(b, *o, c) // Looking is free action.
 	case blt.TK_G:

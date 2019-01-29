@@ -65,7 +65,8 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 	}
 }
 
-func (c *Creature) Target(b Board, o Objects, cs Creatures) {
+func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
+	turnSpent := false
 	var target *Creature
 	targets := c.FindTargets(FOVLength, b, cs, o)
 	if LastTarget != nil && LastTarget != c &&
@@ -103,6 +104,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 				}
 			}
 			//fire volley in empty space
+			turnSpent = true
 			break
 		} else if key == blt.TK_TAB {
 			monster := FindMonsterByXY(targetX, targetY, cs)
@@ -125,6 +127,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 			targetX--
 		}
 	}
+	return turnSpent
 }
 
 func (c *Creature) FindTargets(length int, b Board, cs Creatures, o Objects) Creatures {

@@ -95,12 +95,16 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 		if key == blt.TK_F {
 			monsterAimed := FindMonsterByXY(targetX, targetY, cs)
 			if monsterAimed != nil {
-				LastTarget = monsterAimed
-				c.AttackTarget(monsterAimed)
+				if monsterAimed.HPCurrent > 0 {
+					LastTarget = monsterAimed
+					c.AttackTarget(monsterAimed)
+				}
 			} else {
 				if monsterHit != nil {
-					LastTarget = monsterHit
-					c.AttackTarget(monsterHit)
+					if monsterHit.HPCurrent > 0 {
+						LastTarget = monsterHit
+						c.AttackTarget(monsterHit)
+					}
 				}
 			}
 			//fire volley in empty space

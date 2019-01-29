@@ -65,7 +65,8 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 	}
 }
 
-func (c *Creature) Target(b Board, o Objects, cs Creatures) {
+func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
+	turnSpent := false
 	var target *Creature
 	targets := c.FindTargets(FOVLength, b, cs, o)
 	if LastTarget != nil && LastTarget != c &&
@@ -94,14 +95,21 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 		if key == blt.TK_F {
 			monsterAimed := FindMonsterByXY(targetX, targetY, cs)
 			if monsterAimed != nil {
-				LastTarget = monsterAimed
+				if monsterAimed.HPCurrent > 0 {
+					LastTarget = monsterAimed
+					c.AttackTarget(monsterAimed)
+				}
 			} else {
 				if monsterHit != nil {
-					LastTarget = monsterHit
+					if monsterHit.HPCurrent > 0 {
+						LastTarget = monsterHit
+						c.AttackTarget(monsterHit)
+					}
 				}
 			}
-			fmt.Println("attack LastTarget!")
-			break //fire!
+			//fire volley in empty space
+			turnSpent = true
+			break
 		} else if key == blt.TK_TAB {
 			monster := FindMonsterByXY(targetX, targetY, cs)
 			if monster != nil {
@@ -123,6 +131,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) {
 			targetX--
 		}
 	}
+	return turnSpent
 }
 
 func (c *Creature) FindTargets(length int, b Board, cs Creatures, o Objects) Creatures {
@@ -187,6 +196,9 @@ func (c *Creature) MonstersInRange(b Board, cs Creatures, o Objects,
 		}
 		if ComputeVector(vec) <= length {
 			valid, _, _, _ := ValidateVector(vec, b, cs, o)
+			if cs[i].HPCurrent <= 0 {
+				continue
+			}
 			if valid == true {
 				inRange = append(inRange, cs[i])
 			} else {

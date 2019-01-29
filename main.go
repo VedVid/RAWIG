@@ -39,7 +39,7 @@ func main() {
 		false, false, true, false, true, SlotNA, UseHeal)
 	var playerEq = EquipmentComponent{Objects{slot, slot2}, Objects{item}}
 	player, err := NewPlayer(PlayerLayer, 1, 1, "@", "player", "white", "white", true,
-		true, false, PlayerAI, 20, 5, 2, playerEq)
+		true, false, PlayerAI, 999, 5, 2, playerEq)
 	if err != nil {
 		fmt.Println(err)
 	}

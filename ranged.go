@@ -54,7 +54,12 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 			break
 		}
 		if key == blt.TK_ENTER || key == blt.TK_SPACE {
-			msg := FormatLookingMessage(GetAllStringsFromTile(targetX, targetY, b, cs, o))
+			msg := ""
+			if b[targetX][targetY].Explored == true {
+				msg = FormatLookingMessage(GetAllStringsFromTile(targetX, targetY, b, cs, o))
+			} else {
+				msg = "You don't know what is here."
+			}
 			AddMessage(msg)
 			continue
 		}

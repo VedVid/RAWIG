@@ -82,7 +82,7 @@ func FormatLookingMessage(s []string) string {
 		} else if i == len(s) - 1 - 1 { // One-before-last item.
 			msg = msg + v + " and "
 		} else { // Last item.
-			msg = msg + v + "here."
+			msg = msg + v + " here."
 		}
 	}
 	return msg

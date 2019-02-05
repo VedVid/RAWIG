@@ -79,7 +79,7 @@ func FormatLookingMessage(s []string) string {
 	msg := "You see "
 	for i, v := range s {
 		if i < len(s) - 2 { // Regular items.
-			msg = msg + v
+			msg = msg + v + ", "
 		} else if i == len(s) - 1 - 1 { // One-before-last item.
 			msg = msg + v + " and "
 		} else { // Last item.

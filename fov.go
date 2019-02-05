@@ -114,6 +114,12 @@ func IsInFOV(b Board, sx, sy, tx, ty int) bool {
 }
 
 func (c *Creature) MonstersInFov(b Board, cs Creatures) Creatures {
+	/* MonstersInFov is method of Creature. It takes global map, and
+	   slice of creatures, as argument.
+	   At first, new (empty) slice of creatures is made, to store
+	   these monsters that are in c's field of view.
+	   Then function iterates through Creatures passed as argument, and
+	   adds every monster that is in c's fov, skipping source. */
 	var inFov = Creatures{}
 	for i := 0; i < len(cs); i++ {
 		v := cs[i]
@@ -128,6 +134,9 @@ func (c *Creature) MonstersInFov(b Board, cs Creatures) Creatures {
 }
 
 func (c *Creature) ObjectsInFov(b Board, o Objects) Objects {
+	/* ObjectsInFov is method of Creature that works similar to
+	   MonstersInFov. It returns slice of Objects that are present
+	   in c's field of view. */
 	var inFov = Objects{}
 	for i := 0; i < len(o); i++ {
 		v := o[i]
@@ -136,4 +145,51 @@ func (c *Creature) ObjectsInFov(b Board, o Objects) Objects {
 		}
 	}
 	return inFov
+}
+
+func GetAllStringsFromTile(x, y int, b Board, c Creatures, o Objects) []string {
+	/* GetAllStringsFromTile is function that takes coordinates, global map,
+	   Creatures and Objects as arguments. It creates and then returns slice of
+	   strings that contains names of all things on specific tile. It skips
+	   tile names if there are objects present ("You see Monster and Objects here."),
+	   otherwise it returns name of tile ("You see floor here."). */
+	var s = []string{}
+	for _, vc := range c {
+		if vc.X == x && vc.Y == y {
+			s = append(s, vc.Name)
+		}
+	}
+	for _, vo := range o {
+		if vo.X == x && vo.Y == y {
+			s = append(s, vo.Name)
+		}
+	}
+	if len(s) != 0 {
+		return s
+	}
+	s = append(s, b[x][y].Name)
+	return s
+}
+
+func GetAllThingsFromTile(x, y int, b Board, c Creatures, o Objects) (*Tile, Creatures, Objects) {
+	/* GetAllThigsFromTile is function that takes coordinates, global map,
+	   Creatures and Objects as arguments. It creates slice of Creature and
+	   slice of Object that occupy coords, and returns them.
+	   If these slices are empty, it returns board tile. */
+	var cs = Creatures{}
+	for i := 0; i < len(c); i++ {
+		if c[i].X == x && c[i].Y == y {
+			cs = append(cs, c[i])
+		}
+	}
+	var os = Objects{}
+	for j := 0; j < len(o); j++ {
+		if o[j].X == x && o[j].Y == y {
+			os = append(os, o[j])
+		}
+	}
+	if len(cs) != 0 || len(os) != 0 {
+		return nil, cs, os
+	}
+	return b[x][y], cs, os // cs and os are nil.
 }

@@ -114,6 +114,12 @@ func IsInFOV(b Board, sx, sy, tx, ty int) bool {
 }
 
 func (c *Creature) MonstersInFov(b Board, cs Creatures) Creatures {
+	/* MonstersInFov is method of Creature. It takes global map, and
+	   slice of creatures, as argument.
+	   At first, new (empty) slice of creatures is made, to store
+	   these monsters that are in c's field of view.
+	   Then function iterates through Creatures passed as argument, and
+	   adds every monster that is in c's fov, skipping source. */
 	var inFov = Creatures{}
 	for i := 0; i < len(cs); i++ {
 		v := cs[i]
@@ -128,6 +134,9 @@ func (c *Creature) MonstersInFov(b Board, cs Creatures) Creatures {
 }
 
 func (c *Creature) ObjectsInFov(b Board, o Objects) Objects {
+	/* ObjectsInFov is method of Creature that works similar to
+	   MonstersInFov. It returns slice of Objects that are present
+	   in c's field of view. */
 	var inFov = Objects{}
 	for i := 0; i < len(o); i++ {
 		v := o[i]

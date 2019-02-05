@@ -77,14 +77,12 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 func FormatLookingMessage(s []string, fov bool) string {
 	/* FormatLookingMessage is function that takes slice of strings as argument
 	   and returns string.
+	   Player "see" things in his fov, and "recalls" out of his fov.
 	   It is used to format Look() messages properly.
 	   If slice is empty, it return empty tile message.
 	   If slice contains only one item, it creates simplest message.
 	   If slice is longer, it starts to format message - but it is
-	   explicitly visible in function body.
-	   In this function, some arbitrary choices are present:
-	   - objects and tiles out of fov can be "recalled"
-	   - monsters out of fov are skipped */
+	   explicitly visible in function body. */
 	const inFov = "see"
 	const outFov = "recall"
 	txt := ""

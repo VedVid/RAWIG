@@ -257,6 +257,10 @@ func (c *Creature) MonstersInRange(b Board, cs Creatures, o Objects,
 }
 
 func ZeroLastTarget(c *Creature) {
+	/* LastTarget is global variable (will be incorporated into
+	   player struct in future). Function ZeroLastTarget changes
+	   last target to nil, is last target matches creature
+	   passed as argument. */
 	if LastTarget == c {
 		LastTarget = nil
 	}

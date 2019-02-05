@@ -219,6 +219,10 @@ func (c *Creature) FindTarget(targets Creatures) (*Creature, error) {
 }
 
 func NextTarget(target *Creature, targets Creatures) *Creature {
+	/* Function NextTarget takes specific creature (target) and slice of creatures
+	   (targets) as arguments. It tries to find the *next* target (used
+	   with switching between targets, for example using Tab key).
+	   At the end, it returns the next creature. */
 	i, _ := FindCreatureIndex(target, targets)
 	var t *Creature
 	length := len(targets)

@@ -52,6 +52,9 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 		if key == blt.TK_ESCAPE {
 			break
 		}
+		if key == blt.TK_ENTER || key == blt.TK_SPACE {
+			continue //read everything on tile, and put it in message
+		}
 		CursorMovement(&targetX, &targetY, key)
 	}
 }

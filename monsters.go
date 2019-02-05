@@ -271,6 +271,7 @@ func (c *Creature) Die() {
 	c.Char = CorpseChar
 	c.Blocked = false
 	c.BlocksSight = false
+	c.AlwaysVisible = true
 	c.AIType = NoAI
 	ZeroLastTarget(c)
 }

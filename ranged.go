@@ -117,6 +117,9 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 }
 
 func CursorMovement(x, y *int, key int) {
+	/* CursorMovement is function that takes pointers to coords, and
+	   int-based user input. It uses MoveCursor function to
+	   modify original values. */
 	switch key {
 	case blt.TK_UP:
 		MoveCursor(x, y, 0, -1)
@@ -130,6 +133,11 @@ func CursorMovement(x, y *int, key int) {
 }
 
 func MoveCursor(x, y *int, dx, dy int) {
+	/* Function MoveCursor takes pointers to coords, and
+	   two other ints as direction indicators.
+	   It adds direction to coordinate, checks if it is in
+	   map bounds, and modifies original values accordingly.
+	   This function is called by CursorMovement. */
 	newX, newY := *x+dx, *y+dy
 	if newX < 0 || newX >= MapSizeX {
 		newX = *x

@@ -60,7 +60,8 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 					s := GetAllStringsFromTile(targetX, targetY, b, cs, o)
 					msg = FormatLookingMessage(s, true)
 				} else {
-					s := GetAllStringFromTile(targetX, targetY, b, nil, o)
+					// Skip monsters if tile is out of c's field of view.
+					s := GetAllStringsFromTile(targetX, targetY, b, nil, o)
 					msg = FormatLookingMessage(s, false)
 				}
 			} else {

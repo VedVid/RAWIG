@@ -52,16 +52,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 		if key == blt.TK_ESCAPE {
 			break
 		}
-		switch key {
-		case blt.TK_UP:
-			targetY--
-		case blt.TK_RIGHT:
-			targetX++
-		case blt.TK_DOWN:
-			targetY++
-		case blt.TK_LEFT:
-			targetX--
-		}
+		CursorMovement(&targetX, &targetY, key)
 	}
 }
 
@@ -120,18 +111,33 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 			targetX, targetY = target.X, target.Y
 			continue //switch target
 		}
-		switch key {
-		case blt.TK_UP:
-			targetY--
-		case blt.TK_RIGHT:
-			targetX++
-		case blt.TK_DOWN:
-			targetY++
-		case blt.TK_LEFT:
-			targetX--
-		}
+		CursorMovement(&targetX, &targetY, key)
 	}
 	return turnSpent
+}
+
+func CursorMovement(x, y *int, key int) {
+	switch key {
+	case blt.TK_UP:
+		MoveCursor(x, y, 0, -1)
+	case blt.TK_RIGHT:
+		MoveCursor(x, y, 1, 0)
+	case blt.TK_DOWN:
+		MoveCursor(x, y, 0, 1)
+	case blt.TK_LEFT:
+		MoveCursor(x, y, -1, 0)
+	}
+}
+
+func MoveCursor(x, y *int, dx, dy int) {
+	newX, newY := *x+dx, *y+dy
+	if newX < 0 || newX >= MapSizeX {
+		newX = *x
+	}
+	if newY < 0 || newY >= MapSizeY {
+		newY = *y
+	}
+	*x, *y = newX, newY
 }
 
 func (c *Creature) FindTargets(length int, b Board, cs Creatures, o Objects) Creatures {

@@ -56,9 +56,13 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 		if key == blt.TK_ENTER || key == blt.TK_SPACE {
 			msg := ""
 			if b[targetX][targetY].Explored == true {
-				inFov := IsInFOV(b, c.X, c.Y, targetX, targetY)
-				s := GetAllStringsFromTile(targetX, targetY, b, cs, o)
-				msg = FormatLookingMessage(s, inFov)
+				if IsInFOV(b, c.X, c.Y, targetX, targetY) == true {
+					s := GetAllStringsFromTile(targetX, targetY, b, cs, o)
+					msg = FormatLookingMessage(s, true)
+				} else {
+					s := GetAllStringFromTile(targetX, targetY, b, nil, o)
+					msg = FormatLookingMessage(s, false)
+				}
 			} else {
 				msg = "You don't know what is here."
 			}

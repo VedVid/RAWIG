@@ -234,6 +234,14 @@ func NextTarget(target *Creature, targets Creatures) *Creature {
 
 func (c *Creature) MonstersInRange(b Board, cs Creatures, o Objects,
 	length int) (Creatures, Creatures) {
+	/* MonstersInRange is method of Creature. It takes global map, Creatures
+	   and Objects, and length (range indicator) as its arguments. It returns
+	   two slices - one with monsters that are in range, and one with
+	   monsters out of range.
+	   At first, two empty slices are created, then function starts iterating
+	   through Creatures from argument. It creates new vector from source (c)
+	   to target, adds monster to proper slice. It also validates vector
+	   (ie, won't add monster hidden behind wall) and skips all dead monsters. */
 	var inRange = Creatures{}
 	var outOfRange = Creatures{}
 	for i, v := range cs {

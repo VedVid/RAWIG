@@ -79,7 +79,7 @@ func InitializeEmptyMap() Board {
 		for y := 0; y < MapSizeY; y++ {
 			//workaround to missing _, err := ... idiom that won't work here
 			var err error
-			b[x][y], err = NewTile(BoardLayer, x, y, ".", "", "light gray",
+			b[x][y], err = NewTile(BoardLayer, x, y, ".", "floor", "light gray",
 				"dark gray", true, false, false, false)
 			if err != nil {
 				fmt.Println(err)

@@ -179,8 +179,6 @@ func GetAllStringsInFovTile(sx, sy, tx, ty int, b Board, c Creatures, o Objects)
 	return s
 }
 
-
-
 func GetAllThingsFromTile(x, y int, b Board, c Creatures, o Objects) (*Tile, Creatures, Objects) {
 	/* GetAllThigsFromTile is function that takes coordinates, global map,
 	   Creatures and Objects as arguments. It creates slice of Creature and

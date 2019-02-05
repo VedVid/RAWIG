@@ -54,7 +54,19 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 			break
 		}
 		if key == blt.TK_ENTER || key == blt.TK_SPACE {
-			msg := FormatLookingMessage(GetAllStringsFromTile(targetX, targetY, b, cs, o))
+			msg := ""
+			if b[targetX][targetY].Explored == true {
+				if IsInFOV(b, c.X, c.Y, targetX, targetY) == true {
+					s := GetAllStringsFromTile(targetX, targetY, b, cs, o)
+					msg = FormatLookingMessage(s, true)
+				} else {
+					// Skip monsters if tile is out of c's field of view.
+					s := GetAllStringsFromTile(targetX, targetY, b, nil, o)
+					msg = FormatLookingMessage(s, false)
+				}
+			} else {
+				msg = "You don't know what is here."
+			}
 			AddMessage(msg)
 			continue
 		}
@@ -62,24 +74,35 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 	}
 }
 
-func FormatLookingMessage(s []string) string {
+func FormatLookingMessage(s []string, fov bool) string {
 	/* FormatLookingMessage is function that takes slice of strings as argument
 	   and returns string.
 	   It is used to format Look() messages properly.
 	   If slice is empty, it return empty tile message.
 	   If slice contains only one item, it creates simplest message.
 	   If slice is longer, it starts to format message - but it is
-	   explicitly visible in function body. */
+	   explicitly visible in function body.
+	   In this function, some arbitrary choices are present:
+	   - objects and tiles out of fov can be "recalled"
+	   - monsters out of fov are skipped */
+	const inFov = "see"
+	const outFov = "recall"
+	txt := ""
+	if fov == true {
+		txt = inFov
+	} else {
+		txt = outFov
+	}
 	if len(s) == 0 {
-		return "You see nothing here."
+		return "There is nothing here."
 	}
 	if len(s) == 1 {
-		return "You see " + s[0] + " here."
+		return "You " + txt + " " + s[0] + " here."
 	}
-	msg := "You see "
+	msg := "You " + txt + " "
 	for i, v := range s {
 		if i < len(s) - 2 { // Regular items.
-			msg = msg + v
+			msg = msg + v + ", "
 		} else if i == len(s) - 1 - 1 { // One-before-last item.
 			msg = msg + v + " and "
 		} else { // Last item.
@@ -219,6 +242,10 @@ func (c *Creature) FindTarget(targets Creatures) (*Creature, error) {
 }
 
 func NextTarget(target *Creature, targets Creatures) *Creature {
+	/* Function NextTarget takes specific creature (target) and slice of creatures
+	   (targets) as arguments. It tries to find the *next* target (used
+	   with switching between targets, for example using Tab key).
+	   At the end, it returns the next creature. */
 	i, _ := FindCreatureIndex(target, targets)
 	var t *Creature
 	length := len(targets)
@@ -234,6 +261,14 @@ func NextTarget(target *Creature, targets Creatures) *Creature {
 
 func (c *Creature) MonstersInRange(b Board, cs Creatures, o Objects,
 	length int) (Creatures, Creatures) {
+	/* MonstersInRange is method of Creature. It takes global map, Creatures
+	   and Objects, and length (range indicator) as its arguments. It returns
+	   two slices - one with monsters that are in range, and one with
+	   monsters out of range.
+	   At first, two empty slices are created, then function starts iterating
+	   through Creatures from argument. It creates new vector from source (c)
+	   to target, adds monster to proper slice. It also validates vector
+	   (ie, won't add monster hidden behind wall) and skips all dead monsters. */
 	var inRange = Creatures{}
 	var outOfRange = Creatures{}
 	for i, v := range cs {
@@ -257,6 +292,10 @@ func (c *Creature) MonstersInRange(b Board, cs Creatures, o Objects,
 }
 
 func ZeroLastTarget(c *Creature) {
+	/* LastTarget is global variable (will be incorporated into
+	   player struct in future). Function ZeroLastTarget changes
+	   last target to nil, is last target matches creature
+	   passed as argument. */
 	if LastTarget == c {
 		LastTarget = nil
 	}

@@ -55,7 +55,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 		if key == blt.TK_ENTER || key == blt.TK_SPACE {
 			msg := FormatLookingMessage(GetAllStringsFromTile(targetX, targetY, b, cs, o))
 			AddMessage(msg)
-			continue //read everything on tile, and put it in message
+			continue
 		}
 		CursorMovement(&targetX, &targetY, key)
 	}

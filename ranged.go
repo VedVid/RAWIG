@@ -37,7 +37,8 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 	   between Start and End, and adds their coords to vector values.
 	   Line from Vector is drawn, then game waits for player input,
 	   that will change position of "looking" cursors.
-	   Loop breaks with Escape key as input. */
+	   Loop breaks with Escape key as input. Space and Enter
+	   confirms target of Look command. */
 	startX, startY := c.X, c.Y
 	targetX, targetY := startX, startY
 	for {

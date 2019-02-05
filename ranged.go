@@ -53,10 +53,39 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 			break
 		}
 		if key == blt.TK_ENTER || key == blt.TK_SPACE {
+			msg := FormatLookingMessage(GetAllStringsFromTile(targetX, targetY, b, cs, o))
+			AddMessage(msg)
 			continue //read everything on tile, and put it in message
 		}
 		CursorMovement(&targetX, &targetY, key)
 	}
+}
+
+func FormatLookingMessage(s []string) string {
+	/* FormatLookingMessage is function that takes slice of strings as argument
+	   and returns string.
+	   It is used to format Look() messages properly.
+	   If slice is empty, it return empty tile message.
+	   If slice contains only one item, it creates simplest message.
+	   If slice is longer, it starts to format message - but it is
+	   explicitly visible in function body. */
+	if len(s) == 0 {
+		return "You see nothing here."
+	}
+	if len(s) == 1 {
+		return "You see " + s[0] + " here."
+	}
+	msg := "You see "
+	for i, v := range s {
+		if i < len(s) - 2 { // Regular items.
+			msg = msg + v
+		} else if i == len(s) - 1 - 1 { // One-before-last item.
+			msg = msg + v + " and "
+		} else { // Last item.
+			msg = msg + v + "here."
+		}
+	}
+	return msg
 }
 
 func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {

@@ -172,6 +172,8 @@ func GetAllStringsFromTile(x, y int, b Board, c Creatures, o Objects) []string {
 }
 
 func GetAllStringsInFovTile(sx, sy, tx, ty int, b Board, c Creatures, o Objects) []string {
+	/* GetAllStringInFovTile is function that uses IsInFOV and GetAllStringsFromTile
+	   to create slice of strings of objects in field of view. */
 	var s = []string{}
 	if IsInFOV(b, sx, sy, tx, ty) == true {
 		return GetAllStringsFromTile(tx, ty, b, c, o)

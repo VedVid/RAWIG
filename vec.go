@@ -186,10 +186,12 @@ func PrintVector(vec *Vector, color1, color2 string, b Board, o Objects, c Creat
 		}
 		x := vec.TilesX[i]
 		y := vec.TilesY[i]
-		if vec.Values[i] == true {
-			blt.Print(x, y, ch1)
-		} else {
-			blt.Print(x, y, ch2)
+		if x >= 0 && x < MapSizeX && y >= 0 && y < MapSizeY {
+			if vec.Values[i] == true {
+				blt.Print(x, y, ch1)
+			} else {
+				blt.Print(x, y, ch2)
+			}
 		}
 	}
 	blt.Refresh()

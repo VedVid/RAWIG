@@ -56,7 +56,9 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 		if key == blt.TK_ENTER || key == blt.TK_SPACE {
 			msg := ""
 			if b[targetX][targetY].Explored == true {
-				msg = FormatLookingMessage(GetAllStringsFromTile(targetX, targetY, b, cs, o))
+				inFov := IsInFOV(b, c.X, c.Y, targetX, targetY)
+				s := GetAllStringsFromTile(targetX, targetY, b, cs, o)
+				msg = FormatLookingMessage(s, inFov)
 			} else {
 				msg = "You don't know what is here."
 			}
@@ -67,21 +69,32 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 	}
 }
 
-func FormatLookingMessage(s []string) string {
+func FormatLookingMessage(s []string, fov bool) string {
 	/* FormatLookingMessage is function that takes slice of strings as argument
 	   and returns string.
 	   It is used to format Look() messages properly.
 	   If slice is empty, it return empty tile message.
 	   If slice contains only one item, it creates simplest message.
 	   If slice is longer, it starts to format message - but it is
-	   explicitly visible in function body. */
+	   explicitly visible in function body.
+	   In this function, some arbitrary choices are present:
+	   - objects and tiles out of fov can be "recalled"
+	   - monsters out of fov are skipped */
+	const inFov = "see"
+	const outFov = "recall"
+	txt := ""
+	if fov == true {
+		txt = inFov
+	} else {
+		txt = outFov
+	}
 	if len(s) == 0 {
-		return "You see nothing here."
+		return "There is nothing here."
 	}
 	if len(s) == 1 {
-		return "You see " + s[0] + " here."
+		return "You " + txt + " " + s[0] + " here."
 	}
-	msg := "You see "
+	msg := "You " + txt + " "
 	for i, v := range s {
 		if i < len(s) - 2 { // Regular items.
 			msg = msg + v + ", "

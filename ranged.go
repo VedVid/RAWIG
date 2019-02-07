@@ -77,14 +77,12 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 func FormatLookingMessage(s []string, fov bool) string {
 	/* FormatLookingMessage is function that takes slice of strings as argument
 	   and returns string.
+	   Player "see" things in his fov, and "recalls" out of his fov.
 	   It is used to format Look() messages properly.
 	   If slice is empty, it return empty tile message.
 	   If slice contains only one item, it creates simplest message.
 	   If slice is longer, it starts to format message - but it is
-	   explicitly visible in function body.
-	   In this function, some arbitrary choices are present:
-	   - objects and tiles out of fov can be "recalled"
-	   - monsters out of fov are skipped */
+	   explicitly visible in function body. */
 	const inFov = "see"
 	const outFov = "recall"
 	txt := ""
@@ -113,6 +111,30 @@ func FormatLookingMessage(s []string, fov bool) string {
 }
 
 func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
+	/* Target is method of Creature, that takes game map, objects, and
+	   creatures as arguments. Returns bool that serves as indicator if
+	   action took some time or not.
+	   This method is "the big one", general, for handling targeting.
+	   In short, player starts targetting, line is drawn from player
+	   to monster, then function waits for input (confirmation - "fire",
+	   breaking the loop, or continuing).
+	   Explicitely:
+	   - creates list of all potential targets in fov
+	    * tries to automatically last target, but
+	    * if fails, it targets the nearest enemy
+	   - draws line between source (receiver) and target (coords)
+	    * creates new vector
+	    * checks if it is valid - monsterHit should not be nil
+	    * prints brensenham's line (ie so-called "vector")
+	   - waits for player input
+	    * if player cancels, function ends
+	    * if player confirms, valley is shoot (in target, or empty space)
+	    * player can switch between targets as well; it targets
+	      next target automatically; at first, only monsters that are
+	      valid target (ie clean shot is possible), then monsters that
+	      are in range and fov, but line of shot is not clear
+	    * in other cases, game will try to move cursor; invalid input
+	      is ignored */
 	turnSpent := false
 	var target *Creature
 	targets := c.FindTargets(FOVLength, b, cs, o)
@@ -205,6 +227,18 @@ func MoveCursor(x, y *int, dx, dy int) {
 }
 
 func (c *Creature) FindTargets(length int, b Board, cs Creatures, o Objects) Creatures {
+	/* FindTargets is method of Creature that takes several arguments:
+	   length (that is supposed to be max range of attack), and: map, creatures,
+	   objects. Returns list of creatures.
+	   At first, method creates list of all monsters im c's field of view.
+	   Then, this list is divided to two: first, with all "valid" targets
+	   (clean (without obstacles) line between c and target) and second,
+	   with all other monsters that remains in fov.
+	   Both slices are sorted by distance from receiver, then merged.
+	   It is necessary for autotarget feature - switching between targets
+	   player will start from the nearest valid target, to the farthest valid target;
+	   THEN, it will start to target "invalid" targets - again,
+	   from nearest to farthest one. */
 	targets := c.MonstersInFov(b, cs)
 	targetable, unreachable := c.MonstersInRange(b, targets, o, length)
 	sort.Slice(targetable, func(i, j int) bool {
@@ -222,6 +256,15 @@ func (c *Creature) FindTargets(length int, b Board, cs Creatures, o Objects) Cre
 }
 
 func (c *Creature) FindTarget(targets Creatures) (*Creature, error) {
+	/* FindTarget is method of Creature that takes Creatures as arguments.
+	   It returns specific Creature and error.
+	   "targets" is supposed to be slice of Creature in player's fov,
+	   sorted as explained in FindTargets docstring.
+	   If this slice is empty, the target is set to receiver. If not,
+	   it tries to target lastly targeted Creature. If it is not possible,
+	   it targets first element of slice, and marks it as LastTarget.
+	   This method throws an error if it can not find any target,
+	   even including receiver. */
 	var target *Creature
 	if len(targets) == 0 {
 		target = c

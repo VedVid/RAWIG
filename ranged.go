@@ -64,7 +64,6 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 			msg = "You don't know what is here."
 		}
 		l := len(MsgBuf)
-		fmt.Println(l)
 		if msg != "" {
 			switch {
 			case l == 0:
@@ -79,7 +78,6 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 				AddMessage(msg)
 			}
 		}
-		fmt.Println(MsgBuf)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE {
 			break

@@ -63,27 +63,31 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 		} else {
 			msg = "You don't know what is here."
 		}
-		l := len(MsgBuf)
-		if msg != "" {
-			switch {
-			case l == 0:
-				AddMessage(msg)
-			case l >= MaxMessageBuffer:
-				RemoveLastMessage()
-				AddMessage(msg)
-			case l > 0 && l < MaxMessageBuffer:
-				if i == true {
-					RemoveLastMessage()
-				}
-				AddMessage(msg)
-			}
-		}
+		PrintLookingMessage(msg, i)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE {
 			break
 		}
 		CursorMovement(&targetX, &targetY, key)
 		i = true
+	}
+}
+
+func PrintLookingMessage(s string, b bool) {
+	l := len(MsgBuf)
+	if s != "" {
+		switch {
+		case l == 0:
+			AddMessage(s)
+		case l >= MaxMessageBuffer:
+			RemoveLastMessage()
+			AddMessage(s)
+		case l > 0 && l < MaxMessageBuffer:
+			if b == true {
+				RemoveLastMessage()
+			}
+			AddMessage(s)
+		}
 	}
 }
 

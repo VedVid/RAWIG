@@ -37,10 +37,11 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 	   between Start and End, and adds their coords to vector values.
 	   Line from Vector is drawn, then game waits for player input,
 	   that will change position of "looking" cursors.
-	   Loop breaks with Escape key as input. Space and Enter
-	   confirms target of Look command. */
+	   Loop breaks with Escape, Space or Enter input. */
 	startX, startY := c.X, c.Y
 	targetX, targetY := startX, startY
+	msg := ""
+	i := false
 	for {
 		vec, err := NewVector(startX, startY, targetX, targetY)
 		if err != nil {
@@ -49,28 +50,48 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 		_ = ComputeVector(vec)
 		_, _, _, _ = ValidateVector(vec, b, cs, o)
 		PrintVector(vec, VectorColorNeutral, VectorColorNeutral, b, o, cs)
+		if b[targetX][targetY].Explored == true {
+			if IsInFOV(b, c.X, c.Y, targetX, targetY) == true {
+				s := GetAllStringsFromTile(targetX, targetY, b, cs, o)
+				msg = FormatLookingMessage(s, true)
+			} else {
+				// Skip monsters if tile is out of c's field of view.
+				s := GetAllStringsFromTile(targetX, targetY, b, nil, o)
+				msg = FormatLookingMessage(s, false)
+			}
+		} else {
+			msg = "You don't know what is here."
+		}
+		PrintLookingMessage(msg, i)
 		key := blt.Read()
-		if key == blt.TK_ESCAPE {
+		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE {
 			break
 		}
-		if key == blt.TK_ENTER || key == blt.TK_SPACE {
-			msg := ""
-			if b[targetX][targetY].Explored == true {
-				if IsInFOV(b, c.X, c.Y, targetX, targetY) == true {
-					s := GetAllStringsFromTile(targetX, targetY, b, cs, o)
-					msg = FormatLookingMessage(s, true)
-				} else {
-					// Skip monsters if tile is out of c's field of view.
-					s := GetAllStringsFromTile(targetX, targetY, b, nil, o)
-					msg = FormatLookingMessage(s, false)
-				}
-			} else {
-				msg = "You don't know what is here."
-			}
-			AddMessage(msg)
-			continue
-		}
 		CursorMovement(&targetX, &targetY, key)
+		i = true
+	}
+}
+
+func PrintLookingMessage(s string, b bool) {
+	/* Function PrintLookingMessage takes string (message) and bool ("is it
+	   a first iteration?") as arguments.
+	   It is used to provide dynamic printing looking message:
+	   player do not need to confirm target to see what is it, but messages
+	   will not flood message log. */
+	l := len(MsgBuf)
+	if s != "" {
+		switch {
+		case l == 0:
+			AddMessage(s)
+		case l >= MaxMessageBuffer:
+			RemoveLastMessage()
+			AddMessage(s)
+		case l > 0 && l < MaxMessageBuffer:
+			if b == true {
+				RemoveLastMessage()
+			}
+			AddMessage(s)
+		}
 	}
 }
 
@@ -99,9 +120,9 @@ func FormatLookingMessage(s []string, fov bool) string {
 	}
 	msg := "You " + txt + " "
 	for i, v := range s {
-		if i < len(s) - 2 { // Regular items.
+		if i < len(s)-2 { // Regular items.
 			msg = msg + v + ", "
-		} else if i == len(s) - 1 - 1 { // One-before-last item.
+		} else if i == len(s)-1-1 { // One-before-last item.
 			msg = msg + v + " and "
 		} else { // Last item.
 			msg = msg + v + " here."
@@ -149,6 +170,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 		}
 	}
 	targetX, targetY := target.X, target.Y
+	i := false
 	for {
 		vec, err := NewVector(c.X, c.Y, targetX, targetY)
 		if err != nil {
@@ -157,18 +179,25 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 		_ = ComputeVector(vec)
 		_, _, monsterHit, _ := ValidateVector(vec, b, targets, o)
 		PrintVector(vec, VectorColorGood, VectorColorBad, b, o, cs)
+		if monsterHit != nil {
+			msg := "There is " + monsterHit.Name + " here."
+			PrintLookingMessage(msg, i)
+		}
 		key := blt.Read()
 		if key == blt.TK_ESCAPE {
 			break
 		}
 		if key == blt.TK_F {
 			monsterAimed := FindMonsterByXY(targetX, targetY, cs)
-			if monsterAimed != nil {
+			if monsterAimed != nil && monsterAimed != c {
 				if monsterAimed.HPCurrent > 0 {
 					LastTarget = monsterAimed
 					c.AttackTarget(monsterAimed)
 				}
 			} else {
+				if monsterAimed == c {
+					break // Do not hurt yourself.
+				}
 				if monsterHit != nil {
 					if monsterHit.HPCurrent > 0 {
 						LastTarget = monsterHit
@@ -190,6 +219,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 			continue //switch target
 		}
 		CursorMovement(&targetX, &targetY, key)
+		i = true
 	}
 	return turnSpent
 }

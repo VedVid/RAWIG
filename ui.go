@@ -143,3 +143,19 @@ func AddMessage(message string) {
 	PrintLog()
 	blt.Refresh()
 }
+
+func RemoveFirstMessage() {
+	MsgBuf = MsgBuf[1:]
+	blt.Layer(UILayer)
+	blt.ClearArea(LogPosX, LogPosY, LogPosX+LogSizeX, LogPosY+LogSizeY)
+	PrintLog()
+	blt.Refresh()
+}
+
+func RemoveLastMessage() {
+	MsgBuf = MsgBuf[:len(MsgBuf)-1]
+	blt.Layer(UILayer)
+	blt.ClearArea(LogPosX, LogPosY, LogPosX+LogSizeX, LogPosY+LogSizeY)
+	PrintLog()
+	blt.Refresh()
+}

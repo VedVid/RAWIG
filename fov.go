@@ -126,6 +126,9 @@ func (c *Creature) MonstersInFov(b Board, cs Creatures) Creatures {
 		if v == c {
 			continue
 		}
+		if v.HPCurrent <= 0 {
+			continue
+		}
 		if IsInFOV(b, c.X, c.Y, v.X, v.Y) == true {
 			inFov = append(inFov, cs[i])
 		}

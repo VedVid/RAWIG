@@ -34,6 +34,7 @@ const (
 	   that should not be displayed, as, for example,
 	   bracelet under the monster. */
 	BaseLayer = iota
+	UILayer
 	BoardLayer
 	DeadLayer
 	ObjectsLayer
@@ -133,6 +134,7 @@ func PrintUI(c *Creature) {
 	   For now its functionality is very modest, but it will expand when
 	   new elements of game mechanics will be introduced. So, for now, it
 	   provides only one basic, yet essential information: player's HP. */
+	blt.Layer(UILayer)
 	name := "Player"
 	blt.Print(UIPosX, UIPosY, name)
 	hp := "[color=red]HP: " + strconv.Itoa(c.HPCurrent) + "\\" + strconv.Itoa(c.HPMax)
@@ -141,6 +143,7 @@ func PrintUI(c *Creature) {
 
 func PrintLog() {
 	/* Function PrintLog prints game messages at the bottom of screen. */
+	blt.Layer(UILayer)
 	PrintMessages(LogPosX, LogPosY, "")
 }
 

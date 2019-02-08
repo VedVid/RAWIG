@@ -41,6 +41,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 	   confirms target of Look command. */
 	startX, startY := c.X, c.Y
 	targetX, targetY := startX, startY
+	msg := ""
 	for {
 		vec, err := NewVector(startX, startY, targetX, targetY)
 		if err != nil {
@@ -49,26 +50,33 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 		_ = ComputeVector(vec)
 		_, _, _, _ = ValidateVector(vec, b, cs, o)
 		PrintVector(vec, VectorColorNeutral, VectorColorNeutral, b, o, cs)
+
+
+
+		//
+		if b[targetX][targetY].Explored == true {
+			if IsInFOV(b, c.X, c.Y, targetX, targetY) == true {
+				s := GetAllStringsFromTile(targetX, targetY, b, cs, o)
+				msg = FormatLookingMessage(s, true)
+			} else {
+				// Skip monsters if tile is out of c's field of view.
+				s := GetAllStringsFromTile(targetX, targetY, b, nil, o)
+				msg = FormatLookingMessage(s, false)
+			}
+		} else {
+			msg = "You don't know what is here."
+		}
+		if msg != "" && len(MsgBuf) > 0 {
+			RemoveLastMessage()
+		}
+		AddMessage(msg)
+		//
+
+
+
 		key := blt.Read()
 		if key == blt.TK_ESCAPE {
 			break
-		}
-		if key == blt.TK_ENTER || key == blt.TK_SPACE {
-			msg := ""
-			if b[targetX][targetY].Explored == true {
-				if IsInFOV(b, c.X, c.Y, targetX, targetY) == true {
-					s := GetAllStringsFromTile(targetX, targetY, b, cs, o)
-					msg = FormatLookingMessage(s, true)
-				} else {
-					// Skip monsters if tile is out of c's field of view.
-					s := GetAllStringsFromTile(targetX, targetY, b, nil, o)
-					msg = FormatLookingMessage(s, false)
-				}
-			} else {
-				msg = "You don't know what is here."
-			}
-			AddMessage(msg)
-			continue
 		}
 		CursorMovement(&targetX, &targetY, key)
 	}

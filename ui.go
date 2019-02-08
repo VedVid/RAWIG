@@ -151,3 +151,12 @@ func RemoveLastMessage() {
 	PrintLog()
 	blt.Refresh()
 }
+
+
+ func RemoveFirstMessage() {
+ 	MsgBuf = MsgBuf[:len(MsgBuf)-1]
+	blt.Layer(UILayer)
+	blt.ClearArea(LogPosX, LogPosY, LogPosX+LogSizeX, LogPosY+LogSizeY)
+	PrintLog()
+	blt.Refresh()
+ }

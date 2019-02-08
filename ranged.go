@@ -66,8 +66,9 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 		} else {
 			msg = "You don't know what is here."
 		}
-		if msg != "" && len(MsgBuf) > 0 {
-			RemoveLastMessage()
+		if msg != "" && len(MsgBuf) >= MaxMessageBuffer {
+			fmt.Println(1)
+			RemoveFirstMessage()
 		}
 		AddMessage(msg)
 		//

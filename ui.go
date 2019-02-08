@@ -144,7 +144,7 @@ func AddMessage(message string) {
 	blt.Refresh()
 }
 
-func RemoveLastMessage() {
+func RemoveFirstMessage() {
 	MsgBuf = MsgBuf[1:]
 	blt.Layer(UILayer)
 	blt.ClearArea(LogPosX, LogPosY, LogPosX+LogSizeX, LogPosY+LogSizeY)
@@ -153,7 +153,7 @@ func RemoveLastMessage() {
 }
 
 
- func RemoveFirstMessage() {
+ func RemoveLastMessage() {
  	MsgBuf = MsgBuf[:len(MsgBuf)-1]
 	blt.Layer(UILayer)
 	blt.ClearArea(LogPosX, LogPosY, LogPosX+LogSizeX, LogPosY+LogSizeY)

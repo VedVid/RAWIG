@@ -74,6 +74,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 }
 
 func PrintLookingMessage(s string, b bool) {
+	fmt.Println(1)
 	l := len(MsgBuf)
 	if s != "" {
 		switch {
@@ -166,6 +167,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 		}
 	}
 	targetX, targetY := target.X, target.Y
+	i := false
 	for {
 		vec, err := NewVector(c.X, c.Y, targetX, targetY)
 		if err != nil {
@@ -174,6 +176,10 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 		_ = ComputeVector(vec)
 		_, _, monsterHit, _ := ValidateVector(vec, b, targets, o)
 		PrintVector(vec, VectorColorGood, VectorColorBad, b, o, cs)
+		msg := "There is " + monsterHit.Name + " here."
+		fmt.Println(0)
+		PrintLookingMessage(msg, i)
+		fmt.Println(2)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE {
 			break
@@ -207,6 +213,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 			continue //switch target
 		}
 		CursorMovement(&targetX, &targetY, key)
+		i = true
 	}
 	return turnSpent
 }

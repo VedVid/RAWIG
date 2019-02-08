@@ -26,10 +26,10 @@ import (
 )
 
 const (
-	vectorSymbol = "X" // Maybe vectorSymbol should be customized, as colors?
-	VectorColorNeutral  = "white"
-	VectorColorGood = "green"
-	VectorColorBad = "red"
+	vectorSymbol       = "X" // Maybe vectorSymbol should be customized, as colors?
+	VectorColorNeutral = "white"
+	VectorColorGood    = "green"
+	VectorColorBad     = "red"
 )
 
 type Vector struct {

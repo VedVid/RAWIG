@@ -77,7 +77,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 					RemoveLastMessage()
 				}
 				AddMessage(msg)
-		}
+			}
 		}
 		fmt.Println(MsgBuf)
 		key := blt.Read()
@@ -114,9 +114,9 @@ func FormatLookingMessage(s []string, fov bool) string {
 	}
 	msg := "You " + txt + " "
 	for i, v := range s {
-		if i < len(s) - 2 { // Regular items.
+		if i < len(s)-2 { // Regular items.
 			msg = msg + v + ", "
-		} else if i == len(s) - 1 - 1 { // One-before-last item.
+		} else if i == len(s)-1-1 { // One-before-last item.
 			msg = msg + v + " and "
 		} else { // Last item.
 			msg = msg + v + " here."

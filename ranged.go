@@ -37,8 +37,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 	   between Start and End, and adds their coords to vector values.
 	   Line from Vector is drawn, then game waits for player input,
 	   that will change position of "looking" cursors.
-	   Loop breaks with Escape key as input. Space and Enter
-	   confirms target of Look command. */
+	   Loop breaks with Escape, Space or Enter input. */
 	startX, startY := c.X, c.Y
 	targetX, targetY := startX, startY
 	msg := ""
@@ -74,6 +73,11 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 }
 
 func PrintLookingMessage(s string, b bool) {
+	/* Function PrintLookingMessage takes string (message) and bool ("is it
+	   a first iteration?") as arguments.
+	   It is used to provide dynamic printing looking message:
+	   player do not need to confirm target to see what is it, but messages
+	   will not flood message log. */
 	l := len(MsgBuf)
 	if s != "" {
 		switch {

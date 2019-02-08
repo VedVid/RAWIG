@@ -42,6 +42,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 	startX, startY := c.X, c.Y
 	targetX, targetY := startX, startY
 	msg := ""
+	i := false
 	for {
 		vec, err := NewVector(startX, startY, targetX, targetY)
 		if err != nil {
@@ -66,11 +67,23 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 		} else {
 			msg = "You don't know what is here."
 		}
-		if msg != "" && len(MsgBuf) >= MaxMessageBuffer {
-			fmt.Println(1)
-			RemoveFirstMessage()
+		l := len(MsgBuf)
+		fmt.Println(l)
+		if msg != "" {
+			switch {
+			case l == 0:
+				AddMessage(msg)
+			case l >= MaxMessageBuffer:
+				RemoveLastMessage()
+				AddMessage(msg)
+			case l > 0 && l < MaxMessageBuffer:
+				if i == true {
+					RemoveLastMessage()
+				}
+				AddMessage(msg)
 		}
-		AddMessage(msg)
+		}
+		fmt.Println(MsgBuf)
 		//
 
 
@@ -80,6 +93,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 			break
 		}
 		CursorMovement(&targetX, &targetY, key)
+		i = true
 	}
 }
 

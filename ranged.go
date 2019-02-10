@@ -206,6 +206,10 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 				} else {
 					vx, vy := FindVectorDirection(vec)
 					v := ExtrapolateVector(vec, vx, vy)
+					_, _, monsterHitIndirectly, _ := ValidateVector(v, b, targets, o)
+					if monsterHitIndirectly != nil {
+						c.AttackTarget(monsterHitIndirectly)
+					}
 				}
 			}
 			//fire volley in empty space

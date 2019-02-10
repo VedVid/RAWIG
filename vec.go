@@ -161,8 +161,9 @@ func ExtrapolateVector(vec *Vector, dx, dy []int) *Vector {
 			i = 0
 		}
 	}
+	values := make([]bool, len(newTilesX)+1)
 	newVector := &Vector{vec.StartY, vec.StartX,
-	vec.TargetX, vec.TargetY, []bool{}, newTilesX, newTilesY}
+	vec.TargetX, vec.TargetY, values, newTilesX, newTilesY}
 	return newVector
 }
 

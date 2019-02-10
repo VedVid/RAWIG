@@ -203,6 +203,8 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 						LastTarget = monsterHit
 						c.AttackTarget(monsterHit)
 					}
+				} else {
+					vx, vy := FindVectorDirection(vec)
 				}
 			}
 			//fire volley in empty space

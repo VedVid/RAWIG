@@ -150,6 +150,8 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 	   - waits for player input
 	    * if player cancels, function ends
 	    * if player confirms, valley is shoot (in target, or empty space)
+	    * if valley is shot in empty space, vector is extrapolated to check
+	      if it will hit any target
 	    * player can switch between targets as well; it targets
 	      next target automatically; at first, only monsters that are
 	      valid target (ie clean shot is possible), then monsters that
@@ -212,7 +214,6 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 					}
 				}
 			}
-			//fire volley in empty space
 			turnSpent = true
 			break
 		} else if key == blt.TK_TAB {
@@ -223,7 +224,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 				target = NextTarget(target, targets)
 			}
 			targetX, targetY = target.X, target.Y
-			continue //switch target
+			continue // Switch target
 		}
 		CursorMovement(&targetX, &targetY, key)
 		i = true

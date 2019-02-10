@@ -120,6 +120,10 @@ func ComputeVector(vec *Vector) int {
 }
 
 func FindVectorDirection(vec *Vector) ([]int, []int) {
+	/* FindVectorDirection is function that takes Vector as argument
+	   and returns two slices of ints.
+	   This function is supposed to find pattern of Brensenham's line,
+	   and use it as direction indicator in ExtrapolateVector function. */
 	var dx = []int{}
 	var dy = []int{}
 	for x := 1; x < len(vec.TilesX); x++ {
@@ -144,6 +148,13 @@ func FindVectorDirection(vec *Vector) ([]int, []int) {
 }
 
 func ExtrapolateVector(vec *Vector, dx, dy []int) *Vector {
+	/* Function ExtrapolateVector takes Vector and two slices of ints
+	   as arguments, and returns new Vector.
+	   It uses slices as direction indicator, pattern - dx may look like
+	   [0, 0, 1, 0, 0] - and while iterating ad infinitum, these values
+	   will be added to existing ones. For example, if current vector
+	   goes in horizontal x 10, 11, 12, it will indicate that every one
+	   tile x grows. */
 	startX, startY := vec.TargetX, vec.TargetY
 	var newTilesX = vec.TilesX
 	var newTilesY = vec.TilesY

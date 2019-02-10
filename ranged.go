@@ -205,6 +205,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 					}
 				} else {
 					vx, vy := FindVectorDirection(vec)
+					v := ExtrapolateVector(vec, vx, vy)
 				}
 			}
 			//fire volley in empty space

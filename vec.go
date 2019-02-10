@@ -143,7 +143,7 @@ func FindVectorDirection(vec *Vector) ([]int, []int) {
 	return dx, dy
 }
 
-func ExtrapolateVector(vec *Vector, dx, dy []int, b Board, c Creatures) *Vector {
+func ExtrapolateVector(vec *Vector, dx, dy []int) *Vector {
 	startX, startY := vec.TargetX, vec.TargetY
 	var newTilesX = vec.TilesX
 	var newTilesY = vec.TilesY
@@ -157,6 +157,9 @@ func ExtrapolateVector(vec *Vector, dx, dy []int, b Board, c Creatures) *Vector 
 		newTilesY = append(newTilesY, newY)
 		startX, startY = newX, newY
 		i++
+		if i == len(dx) {
+			i = 0
+		}
 	}
 	newVector := &Vector{vec.StartY, vec.StartX,
 	vec.TargetX, vec.TargetY, []bool{}, newTilesX, newTilesY}

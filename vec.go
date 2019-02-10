@@ -143,6 +143,26 @@ func FindVectorDirection(vec *Vector) ([]int, []int) {
 	return dx, dy
 }
 
+func ExtrapolateVector(vec *Vector, dx, dy []int, b Board, c Creatures) *Vector {
+	startX, startY := vec.TargetX, vec.TargetY
+	var newTilesX = vec.TilesX
+	var newTilesY = vec.TilesY
+	i := 0
+	for {
+		newX, newY := startX + dx[i], startY + dy[i]
+		if newX < 0 || newX >= MapSizeX || newY < 0 || newY >= MapSizeY {
+			break
+		}
+		newTilesX = append(newTilesX, newX)
+		newTilesY = append(newTilesY, newY)
+		startX, startY = newX, newY
+		i++
+	}
+	newVector := &Vector{vec.StartY, vec.StartX,
+	vec.TargetX, vec.TargetY, []bool{}, newTilesX, newTilesY}
+	return newVector
+}
+
 func ValidateVector(vec *Vector, b Board, c Creatures,
 	o Objects) (bool, *Tile, *Creature, *Object) {
 	/* Function ValidateVector takes Vector and Board as arguments.

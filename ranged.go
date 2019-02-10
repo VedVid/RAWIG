@@ -356,7 +356,7 @@ func (c *Creature) MonstersInRange(b Board, cs Creatures, o Objects,
 		if err != nil {
 			fmt.Println(err)
 		}
-		if ComputeVector(vec) <= length {
+		if ComputeVector(vec) <= length+1 { // "+1" is necessary due Vector values.
 			valid, _, _, _ := ValidateVector(vec, b, cs, o)
 			if cs[i].HPCurrent <= 0 {
 				continue

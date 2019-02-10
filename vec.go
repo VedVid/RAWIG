@@ -119,6 +119,30 @@ func ComputeVector(vec *Vector) int {
 	return trueLength
 }
 
+func FindVectorDirection(vec *Vector) ([]int, []int) {
+	var dx = []int{}
+	var dy = []int{}
+	for x := 1; x < len(vec.TilesX); x++ {
+		for y := 1; y < len(vec.TilesY); y++ {
+			if vec.TilesX[x] > vec.TilesX[x-1] {
+				dx = append(dx, 1)
+			} else if vec.TilesX[x] < vec.TilesX[x-1] {
+				dx = append(dx, -1)
+			} else {
+				dx = append(dx, 0)
+			}
+			if vec.TilesY[y] > vec.TilesY[y-1] {
+				dy = append(dy, 1)
+			} else if vec.TilesY[y] < vec.TilesY[y-1] {
+				dy = append(dy, -1)
+			} else {
+				dy = append(dy, 0)
+			}
+		}
+	}
+	return dx, dy
+}
+
 func ValidateVector(vec *Vector, b Board, c Creatures,
 	o Objects) (bool, *Tile, *Creature, *Object) {
 	/* Function ValidateVector takes Vector and Board as arguments.

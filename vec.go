@@ -119,6 +119,54 @@ func ComputeVector(vec *Vector) int {
 	return trueLength
 }
 
+func FindVectorDirection(vec *Vector) ([]int, []int) {
+	var dx = []int{}
+	var dy = []int{}
+	for x := 1; x < len(vec.TilesX); x++ {
+		for y := 1; y < len(vec.TilesY); y++ {
+			if vec.TilesX[x] > vec.TilesX[x-1] {
+				dx = append(dx, 1)
+			} else if vec.TilesX[x] < vec.TilesX[x-1] {
+				dx = append(dx, -1)
+			} else {
+				dx = append(dx, 0)
+			}
+			if vec.TilesY[y] > vec.TilesY[y-1] {
+				dy = append(dy, 1)
+			} else if vec.TilesY[y] < vec.TilesY[y-1] {
+				dy = append(dy, -1)
+			} else {
+				dy = append(dy, 0)
+			}
+		}
+	}
+	return dx, dy
+}
+
+func ExtrapolateVector(vec *Vector, dx, dy []int) *Vector {
+	startX, startY := vec.TargetX, vec.TargetY
+	var newTilesX = vec.TilesX
+	var newTilesY = vec.TilesY
+	i := 0
+	for {
+		newX, newY := startX + dx[i], startY + dy[i]
+		if newX < 0 || newX >= MapSizeX || newY < 0 || newY >= MapSizeY {
+			break
+		}
+		newTilesX = append(newTilesX, newX)
+		newTilesY = append(newTilesY, newY)
+		startX, startY = newX, newY
+		i++
+		if i == len(dx) {
+			i = 0
+		}
+	}
+	values := make([]bool, len(newTilesX)+1)
+	newVector := &Vector{vec.StartY, vec.StartX,
+	vec.TargetX, vec.TargetY, values, newTilesX, newTilesY}
+	return newVector
+}
+
 func ValidateVector(vec *Vector, b Board, c Creatures,
 	o Objects) (bool, *Tile, *Creature, *Object) {
 	/* Function ValidateVector takes Vector and Board as arguments.

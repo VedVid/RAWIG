@@ -90,7 +90,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 	case MeleeDumbAI:
 		if c.AITriggered == true {
 			if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
-				c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+				c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 			} else {
 				c.AttackTarget(cs[0])
 			}
@@ -104,7 +104,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 		// Just for clarity.
 		if c.AITriggered == true {
 			if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
-				c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+				c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 			} else {
 				c.AttackTarget(cs[0])
 			}
@@ -120,7 +120,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 				// TODO:
 				// For now, every ranged skill has range equal to FOVLength-1
 				// but it should change in future.
-				c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+				c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 			} else {
 				// DumbAI will not check if target is valid
 				vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
@@ -139,7 +139,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 				// TODO:
 				// For now, every ranged skill has range equal to FOVLength-1
 				// but it should change in future.
-				c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+				c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 			} else {
 				// DumbAI will not check if target is valid
 				vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
@@ -156,7 +156,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 			// Use melee attack.
 			if c.AITriggered == true {
 				if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
-					c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 				} else {
 					c.AttackTarget(cs[0])
 				}
@@ -172,7 +172,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 				// TODO:
 				// For now, every ranged skill has range equal to FOVLength-1
 				// but it should change in future.
-				c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+				c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 			} else {
 				vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
 				if err != nil {
@@ -181,7 +181,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 				_ = ComputeVector(vec)
 				_, _, target, _ := ValidateVector(vec, b, cs, o)
 				if target != cs[0] {
-					c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 				} else {
 					c.AttackTarget(target)
 				}
@@ -191,7 +191,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 				// TODO:
 				// For now, every ranged skill has range equal to FOVLength-1
 				// but it should change in future.
-				c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+				c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 			} else {
 				vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
 				if err != nil {
@@ -200,7 +200,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 				_ = ComputeVector(vec)
 				_, _, target, _ := ValidateVector(vec, b, cs, o)
 				if target != cs[0] {
-					c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 				} else {
 					c.AttackTarget(target)
 				}
@@ -208,7 +208,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 		} else {
 			if c.AITriggered == true {
 				if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
-					c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 				} else {
 					c.AttackTarget(cs[0])
 				}

@@ -190,6 +190,21 @@ func GetAllStringsInFovTile(sx, sy, tx, ty int, b Board, c Creatures, o Objects)
 	return s
 }
 
+func GetAliveCreatureFromTile(x, y int, c Creatures) *Creature {
+	/* Function GetAliveCreatureFromTile takes coords and slice of Creature
+	   as arguments, and returns Creature.
+	   It iterates through all Creatures and find one that occupies specified tile.
+	   This function could use []*Creature instead of *Creature, but monsters
+	   should not overlap anyway. */
+	var cs *Creature
+	for i := 0; i < len(c); i++ {
+		if c[i].X == x && c[i].Y == y && c[i].HPCurrent > 0 {
+			cs = c[i]
+		}
+	}
+	return cs
+}
+
 func GetAllThingsFromTile(x, y int, b Board, c Creatures, o Objects) (*Tile, Creatures, Objects) {
 	/* GetAllThingsFromTile is function that takes coordinates, global map,
 	   Creatures and Objects as arguments. It creates slice of Creature and

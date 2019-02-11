@@ -220,7 +220,7 @@ func RenderWeights(nodes [][]*Node) {
 	blt.Read()
 }
 
-func (c *Creature) MoveTowards(b Board, tx, ty int, ai int) {
+func (c *Creature) MoveTowards(b Board, cs Creatures, tx, ty int, ai int) {
 	/* MoveTowards is *the* main method for pathfinding.
 	   Has *Creature as receiver, and takes Board (ie map of level),
 	   ints tx and ty (ie coords of Node - in that case, it's more
@@ -248,16 +248,17 @@ func (c *Creature) MoveTowards(b Board, tx, ty int, ai int) {
 	} else if dy < 0 {
 		ddy = -1
 	}
-	if b[c.X+ddx][c.Y+ddy].Blocked == false {
+	newX, newY := c.X+ddx, c.Y+ddy
+	if b[newX][newY].Blocked == false {
 		c.Move(ddx, ddy, b)
 	} else {
 		if ai == MeleeDumbAI || ai == RangedDumbAI {
 			if ddx != 0 {
-				if b[c.X+ddx][c.Y].Blocked == false {
+				if b[newX][c.Y].Blocked == false && GetAliveCreatureFromTile(newX, c.Y, cs) == nil {
 					c.Move(ddx, 0, b)
 				}
 			} else if ddy != 0 {
-				if b[c.X][c.Y+ddy].Blocked == false {
+				if b[c.X][newY].Blocked == false && GetAliveCreatureFromTile(c.X, newY, cs) == nil {
 					c.Move(0, ddy, b)
 				}
 			}

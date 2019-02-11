@@ -119,7 +119,7 @@ End:
 	return adjacent, startFound
 }
 
-func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
+func (c *Creature) MoveTowardsPath(b Board, cs Creatures, tx, ty int) {
 	/* MoveTowardsPath is one of main pathfinding methods. It takes
 	   Board and ints tx, ty (ie target coords) as arguments.
 	   MoveTowardsPath uses weighted graph to find shortest path
@@ -149,7 +149,7 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 		if len(frontiers) == 0 || startFound == true {
 			break
 		}
-		frontiers, startFound = FindAdjacent(b, nodes, frontiers, start, w)
+		frontiers, startFound = FindAdjacent(b, cs, nodes, frontiers, start, w)
 	}
 	// Uncomment line below, if you want to see nodes' weights.
 	//RenderWeights(nodes)
@@ -266,7 +266,7 @@ func (c *Creature) MoveTowards(b Board, cs Creatures, tx, ty int, ai int) {
 				}
 			}
 		} else if ai == MeleePatherAI || ai == RangedPatherAI {
-			c.MoveTowardsPath(b, tx, ty)
+			c.MoveTowardsPath(b, cs, tx, ty)
 		}
 	}
 }

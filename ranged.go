@@ -215,6 +215,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 			turnSpent = true
 			break
 		} else if key == blt.TK_TAB {
+			i = true
 			monster := FindMonsterByXY(targetX, targetY, cs)
 			if monster != nil {
 				target = NextTarget(monster, targets)

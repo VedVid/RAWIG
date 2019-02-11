@@ -308,7 +308,8 @@ func (p *Creature) HandleEquippables(eq Objects, option, slot int) bool {
 	   It returns true if action is success.
 	   The body if this function calls EquipItem and handles it error. */
 	turnSpent := false
-	turnSpent, err := p.EquipItem(eq[option], slot)
+	var err error
+	turnSpent, err = p.EquipItem(eq[option], slot)
 	if err != nil {
 		fmt.Println(err)
 	}

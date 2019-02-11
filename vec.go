@@ -119,6 +119,65 @@ func ComputeVector(vec *Vector) int {
 	return trueLength
 }
 
+func FindVectorDirection(vec *Vector) ([]int, []int) {
+	/* FindVectorDirection is function that takes Vector as argument
+	   and returns two slices of ints.
+	   This function is supposed to find pattern of Brensenham's line,
+	   and use it as direction indicator in ExtrapolateVector function. */
+	var dx = []int{}
+	var dy = []int{}
+	for x := 1; x < len(vec.TilesX); x++ {
+		for y := 1; y < len(vec.TilesY); y++ {
+			if vec.TilesX[x] > vec.TilesX[x-1] {
+				dx = append(dx, 1)
+			} else if vec.TilesX[x] < vec.TilesX[x-1] {
+				dx = append(dx, -1)
+			} else {
+				dx = append(dx, 0)
+			}
+			if vec.TilesY[y] > vec.TilesY[y-1] {
+				dy = append(dy, 1)
+			} else if vec.TilesY[y] < vec.TilesY[y-1] {
+				dy = append(dy, -1)
+			} else {
+				dy = append(dy, 0)
+			}
+		}
+	}
+	return dx, dy
+}
+
+func ExtrapolateVector(vec *Vector, dx, dy []int) *Vector {
+	/* Function ExtrapolateVector takes Vector and two slices of ints
+	   as arguments, and returns new Vector.
+	   It uses slices as direction indicator, pattern - dx may look like
+	   [0, 0, 1, 0, 0] - and while iterating ad infinitum, these values
+	   will be added to existing ones. For example, if current vector
+	   goes in horizontal x 10, 11, 12, it will indicate that every one
+	   tile x grows. */
+	startX, startY := vec.TargetX, vec.TargetY
+	var newTilesX = vec.TilesX
+	var newTilesY = vec.TilesY
+	i := 0
+	for {
+		newX, newY := startX + dx[i], startY + dy[i]
+		if newX < 0 || newX >= MapSizeX || newY < 0 || newY >= MapSizeY {
+			break
+		}
+		newTilesX = append(newTilesX, newX)
+		newTilesY = append(newTilesY, newY)
+		startX, startY = newX, newY
+		i++
+		if i == len(dx) {
+			i = 0
+		}
+	}
+	values := make([]bool, len(newTilesX)+1)
+	newVector := &Vector{vec.StartY, vec.StartX,
+	vec.TargetX, vec.TargetY, values, newTilesX, newTilesY}
+	return newVector
+}
+
 func ValidateVector(vec *Vector, b Board, c Creatures,
 	o Objects) (bool, *Tile, *Creature, *Object) {
 	/* Function ValidateVector takes Vector and Board as arguments.

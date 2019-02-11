@@ -56,12 +56,29 @@ func CreaturesTakeTurn(b Board, c Creatures, o Objects) {
 }
 
 func TriggerAI(b Board, p, c *Creature) {
+	/* TriggerAI is function that takes Board and two Creatures as arguments.
+	   First Creature is supposed to be player, second one - enemy.
+	   Enemy with AITriggered set to false will ignore the player existence.
+	   AITrigger is probability to notice (and, therefore, switch AITriggered)
+	   player if is in monster's FOV. */
 	if IsInFOV(b, p.X, p.Y, c.X, c.Y) == true && RandInt(100) <= AITrigger {
 		c.AITriggered = true
 	}
 }
 
 func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
+	/* HandleAI is robust function that takes Board, Creatures, Objects,
+	   and specific Creature as arguments. The most notable argument is
+	   the last one - behavior of this entity will be decided in function body.
+	   Its behavior will be decided regarding to AIType.
+	   This function is very big and *wet*, but it is here to stay, for a while,
+	   at least. I thought about code duplication removal by introducing one
+	   generic function that would take Creature as argument, and - after
+	   AIType check - would use proper HandleMeleeDumbAI (etc.) functions; or
+	   would start with available weapons check. (One may want to peek at
+	   issue #98 in repo - https://github.com/VedVid/RAWIG/issues/98 ).
+	   But, on the other hand, ai has so many variations and edge cases that
+	   unifying monster's behavior would result in smaller flexibility. */
 	ai := c.AIType
 	switch ai {
 	case MeleeDumbAI:

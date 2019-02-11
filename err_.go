@@ -192,6 +192,10 @@ func VectorCoordinatesOutOfMapBounds(startX, startY, targetX, targetY int) strin
 }
 
 func TargetNilError(c *Creature, cs Creatures) string {
+	/* Function TargetNilError is helper function that returns string to error.
+	   It takes Creature, and slice of Creature, as arguments. It is called
+	   when game can not find any targets in range - because is supposed to
+	   target player if there is no Creature in range. */
 	txt := "\n    <source: name==" + c.Name + "; coords: " + strconv.Itoa(c.X) +
 		", " + strconv.Itoa(c.Y) + "; targets: " + strconv.Itoa(len(cs)) + ">"
 	return txt

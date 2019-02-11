@@ -145,6 +145,9 @@ func ReverseIntSlice(arr []int) []int {
 }
 
 func CreatureIsInSlice(c *Creature, arr Creatures) bool {
+	/* Function CreatureIsInSlice takes Creature and slice of Creature
+	   as arguments, and returns true, if c is present in arr.
+	   Otherwise, returns false. */
 	for _, v := range arr {
 		if c == v {
 			return true

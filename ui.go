@@ -153,6 +153,9 @@ func RemoveFirstMessage() {
 }
 
 func RemoveLastMessage() {
+	/* Function RemoveLastMessage is called when it is necessary to remove
+	   last message from buffer, even if said buffer is not full.
+	   It removes last message, clears its area, and reprints log. */
 	MsgBuf = MsgBuf[:len(MsgBuf)-1]
 	blt.Layer(UILayer)
 	blt.ClearArea(LogPosX, LogPosY, LogPosX+LogSizeX, LogPosY+LogSizeY)

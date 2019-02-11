@@ -81,7 +81,7 @@ type EquipmentComponent struct {
 	/* EquipmentComponent helps with inventory management.
 	   It's part of Creature.
 	   Equipment is list of equipped items. It uses
-	   const declared in objects.go 
+	   const declared in objects.go.
 	   Inventory is list of items in backpack. */
 	Equipment Objects
 	Inventory Objects

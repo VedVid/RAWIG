@@ -29,7 +29,7 @@ import (
 const (
 	/* Slots for inventory handling.
 	   Their order here is important, because it
-	   will be order of slots in Equipemnt menu. */
+	   will be order of slots in Equipment menu. */
 	SlotNA = iota - 1
 
 	SlotWeaponPrimary

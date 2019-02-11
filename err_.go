@@ -156,6 +156,18 @@ func EquipSlotNotNilError(c *Creature, slot int) string {
 	return txt
 }
 
+func EquipWrongSlotError(eqSlot, itemSlot int) string {
+	/* Function EquipWrongSlotError is helper function that returns string
+	   to error; it takes two ints - slot indicators - as arguments.
+	   It is called when Creature tries to equip item to wrong slot.
+	   Slots are declared as constants in objects.go. */
+	eqSlotStr := strconv.Itoa(eqSlot)
+	itemSlotStr := strconv.Itoa(itemSlot)
+	txt := "\n    <equipment slot: " + eqSlotStr + "; " +
+		"\n         item slot: " + itemSlotStr + ">"
+	return txt
+}
+
 func DequipNilError(c *Creature, slot int) string {
 	/* Function DequipNilError is helper function that returns string to error;
 	   it takes *Creature and int (that is indicator of Equipment slot) as

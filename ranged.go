@@ -191,11 +191,9 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 		}
 		if key == blt.TK_F {
 			monsterAimed := FindMonsterByXY(targetX, targetY, cs)
-			if monsterAimed != nil && monsterAimed != c {
-				if monsterAimed.HPCurrent > 0 {
-					LastTarget = monsterAimed
-					c.AttackTarget(monsterAimed)
-				}
+			if monsterAimed != nil && monsterAimed != c && monsterAimed.HPCurrent > 0 {
+				LastTarget = monsterAimed
+				c.AttackTarget(monsterAimed)
 			} else {
 				if monsterAimed == c {
 					break // Do not hurt yourself.

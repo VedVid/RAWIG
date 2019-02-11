@@ -24,8 +24,8 @@ const (
 	// Types of AI.
 	NoAI = iota
 	PlayerAI
-	DumbAI
-	PatherAI
+	MeleeDumbAI
+	MeleePatherAI
 )
 
 func CreaturesTakeTurn(b Board, c Creatures) {
@@ -47,11 +47,11 @@ func CreaturesTakeTurn(b Board, c Creatures) {
 
 func HandleAI(b Board, cs Creatures, c *Creature, ai int) {
 		switch ai {
-		case DumbAI:
+		case MeleeDumbAI:
 			if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
 				c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
 			}
-		case PatherAI:
+		case MeleePatherAI:
 			// The same set of functions as for DumbAI.
 			// Just for clarity.
 			if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {

@@ -50,16 +50,25 @@ func CreaturesTakeTurn(b Board, c Creatures, o Objects) {
 func HandleAI(b Board, cs Creatures, o Objects, c *Creature, ai int) {
 		switch ai {
 		case MeleeDumbAI:
-			if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
-				c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+			if c.AITriggered == true {
+				if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
+					c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+				} else {
+					c.AttackTarget(cs[0])
+				}
 			}
 		case MeleePatherAI:
 			// The same set of functions as for DumbAI.
 			// Just for clarity.
-			if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
-				c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+			if c.AITriggered == true {
+				if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
+					c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+				} else {
+					c.AttackTarget(cs[0])
+				}
 			}
-		/*case RangedPatherAI: //it will depend on ranged weapons and equipment implementation
+		_ = o // Remove after uncommenting RangedAI
+		/*case RangedPatherAI: // It will depend on ranged weapons and equipment implementation
 			if c.DistanceTo(cs[0].X, cs[0].Y) > >>MONSTER_EQUIPPED_RANGED<< {
 				c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
 			} else {

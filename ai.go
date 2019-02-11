@@ -26,6 +26,8 @@ const (
 	PlayerAI
 	MeleeDumbAI
 	MeleePatherAI
+	RangedDumbAI
+	RangedPatherAI
 )
 
 func CreaturesTakeTurn(b Board, c Creatures) {

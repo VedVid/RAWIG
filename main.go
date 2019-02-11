@@ -58,8 +58,8 @@ func main() {
 		fmt.Println(err)
 	}
 	var enemyEq2 = EquipmentComponent{Objects{nil, nil, nil}, Objects{}}
-	enemy2, err2 := NewCreature(CreaturesLayer, 11, 11, "T", "enemy", "green", "green",
-		false, true, false, false, MeleeDumbAI, 10, 4, 1, enemyEq2)
+	enemy2, err2 := NewCreature(CreaturesLayer, 11, 11, "T", "enemy", "red", "red",
+		false, true, false, false, MeleePatherAI, 10, 4, 1, enemyEq2)
 	if err2 != nil {
 		fmt.Println(err)
 	}

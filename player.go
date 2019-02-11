@@ -285,7 +285,7 @@ func (p *Creature) EquippablesMenu(slot int) bool {
 	   of equippables separated from inventory. Then function waits for player
 	   input and, if possible, calls HandleEquippables to fill empty slot. */
 	turnSpent := false
-	eq := GetEquippablesFromInventory(p)
+	eq := GetEquippablesFromInventory(p, slot)
 	for {
 		PrintEquippables(UIPosX, UIPosY, "Equippables: ", eq)
 		key := blt.Read()

@@ -55,11 +55,12 @@ type FighterProperties struct {
 	   elements as well.
 	   AI types are iota (integers) defined
 	   in creatures.go. */
-	AIType    int
-	HPMax     int
-	HPCurrent int
-	Attack    int
-	Defense   int
+	AIType      int
+	AITriggered bool
+	HPMax       int
+	HPCurrent   int
+	Attack      int
+	Defense     int
 }
 
 type ObjectProperties struct {
@@ -78,9 +79,9 @@ type ObjectProperties struct {
 
 type EquipmentComponent struct {
 	/* EquipmentComponent helps with inventory management.
-	   It's part of Creature. Slot is generic place for
-	   equipped items (it could be "head" for helmets,
-	   "feet" for boots, etc).
+	   It's part of Creature.
+	   Equipment is list of equipped items. It uses
+	   const declared in objects.go.
 	   Inventory is list of items in backpack. */
 	Equipment Objects
 	Inventory Objects

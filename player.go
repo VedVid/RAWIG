@@ -30,7 +30,7 @@ import (
 )
 
 func NewPlayer(layer, x, y int, character, name, color, colorDark string,
-	alwaysVisible, blocked, blocksSight bool, ai, hp, attack,
+	alwaysVisible, blocked, blocksSight, triggered bool, ai, hp, attack,
 	defense int, equipment EquipmentComponent) (*Creature, error) {
 	/* Function NewPlayer takes all values necessary by its struct,
 	   and creates then returns pointer to Creature;
@@ -47,6 +47,9 @@ func NewPlayer(layer, x, y int, character, name, color, colorDark string,
 	if utf8.RuneCountInString(character) != 1 {
 		txt := CharacterLengthError(character)
 		err = errors.New("Player character string length is not equal to 1." + txt)
+	}
+	if triggered != false {
+		err = errors.New("Warning: Player should not be triggered!")
 	}
 	if ai != PlayerAI {
 		txt := PlayerAIError(ai)
@@ -69,7 +72,7 @@ func NewPlayer(layer, x, y int, character, name, color, colorDark string,
 		colorDark}
 	playerVisibilityProperties := VisibilityProperties{alwaysVisible}
 	playerCollisionProperties := CollisionProperties{blocked, blocksSight}
-	playerFighterProperties := FighterProperties{ai, hp, hp, attack, defense}
+	playerFighterProperties := FighterProperties{ai, triggered, hp, hp, attack, defense}
 	playerNew := &Creature{playerBasicProperties, playerVisibilityProperties,
 		playerCollisionProperties, playerFighterProperties,
 		equipment}
@@ -276,7 +279,7 @@ Loop:
 }
 
 func (p *Creature) EquippablesMenu(slot int) bool {
-	/* EquippablesMenu is method od Creature (that is supposed to be player).
+	/* EquippablesMenu is method of Creature (that is supposed to be player).
 	   It returns true if action was success, false otherwise.
 	   At start, GetEquippablesFromInventory is called to create new slice
 	   of equippables separated from inventory. Then function waits for player
@@ -305,7 +308,8 @@ func (p *Creature) HandleEquippables(eq Objects, option, slot int) bool {
 	   It returns true if action is success.
 	   The body if this function calls EquipItem and handles it error. */
 	turnSpent := false
-	turnSpent, err := p.EquipItem(eq[option], slot)
+	var err error
+	turnSpent, err = p.EquipItem(eq[option], slot)
 	if err != nil {
 		fmt.Println(err)
 	}

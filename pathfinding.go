@@ -245,7 +245,7 @@ func (c *Creature) MoveTowards(b Board, tx, ty int, ai int) {
 	if b[c.X+ddx][c.Y+ddy].Blocked == false {
 		c.Move(ddx, ddy, b)
 	} else {
-		if ai == DumbAI {
+		if ai == MeleeDumbAI || ai == RangedDumbAI {
 			if ddx != 0 {
 				if b[c.X+ddx][c.Y].Blocked == false {
 					c.Move(ddx, 0, b)
@@ -255,7 +255,7 @@ func (c *Creature) MoveTowards(b Board, tx, ty int, ai int) {
 					c.Move(0, ddy, b)
 				}
 			}
-		} else {
+		} else if ai == MeleePatherAI || ai == RangedPatherAI {
 			c.MoveTowardsPath(b, tx, ty)
 		}
 	}

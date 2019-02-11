@@ -24,30 +24,101 @@ const (
 	// Types of AI.
 	NoAI = iota
 	PlayerAI
-	DumbAI
-	PatherAI
+	MeleeDumbAI
+	MeleePatherAI
+	RangedDumbAI
+	RangedPatherAI
 )
 
-func CreaturesTakeTurn(b Board, c Creatures) {
+const (
+	// Probability of triggering AI
+	AITrigger = 92
+)
+
+func CreaturesTakeTurn(b Board, c Creatures, o Objects) {
 	/* Function CreaturesTakeTurn is supposed to handle all enemy creatures
 	   actions: movement, attacking, etc.
 	   It takes Board and Creatures as arguments.
-	   Iterates through all Creatures slice, and handles creature behavior:
-	   if distance between creature and player is bigger than 1, creature
-	   moves towards player. Else, it attacks.
-	   It passed Creature's ai type as argument of MoveTowards to force
-	   different behavior. */
+	   Iterates through all Creatures slice, and calls HandleAI function with
+	   specific parameters.
+	   It skips NoAI and PlayerAI. */
 	var ai int
 	for _, v := range c {
 		ai = v.AIType
 		if ai == NoAI || ai == PlayerAI {
 			continue
-		} else {
-			if v.DistanceTo(c[0].X, c[0].Y) > 1 {
-				v.MoveTowards(b, c[0].X, c[0].Y, ai)
-			} else {
-				v.AttackTarget(c[0])
-			}
 		}
+		HandleAI(b, c, o, v)
+		TriggerAI(b, c[0], v)
+	}
+}
+
+func TriggerAI(b Board, p, c *Creature) {
+	if IsInFOV(b, p.X, p.Y, c.X, c.Y) == true && RandInt(100) <= AITrigger {
+		c.AITriggered = true
+	}
+}
+
+func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
+	ai := c.AIType
+	switch ai {
+		case MeleeDumbAI:
+			if c.AITriggered == true {
+				if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
+					c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+				} else {
+					c.AttackTarget(cs[0])
+				}
+			} else {
+				dx := RandRange(-1, 1)
+				dy := RandRange(-1, 1)
+				c.Move(dx, dy, b)
+			}
+		case MeleePatherAI:
+			// The same set of functions as for DumbAI.
+			// Just for clarity.
+			if c.AITriggered == true {
+				if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
+					c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+				} else {
+					c.AttackTarget(cs[0])
+				}
+			} else {
+				dx := RandRange(-1, 1)
+				dy := RandRange(-1, 1)
+				c.Move(dx, dy, b)
+			}
+		_ = o // Remove after uncommenting RangedAI
+		/*case RangedPatherAI: // It will depend on ranged weapons and equipment implementation
+			if c.DistanceTo(cs[0].X, cs[0].Y) > >>MONSTER_EQUIPPED_RANGED<< {
+				c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+			} else {
+				vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
+				if err != nil {
+					fmt.Println(err)
+				}
+				_ := ComputeVector(vec)
+				_, _, target, _ := ValidateVector(vec, b, cs, o)
+				if target != cs[0] {
+					c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+				} else {
+					c.AttackTarget(target)
+				}
+			} */
+		/*case RangedDumbAI:
+			if c.DistanceTo(cs[0].X, cs[0].Y) > >>MONSTER_EQUIPPED_RANGED<< {
+				c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+			} else {
+				// DumbAI will not check if target is valid
+				vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
+				if err != nil {
+					fmt.Println(err)
+				}
+				_ := ComputeVector(vec)
+				_, _, target, _ := ValidateVector(vec, b, cs, o)
+				if target != nil {
+					c.AttackTarget(target)
+				}
+			} */
 	}
 }

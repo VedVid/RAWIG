@@ -91,9 +91,9 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 				c.Move(dx, dy, b)
 			}
 		case RangedDumbAI:
-			if c.DistanceTo(cs[0].X, cs[0].Y) > FOVLength {
+			if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
 				// TODO:
-				// For now, every ranged skill has range equal to FOVLength
+				// For now, every ranged skill has range equal to FOVLength-1
 				// but it should change in future.
 				c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
 			} else {
@@ -109,9 +109,9 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 				}
 			}
 		case RangedPatherAI: // It will depend on ranged weapons and equipment implementation
-			if c.DistanceTo(cs[0].X, cs[0].Y) > FOVLength {
+			if c.DistanceTo(cs[0].X, cs[0].Y) >= FOVLength-1 {
 				// TODO:
-				// For now, every ranged skill has range equal to FOVLength
+				// For now, every ranged skill has range equal to FOVLength-1
 				// but it should change in future.
 				c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
 			} else {

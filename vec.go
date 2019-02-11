@@ -195,6 +195,9 @@ func ValidateVector(vec *Vector, b Board, c Creatures,
 Loop:
 	for i := 0; i < length; i++ {
 		x, y := vec.TilesX[i], vec.TilesY[i]
+		if x == vec.StartX && y == vec.StartY {
+			continue
+		}
 		if b[x][y].Blocked == true {
 			// Breaks on blocked tiles.
 			tile = b[x][y]

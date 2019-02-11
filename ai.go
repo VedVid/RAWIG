@@ -30,6 +30,11 @@ const (
 	RangedPatherAI
 )
 
+const (
+	// Probability of triggering AI
+	AITrigger = 92
+)
+
 func CreaturesTakeTurn(b Board, c Creatures, o Objects) {
 	/* Function CreaturesTakeTurn is supposed to handle all enemy creatures
 	   actions: movement, attacking, etc.
@@ -43,12 +48,20 @@ func CreaturesTakeTurn(b Board, c Creatures, o Objects) {
 		if ai == NoAI || ai == PlayerAI {
 			continue
 		}
-		HandleAI(b, c, o, v, v.AIType)
+		TriggerAI(b, c[0], v)
+		HandleAI(b, c, o, v)
 	}
 }
 
-func HandleAI(b Board, cs Creatures, o Objects, c *Creature, ai int) {
-		switch ai {
+func TriggerAI(b Board, p, c *Creature) {
+	if IsInFOV(b, p.X, p.Y, c.X, c.Y) == true && RandInt(100) <= AITrigger {
+		c.AITriggered = true
+	}
+}
+
+func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
+	ai := c.AIType
+	switch ai {
 		case MeleeDumbAI:
 			if c.AITriggered == true {
 				if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {

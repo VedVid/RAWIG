@@ -74,7 +74,7 @@ func TilesToNodes() [][]*Node {
 	return nodes
 }
 
-func FindAdjacent(b Board, nodes [][]*Node, frontiers []*Node, start *Node, w int) ([]*Node, bool) {
+func FindAdjacent(b Board, c Creatures, nodes [][]*Node, frontiers []*Node, start *Node, w int) ([]*Node, bool) {
 	/* Function FindAdjacent takes Board, Board-like [][]*Node array,
 	   coords of starting point, and current value to attribute Weight field
 	   of Node; FindAdjacent returns slice of adjacent tiles and startFound
@@ -102,6 +102,9 @@ func FindAdjacent(b Board, nodes [][]*Node, frontiers []*Node, start *Node, w in
 				}
 				if b[x][y].Blocked == true || b[x][y].BlocksSight == true {
 					continue //tile is blocked, or it blocks line of sight
+				}
+				if GetAliveCreatureFromTile(x, y, c) != nil {
+					continue //tile is occupied by other monster
 				}
 				nodes[x][y].Weight = w
 				adjacent = append(adjacent, nodes[x][y])

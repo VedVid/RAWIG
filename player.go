@@ -187,6 +187,9 @@ func (p *Creature) EquipFromInventory(o *Object) bool {
 			if p.Equipment[option] != nil {
 				AddMessage("This slot is already occupied.")
 				continue
+			} else if option != o.Slot {
+				AddMessage("You can't equip this here.")
+				continue
 			} else {
 				var err error
 				turnSpent, err = p.EquipItem(o, option)
@@ -285,7 +288,7 @@ func (p *Creature) EquippablesMenu(slot int) bool {
 	   of equippables separated from inventory. Then function waits for player
 	   input and, if possible, calls HandleEquippables to fill empty slot. */
 	turnSpent := false
-	eq := GetEquippablesFromInventory(p)
+	eq := GetEquippablesFromInventory(p, slot)
 	for {
 		PrintEquippables(UIPosX, UIPosY, "Equippables: ", eq)
 		key := blt.Read()

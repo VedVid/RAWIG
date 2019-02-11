@@ -33,7 +33,7 @@ const (
 	   They are important for proper clearing characters
 	   that should not be displayed, as, for example,
 	   bracelet under the monster. */
-	BaseLayer = iota
+	_ = iota
 	UILayer
 	BoardLayer
 	DeadLayer

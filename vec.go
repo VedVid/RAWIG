@@ -95,7 +95,7 @@ func ComputeVector(vec *Vector) int {
 	if sy < ty {
 		stepY = 1
 	} else {
-		stepY = (-1)
+		stepY = -1
 	}
 	for x := sx; x <= tx; x++ {
 		if steep == true {

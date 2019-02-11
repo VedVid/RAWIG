@@ -47,7 +47,7 @@ type Node struct {
 	Weight int
 }
 
-func TilesToNodes(b Board) [][]*Node {
+func TilesToNodes() [][]*Node {
 	/* TilesToNodes is function that takes Board
 	   (ie map, or fragment, of level) as argument. It converts
 	   Tiles to Nodes, and returns 2d array of *Node to mimic
@@ -83,8 +83,8 @@ func FindAdjacent(b Board, nodes [][]*Node, frontiers []*Node, start *Node, w in
 	var adjacent = []*Node{}
 	startFound := false
 	for i := 0; i < len(frontiers); i++ {
-		for x := (frontiers[i].X - 1); x <= (frontiers[i].X + 1); x++ {
-			for y := (frontiers[i].Y - 1); y <= (frontiers[i].Y + 1); y++ {
+		for x := frontiers[i].X - 1; x <= frontiers[i].X + 1; x++ {
+			for y := frontiers[i].Y - 1; y <= frontiers[i].Y + 1; y++ {
 				if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
 					continue //node is out of map bounds
 				}
@@ -128,7 +128,7 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	   Weight set to lesser value that node occupied by Creature.
 	   Effect may be a bit strange as it takes first node that met
 	   conditions, but works rather well with basic MoveTowards method. */
-	nodes := TilesToNodes(b) //convert tiles to nodes
+	nodes := TilesToNodes()
 	start := nodes[c.X][c.Y]
 	startFound := false
 	goal := nodes[tx][ty]
@@ -163,8 +163,8 @@ func BacktrackPath(nodes [][]*Node, start *Node) (int, int, error) {
 	   It returns error if can't find proper tile.
 	   Note: returning three values at once is ugly. */
 	direction := *start
-	for x := (start.X - 1); x <= (start.X + 1); x++ {
-		for y := (start.Y - 1); y <= (start.Y + 1); y++ {
+	for x := start.X - 1; x <= start.X + 1; x++ {
+		for y := start.Y - 1; y <= start.Y + 1; y++ {
 			if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
 				continue // Node is out of map bounds.
 			}
@@ -235,12 +235,12 @@ func (c *Creature) MoveTowards(b Board, tx, ty int, ai int) {
 	if dx > 0 {
 		ddx = 1
 	} else if dx < 0 {
-		ddx = (-1)
+		ddx = -1
 	}
 	if dy > 0 {
 		ddy = 1
 	} else if dy < 0 {
-		ddy = (-1)
+		ddy = -1
 	}
 	if b[c.X+ddx][c.Y+ddy].Blocked == false {
 		c.Move(ddx, ddy, b)

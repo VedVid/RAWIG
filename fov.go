@@ -185,7 +185,7 @@ func GetAllStringsInFovTile(sx, sy, tx, ty int, b Board, c Creatures, o Objects)
 }
 
 func GetAllThingsFromTile(x, y int, b Board, c Creatures, o Objects) (*Tile, Creatures, Objects) {
-	/* GetAllThigsFromTile is function that takes coordinates, global map,
+	/* GetAllThingsFromTile is function that takes coordinates, global map,
 	   Creatures and Objects as arguments. It creates slice of Creature and
 	   slice of Object that occupy coords, and returns them.
 	   If these slices are empty, it returns board tile. */

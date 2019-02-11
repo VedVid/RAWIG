@@ -30,7 +30,7 @@ import (
 )
 
 func NewPlayer(layer, x, y int, character, name, color, colorDark string,
-	alwaysVisible, blocked, blocksSight bool, ai, hp, attack,
+	alwaysVisible, blocked, blocksSight, triggered bool, ai, hp, attack,
 	defense int, equipment EquipmentComponent) (*Creature, error) {
 	/* Function NewPlayer takes all values necessary by its struct,
 	   and creates then returns pointer to Creature;
@@ -47,6 +47,9 @@ func NewPlayer(layer, x, y int, character, name, color, colorDark string,
 	if utf8.RuneCountInString(character) != 1 {
 		txt := CharacterLengthError(character)
 		err = errors.New("Player character string length is not equal to 1." + txt)
+	}
+	if triggered != false {
+		err = errors.New("Warning: Player should not be triggered!")
 	}
 	if ai != PlayerAI {
 		txt := PlayerAIError(ai)
@@ -69,7 +72,7 @@ func NewPlayer(layer, x, y int, character, name, color, colorDark string,
 		colorDark}
 	playerVisibilityProperties := VisibilityProperties{alwaysVisible}
 	playerCollisionProperties := CollisionProperties{blocked, blocksSight}
-	playerFighterProperties := FighterProperties{ai, hp, hp, attack, defense}
+	playerFighterProperties := FighterProperties{ai, triggered, hp, hp, attack, defense}
 	playerNew := &Creature{playerBasicProperties, playerVisibilityProperties,
 		playerCollisionProperties, playerFighterProperties,
 		equipment}

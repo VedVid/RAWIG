@@ -45,6 +45,10 @@ func RandInt(max int) int {
 	return rand.Intn(max + 1)
 }
 
+func RandRange(min, max int) int {
+	return RandInt(max - min) + min
+}
+
 func OrderToCharacter(i int) string {
 	/* Function OrderToCharacter takes integer
 	   and converts it to string. Typically,

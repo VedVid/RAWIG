@@ -69,6 +69,10 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 				} else {
 					c.AttackTarget(cs[0])
 				}
+			} else {
+				dx := RandRange(-1, 1)
+				dy := RandRange(-1, 1)
+				c.Move(dx, dy, b)
 			}
 		case MeleePatherAI:
 			// The same set of functions as for DumbAI.
@@ -79,6 +83,10 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 				} else {
 					c.AttackTarget(cs[0])
 				}
+			} else {
+				dx := RandRange(-1, 1)
+				dy := RandRange(-1, 1)
+				c.Move(dx, dy, b)
 			}
 		_ = o // Remove after uncommenting RangedAI
 		/*case RangedPatherAI: // It will depend on ranged weapons and equipment implementation

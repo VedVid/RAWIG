@@ -279,7 +279,7 @@ Loop:
 }
 
 func (p *Creature) EquippablesMenu(slot int) bool {
-	/* EquippablesMenu is method od Creature (that is supposed to be player).
+	/* EquippablesMenu is method of Creature (that is supposed to be player).
 	   It returns true if action was success, false otherwise.
 	   At start, GetEquippablesFromInventory is called to create new slice
 	   of equippables separated from inventory. Then function waits for player

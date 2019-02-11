@@ -230,6 +230,10 @@ func (c *Creature) EquipItem(o *Object, slot int) (bool, error) {
 		txt := EquipSlotNotNilError(c, slot)
 		err = errors.New("Creature tried to equip item into already occupied slot." + txt)
 	}
+	if o.Slot != slot {
+		txt := EquipWrongSlotError(o.Slot, slot)
+		err = errors.New("Creature tried to equip item into wrong slot." + txt)
+	}
 	turnSpent := false
 	// Equip item...
 	c.Equipment[slot] = o

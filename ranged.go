@@ -139,7 +139,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 	   In short, player starts targetting, line is drawn from player
 	   to monster, then function waits for input (confirmation - "fire",
 	   breaking the loop, or continuing).
-	   Explicitely:
+	   Explicitly:
 	   - creates list of all potential targets in fov
 	    * tries to automatically last target, but
 	    * if fails, it targets the nearest enemy

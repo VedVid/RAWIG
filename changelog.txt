@@ -1,6 +1,7 @@
 v0.3
  [NEW] "look" command
  [NEW] ranged combat
+ [NEW] BearLibTerminal license added
  [MOD] relicensing from zlib to FreeBSD license
 
 v0.2

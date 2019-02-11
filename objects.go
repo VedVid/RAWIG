@@ -34,6 +34,7 @@ const (
 
 	SlotWeaponPrimary
 	SlotWeaponSecondary
+	SlotWeaponMelee
 
 	SlotMax
 )
@@ -41,6 +42,7 @@ const (
 var SlotStrings = map[int]string{
 	SlotWeaponPrimary:   "weapon1",
 	SlotWeaponSecondary: "weapon2",
+	SlotWeaponMelee:     "weapon3",
 }
 
 const (

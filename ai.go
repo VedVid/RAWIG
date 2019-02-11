@@ -48,8 +48,8 @@ func CreaturesTakeTurn(b Board, c Creatures, o Objects) {
 		if ai == NoAI || ai == PlayerAI {
 			continue
 		}
-		TriggerAI(b, c[0], v)
 		HandleAI(b, c, o, v)
+		TriggerAI(b, c[0], v)
 	}
 }
 

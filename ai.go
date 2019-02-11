@@ -32,22 +32,30 @@ func CreaturesTakeTurn(b Board, c Creatures) {
 	/* Function CreaturesTakeTurn is supposed to handle all enemy creatures
 	   actions: movement, attacking, etc.
 	   It takes Board and Creatures as arguments.
-	   Iterates through all Creatures slice, and handles creature behavior:
-	   if distance between creature and player is bigger than 1, creature
-	   moves towards player. Else, it attacks.
-	   It passed Creature's ai type as argument of MoveTowards to force
-	   different behavior. */
+	   Iterates through all Creatures slice, and calls HandleAI function with
+	   specific parameters.
+	   It skips NoAI and PlayerAI. */
 	var ai int
 	for _, v := range c {
 		ai = v.AIType
 		if ai == NoAI || ai == PlayerAI {
 			continue
-		} else {
-			if v.DistanceTo(c[0].X, c[0].Y) > 1 {
-				v.MoveTowards(b, c[0].X, c[0].Y, ai)
-			} else {
-				v.AttackTarget(c[0])
-			}
 		}
+		HandleAI(b, c, v, v.AIType)
+	}
+}
+
+func HandleAI(b Board, cs Creatures, c *Creature, ai int) {
+		switch ai {
+		case DumbAI:
+			if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
+				c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+			}
+		case PatherAI:
+			// The same set of functions as for DumbAI.
+			// Just for clarity.
+			if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
+				c.MoveTowards(b, cs[0].X, cs[0].Y, ai)
+			}
 	}
 }

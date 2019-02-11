@@ -46,7 +46,7 @@ func RandInt(max int) int {
 }
 
 func RandRange(min, max int) int {
-	return RandInt(max - min) + min
+	return RandInt(max-min) + min
 }
 
 func OrderToCharacter(i int) string {

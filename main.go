@@ -36,7 +36,7 @@ func main() {
 	slot2, _ := NewObject(ObjectsLayer, 0, 0, "{", "weapon2", "green", "dark green", true,
 		false, false, true, true, false, SlotWeaponSecondary, UseNA)
 	slot3, _ := NewObject(ObjectsLayer, 0, 0, "|", "melee", "yellow", "dark yellow", true,
-		false, false, true, true, false,  SlotWeaponMelee, UseNA)
+		false, false, true, true, false, SlotWeaponMelee, UseNA)
 	item, _ := NewObject(ObjectsLayer, 0, 0, "O", "heal", "blue", "dark blue", true,
 		false, false, true, false, true, SlotNA, UseHeal)
 	var playerEq = EquipmentComponent{Objects{slot, slot2, slot3}, Objects{item}}

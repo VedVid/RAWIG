@@ -160,7 +160,7 @@ func ExtrapolateVector(vec *Vector, dx, dy []int) *Vector {
 	var newTilesY = vec.TilesY
 	i := 0
 	for {
-		newX, newY := startX + dx[i], startY + dy[i]
+		newX, newY := startX+dx[i], startY+dy[i]
 		if newX < 0 || newX >= MapSizeX || newY < 0 || newY >= MapSizeY {
 			break
 		}
@@ -174,7 +174,7 @@ func ExtrapolateVector(vec *Vector, dx, dy []int) *Vector {
 	}
 	values := make([]bool, len(newTilesX)+1)
 	newVector := &Vector{vec.StartY, vec.StartX,
-	vec.TargetX, vec.TargetY, values, newTilesX, newTilesY}
+		vec.TargetX, vec.TargetY, values, newTilesX, newTilesY}
 	return newVector
 }
 

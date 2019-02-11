@@ -1,14 +1,17 @@
 v0.3
  [NEW] "look" command
  [NEW] ranged combat
+ [MOD] slightly improved AI
  [NEW] BearLibTerminal license added
  [MOD] relicensing from zlib to FreeBSD license
+ [MOD] new functionalities for message log
 
 v0.2
  [NEW] items
  [NEW] player hud
  [NEW] inventory / equipment system
  [NEW] message log
+ [FIX] some actions were not taking time, unintentionally
 
 v0.1.1:
  [NEW] new RenderWeights function that helps with debugging pathfinding algorithms 
@@ -18,8 +21,11 @@ v0.1.1:
 
 v0.1
  [NEW] rendering system
+ [NEW] custom symbols
  [NEW] game map
  [NEW] field of view
  [NEW] monsters
  [NEW] ai
  [NEW] combat system
+ [NEW] objects
+ [NEW] zlib license

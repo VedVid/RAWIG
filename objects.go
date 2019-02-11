@@ -29,7 +29,7 @@ import (
 const (
 	/* Slots for inventory handling.
 	   Their order here is important, because it
-	   will be order of slots in Equipemnt menu. */
+	   will be order of slots in Equipment menu. */
 	SlotNA = iota - 1
 
 	SlotWeaponPrimary
@@ -158,7 +158,7 @@ func GatherEquipmentOptions(o *Object) ([]string, error) {
 	return options, err
 }
 
-func GetEquippablesFromInventory(c *Creature) Objects {
+func GetEquippablesFromInventory(c *Creature, slot int) Objects {
 	/* GetEquippablesFromInventory is function that takes *Creature as arguments
 	   and returns []*Object.
 	   It creates empty slice of Object pointers, then adds every *Object
@@ -168,7 +168,7 @@ func GetEquippablesFromInventory(c *Creature) Objects {
 	var eq = Objects{}
 	for i := 0; i < len(c.Inventory); i++ {
 		item := c.Inventory[i]
-		if item != nil && item.Equippable == true {
+		if item != nil && item.Equippable == true && item.Slot == slot {
 			eq = append(eq, item)
 		}
 	}

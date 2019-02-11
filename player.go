@@ -187,6 +187,9 @@ func (p *Creature) EquipFromInventory(o *Object) bool {
 			if p.Equipment[option] != nil {
 				AddMessage("This slot is already occupied.")
 				continue
+			} else if option != o.Slot {
+				AddMessage("You can't equip this here.")
+				continue
 			} else {
 				var err error
 				turnSpent, err = p.EquipItem(o, option)
@@ -279,13 +282,13 @@ Loop:
 }
 
 func (p *Creature) EquippablesMenu(slot int) bool {
-	/* EquippablesMenu is method od Creature (that is supposed to be player).
+	/* EquippablesMenu is method of Creature (that is supposed to be player).
 	   It returns true if action was success, false otherwise.
 	   At start, GetEquippablesFromInventory is called to create new slice
 	   of equippables separated from inventory. Then function waits for player
 	   input and, if possible, calls HandleEquippables to fill empty slot. */
 	turnSpent := false
-	eq := GetEquippablesFromInventory(p)
+	eq := GetEquippablesFromInventory(p, slot)
 	for {
 		PrintEquippables(UIPosX, UIPosY, "Equippables: ", eq)
 		key := blt.Read()
@@ -308,7 +311,8 @@ func (p *Creature) HandleEquippables(eq Objects, option, slot int) bool {
 	   It returns true if action is success.
 	   The body if this function calls EquipItem and handles it error. */
 	turnSpent := false
-	turnSpent, err := p.EquipItem(eq[option], slot)
+	var err error
+	turnSpent, err = p.EquipItem(eq[option], slot)
 	if err != nil {
 		fmt.Println(err)
 	}

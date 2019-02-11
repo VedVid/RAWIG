@@ -83,8 +83,8 @@ func FindAdjacent(b Board, nodes [][]*Node, frontiers []*Node, start *Node, w in
 	var adjacent = []*Node{}
 	startFound := false
 	for i := 0; i < len(frontiers); i++ {
-		for x := frontiers[i].X - 1; x <= frontiers[i].X + 1; x++ {
-			for y := frontiers[i].Y - 1; y <= frontiers[i].Y + 1; y++ {
+		for x := frontiers[i].X - 1; x <= frontiers[i].X+1; x++ {
+			for y := frontiers[i].Y - 1; y <= frontiers[i].Y+1; y++ {
 				if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
 					continue //node is out of map bounds
 				}
@@ -163,8 +163,8 @@ func BacktrackPath(nodes [][]*Node, start *Node) (int, int, error) {
 	   It returns error if can't find proper tile.
 	   Note: returning three values at once is ugly. */
 	direction := *start
-	for x := start.X - 1; x <= start.X + 1; x++ {
-		for y := start.Y - 1; y <= start.Y + 1; y++ {
+	for x := start.X - 1; x <= start.X+1; x++ {
+		for y := start.Y - 1; y <= start.Y+1; y++ {
 			if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
 				continue // Node is out of map bounds.
 			}

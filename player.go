@@ -187,6 +187,9 @@ func (p *Creature) EquipFromInventory(o *Object) bool {
 			if p.Equipment[option] != nil {
 				AddMessage("This slot is already occupied.")
 				continue
+			} else if option != o.Slot {
+				AddMessage("You can't equip this here.")
+				continue
 			} else {
 				var err error
 				turnSpent, err = p.EquipItem(o, option)

@@ -83,6 +83,10 @@ func main() {
 			}
 		}
 	}
+	err = SaveGame(cells, actors, objs)
+	if err != nil {
+		fmt.Println(err)
+	}
 	blt.Close()
 }
 

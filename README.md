@@ -30,11 +30,9 @@ Every revision before v 0.1 is potentially unstable.
 - fov, pathfinding  
 - melee combat  
 - menus  
-- inventory system
-
-**0.3**  
-- [l]ooking command  
+- inventory system  
 - ranged combat  
+- [l]ooking command  
 
 **0.4**  
 - save/load  

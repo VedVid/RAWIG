@@ -1,0 +1,4 @@
+RAWIG use following libraries:
+1. BearLibTerminal -- http://foo.wyrd.name/en:bearlibterminal (access 20190211)
+   Licensed under the MIT license.
+   Text included in ./licenses/BearLibTerminal/

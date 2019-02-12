@@ -11,7 +11,7 @@ v0.2
  [NEW] player hud
  [NEW] inventory / equipment system
  [NEW] message log
- [FIX] some actions were not taking time, unintentionally
+ [FIX] some actions were not taking time
 
 v0.1.1:
  [NEW] new RenderWeights function that helps with debugging pathfinding algorithms 

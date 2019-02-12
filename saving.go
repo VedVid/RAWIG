@@ -57,13 +57,28 @@ func saveBoard(b Board) error {
 	return err
 }
 
+func loadBoard(b *Board) error {
+	err := readGob("./map.gob", b)
+	return err
+}
+
 func saveCreatures(c Creatures) error {
 	err := writeGob("./monsters.gob", c)
 	return err
 }
 
+func loadCreatures(c *Creatures) error {
+	err := readGob("./monsters.gob", c)
+	return err
+}
+
 func saveObjects(o Objects) error {
 	err := writeGob("./objects.gob", o)
+	return err
+}
+
+func loadObjects(o *Objects) error {
+	err := readGob("./objects.gob", o)
 	return err
 }
 
@@ -78,6 +93,23 @@ func SaveGame(b Board, c Creatures, o Objects) error {
 		fmt.Println(err)
 	}
 	err = saveObjects(o)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return err
+}
+
+func LoadGame(b *Board, c *Creatures, o *Objects) error {
+	var err error
+	err = loadBoard(b)
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = loadCreatures(c)
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = loadObjects(o)
 	if err != nil {
 		fmt.Println(err)
 	}

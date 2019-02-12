@@ -1,21 +1,27 @@
 /*
-Copyright (c) 2018 Tomasz "VedVid" Nowakowski
+Copyright (c) 2018, Tomasz "VedVid" Nowakowski
+All rights reserved.
 
-This software is provided 'as-is', without any express or implied
-warranty. In no event will the authors be held liable for any damages
-arising from the use of this software.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
-Permission is granted to anyone to use this software for any purpose,
-including commercial applications, and to alter it and redistribute it
-freely, subject to the following restrictions:
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
 
-1. The origin of this software must not be misrepresented; you must not
-   claim that you wrote the original software. If you use this software
-   in a product, an acknowledgment in the product documentation would be
-   appreciated but is not required.
-2. Altered source versions must be plainly marked as such, and must not be
-   misrepresented as being the original software.
-3. This notice may not be removed or altered from any source distribution.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 package main
@@ -28,27 +34,36 @@ import (
 )
 
 var MsgBuf = []string{}
+var LastTarget *Creature
 
 func main() {
 	slot, _ := NewObject(ObjectsLayer, 0, 0, "}", "weapon", "red", "dark red", true,
 		false, false, true, true, false, SlotWeaponPrimary, UseHeal)
 	slot2, _ := NewObject(ObjectsLayer, 0, 0, "{", "weapon2", "green", "dark green", true,
-		false, false, true, true, false, SlotWeaponPrimary, UseNA)
+		false, false, true, true, false, SlotWeaponSecondary, UseNA)
+	slot3, _ := NewObject(ObjectsLayer, 0, 0, "|", "melee", "yellow", "dark yellow", true,
+		false, false, true, true, false, SlotWeaponMelee, UseNA)
 	item, _ := NewObject(ObjectsLayer, 0, 0, "O", "heal", "blue", "dark blue", true,
 		false, false, true, false, true, SlotNA, UseHeal)
-	var playerEq = EquipmentComponent{Objects{slot, slot2}, Objects{item}}
+	var playerEq = EquipmentComponent{Objects{slot, slot2, slot3}, Objects{item}}
 	player, err := NewPlayer(PlayerLayer, 1, 1, "@", "player", "white", "white", true,
-		true, false, PlayerAI, 20, 5, 2, playerEq)
+		true, false, false, PlayerAI, 999, 5, 2, playerEq)
 	if err != nil {
 		fmt.Println(err)
 	}
-	var enemyEq = EquipmentComponent{nil, Objects{}}
+	var enemyEq = EquipmentComponent{Objects{nil, nil, nil}, Objects{}}
 	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "enemy", "green", "green",
-		false, true, false, PatherAI, 10, 4, 1, enemyEq)
+		false, true, false, false, RangedPatherAI, 10, 4, 1, enemyEq)
 	if err != nil {
 		fmt.Println(err)
 	}
-	var actors = Creatures{player, enemy}
+	var enemyEq2 = EquipmentComponent{Objects{nil, nil, nil}, Objects{}}
+	enemy2, err2 := NewCreature(CreaturesLayer, 11, 11, "T", "enemy", "red", "red",
+		false, true, false, false, MeleePatherAI, 10, 4, 1, enemyEq2)
+	if err2 != nil {
+		fmt.Println(err)
+	}
+	var actors = Creatures{player, enemy, enemy2}
 	obj, err := NewObject(ObjectsLayer, 3, 3, "(", "heal2", "blue", "dark blue", true,
 		false, false, true, false, false, SlotNA, UseHeal)
 	var objs = Objects{obj}
@@ -64,7 +79,7 @@ func main() {
 		} else {
 			turnSpent := Controls(key, player, cells, actors, &objs)
 			if turnSpent == true {
-				CreaturesTakeTurn(cells, actors)
+				CreaturesTakeTurn(cells, actors, objs)
 			}
 		}
 	}

@@ -1,21 +1,27 @@
 /*
-Copyright (c) 2018 Tomasz "VedVid" Nowakowski
+Copyright (c) 2018, Tomasz "VedVid" Nowakowski
+All rights reserved.
 
-This software is provided 'as-is', without any express or implied
-warranty. In no event will the authors be held liable for any damages
-arising from the use of this software.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
-Permission is granted to anyone to use this software for any purpose,
-including commercial applications, and to alter it and redistribute it
-freely, subject to the following restrictions:
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
 
-1. The origin of this software must not be misrepresented; you must not
-   claim that you wrote the original software. If you use this software
-   in a product, an acknowledgment in the product documentation would be
-   appreciated but is not required.
-2. Altered source versions must be plainly marked as such, and must not be
-   misrepresented as being the original software.
-3. This notice may not be removed or altered from any source distribution.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 package main
@@ -45,7 +51,7 @@ type Creature struct {
 type Creatures []*Creature
 
 func NewCreature(layer, x, y int, character, name, color, colorDark string,
-	alwaysVisible, blocked, blocksSight bool, ai, hp, attack,
+	alwaysVisible, blocked, blocksSight, triggered bool, ai, hp, attack,
 	defense int, equipment EquipmentComponent) (*Creature, error) {
 	/* Function NewCreature takes all values necessary by its struct,
 	   and creates then returns pointer to Creature. */
@@ -78,7 +84,7 @@ func NewCreature(layer, x, y int, character, name, color, colorDark string,
 		colorDark}
 	creatureVisibilityProperties := VisibilityProperties{alwaysVisible}
 	creatureCollisionProperties := CollisionProperties{blocked, blocksSight}
-	creatureFighterProperties := FighterProperties{ai, hp, hp, attack, defense}
+	creatureFighterProperties := FighterProperties{ai, triggered, hp, hp, attack, defense}
 	creatureNew := &Creature{creatureBasicProperties,
 		creatureVisibilityProperties, creatureCollisionProperties,
 		creatureFighterProperties, equipment}
@@ -230,6 +236,10 @@ func (c *Creature) EquipItem(o *Object, slot int) (bool, error) {
 		txt := EquipSlotNotNilError(c, slot)
 		err = errors.New("Creature tried to equip item into already occupied slot." + txt)
 	}
+	if o.Slot != slot {
+		txt := EquipWrongSlotError(o.Slot, slot)
+		err = errors.New("Creature tried to equip item into wrong slot." + txt)
+	}
 	turnSpent := false
 	// Equip item...
 	c.Equipment[slot] = o
@@ -266,10 +276,26 @@ func (c *Creature) Die() {
 	   Die() has *Creature as receiver.
 	   Receiver properties changes to fit better to corpse. */
 	c.Layer = DeadLayer
+	c.Name = "corpse of " + c.Name
 	c.Color = "dark red"
 	c.ColorDark = "dark red"
 	c.Char = CorpseChar
 	c.Blocked = false
 	c.BlocksSight = false
 	c.AIType = NoAI
+	ZeroLastTarget(c)
+}
+
+func FindMonsterByXY(x, y int, c Creatures) *Creature {
+	/* Function FindMonsterByXY takes desired coords and list
+	   of all available creatures. It iterates through this list,
+	   and returns nil or creature that occupies specified coords. */
+	var monster *Creature
+	for i := 0; i < len(c); i++ {
+		if x == c[i].X && y == c[i].Y {
+			monster = c[i]
+			break
+		}
+	}
+	return monster
 }

@@ -1,21 +1,27 @@
 /*
-Copyright (c) 2018 Tomasz "VedVid" Nowakowski
+Copyright (c) 2018, Tomasz "VedVid" Nowakowski
+All rights reserved.
 
-This software is provided 'as-is', without any express or implied
-warranty. In no event will the authors be held liable for any damages
-arising from the use of this software.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
-Permission is granted to anyone to use this software for any purpose,
-including commercial applications, and to alter it and redistribute it
-freely, subject to the following restrictions:
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
 
-1. The origin of this software must not be misrepresented; you must not
-   claim that you wrote the original software. If you use this software
-   in a product, an acknowledgment in the product documentation would be
-   appreciated but is not required.
-2. Altered source versions must be plainly marked as such, and must not be
-   misrepresented as being the original software.
-3. This notice may not be removed or altered from any source distribution.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 package main
@@ -111,4 +117,113 @@ func IsInFOV(b Board, sx, sy, tx, ty int) bool {
 		}
 	}
 	return false
+}
+
+func (c *Creature) MonstersInFov(b Board, cs Creatures) Creatures {
+	/* MonstersInFov is method of Creature. It takes global map, and
+	   slice of creatures, as argument.
+	   At first, new (empty) slice of creatures is made, to store
+	   these monsters that are in c's field of view.
+	   Then function iterates through Creatures passed as argument, and
+	   adds every monster that is in c's fov, skipping source. */
+	var inFov = Creatures{}
+	for i := 0; i < len(cs); i++ {
+		v := cs[i]
+		if v == c {
+			continue
+		}
+		if v.HPCurrent <= 0 {
+			continue
+		}
+		if IsInFOV(b, c.X, c.Y, v.X, v.Y) == true {
+			inFov = append(inFov, cs[i])
+		}
+	}
+	return inFov
+}
+
+func (c *Creature) ObjectsInFov(b Board, o Objects) Objects {
+	/* ObjectsInFov is method of Creature that works similar to
+	   MonstersInFov. It returns slice of Objects that are present
+	   in c's field of view. */
+	var inFov = Objects{}
+	for i := 0; i < len(o); i++ {
+		v := o[i]
+		if IsInFOV(b, c.X, c.Y, v.X, v.Y) == true {
+			inFov = append(inFov, o[i])
+		}
+	}
+	return inFov
+}
+
+func GetAllStringsFromTile(x, y int, b Board, c Creatures, o Objects) []string {
+	/* GetAllStringsFromTile is function that takes coordinates, global map,
+	   Creatures and Objects as arguments. It creates and then returns slice of
+	   strings that contains names of all things on specific tile. It skips
+	   tile names if there are objects present ("You see Monster and Objects here."),
+	   otherwise it returns name of tile ("You see floor here."). */
+	var s = []string{}
+	for _, vc := range c {
+		if vc.X == x && vc.Y == y {
+			s = append(s, vc.Name)
+		}
+	}
+	for _, vo := range o {
+		if vo.X == x && vo.Y == y {
+			s = append(s, vo.Name)
+		}
+	}
+	if len(s) != 0 {
+		return s
+	}
+	s = append(s, b[x][y].Name)
+	return s
+}
+
+func GetAllStringsInFovTile(sx, sy, tx, ty int, b Board, c Creatures, o Objects) []string {
+	/* GetAllStringInFovTile is function that uses IsInFOV and GetAllStringsFromTile
+	   to create slice of strings of objects in field of view. */
+	var s = []string{}
+	if IsInFOV(b, sx, sy, tx, ty) == true {
+		return GetAllStringsFromTile(tx, ty, b, c, o)
+	}
+	return s
+}
+
+func GetAliveCreatureFromTile(x, y int, c Creatures) *Creature {
+	/* Function GetAliveCreatureFromTile takes coords and slice of Creature
+	   as arguments, and returns Creature.
+	   It iterates through all Creatures and find one that occupies specified tile.
+	   This function could use []*Creature instead of *Creature, but monsters
+	   should not overlap anyway. */
+	var cs *Creature
+	for i := 0; i < len(c); i++ {
+		if c[i].X == x && c[i].Y == y && c[i].HPCurrent > 0 {
+			cs = c[i]
+		}
+	}
+	return cs
+}
+
+func GetAllThingsFromTile(x, y int, b Board, c Creatures, o Objects) (*Tile, Creatures, Objects) {
+	/* GetAllThingsFromTile is function that takes coordinates, global map,
+	   Creatures and Objects as arguments. It creates slice of Creature and
+	   slice of Object that occupy coords, and returns them.
+	   If these slices are empty, it returns board tile. */
+	var cs = Creatures{}
+	for i := 0; i < len(c); i++ {
+		if c[i].X == x && c[i].Y == y {
+			cs = append(cs, c[i])
+		}
+	}
+	var os = Objects{}
+	for j := 0; j < len(o); j++ {
+		if o[j].X == x && o[j].Y == y {
+			os = append(os, o[j])
+		}
+	}
+	if len(cs) != 0 || len(os) != 0 {
+		return nil, cs, os
+	}
+	return b[x][y], cs, os // cs and os are nil.
 }

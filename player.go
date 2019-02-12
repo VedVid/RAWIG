@@ -1,21 +1,27 @@
 /*
-Copyright (c) 2018 Tomasz "VedVid" Nowakowski
+Copyright (c) 2018, Tomasz "VedVid" Nowakowski
+All rights reserved.
 
-This software is provided 'as-is', without any express or implied
-warranty. In no event will the authors be held liable for any damages
-arising from the use of this software.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
-Permission is granted to anyone to use this software for any purpose,
-including commercial applications, and to alter it and redistribute it
-freely, subject to the following restrictions:
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
 
-1. The origin of this software must not be misrepresented; you must not
-   claim that you wrote the original software. If you use this software
-   in a product, an acknowledgment in the product documentation would be
-   appreciated but is not required.
-2. Altered source versions must be plainly marked as such, and must not be
-   misrepresented as being the original software.
-3. This notice may not be removed or altered from any source distribution.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 package main
@@ -30,7 +36,7 @@ import (
 )
 
 func NewPlayer(layer, x, y int, character, name, color, colorDark string,
-	alwaysVisible, blocked, blocksSight bool, ai, hp, attack,
+	alwaysVisible, blocked, blocksSight, triggered bool, ai, hp, attack,
 	defense int, equipment EquipmentComponent) (*Creature, error) {
 	/* Function NewPlayer takes all values necessary by its struct,
 	   and creates then returns pointer to Creature;
@@ -47,6 +53,9 @@ func NewPlayer(layer, x, y int, character, name, color, colorDark string,
 	if utf8.RuneCountInString(character) != 1 {
 		txt := CharacterLengthError(character)
 		err = errors.New("Player character string length is not equal to 1." + txt)
+	}
+	if triggered != false {
+		err = errors.New("Warning: Player should not be triggered!")
 	}
 	if ai != PlayerAI {
 		txt := PlayerAIError(ai)
@@ -69,7 +78,7 @@ func NewPlayer(layer, x, y int, character, name, color, colorDark string,
 		colorDark}
 	playerVisibilityProperties := VisibilityProperties{alwaysVisible}
 	playerCollisionProperties := CollisionProperties{blocked, blocksSight}
-	playerFighterProperties := FighterProperties{ai, hp, hp, attack, defense}
+	playerFighterProperties := FighterProperties{ai, triggered, hp, hp, attack, defense}
 	playerNew := &Creature{playerBasicProperties, playerVisibilityProperties,
 		playerCollisionProperties, playerFighterProperties,
 		equipment}
@@ -184,6 +193,9 @@ func (p *Creature) EquipFromInventory(o *Object) bool {
 			if p.Equipment[option] != nil {
 				AddMessage("This slot is already occupied.")
 				continue
+			} else if option != o.Slot {
+				AddMessage("You can't equip this here.")
+				continue
 			} else {
 				var err error
 				turnSpent, err = p.EquipItem(o, option)
@@ -276,13 +288,13 @@ Loop:
 }
 
 func (p *Creature) EquippablesMenu(slot int) bool {
-	/* EquippablesMenu is method od Creature (that is supposed to be player).
+	/* EquippablesMenu is method of Creature (that is supposed to be player).
 	   It returns true if action was success, false otherwise.
 	   At start, GetEquippablesFromInventory is called to create new slice
 	   of equippables separated from inventory. Then function waits for player
 	   input and, if possible, calls HandleEquippables to fill empty slot. */
 	turnSpent := false
-	eq := GetEquippablesFromInventory(p)
+	eq := GetEquippablesFromInventory(p, slot)
 	for {
 		PrintEquippables(UIPosX, UIPosY, "Equippables: ", eq)
 		key := blt.Read()
@@ -305,7 +317,8 @@ func (p *Creature) HandleEquippables(eq Objects, option, slot int) bool {
 	   It returns true if action is success.
 	   The body if this function calls EquipItem and handles it error. */
 	turnSpent := false
-	turnSpent, err := p.EquipItem(eq[option], slot)
+	var err error
+	turnSpent, err = p.EquipItem(eq[option], slot)
 	if err != nil {
 		fmt.Println(err)
 	}

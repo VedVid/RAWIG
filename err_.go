@@ -1,21 +1,27 @@
 /*
-Copyright (c) 2018 Tomasz "VedVid" Nowakowski
+Copyright (c) 2018, Tomasz "VedVid" Nowakowski
+All rights reserved.
 
-This software is provided 'as-is', without any express or implied
-warranty. In no event will the authors be held liable for any damages
-arising from the use of this software.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
-Permission is granted to anyone to use this software for any purpose,
-including commercial applications, and to alter it and redistribute it
-freely, subject to the following restrictions:
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
 
-1. The origin of this software must not be misrepresented; you must not
-   claim that you wrote the original software. If you use this software
-   in a product, an acknowledgment in the product documentation would be
-   appreciated but is not required.
-2. Altered source versions must be plainly marked as such, and must not be
-   misrepresented as being the original software.
-3. This notice may not be removed or altered from any source distribution.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 package main
@@ -156,6 +162,18 @@ func EquipSlotNotNilError(c *Creature, slot int) string {
 	return txt
 }
 
+func EquipWrongSlotError(eqSlot, itemSlot int) string {
+	/* Function EquipWrongSlotError is helper function that returns string
+	   to error; it takes two ints - slot indicators - as arguments.
+	   It is called when Creature tries to equip item to wrong slot.
+	   Slots are declared as constants in objects.go. */
+	eqSlotStr := strconv.Itoa(eqSlot)
+	itemSlotStr := strconv.Itoa(itemSlot)
+	txt := "\n    <equipment slot: " + eqSlotStr + "; " +
+		"\n         item slot: " + itemSlotStr + ">"
+	return txt
+}
+
 func DequipNilError(c *Creature, slot int) string {
 	/* Function DequipNilError is helper function that returns string to error;
 	   it takes *Creature and int (that is indicator of Equipment slot) as
@@ -163,5 +181,28 @@ func DequipNilError(c *Creature, slot int) string {
 	name, x, y := c.Name, strconv.Itoa(c.X), strconv.Itoa(c.Y)
 	txt := "\n    <creature: " + name + "; x: " + x + ", y: " + y + ">" +
 		"\n    <slot: " + strconv.Itoa(slot) + ">"
+	return txt
+}
+
+func VectorCoordinatesOutOfMapBounds(startX, startY, targetX, targetY int) string {
+	/* Function VectorCoordinatesOutOfMapBounds is helper function that returns
+	   string to error; it takes vector source and vector target coords as arguments.
+	   It is called if source or target is out of map bounds. */
+	sx, sy := strconv.Itoa(startX), strconv.Itoa(startY)
+	tx, ty := strconv.Itoa(targetX), strconv.Itoa(targetY)
+	txt := "\n    <MapSizeX: 0.." + strconv.Itoa(MapSizeX-1) + "; MapSizeY: 0.." +
+		strconv.Itoa(MapSizeY-1) + ";" +
+		"\n    VectorStartPoint:  " + sx + ", " + sy + "; " +
+		"\n    VectorTargetPoint: " + tx + ", " + ty + ">"
+	return txt
+}
+
+func TargetNilError(c *Creature, cs Creatures) string {
+	/* Function TargetNilError is helper function that returns string to error.
+	   It takes Creature, and slice of Creature, as arguments. It is called
+	   when game can not find any targets in range - because is supposed to
+	   target player if there is no Creature in range. */
+	txt := "\n    <source: name==" + c.Name + "; coords: " + strconv.Itoa(c.X) +
+		", " + strconv.Itoa(c.Y) + "; targets: " + strconv.Itoa(len(cs)) + ">"
 	return txt
 }

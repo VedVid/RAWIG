@@ -1,21 +1,27 @@
 /*
-Copyright (c) 2018 Tomasz "VedVid" Nowakowski
+Copyright (c) 2018, Tomasz "VedVid" Nowakowski
+All rights reserved.
 
-This software is provided 'as-is', without any express or implied
-warranty. In no event will the authors be held liable for any damages
-arising from the use of this software.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
-Permission is granted to anyone to use this software for any purpose,
-including commercial applications, and to alter it and redistribute it
-freely, subject to the following restrictions:
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
 
-1. The origin of this software must not be misrepresented; you must not
-   claim that you wrote the original software. If you use this software
-   in a product, an acknowledgment in the product documentation would be
-   appreciated but is not required.
-2. Altered source versions must be plainly marked as such, and must not be
-   misrepresented as being the original software.
-3. This notice may not be removed or altered from any source distribution.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 package main
@@ -47,7 +53,7 @@ type Node struct {
 	Weight int
 }
 
-func TilesToNodes(b Board) [][]*Node {
+func TilesToNodes() [][]*Node {
 	/* TilesToNodes is function that takes Board
 	   (ie map, or fragment, of level) as argument. It converts
 	   Tiles to Nodes, and returns 2d array of *Node to mimic
@@ -68,7 +74,7 @@ func TilesToNodes(b Board) [][]*Node {
 	return nodes
 }
 
-func FindAdjacent(b Board, nodes [][]*Node, frontiers []*Node, start *Node, w int) ([]*Node, bool) {
+func FindAdjacent(b Board, c Creatures, nodes [][]*Node, frontiers []*Node, start *Node, w int) ([]*Node, bool) {
 	/* Function FindAdjacent takes Board, Board-like [][]*Node array,
 	   coords of starting point, and current value to attribute Weight field
 	   of Node; FindAdjacent returns slice of adjacent tiles and startFound
@@ -83,8 +89,8 @@ func FindAdjacent(b Board, nodes [][]*Node, frontiers []*Node, start *Node, w in
 	var adjacent = []*Node{}
 	startFound := false
 	for i := 0; i < len(frontiers); i++ {
-		for x := (frontiers[i].X - 1); x <= (frontiers[i].X + 1); x++ {
-			for y := (frontiers[i].Y - 1); y <= (frontiers[i].Y + 1); y++ {
+		for x := frontiers[i].X - 1; x <= frontiers[i].X+1; x++ {
+			for y := frontiers[i].Y - 1; y <= frontiers[i].Y+1; y++ {
 				if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
 					continue //node is out of map bounds
 				}
@@ -96,6 +102,10 @@ func FindAdjacent(b Board, nodes [][]*Node, frontiers []*Node, start *Node, w in
 				}
 				if b[x][y].Blocked == true || b[x][y].BlocksSight == true {
 					continue //tile is blocked, or it blocks line of sight
+				}
+				if GetAliveCreatureFromTile(x, y, c) != nil {
+					fmt.Println(0)
+					continue //tile is occupied by other monster
 				}
 				nodes[x][y].Weight = w
 				adjacent = append(adjacent, nodes[x][y])
@@ -110,7 +120,7 @@ End:
 	return adjacent, startFound
 }
 
-func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
+func (c *Creature) MoveTowardsPath(b Board, cs Creatures, tx, ty int) {
 	/* MoveTowardsPath is one of main pathfinding methods. It takes
 	   Board and ints tx, ty (ie target coords) as arguments.
 	   MoveTowardsPath uses weighted graph to find shortest path
@@ -128,7 +138,7 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 	   Weight set to lesser value that node occupied by Creature.
 	   Effect may be a bit strange as it takes first node that met
 	   conditions, but works rather well with basic MoveTowards method. */
-	nodes := TilesToNodes(b) //convert tiles to nodes
+	nodes := TilesToNodes()
 	start := nodes[c.X][c.Y]
 	startFound := false
 	goal := nodes[tx][ty]
@@ -140,7 +150,7 @@ func (c *Creature) MoveTowardsPath(b Board, tx, ty int) {
 		if len(frontiers) == 0 || startFound == true {
 			break
 		}
-		frontiers, startFound = FindAdjacent(b, nodes, frontiers, start, w)
+		frontiers, startFound = FindAdjacent(b, cs, nodes, frontiers, start, w)
 	}
 	// Uncomment line below, if you want to see nodes' weights.
 	//RenderWeights(nodes)
@@ -163,8 +173,8 @@ func BacktrackPath(nodes [][]*Node, start *Node) (int, int, error) {
 	   It returns error if can't find proper tile.
 	   Note: returning three values at once is ugly. */
 	direction := *start
-	for x := (start.X - 1); x <= (start.X + 1); x++ {
-		for y := (start.Y - 1); y <= (start.Y + 1); y++ {
+	for x := start.X - 1; x <= start.X+1; x++ {
+		for y := start.Y - 1; y <= start.Y+1; y++ {
 			if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
 				continue // Node is out of map bounds.
 			}
@@ -214,7 +224,7 @@ func RenderWeights(nodes [][]*Node) {
 	blt.Read()
 }
 
-func (c *Creature) MoveTowards(b Board, tx, ty int, ai int) {
+func (c *Creature) MoveTowards(b Board, cs Creatures, tx, ty int, ai int) {
 	/* MoveTowards is *the* main method for pathfinding.
 	   Has *Creature as receiver, and takes Board (ie map of level),
 	   ints tx and ty (ie coords of Node - in that case, it's more
@@ -235,28 +245,31 @@ func (c *Creature) MoveTowards(b Board, tx, ty int, ai int) {
 	if dx > 0 {
 		ddx = 1
 	} else if dx < 0 {
-		ddx = (-1)
+		ddx = -1
 	}
 	if dy > 0 {
 		ddy = 1
 	} else if dy < 0 {
-		ddy = (-1)
+		ddy = -1
 	}
-	if b[c.X+ddx][c.Y+ddy].Blocked == false {
+	newX, newY := c.X+ddx, c.Y+ddy
+	if b[newX][newY].Blocked == false && GetAliveCreatureFromTile(newX, newY, cs) == nil {
 		c.Move(ddx, ddy, b)
 	} else {
-		if ai == DumbAI {
+		if ai == MeleeDumbAI || ai == RangedDumbAI {
+			fmt.Println(0)
 			if ddx != 0 {
-				if b[c.X+ddx][c.Y].Blocked == false {
+				if b[newX][c.Y].Blocked == false && GetAliveCreatureFromTile(newX, c.Y, cs) == nil {
 					c.Move(ddx, 0, b)
 				}
 			} else if ddy != 0 {
-				if b[c.X][c.Y+ddy].Blocked == false {
+				if b[c.X][newY].Blocked == false && GetAliveCreatureFromTile(c.X, newY, cs) == nil {
 					c.Move(0, ddy, b)
 				}
 			}
-		} else {
-			c.MoveTowardsPath(b, tx, ty)
+		} else if ai == MeleePatherAI || ai == RangedPatherAI {
+			fmt.Println(1)
+			c.MoveTowardsPath(b, cs, tx, ty)
 		}
 	}
 }

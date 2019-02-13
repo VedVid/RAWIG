@@ -206,3 +206,19 @@ func TargetNilError(c *Creature, cs Creatures) string {
 		", " + strconv.Itoa(c.Y) + "; targets: " + strconv.Itoa(len(cs)) + ">"
 	return txt
 }
+
+func CorruptedSaveError(errBoard, errCreatures, errObjects error) string {
+	errorBoard, errorCreatures, errorObjects := "", "", ""
+	if errBoard != nil {
+		errorBoard = "map.gob "
+	}
+	if errCreatures != nil {
+		errorCreatures = "monsters.gob "
+	}
+	if errObjects != nil {
+		errorObjects = "objects.gob "
+	}
+	txt := "\n    <Following files are missing: " + errorBoard + errorCreatures +
+		errorObjects + ">"
+	return txt
+}

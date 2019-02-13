@@ -124,7 +124,8 @@ func StartGame(b *Board, c *Creatures, o*Objects) {
 	} else if errBoard != nil && errCreatures != nil && errObjects != nil {
 		NewGame(b, c, o)
 	} else {
-		fmt.Println("error: save corrupted")
+		txt := CorruptedSaveError(errBoard, errCreatures, errObjects)
+		fmt.Println("Error: save files are corrupted: " + txt)
 		panic(-1)
 	}
 }

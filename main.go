@@ -45,7 +45,6 @@ func main() {
 	cells := *cellsPtr
 	objs := *objsPtr
 	actors := *actorsPtr
-	fmt.Println(0)
 	for {
 		RenderAll(cells, objs, actors)
 		key := blt.Read()

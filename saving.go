@@ -27,6 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package main
 
 import (
+	"errors"
 	"encoding/gob"
 	"fmt"
 	"os"
@@ -137,6 +138,32 @@ func LoadGame(b *Board, c *Creatures, o *Objects) error {
 	err = loadObjects(o)
 	if err != nil {
 		fmt.Println(err)
+	}
+	return err
+}
+
+func DeleteSaves() error {
+	var err error
+	_, err = os.Stat("./map.gob")
+	if err == nil {
+		os.Remove("./map.gob")
+	} else {
+		err = errors.New("Error: save file not found: map.gob")
+		return err
+	}
+	_, err = os.Stat("./monsters.gob")
+	if err == nil {
+		os.Remove("./monsters.gob")
+	} else {
+		err = errors.New("Error: save file not found: monsters.gob")
+		return err
+	}
+	_, err = os.Stat("./objects.gob")
+	if err == nil {
+		os.Remove("./objects.gob")
+	} else {
+		err = errors.New("Error: save file not found: objects.gob")
+		return err
 	}
 	return err
 }

@@ -55,6 +55,11 @@ func main() {
 			}
 			break
 		} else if actors[0].HPCurrent <= 0 {
+			err30 := DeleteSaves()
+			if err30 != nil {
+				fmt.Println(err30)
+				panic(-1)
+			}
 			break
 		} else {
 			turnSpent := Controls(key, actors[0], cells, actors, &objs)

@@ -27,8 +27,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package main
 
 import (
-	"errors"
 	"encoding/gob"
+	"errors"
 	"fmt"
 	"os"
 )
@@ -150,6 +150,10 @@ func loadObjects(o *Objects) error {
 }
 
 func SaveGame(b Board, c Creatures, o Objects) error {
+	/* Function SaveGame encodes game map, monsters, objects into
+	   save files, using Go's gob format. This function may need better
+	   error handling - it relies on gob's built-in errors that are
+	   not very helpful. */
 	var err error
 	err = saveBoard(b)
 	if err != nil {
@@ -167,6 +171,10 @@ func SaveGame(b Board, c Creatures, o Objects) error {
 }
 
 func LoadGame(b *Board, c *Creatures, o *Objects) error {
+	/* Function LoadGame decoded save files (their names and paths are
+	   specified as constants on the top of this file) into
+	   game map, monsters and objects. As SaveGame, it may need
+	   better error handling due to unhelpful gob's error messages. */
 	var err error
 	err = loadBoard(b)
 	if err != nil {
@@ -184,6 +192,9 @@ func LoadGame(b *Board, c *Creatures, o *Objects) error {
 }
 
 func DeleteSaves() error {
+	/* Function DeleteSaves sereves, well, deleting saves (mostly upon death).
+	   It checks if certain save file exists. If so, removes it.
+	   Returns the first encountered error. */
 	var err error
 	_, err = os.Stat(MapPath)
 	if err == nil {

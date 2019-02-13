@@ -34,6 +34,7 @@ import (
 )
 
 const (
+	// Constant values for save files manipulation.
 	MapName = "map.gob"
 	MapPath = "./" + MapName
 	CreaturesName = "monsters.gob"
@@ -43,16 +44,26 @@ const (
 )
 
 const (
+	// Unique name that serves as identifier to values
+	// that should be converted from nil to object or from object to nil.
 	objectNilPlaceholder = "objectNilPlaceholder"
 )
 
 func nilToObject() *Object {
+	/* Function nilToObject returns *Object with >>placeholder<< identifier.
+	   It serves to find data that is nil in game - but format gob does not
+	   work well with nil values (and interfaces).
+	   It is ugly hack, but works. */
 	placeholder, _ := NewObject(0, 0, 0, "o", objectNilPlaceholder, "black", "black", false,
 		false, false, false, false, false, 0, 0)
 	return placeholder
 }
 
 func writeGob(path string, thing interface{}) error {
+	/* Function writeGob takes path-to-file, and any object (as interface{})
+	   as arguments, then encodes it to gob file. Returns error - unfortunately,
+	   errors that are built in gob package are not very helpful, and whole process
+	   is hard to debug. */
 	f, err := os.Create(path)
 	defer f.Close()
 	if err == nil {
@@ -63,6 +74,9 @@ func writeGob(path string, thing interface{}) error {
 }
 
 func readGob(path string, thing interface{}) error {
+	/* Function readGob takes path-to-file, and any object (as interface{})
+	   as arguments, then decodes file to interface. Returns error - Decoding has
+	   as unhelpful errors as Encoding. */
 	f, err := os.Open(path)
 	defer f.Close()
 	if err == nil {
@@ -73,16 +87,26 @@ func readGob(path string, thing interface{}) error {
 }
 
 func saveBoard(b Board) error {
+	/* Function saveBoard is helper function that takes game map
+	   as argument and encodes it to save file. */
 	err := writeGob(MapPath, b)
 	return err
 }
 
 func loadBoard(b *Board) error {
+	/* Function loadBoard is helper function that decodes saved data
+	   to game map. */
 	err := readGob(MapPath, b)
 	return err
 }
 
 func saveCreatures(c Creatures) error {
+	/* Function saveBoard is helper function that takes monsters
+	   as argument and encodes it to save file.
+	   Unfortunately, gob format/package does not work well with
+	   nil values. To encode it properly, there is placeholder
+	   object created for every nil object; these false objects
+	   should be decode to nil by loadCreatures. */
 	for i := 0; i < len(c); i++ {
 		for j := 0; j < len(c[i].Equipment); j++ {
 			if c[i].Equipment[j] == nil {
@@ -95,6 +119,10 @@ func saveCreatures(c Creatures) error {
 }
 
 func loadCreatures(c *Creatures) error {
+	/* Function loadCreatures is helper function that decodes saved data
+	   to slice of creatures. Gob package has troubles with handling nil
+	   values, so every nil is represented as placeholder object.
+	   During decoding, every placeholder becomes nil again. */
 	err := readGob(CreaturesPath, c)
 	for i := 0; i < len(*c); i++ {
 		objs := (*c)[i].Equipment
@@ -108,11 +136,15 @@ func loadCreatures(c *Creatures) error {
 }
 
 func saveObjects(o Objects) error {
+	/* Function saveObjects is helper function that takes game objects
+	   as argument and encodes it to save file. */
 	err := writeGob(ObjectsPath, o)
 	return err
 }
 
 func loadObjects(o *Objects) error {
+	/* Function loadObjects is helper function that decodes saved data
+	   to slice of objects. */
 	err := readGob(ObjectsPath, o)
 	return err
 }

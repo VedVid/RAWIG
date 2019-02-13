@@ -72,6 +72,8 @@ func main() {
 }
 
 func NewGame(b *Board, c *Creatures, o *Objects) {
+	/* Function NewGame initializes game state - creates player, monsters, and game map.
+	   This implementation is generic-placeholder, for testing purposes. */
 	slot, _ := NewObject(ObjectsLayer, 0, 0, "}", "weapon", "red", "dark red", true,
 		false, false, true, true, false, SlotWeaponPrimary, UseHeal)
 	slot2, _ := NewObject(ObjectsLayer, 0, 0, "{", "weapon2", "green", "dark green", true,
@@ -115,6 +117,9 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 }
 
 func StartGame(b *Board, c *Creatures, o*Objects) {
+	/* Function StartGame determines if game save is present (and valid), then
+	   loads data, or initializes new game.
+	   Panics if some-but-not-all save files are missing. */
 	_, errBoard := os.Stat(MapPath)
 	_, errCreatures := os.Stat(CreaturesPath)
 	_, errObjects := os.Stat(ObjectsPath)

@@ -34,6 +34,15 @@ import (
 )
 
 const (
+	MapName = "map.gob"
+	MapPath = "./" + MapName
+	CreaturesName = "monsters.gob"
+	CreaturesPath = "./" + CreaturesName
+	ObjectsName = "objects.gob"
+	ObjectsPath = "./" + ObjectsName
+)
+
+const (
 	objectNilPlaceholder = "objectNilPlaceholder"
 )
 
@@ -64,12 +73,12 @@ func readGob(path string, thing interface{}) error {
 }
 
 func saveBoard(b Board) error {
-	err := writeGob("./map.gob", b)
+	err := writeGob(MapPath, b)
 	return err
 }
 
 func loadBoard(b *Board) error {
-	err := readGob("./map.gob", b)
+	err := readGob(MapPath, b)
 	return err
 }
 
@@ -81,12 +90,12 @@ func saveCreatures(c Creatures) error {
 			}
 		}
 	}
-	err := writeGob("./monsters.gob", c)
+	err := writeGob(CreaturesPath, c)
 	return err
 }
 
 func loadCreatures(c *Creatures) error {
-	err := readGob("./monsters.gob", c)
+	err := readGob(CreaturesPath, c)
 	for i := 0; i < len(*c); i++ {
 		objs := (*c)[i].Equipment
 		for j := 0; j < len(objs); j++ {
@@ -99,12 +108,12 @@ func loadCreatures(c *Creatures) error {
 }
 
 func saveObjects(o Objects) error {
-	err := writeGob("./objects.gob", o)
+	err := writeGob(ObjectsPath, o)
 	return err
 }
 
 func loadObjects(o *Objects) error {
-	err := readGob("./objects.gob", o)
+	err := readGob(ObjectsPath, o)
 	return err
 }
 
@@ -144,25 +153,25 @@ func LoadGame(b *Board, c *Creatures, o *Objects) error {
 
 func DeleteSaves() error {
 	var err error
-	_, err = os.Stat("./map.gob")
+	_, err = os.Stat(MapPath)
 	if err == nil {
-		os.Remove("./map.gob")
+		os.Remove(MapPath)
 	} else {
-		err = errors.New("Error: save file not found: map.gob")
+		err = errors.New("Error: save file not found: " + MapName + ".")
 		return err
 	}
-	_, err = os.Stat("./monsters.gob")
+	_, err = os.Stat(CreaturesPath)
 	if err == nil {
-		os.Remove("./monsters.gob")
+		os.Remove(CreaturesPath)
 	} else {
-		err = errors.New("Error: save file not found: monsters.gob")
+		err = errors.New("Error: save file not found: " + CreaturesName + ".")
 		return err
 	}
-	_, err = os.Stat("./objects.gob")
+	_, err = os.Stat(ObjectsPath)
 	if err == nil {
-		os.Remove("./objects.gob")
+		os.Remove(ObjectsPath)
 	} else {
-		err = errors.New("Error: save file not found: objects.gob")
+		err = errors.New("Error: save file not found: " + ObjectsName + ".")
 		return err
 	}
 	return err

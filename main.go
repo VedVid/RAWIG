@@ -115,9 +115,9 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 }
 
 func StartGame(b *Board, c *Creatures, o*Objects) {
-	_, errBoard := os.Stat("./map.gob")
-	_, errCreatures := os.Stat("./monsters.gob")
-	_, errObjects := os.Stat("./objects.gob")
+	_, errBoard := os.Stat(MapPath)
+	_, errCreatures := os.Stat(CreaturesPath)
+	_, errObjects := os.Stat(ObjectsPath)
 	if errBoard == nil && errCreatures == nil && errObjects == nil {
 		LoadGame(b, c, o)
 	} else if errBoard != nil && errCreatures != nil && errObjects != nil {

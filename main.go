@@ -126,6 +126,7 @@ func StartGame(b *Board, c *Creatures, o*Objects) {
 		NewGame(b, c, o)
 	} else {
 		fmt.Println("error: save corrupted")
+		panic(-1)
 	}
 }
 

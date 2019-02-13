@@ -30,6 +30,7 @@ import (
 	blt "bearlibterminal"
 	"fmt"
 	"math/rand"
+	"os"
 	"time"
 )
 
@@ -37,6 +38,35 @@ var MsgBuf = []string{}
 var LastTarget *Creature
 
 func main() {
+	var cellsPtr = new(Board)
+	var objsPtr = new(Objects)
+	var actorsPtr = new(Creatures)
+	StartGame(cellsPtr, actorsPtr, objsPtr)
+	cells := *cellsPtr
+	objs := *objsPtr
+	actors := *actorsPtr
+	for {
+		RenderAll(cells, objs, actors)
+		key := blt.Read()
+		if key == blt.TK_ESCAPE {
+			err20 := SaveGame(cells, actors, objs)
+			if err20 != nil {
+				fmt.Println(err20)
+			}
+			break
+		} else if actors[0].HPCurrent <= 0 {
+			break
+		} else {
+			turnSpent := Controls(key, actors[0], cells, actors, &objs)
+			if turnSpent == true {
+				CreaturesTakeTurn(cells, actors, objs)
+			}
+		}
+	}
+	blt.Close()
+}
+
+func NewGame(b *Board, c *Creatures, o *Objects) {
 	slot, _ := NewObject(ObjectsLayer, 0, 0, "}", "weapon", "red", "dark red", true,
 		false, false, true, true, false, SlotWeaponPrimary, UseHeal)
 	slot2, _ := NewObject(ObjectsLayer, 0, 0, "{", "weapon2", "green", "dark green", true,
@@ -53,37 +83,45 @@ func main() {
 	}
 	var enemyEq = EquipmentComponent{Objects{nil, nil, nil}, Objects{}}
 	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "enemy", "green", "green",
-		false, true, false, false, RangedPatherAI, 10, 4, 1, enemyEq)
+		false, true, false, false, MeleePatherAI, 10, 4, 1, enemyEq)
 	if err != nil {
 		fmt.Println(err)
 	}
-	var enemyEq2 = EquipmentComponent{Objects{nil, nil, nil}, Objects{}}
+	slot7, _ := NewObject(ObjectsLayer, 0, 0, "}", "weapon", "red", "dark red", true,
+		false, false, true, true, false, SlotWeaponPrimary, UseHeal)
+	slot8, _ := NewObject(ObjectsLayer, 0, 0, "{", "weapon2", "green", "dark green", true,
+		false, false, true, true, false, SlotWeaponSecondary, UseNA)
+	slot9, _ := NewObject(ObjectsLayer, 0, 0, "|", "melee", "yellow", "dark yellow", true,
+		false, false, true, true, false, SlotWeaponMelee, UseNA)
+	var enemyEq2 = EquipmentComponent{Objects{slot7, slot8, slot9}, Objects{}}
 	enemy2, err2 := NewCreature(CreaturesLayer, 11, 11, "T", "enemy", "red", "red",
-		false, true, false, false, MeleePatherAI, 10, 4, 1, enemyEq2)
+		false, true, false, false, RangedPatherAI, 10, 4, 1, enemyEq2)
 	if err2 != nil {
 		fmt.Println(err)
 	}
-	var actors = Creatures{player, enemy, enemy2}
+	*c = Creatures{player, enemy, enemy2}
 	obj, err := NewObject(ObjectsLayer, 3, 3, "(", "heal2", "blue", "dark blue", true,
 		false, false, true, false, false, SlotNA, UseHeal)
-	var objs = Objects{obj}
+	*o = Objects{obj}
 	if err != nil {
 		fmt.Println(err)
 	}
-	cells := InitializeEmptyMap()
-	for {
-		RenderAll(cells, objs, actors)
-		key := blt.Read()
-		if key == blt.TK_ESCAPE || actors[0].HPCurrent <= 0 {
-			break
-		} else {
-			turnSpent := Controls(key, player, cells, actors, &objs)
-			if turnSpent == true {
-				CreaturesTakeTurn(cells, actors, objs)
-			}
-		}
+	*b = InitializeEmptyMap()
+}
+
+func StartGame(b *Board, c *Creatures, o*Objects) {
+	_, errBoard := os.Stat("./map.gob")
+	_, errCreatures := os.Stat("./monsters.gob")
+	_, errObjects := os.Stat("./objects.gob")
+	if errBoard == nil && errCreatures == nil && errObjects == nil {
+		LoadGame(b, c, o)
+	} else if errBoard != nil && errCreatures != nil && errObjects != nil {
+		NewGame(b, c, o)
+	} else {
+		txt := CorruptedSaveError(errBoard, errCreatures, errObjects)
+		fmt.Println("Error: save files are corrupted: " + txt)
+		panic(-1)
 	}
-	blt.Close()
 }
 
 func init() {

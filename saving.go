@@ -32,6 +32,16 @@ import (
 	"os"
 )
 
+const (
+	objectNilPlaceholder = "objectNilPlaceholder"
+)
+
+func nilToObject() *Object {
+	placeholder, _ := NewObject(0, 0, 0, "o", objectNilPlaceholder, "black", "black", false,
+		false, false, false, false, false, 0, 0)
+	return placeholder
+}
+
 func writeGob(path string, thing interface{}) error {
 	f, err := os.Create(path)
 	defer f.Close()
@@ -63,12 +73,27 @@ func loadBoard(b *Board) error {
 }
 
 func saveCreatures(c Creatures) error {
+	for i := 0; i < len(c); i++ {
+		for j := 0; j < len(c[i].Equipment); j++ {
+			if c[i].Equipment[j] == nil {
+				c[i].Equipment[j] = nilToObject()
+			}
+		}
+	}
 	err := writeGob("./monsters.gob", c)
 	return err
 }
 
 func loadCreatures(c *Creatures) error {
 	err := readGob("./monsters.gob", c)
+	for i := 0; i < len(*c); i++ {
+		objs := (*c)[i].Equipment
+		for j := 0; j < len(objs); j++ {
+			if objs[j].Name == objectNilPlaceholder {
+				objs[j] = nil
+			}
+		}
+	}
 	return err
 }
 

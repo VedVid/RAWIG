@@ -51,13 +51,25 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	var enemyEq = EquipmentComponent{Objects{nil, nil, nil}, Objects{}}
+	slot4, _ := NewObject(ObjectsLayer, 0, 0, "}", "weapon", "red", "dark red", true,
+		false, false, true, true, false, SlotWeaponPrimary, UseHeal)
+	slot5, _ := NewObject(ObjectsLayer, 0, 0, "{", "weapon2", "green", "dark green", true,
+		false, false, true, true, false, SlotWeaponSecondary, UseNA)
+	slot6, _ := NewObject(ObjectsLayer, 0, 0, "|", "melee", "yellow", "dark yellow", true,
+		false, false, true, true, false, SlotWeaponMelee, UseNA)
+	var enemyEq = EquipmentComponent{Objects{slot4, slot5, slot6}, Objects{}}
 	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "enemy", "green", "green",
 		false, true, false, false, RangedPatherAI, 10, 4, 1, enemyEq)
 	if err != nil {
 		fmt.Println(err)
 	}
-	var enemyEq2 = EquipmentComponent{Objects{nil, nil, nil}, Objects{}}
+	slot7, _ := NewObject(ObjectsLayer, 0, 0, "}", "weapon", "red", "dark red", true,
+		false, false, true, true, false, SlotWeaponPrimary, UseHeal)
+	slot8, _ := NewObject(ObjectsLayer, 0, 0, "{", "weapon2", "green", "dark green", true,
+		false, false, true, true, false, SlotWeaponSecondary, UseNA)
+	slot9, _ := NewObject(ObjectsLayer, 0, 0, "|", "melee", "yellow", "dark yellow", true,
+		false, false, true, true, false, SlotWeaponMelee, UseNA)
+	var enemyEq2 = EquipmentComponent{Objects{slot7, slot8, slot9}, Objects{}}
 	enemy2, err2 := NewCreature(CreaturesLayer, 11, 11, "T", "enemy", "red", "red",
 		false, true, false, false, MeleePatherAI, 10, 4, 1, enemyEq2)
 	if err2 != nil {

@@ -35,12 +35,12 @@ import (
 
 const (
 	// Constant values for save files manipulation.
-	MapName = "map.gob"
-	MapPath = "./" + MapName
-	CreaturesName = "monsters.gob"
-	CreaturesPath = "./" + CreaturesName
-	ObjectsName = "objects.gob"
-	ObjectsPath = "./" + ObjectsName
+	MapNameGob       = "map.gob"
+	MapPathGob       = "./" + MapNameGob
+	CreaturesNameGob = "monsters.gob"
+	CreaturesPathGob = "./" + CreaturesNameGob
+	ObjectsNameGob   = "objects.gob"
+	ObjectsPathGob   = "./" + ObjectsNameGob
 )
 
 const (
@@ -89,14 +89,14 @@ func readGob(path string, thing interface{}) error {
 func saveBoard(b Board) error {
 	/* Function saveBoard is helper function that takes game map
 	   as argument and encodes it to save file. */
-	err := writeGob(MapPath, b)
+	err := writeGob(MapPathGob, b)
 	return err
 }
 
 func loadBoard(b *Board) error {
 	/* Function loadBoard is helper function that decodes saved data
 	   to game map. */
-	err := readGob(MapPath, b)
+	err := readGob(MapPathGob, b)
 	return err
 }
 
@@ -114,7 +114,7 @@ func saveCreatures(c Creatures) error {
 			}
 		}
 	}
-	err := writeGob(CreaturesPath, c)
+	err := writeGob(CreaturesPathGob, c)
 	return err
 }
 
@@ -123,7 +123,7 @@ func loadCreatures(c *Creatures) error {
 	   to slice of creatures. Gob package has troubles with handling nil
 	   values, so every nil is represented as placeholder object.
 	   During decoding, every placeholder becomes nil again. */
-	err := readGob(CreaturesPath, c)
+	err := readGob(CreaturesPathGob, c)
 	for i := 0; i < len(*c); i++ {
 		objs := (*c)[i].Equipment
 		for j := 0; j < len(objs); j++ {
@@ -138,14 +138,14 @@ func loadCreatures(c *Creatures) error {
 func saveObjects(o Objects) error {
 	/* Function saveObjects is helper function that takes game objects
 	   as argument and encodes it to save file. */
-	err := writeGob(ObjectsPath, o)
+	err := writeGob(ObjectsPathGob, o)
 	return err
 }
 
 func loadObjects(o *Objects) error {
 	/* Function loadObjects is helper function that decodes saved data
 	   to slice of objects. */
-	err := readGob(ObjectsPath, o)
+	err := readGob(ObjectsPathGob, o)
 	return err
 }
 
@@ -196,25 +196,25 @@ func DeleteSaves() error {
 	   It checks if certain save file exists. If so, removes it.
 	   Returns the first encountered error. */
 	var err error
-	_, err = os.Stat(MapPath)
+	_, err = os.Stat(MapPathGob)
 	if err == nil {
-		os.Remove(MapPath)
+		os.Remove(MapPathGob)
 	} else {
-		err = errors.New("Error: save file not found: " + MapName + ".")
+		err = errors.New("Error: save file not found: " + MapNameGob + ".")
 		return err
 	}
-	_, err = os.Stat(CreaturesPath)
+	_, err = os.Stat(CreaturesPathGob)
 	if err == nil {
-		os.Remove(CreaturesPath)
+		os.Remove(CreaturesPathGob)
 	} else {
-		err = errors.New("Error: save file not found: " + CreaturesName + ".")
+		err = errors.New("Error: save file not found: " + CreaturesNameGob + ".")
 		return err
 	}
-	_, err = os.Stat(ObjectsPath)
+	_, err = os.Stat(ObjectsPathGob)
 	if err == nil {
-		os.Remove(ObjectsPath)
+		os.Remove(ObjectsPathGob)
 	} else {
-		err = errors.New("Error: save file not found: " + ObjectsName + ".")
+		err = errors.New("Error: save file not found: " + ObjectsNameGob + ".")
 		return err
 	}
 	return err

@@ -19,8 +19,22 @@ func writeJson(path string, thing interface{}) error {
 	return err
 }
 
+func readJson(path string, thing interface{}) error {
+	f, err := os.Open(path)
+	defer f.Close()
+	if err == nil {
+		decoder := json.NewDecoder(f)
+		err = decoder.Decode(thing)
+	}
+	return err
+}
+
 func CreatureToJson(c *Creature) error {
 	err := writeJson("./player.json", c)
 	return err
 }
 
+func CreatureFromJson(c *Creature) error {
+	err := readJson("./player.json", c)
+	return err
+}

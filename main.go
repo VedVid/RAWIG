@@ -72,6 +72,12 @@ func main() {
 	if err50 != nil {
 		fmt.Println(err50)
 	}
+	var player *Creature = &Creature{}
+	err90 := CreatureFromJson(player)
+	if err90 != nil {
+		fmt.Println(err90)
+	}
+	fmt.Println(player)
 	blt.Close()
 }
 

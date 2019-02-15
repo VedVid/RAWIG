@@ -5,6 +5,11 @@ import (
 	"os"
 )
 
+const (
+	// Constant values for data files manipulation.
+	CreaturesPathJson = "./data/monsters/"
+)
+
 func writeJson(path string, thing interface{}) error {
 	/* Function writeJson takes path-to-file, and any object (as interface{})
 	   as arguments, then encodes it to json file. Returns error - built-in json package. */

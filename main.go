@@ -73,7 +73,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	var player *Creature = &Creature{}
+	var player = &Creature{}
 	err = CreatureFromJson(player)
 	if err != nil {
 		fmt.Println(err)

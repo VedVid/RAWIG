@@ -46,7 +46,7 @@ const (
 const (
 	// Unique name that serves as identifier to values
 	// that should be converted from nil to object or from object to nil.
-	objectNilPlaceholder = "objectNilPlaceholder"
+	objectNilPlaceholderGob = "objectNilPlaceholder"
 )
 
 func nilToObject() *Object {
@@ -54,7 +54,7 @@ func nilToObject() *Object {
 	   It serves to find data that is nil in game - but format gob does not
 	   work well with nil values (and interfaces).
 	   It is ugly hack, but works. */
-	placeholder, _ := NewObject(0, 0, 0, "o", objectNilPlaceholder, "black", "black", false,
+	placeholder, _ := NewObject(0, 0, 0, "o", objectNilPlaceholderGob, "black", "black", false,
 		false, false, false, false, false, 0, 0)
 	return placeholder
 }
@@ -127,7 +127,7 @@ func loadCreatures(c *Creatures) error {
 	for i := 0; i < len(*c); i++ {
 		objs := (*c)[i].Equipment
 		for j := 0; j < len(objs); j++ {
-			if objs[j].Name == objectNilPlaceholder {
+			if objs[j].Name == objectNilPlaceholderGob {
 				objs[j] = nil
 			}
 		}

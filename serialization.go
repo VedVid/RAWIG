@@ -6,10 +6,8 @@ import (
 )
 
 func writeJson(path string, thing interface{}) error {
-	/* Function writeGob takes path-to-file, and any object (as interface{})
-	   as arguments, then encodes it to gob file. Returns error - unfortunately,
-	   errors that are built in gob package are not very helpful, and whole process
-	   is hard to debug. */
+	/* Function writeJson takes path-to-file, and any object (as interface{})
+	   as arguments, then encodes it to json file. Returns error - built-in json package. */
 	f, err := os.Create(path)
 	defer f.Close()
 	if err == nil {
@@ -20,6 +18,8 @@ func writeJson(path string, thing interface{}) error {
 }
 
 func readJson(path string, thing interface{}) error {
+	/* Function readJson takes path-to-file, and any object (as interface{})
+	   as arguments, then decodes file to interface. Returns error - built-in json package. */
 	f, err := os.Open(path)
 	defer f.Close()
 	if err == nil {
@@ -29,12 +29,28 @@ func readJson(path string, thing interface{}) error {
 	return err
 }
 
-func CreatureToJson(c *Creature) error {
-	err := writeJson("./player.json", c)
+func CreatureToJson(path string, c *Creature) error {
+	/* Function CreatureToJson takes Creature as argument that will be
+	   encoded into json file. Due to problems with nil using json, all nil
+	   weapons are changed to placeholder "object". */
+	for i := 0; i < len(c.Equipment); i++ {
+		if c.Equipment[i] == nil {
+			c.Equipment[i] = NilToObject()
+		}
+	}
+	err := writeJson(path, c)
 	return err
 }
 
-func CreatureFromJson(c *Creature) error {
-	err := readJson("./player.json", c)
+func CreatureFromJson(path string, c *Creature) error {
+	/* Function CreatureFromJson decodes specific json file into Creature,
+	   passed as argument. After unmarshalling, function replaces all
+	   placeholder weapons with proper nil values. */
+	err := readJson(path, c)
+	for i := 0; i < len(c.Equipment); i++ {
+			if c.Equipment[i].Name == ObjectNilPlaceholder {
+				c.Equipment[i] = nil
+		}
+	}
 	return err
 }

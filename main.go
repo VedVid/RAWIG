@@ -68,17 +68,6 @@ func main() {
 			}
 		}
 	}
-	var err error
-	err = CreatureToJson(actors[0])
-	if err != nil {
-		fmt.Println(err)
-	}
-	var player = &Creature{}
-	err = CreatureFromJson(player)
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(player)
 	blt.Close()
 }
 

@@ -68,7 +68,7 @@ func main() {
 			}
 		}
 	}
-	err50 := CreatureToJson2(actors[0])
+	err50 := CreatureToJson(actors[0])
 	if err50 != nil {
 		fmt.Println(err50)
 	}

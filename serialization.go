@@ -18,18 +18,8 @@ func writeJson(path string, thing interface{}) error {
 	}
 	return err
 }
-/*
-func CreatureToJson(c *Creature) {
-	var jsonData []byte
-	jsonData, err := json.Marshal(c)
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(string(jsonData))
-}
-*/
 
-func CreatureToJson2(c *Creature) error {
+func CreatureToJson(c *Creature) error {
 	err := writeJson("./player.json", c)
 	return err
 }

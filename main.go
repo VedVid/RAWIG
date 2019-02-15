@@ -49,15 +49,15 @@ func main() {
 		RenderAll(cells, objs, actors)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE {
-			err20 := SaveGame(cells, actors, objs)
-			if err20 != nil {
-				fmt.Println(err20)
+			err := SaveGame(cells, actors, objs)
+			if err != nil {
+				fmt.Println(err)
 			}
 			break
 		} else if actors[0].HPCurrent <= 0 {
-			err30 := DeleteSaves()
-			if err30 != nil {
-				fmt.Println(err30)
+			err := DeleteSaves()
+			if err != nil {
+				fmt.Println(err)
 				panic(-1)
 			}
 			break
@@ -68,14 +68,15 @@ func main() {
 			}
 		}
 	}
-	err50 := CreatureToJson(actors[0])
-	if err50 != nil {
-		fmt.Println(err50)
+	var err error
+	err = CreatureToJson(actors[0])
+	if err != nil {
+		fmt.Println(err)
 	}
 	var player *Creature = &Creature{}
-	err90 := CreatureFromJson(player)
-	if err90 != nil {
-		fmt.Println(err90)
+	err = CreatureFromJson(player)
+	if err != nil {
+		fmt.Println(err)
 	}
 	fmt.Println(player)
 	blt.Close()

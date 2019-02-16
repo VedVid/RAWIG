@@ -93,7 +93,7 @@ func NewCreature(layer, x, y int, character, name, color, colorDark string,
 
 func NewCreatureJson(monsterFile string) *Creature {
 	var monster = &Creature{}
-	err := CreatureFromJson(CreaturesPathJson, monsterFile)
+	err := CreatureFromJson(CreaturesPathJson+monsterFile, monster)
 	if err != nil {
 		fmt.Println(err)
 		return nil

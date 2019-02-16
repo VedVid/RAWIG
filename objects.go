@@ -120,6 +120,16 @@ func NewObject(layer, x, y int, character, name, color, colorDark string,
 	return objectNew, err
 }
 
+func NewObjectJson(objectPath string) *Object {
+	var object = &Object{}
+	err := ObjectFromJson(ObjectsPathJson+objectPath, object)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	return object
+}
+
 func GatherItemOptions(o *Object) ([]string, error) {
 	/* Function GatherItemOptions takes pointer to specific Object
 	   as argument and returns slice of strings that is list of

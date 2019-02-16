@@ -78,20 +78,7 @@ func main() {
 func NewGame(b *Board, c *Creatures, o *Objects) {
 	/* Function NewGame initializes game state - creates player, monsters, and game map.
 	   This implementation is generic-placeholder, for testing purposes. */
-	slot, _ := NewObject(ObjectsLayer, 0, 0, "}", "weapon", "red", "dark red", true,
-		false, false, true, true, false, SlotWeaponPrimary, UseHeal)
-	slot2, _ := NewObject(ObjectsLayer, 0, 0, "{", "weapon2", "green", "dark green", true,
-		false, false, true, true, false, SlotWeaponSecondary, UseNA)
-	slot3, _ := NewObject(ObjectsLayer, 0, 0, "|", "melee", "yellow", "dark yellow", true,
-		false, false, true, true, false, SlotWeaponMelee, UseNA)
-	item, _ := NewObject(ObjectsLayer, 0, 0, "O", "heal", "blue", "dark blue", true,
-		false, false, true, false, true, SlotNA, UseHeal)
-	var playerEq = EquipmentComponent{Objects{slot, slot2, slot3}, Objects{item}}
-	player, err := NewPlayer(PlayerLayer, 1, 1, "@", "player", "white", "white", true,
-		true, false, false, PlayerAI, 999, 5, 2, playerEq)
-	if err != nil {
-		fmt.Println(err)
-	}
+	player := NewPlayerJson()
 	var enemyEq = EquipmentComponent{Objects{nil, nil, nil}, Objects{}}
 	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "enemy", "green", "green",
 		false, true, false, false, MeleePatherAI, 10, 4, 1, enemyEq)

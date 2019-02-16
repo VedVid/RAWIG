@@ -85,6 +85,17 @@ func NewPlayer(layer, x, y int, character, name, color, colorDark string,
 	return playerNew, err
 }
 
+func NewPlayerJson() *Creature {
+	const playerPath = "./data/player/player.json"
+	var player = &Creature{}
+	err := CreatureFromJson(playerPath, player)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	return player
+}
+
 func (p *Creature) InventoryMenu(o *Objects) bool {
 	/* InventoryMenu is method of *Creature that takes *Objects as argument
 	   and returns boolean value - indicator if action took turn or not.

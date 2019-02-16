@@ -68,6 +68,10 @@ func main() {
 			}
 		}
 	}
+	err50 := ObjectToJson("./weapon.json", actors[0].Equipment[0])
+	if err50 != nil {
+		fmt.Println(err50)
+	}
 	blt.Close()
 }
 
@@ -120,9 +124,9 @@ func StartGame(b *Board, c *Creatures, o*Objects) {
 	/* Function StartGame determines if game save is present (and valid), then
 	   loads data, or initializes new game.
 	   Panics if some-but-not-all save files are missing. */
-	_, errBoard := os.Stat(MapPath)
-	_, errCreatures := os.Stat(CreaturesPath)
-	_, errObjects := os.Stat(ObjectsPath)
+	_, errBoard := os.Stat(MapPathGob)
+	_, errCreatures := os.Stat(CreaturesPathGob)
+	_, errObjects := os.Stat(ObjectsPathGob)
 	if errBoard == nil && errCreatures == nil && errObjects == nil {
 		LoadGame(b, c, o)
 	} else if errBoard != nil && errCreatures != nil && errObjects != nil {

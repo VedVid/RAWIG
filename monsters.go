@@ -91,6 +91,16 @@ func NewCreature(layer, x, y int, character, name, color, colorDark string,
 	return creatureNew, err
 }
 
+func NewCreatureJson(monsterFile string) *Creature {
+	var monster = &Creature{}
+	err := CreatureFromJson(CreaturesPathJson, monsterFile)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	return monster
+}
+
 func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) bool {
 	/* Method MoveOrAttack decides if Creature will move or attack other Creature;
 	   It has *Creature receiver, and takes tx, ty (coords) integers as arguments,

@@ -8,6 +8,7 @@ import (
 const (
 	// Constant values for data files manipulation.
 	CreaturesPathJson = "./data/monsters/"
+	ObjectsPathJson   = "./data/objects/"
 )
 
 func writeJson(path string, thing interface{}) error {
@@ -57,5 +58,19 @@ func CreatureFromJson(path string, c *Creature) error {
 				c.Equipment[i] = nil
 		}
 	}
+	return err
+}
+
+func ObjectToJson(path string, o *Object) error {
+	/* Function ObjectToJson takes Object as argument that will be
+	   encoded into json file. */
+	err := writeJson(path, o)
+	return err
+}
+
+func ObjectFromJson(path string, o *Object) error {
+	/* Function ObjectFromJson decodes specific json file into Object,
+	   passed as argument. */
+	err := readJson(path, o)
 	return err
 }

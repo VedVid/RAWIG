@@ -5,7 +5,6 @@
 *.dll
 *.exe
 *.gob
-*.json
 *.orig
 *.txt
 *.ttf

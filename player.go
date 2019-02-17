@@ -90,7 +90,8 @@ func NewPlayerJson() (*Creature, error) {
 	var player = &Creature{}
 	err := CreatureFromJson(playerPath, player)
 	if err != nil {
-		return nil, err
+		fmt.Println(err)
+		panic(-1)
 	}
 	var err2 error
 	if player.Layer < 0 {

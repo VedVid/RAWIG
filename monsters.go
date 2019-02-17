@@ -95,7 +95,8 @@ func NewCreatureJson(monsterFile string) (*Creature, error) {
 	var monster = &Creature{}
 	err := CreatureFromJson(CreaturesPathJson+monsterFile, monster)
 	if err != nil {
-		return nil, err
+		fmt.Println(err)
+		panic(-1)
 	}
 	var err2 error
 	if monster.Layer < 0 {

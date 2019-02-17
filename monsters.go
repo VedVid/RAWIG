@@ -91,14 +91,43 @@ func NewCreature(layer, x, y int, character, name, color, colorDark string,
 	return creatureNew, err
 }
 
-func NewCreatureJson(monsterFile string) *Creature {
+func NewCreatureJson(monsterFile string) (*Creature, error) {
 	var monster = &Creature{}
 	err := CreatureFromJson(CreaturesPathJson+monsterFile, monster)
 	if err != nil {
 		fmt.Println(err)
-		return nil
+		panic(-1)
 	}
-	return monster
+	var err2 error
+	if monster.Layer < 0 {
+		txt := LayerError(monster.Layer)
+		err2 = errors.New("Creature layer is smaller than 0." + txt)
+	}
+	if monster.Layer != CreaturesLayer {
+		txt := LayerWarning(monster.Layer, CreaturesLayer)
+		err2 = errors.New("Creature layer is not equal to CreaturesLayer constant." + txt)
+	}
+	if monster.X < 0 || monster.X >= MapSizeX || monster.Y < 0 || monster.Y >= MapSizeY {
+		txt := CoordsError(monster.X, monster.Y)
+		err2 = errors.New("Creature coords is out of window range." + txt)
+	}
+	if utf8.RuneCountInString(monster.Char) != 1 {
+		txt := CharacterLengthError(monster.Char)
+		err2 = errors.New("Creature character string length is not equal to 1." + txt)
+	}
+	if monster.HPMax < 0 {
+		txt := InitialHPError(monster.HPMax)
+		err2 = errors.New("Creature HPMax is smaller than 0." + txt)
+	}
+	if monster.Attack < 0 {
+		txt := InitialAttackError(monster.Attack)
+		err2 = errors.New("Creature attack value is smaller than 0." + txt)
+	}
+	if monster.Defense < 0 {
+		txt := InitialDefenseError(monster.Defense)
+		err = errors.New("Creature defense value is smaller than 0." + txt)
+	}
+	return monster, err2
 }
 
 func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) bool {

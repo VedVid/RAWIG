@@ -115,6 +115,11 @@ func saveCreatures(c Creatures) error {
 				c[i].Equipment[j] = NilToObject()
 			}
 		}
+		for k := 0; k < len(c[i].Inventory); k++ {
+			if c[i].Inventory[k] == nil {
+				c[i].Inventory[k] = NilToObject()
+			}
+		}
 	}
 	err := writeGob(CreaturesPathGob, c)
 	return err
@@ -131,6 +136,12 @@ func loadCreatures(c *Creatures) error {
 		for j := 0; j < len(objs); j++ {
 			if objs[j].Name == ObjectNilPlaceholder {
 				objs[j] = nil
+			}
+		}
+		inv := (*c)[i].Inventory
+		for k := 0; k < len(inv); k++ {
+			if inv[k].Name == ObjectNilPlaceholder {
+				inv[k] = nil
 			}
 		}
 	}

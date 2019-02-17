@@ -54,8 +54,10 @@ func NilToObject() *Object {
 	   It serves to find data that is nil in game - but format gob does not
 	   work well with nil values (and interfaces).
 	   It is ugly hack, but works. */
-	placeholder, _ := NewObject(0, 0, 0, "o", ObjectNilPlaceholder, "black", "black", false,
-		false, false, false, false, false, 0, 0)
+	placeholder := &Object{BasicProperties{0, 0, 0, "o", ObjectNilPlaceholder,
+	"black", "black"},
+	VisibilityProperties{false}, CollisionProperties{false, false},
+	ObjectProperties{false, false, false, 0, 0}}
 	return placeholder
 }
 
@@ -113,6 +115,11 @@ func saveCreatures(c Creatures) error {
 				c[i].Equipment[j] = NilToObject()
 			}
 		}
+		for k := 0; k < len(c[i].Inventory); k++ {
+			if c[i].Inventory[k] == nil {
+				c[i].Inventory[k] = NilToObject()
+			}
+		}
 	}
 	err := writeGob(CreaturesPathGob, c)
 	return err
@@ -129,6 +136,12 @@ func loadCreatures(c *Creatures) error {
 		for j := 0; j < len(objs); j++ {
 			if objs[j].Name == ObjectNilPlaceholder {
 				objs[j] = nil
+			}
+		}
+		inv := (*c)[i].Inventory
+		for k := 0; k < len(inv); k++ {
+			if inv[k].Name == ObjectNilPlaceholder {
+				inv[k] = nil
 			}
 		}
 	}

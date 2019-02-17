@@ -1,0 +1,17 @@
+{
+    "Layer":4,
+    "X":3,
+    "Y":3,
+    "Char":"]",
+    "Name":"heal",
+    "Color":"blue",
+    "ColorDark":"dark blue",
+    "AlwaysVisible":true,
+    "Blocked":false,
+    "BlocksSight":false,
+    "Pickable":true,
+    "Equippable":false,
+    "Consumable":false,
+    "Slot":-1,
+    "Use":1
+}

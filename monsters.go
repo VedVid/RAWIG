@@ -51,6 +51,11 @@ type Creature struct {
 type Creatures []*Creature
 
 func NewCreature(monsterFile string) (*Creature, error) {
+	/* NewCreature is function that returns new Creature from
+	   json file passed as argument. It replaced old code that
+	   was encouraging hardcoding data in go files.
+	   Errors returned by json package are not very helpful, and
+	   hard to work with, so there is lazy panic for them. */
 	var monster = &Creature{}
 	err := CreatureFromJson(CreaturesPathJson+monsterFile, monster)
 	if err != nil {

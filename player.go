@@ -36,6 +36,11 @@ import (
 )
 
 func NewPlayer() (*Creature, error) {
+	/* NewPlayer is function that returns new Creature
+	   (that is supposed to be player) from json file passed as argument.
+	   It replaced old code that was encouraging hardcoding data in go files.
+	   Errors returned by json package are not very helpful, and
+	   hard to work with, so there is lazy panic for them. */
 	const playerPath = "./data/player/player.json"
 	var player = &Creature{}
 	err := CreatureFromJson(playerPath, player)

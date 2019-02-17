@@ -1,0 +1,26 @@
+{
+    "Layer":5,
+    "X":10,
+    "Y":10,
+    "Char":"T",
+    "Name":"enemy1",
+    "Color":"green",
+    "ColorDark":"green",
+    "AlwaysVisible":false,
+    "Blocked":true,
+    "BlocksSight":false,
+    "AIType":2,
+    "AITriggered":false,
+    "HPMax":10,
+    "HPCurrent":10,
+    "Attack":4,
+    "Defense":1,
+    "Equipment":[
+        null,
+        null,
+        null
+    ],
+    "Inventory":[
+        null
+    ]
+}

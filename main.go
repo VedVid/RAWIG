@@ -74,13 +74,11 @@ func main() {
 func NewGame(b *Board, c *Creatures, o *Objects) {
 	/* Function NewGame initializes game state - creates player, monsters, and game map.
 	   This implementation is generic-placeholder, for testing purposes. */
-	player, err := NewPlayerJson()
+	player, err := NewPlayer()
 	if err != nil {
 		fmt.Println(err)
 	}
-	var enemyEq = EquipmentComponent{Objects{nil, nil, nil}, Objects{}}
-	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "enemy", "green", "green",
-		false, true, false, false, MeleePatherAI, 10, 4, 1, enemyEq)
+	enemy, err := NewCreature("dumbMelee.json")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -91,11 +89,11 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	slot9, _ := NewObject(ObjectsLayer, 0, 0, "|", "melee", "yellow", "dark yellow", true,
 		false, false, true, true, false, SlotWeaponMelee, UseNA)
 	var enemyEq2 = EquipmentComponent{Objects{slot7, slot8, slot9}, Objects{}}
-	enemy2, err2 := NewCreature(CreaturesLayer, 11, 11, "T", "enemy", "red", "red",
-		false, true, false, false, RangedPatherAI, 10, 4, 1, enemyEq2)
+	enemy2, err2 := NewCreature("patherRanged.json")
 	if err2 != nil {
 		fmt.Println(err)
 	}
+	enemy2.EquipmentComponent = enemyEq2
 	*c = Creatures{player, enemy, enemy2}
 	obj, err := NewObject(ObjectsLayer, 3, 3, "(", "heal2", "blue", "dark blue", true,
 		false, false, true, false, false, SlotNA, UseHeal)

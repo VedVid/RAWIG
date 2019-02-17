@@ -50,48 +50,7 @@ type Creature struct {
 // Creatures holds every creature on map.
 type Creatures []*Creature
 
-func NewCreature(layer, x, y int, character, name, color, colorDark string,
-	alwaysVisible, blocked, blocksSight, triggered bool, ai, hp, attack,
-	defense int, equipment EquipmentComponent) (*Creature, error) {
-	/* Function NewCreature takes all values necessary by its struct,
-	   and creates then returns pointer to Creature. */
-	var err error
-	if layer < 0 {
-		txt := LayerError(layer)
-		err = errors.New("Creature layer is smaller than 0." + txt)
-	}
-	if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
-		txt := CoordsError(x, y)
-		err = errors.New("Creature coords is out of window range." + txt)
-	}
-	if utf8.RuneCountInString(character) != 1 {
-		txt := CharacterLengthError(character)
-		err = errors.New("Creature character string length is not equal to 1." + txt)
-	}
-	if hp < 0 {
-		txt := InitialHPError(hp)
-		err = errors.New("Creature HPMax is smaller than 0." + txt)
-	}
-	if attack < 0 {
-		txt := InitialAttackError(attack)
-		err = errors.New("Creature attack value is smaller than 0." + txt)
-	}
-	if defense < 0 {
-		txt := InitialDefenseError(defense)
-		err = errors.New("Creature defense value is smaller than 0." + txt)
-	}
-	creatureBasicProperties := BasicProperties{layer, x, y, character, name, color,
-		colorDark}
-	creatureVisibilityProperties := VisibilityProperties{alwaysVisible}
-	creatureCollisionProperties := CollisionProperties{blocked, blocksSight}
-	creatureFighterProperties := FighterProperties{ai, triggered, hp, hp, attack, defense}
-	creatureNew := &Creature{creatureBasicProperties,
-		creatureVisibilityProperties, creatureCollisionProperties,
-		creatureFighterProperties, equipment}
-	return creatureNew, err
-}
-
-func NewCreatureJson(monsterFile string) (*Creature, error) {
+func NewCreature(monsterFile string) (*Creature, error) {
 	var monster = &Creature{}
 	err := CreatureFromJson(CreaturesPathJson+monsterFile, monster)
 	if err != nil {

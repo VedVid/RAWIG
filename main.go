@@ -68,10 +68,6 @@ func main() {
 			}
 		}
 	}
-	err50 := ObjectToJson("./weapon.json", actors[0].Equipment[0])
-	if err50 != nil {
-		fmt.Println(err50)
-	}
 	blt.Close()
 }
 

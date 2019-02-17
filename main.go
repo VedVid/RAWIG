@@ -92,6 +92,7 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	enemy2, err2 := NewCreature("patherRanged.json")
 	if err2 != nil {
 		fmt.Println(err)
+		fmt.Println(err2)
 	}
 	enemy2.EquipmentComponent = enemyEq2
 	*c = Creatures{player, enemy, enemy2}

@@ -54,8 +54,10 @@ func NilToObject() *Object {
 	   It serves to find data that is nil in game - but format gob does not
 	   work well with nil values (and interfaces).
 	   It is ugly hack, but works. */
-	placeholder, _ := NewObject(0, 0, 0, "o", ObjectNilPlaceholder, "black", "black", false,
-		false, false, false, false, false, 0, 0)
+	placeholder := &Object{BasicProperties{0, 0, 0, "o", ObjectNilPlaceholder,
+	"black", "black"},
+	VisibilityProperties{false}, CollisionProperties{false, false},
+	ObjectProperties{false, false, false, 0, 0}}
 	return placeholder
 }
 

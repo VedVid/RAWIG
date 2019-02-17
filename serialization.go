@@ -80,8 +80,11 @@ func CreatureFromJson(path string, c *Creature) error {
 	   placeholder weapons with proper nil values. */
 	err := readJson(path, c)
 	for i := 0; i < len(c.Equipment); i++ {
-			if c.Equipment[i].Name == ObjectNilPlaceholder {
-				c.Equipment[i] = nil
+		if c.Equipment[i] == nil {
+			continue
+		}
+		if c.Equipment[i].Name == ObjectNilPlaceholder {
+			c.Equipment[i] = nil
 		}
 	}
 	return err

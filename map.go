@@ -61,9 +61,9 @@ func NewTile(layer, x, y int, character, name, color, colorDark string,
 		txt := CharacterLengthError(character)
 		err = errors.New("Tile character string length is not equal to 1." + txt)
 	}
-	tileBasicProperties := BasicProperties{layer, x, y, character, name, color,
+	tileBasicProperties := BasicProperties{x, y, character, name, color,
 		colorDark}
-	tileVisibilityProperties := VisibilityProperties{alwaysVisible}
+	tileVisibilityProperties := VisibilityProperties{layer, alwaysVisible}
 	tileCollisionProperties := CollisionProperties{blocked, blocksSight}
 	tileNew := &Tile{tileBasicProperties, tileVisibilityProperties,
 		explored, tileCollisionProperties}

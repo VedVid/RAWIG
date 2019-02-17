@@ -63,30 +63,15 @@ func readJson(path string, thing interface{}) error {
 
 func CreatureToJson(path string, c *Creature) error {
 	/* Function CreatureToJson takes Creature as argument that will be
-	   encoded into json file. Due to problems with nil using json, all nil
-	   weapons are changed to placeholder "object". */
-	for i := 0; i < len(c.Equipment); i++ {
-		if c.Equipment[i] == nil {
-			c.Equipment[i] = NilToObject()
-		}
-	}
+	   encoded into json file. */
 	err := writeJson(path, c)
 	return err
 }
 
 func CreatureFromJson(path string, c *Creature) error {
 	/* Function CreatureFromJson decodes specific json file into Creature,
-	   passed as argument. After unmarshalling, function replaces all
-	   placeholder weapons with proper nil values. */
+	   passed as argument. */
 	err := readJson(path, c)
-	for i := 0; i < len(c.Equipment); i++ {
-		if c.Equipment[i] == nil {
-			continue
-		}
-		if c.Equipment[i].Name == ObjectNilPlaceholder {
-			c.Equipment[i] = nil
-		}
-	}
 	return err
 }
 

@@ -98,7 +98,7 @@ func NewPlayerJson() (*Creature, error) {
 		txt := LayerError(player.Layer)
 		err2 = errors.New("Creature layer is smaller than 0." + txt)
 	}
-	if player.Layer != CreaturesLayer {
+	if player.Layer != PlayerLayer {
 		txt := LayerWarning(player.Layer, PlayerLayer)
 		err2 = errors.New("Creature layer is not equal to CreaturesLayer constant." + txt)
 	}

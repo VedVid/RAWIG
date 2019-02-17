@@ -62,7 +62,7 @@ func main() {
 			}
 			break
 		} else {
-			turnSpent := Controls(key, actors[0], cells, actors, &objs)
+			turnSpent := Controls(key, actors[0], cells, actors, objs)
 			if turnSpent == true {
 				CreaturesTakeTurn(cells, actors, objs)
 			}

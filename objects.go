@@ -80,7 +80,7 @@ type Object struct {
 // Objects holds every object on map.
 type Objects []*Object
 
-func NewObject(layer, x, y int, character, name, color, colorDark string,
+func NewObjectOld(layer, x, y int, character, name, color, colorDark string,
 	alwaysVisible, blocked, blocksSight bool, pickable, equippable, consumable bool, slot, use int) (*Object, error) {
 	/* Function NewObject takes all values necessary by its struct,
 	   and creates then returns Object. */
@@ -120,14 +120,15 @@ func NewObject(layer, x, y int, character, name, color, colorDark string,
 	return objectNew, err
 }
 
-func NewObjectJson(objectPath string) *Object {
+func NewObject(objectPath string) (*Object, error) {
 	var object = &Object{}
 	err := ObjectFromJson(ObjectsPathJson+objectPath, object)
 	if err != nil {
 		fmt.Println(err)
-		return nil
+		panic(-1)
 	}
-	return object
+	var errx error
+	return object, errx
 }
 
 func GatherItemOptions(o *Object) ([]string, error) {

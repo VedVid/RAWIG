@@ -1,0 +1,17 @@
+{
+    "Layer":4,
+    "X":0,
+    "Y":0,
+    "Char":"|",
+    "Name":"melee1",
+    "Color":"yellow",
+    "ColorDark":"dark yellow",
+    "AlwaysVisible":true,
+    "Blocked":false,
+    "BlocksSight":false,
+    "Pickable":true,
+    "Equippable":true,
+    "Consumable":false,
+    "Slot":2,
+    "Use":0
+}

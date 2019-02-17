@@ -85,15 +85,48 @@ func NewPlayer(layer, x, y int, character, name, color, colorDark string,
 	return playerNew, err
 }
 
-func NewPlayerJson() *Creature {
+func NewPlayerJson() (*Creature, error) {
 	const playerPath = "./data/player/player.json"
 	var player = &Creature{}
 	err := CreatureFromJson(playerPath, player)
 	if err != nil {
-		fmt.Println(err)
-		return nil
+		return nil, err
 	}
-	return player
+	var err2 error
+	if player.Layer < 0 {
+		txt := LayerError(player.Layer)
+		err2 = errors.New("Creature layer is smaller than 0." + txt)
+	}
+	if player.Layer != CreaturesLayer {
+		txt := LayerWarning(player.Layer, CreaturesLayer)
+		err2 = errors.New("Creature layer is not equal to CreaturesLayer constant." + txt)
+	}
+	if player.X < 0 || player.X >= MapSizeX || player.Y < 0 || player.Y >= MapSizeY {
+		txt := CoordsError(player.X, player.Y)
+		err2 = errors.New("Creature coords is out of window range." + txt)
+	}
+	if utf8.RuneCountInString(player.Char) != 1 {
+		txt := CharacterLengthError(player.Char)
+		err2 = errors.New("Creature character string length is not equal to 1." + txt)
+	}
+	if player.AIType != PlayerAI {
+		txt := PlayerAIError(player.AIType)
+		err = errors.New("Warning: Player AI is supposed to be " +
+			strconv.Itoa(PlayerAI) + "." + txt)
+	}
+	if player.HPMax < 0 {
+		txt := InitialHPError(player.HPMax)
+		err2 = errors.New("Creature HPMax is smaller than 0." + txt)
+	}
+	if player.Attack < 0 {
+		txt := InitialAttackError(player.Attack)
+		err2 = errors.New("Creature attack value is smaller than 0." + txt)
+	}
+	if player.Defense < 0 {
+		txt := InitialDefenseError(player.Defense)
+		err = errors.New("Creature defense value is smaller than 0." + txt)
+	}
+	return player, err2
 }
 
 func (p *Creature) InventoryMenu(o *Objects) bool {

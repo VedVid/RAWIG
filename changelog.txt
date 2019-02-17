@@ -1,6 +1,7 @@
 v0.4
  [NEW] save/load system, using Go's gob package
  [NEW] store game data in json files
+ [DEL] creating hardcoded entities is not possible anymore
 
 v0.3
  [NEW] "look" command

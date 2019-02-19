@@ -43,6 +43,7 @@ func main() {
 	var actors = new(Creatures)
 	StartGame(cells, actors, objs)
 	for {
+		fmt.Println(objs)
 		RenderAll(*cells, *objs, *actors)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE {

@@ -154,6 +154,9 @@ func (c *Creature) PickUp(o *Objects) bool {
 	obj := *o
 	for i := 0; i <= len(obj); i++ {
 		if obj[i].X == c.X && obj[i].Y == c.Y && obj[i].Pickable == true {
+			if c.AIType == PlayerAI {
+				AddMessage("You found " + obj[i].Name + ".")
+			}
 			c.Inventory = append(c.Inventory, obj[i])
 			copy(obj[i:], obj[i+1:])
 			obj[len(obj)-1] = nil
@@ -180,6 +183,9 @@ func (c *Creature) DropFromInventory(objects *Objects, index int) bool {
 	   then it removes this item from its owner Inventory. */
 	turnSpent := false
 	objs := *objects
+	if c.AIType == PlayerAI {
+		AddMessage("You dropped " + c.Inventory[index].Name + ".")
+	}
 	// Add item to the map.
 	object := c.Inventory[index]
 	object.X, object.Y = c.X, c.Y
@@ -212,6 +218,9 @@ func (c *Creature) DropFromEquipment(objects *Objects, slot int) bool {
 		return turnSpent // turn is not spent because there is no object to drop
 	}
 	// else {
+	if c.AIType == PlayerAI {
+		AddMessage("You removed and dropped " + object.Name + ".")
+	}
 	// add item to map
 	object.X, object.Y = c.X, c.Y
 	objs = append(objs, object)
@@ -254,6 +263,9 @@ func (c *Creature) EquipItem(o *Object, slot int) (bool, error) {
 	copy(c.Inventory[index:], c.Inventory[index+1:])
 	c.Inventory[len(c.Inventory)-1] = nil
 	c.Inventory = c.Inventory[:len(c.Inventory)-1]
+	if c.AIType == PlayerAI {
+		AddMessage("You equipped " + o.Name + ".")
+	}
 	turnSpent = true
 	return turnSpent, err
 }
@@ -266,6 +278,9 @@ func (c *Creature) DequipItem(slot int) (bool, error) {
 	if c.Equipment[slot] == nil {
 		txt := DequipNilError(c, slot)
 		err = errors.New("Creature tried to DequipItem that was nil." + txt)
+	}
+	if c.AIType == PlayerAI {
+		AddMessage("You dequipped " + c.Equipment[slot].Name + ".")
 	}
 	turnSpent := false
 	c.Inventory = append(c.Inventory, c.Equipment[slot]) //adding items to inventory should have own function, that will check "bounds" of inventory

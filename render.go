@@ -168,7 +168,7 @@ func RenderAll(b Board, o Objects, c Creatures) {
 	PrintBoard(b, c)
 	PrintObjects(b, o, c)
 	PrintCreatures(b, c)
-	PrintUI(c[0])
+	PrintUI((c)[0])
 	PrintLog()
 	blt.Refresh()
 }

@@ -38,23 +38,20 @@ var MsgBuf = []string{}
 var LastTarget *Creature
 
 func main() {
-	var cellsPtr = new(Board)
-	var objsPtr = new(Objects)
-	var actorsPtr = new(Creatures)
-	StartGame(cellsPtr, actorsPtr, objsPtr)
-	cells := *cellsPtr
-	objs := *objsPtr
-	actors := *actorsPtr
+	var cells = new(Board)
+	var objs = new(Objects)
+	var actors = new(Creatures)
+	StartGame(cells, actors, objs)
 	for {
-		RenderAll(cells, objs, actors)
+		RenderAll(*cells, *objs, *actors)
 		key := blt.Read()
 		if key == blt.TK_ESCAPE {
-			err := SaveGame(cells, actors, objs)
+			err := SaveGame(*cells, *actors, *objs)
 			if err != nil {
 				fmt.Println(err)
 			}
 			break
-		} else if actors[0].HPCurrent <= 0 {
+		} else if (*actors)[0].HPCurrent <= 0 {
 			err := DeleteSaves()
 			if err != nil {
 				fmt.Println(err)
@@ -62,9 +59,9 @@ func main() {
 			}
 			break
 		} else {
-			turnSpent := Controls(key, actors[0], cells, actors, objs)
+			turnSpent := Controls(key, (*actors)[0], cells, actors, objs)
 			if turnSpent == true {
-				CreaturesTakeTurn(cells, actors, objs)
+				CreaturesTakeTurn(*cells, *actors, *objs)
 			}
 		}
 	}

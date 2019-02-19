@@ -152,7 +152,7 @@ func (c *Creature) PickUp(o *Objects) bool {
 	   successful attempt. */
 	turnSpent := false
 	obj := *o
-	for i := 0; i <= len(obj); i++ {
+	for i := 0; i < len(obj); i++ {
 		if obj[i].X == c.X && obj[i].Y == c.Y && obj[i].Pickable == true {
 			if c.AIType == PlayerAI {
 				AddMessage("You found " + obj[i].Name + ".")

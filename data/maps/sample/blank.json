@@ -1,5 +1,15 @@
 {
 	"Cells":ARRAY-OF-STRINGS,
 	"RoomsData":LIST-OF-ROOM-PROPERTIES[X,Y,WIDTH,HEIGHT],
-	"RoomsPlan":LIST-OF-ARRAY-OF-STRINGS
+	"RoomsPlan":LIST-OF-ARRAY-OF-STRINGS,
+	"Symbols":LIST-OF-TILES-PROPERTIES
+	    layer: INT
+		character: ONE-CHARACTER-STRING
+		name: STRING
+		color: STRING
+		colorDark: STRING
+		alwaysVisible: BOOLEAN
+		explored: BOOLEAN
+		blocked: BOOLEAN
+		blocksSight: BOOLEAN
 }

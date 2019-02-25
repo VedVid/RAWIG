@@ -123,5 +123,7 @@ func LoadJsonMap(mapFile string) (*Board, error) {
 			thisMap[x][y].Char = string(cells[y][x]) //y,x because - due to 2darray nature - there is height first, width later...
 		}
 	}
+	fmt.Println(len(cells))
+	fmt.Println(len(cells[0]))
 	return &thisMap, err2
 }

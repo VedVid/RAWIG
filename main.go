@@ -107,6 +107,16 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	if err != nil {
 		fmt.Println(err)
 	}
+	fmt.Println(len(*b))
+	fmt.Println(len((*b)[0]))
+	for aaa := 0; aaa < len(*b); aaa++ {
+		kkk := (*b)[aaa]
+		fmt.Println()
+		for bbb := 0; bbb < len(kkk); bbb++ {
+			jjj := kkk[bbb].Char
+			fmt.Print(jjj)
+		}
+	}
 }
 
 func StartGame(b *Board, c *Creatures, o*Objects) {

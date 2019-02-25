@@ -41,7 +41,7 @@ type Tile struct {
 }
 
 type MapJson struct {
-	Cells [][]string
+	Cells []string
 	Data [][]int
 	Layouts [][][]string
 }
@@ -120,7 +120,7 @@ func LoadJsonMap(mapFile string) (*Board, error) {
 	thisMap := InitializeEmptyMap()
 	for x := 0; x < len(cells[0]); x++ {
 		for y := 0; y < len(cells); y++ {
-			thisMap[x][y].Char = cells[y][x] //y,x because - due to 2darray nature - there is height first, width later...
+			thisMap[x][y].Char = string(cells[y][x]) //y,x because - due to 2darray nature - there is height first, width later...
 		}
 	}
 	return &thisMap, err2

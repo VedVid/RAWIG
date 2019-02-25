@@ -101,7 +101,6 @@ func InitializeEmptyMap() Board {
 	return b
 }
 
-func LoadJsonMap(mapFile string) {
 func LoadJsonMap(mapFile string) error {
 	var jsonMap = &MapJson{}
 	err := MapFromJson(MapsPathJson+mapFile, jsonMap)
@@ -117,6 +116,12 @@ func LoadJsonMap(mapFile string) error {
 	if len(data) != len(layouts) {
 		txt := MapDataLayoutsError((len(data)), len(layouts), mapFile)
 		err2 = errors.New("Length of data and layouts does not match. " + txt)
+	}
+	thisMap := InitializeEmptyMap()
+	for x := 0; x < len(cells[0]); x++ {
+		for y := 0; y < len(cells); y++ {
+			break //not necessary yet; fix json first!
+		}
 	}
 	return err2
 }

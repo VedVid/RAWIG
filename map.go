@@ -111,4 +111,11 @@ func LoadJsonMap(mapFile string) {
 	cells := jsonMap.Cells
 	data := jsonMap.Data
 	layouts := jsonMap.Layouts
+	//number of items in data should match 2nd items in layouts
+	var err2 error
+	if len(data) != len(layouts) {
+		txt := MapDataLayoutsError((len(data)), len(layouts), mapFile)
+		err2 = errors.New("Length of data and layouts does not match. " + txt)
+	}
+	return err2
 }

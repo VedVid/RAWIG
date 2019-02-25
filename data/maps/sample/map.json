@@ -1,5 +1,6 @@
 {
-	"Cells":[
+	"Cells":
+	        [
 	        "##############################",
 			"#............................#",
 			"#............................#",
@@ -21,12 +22,14 @@
 			"#............................#",
 			"##############################"
 			],
-	"RoomsData":[
-	            [4, 4, 4, 2],
-			    [9, 4, 10, 3],
-			    [20, 4, 6, 6]
+	"RoomsData":
+	            [
+	                [4, 4, 4, 2],
+			        [9, 4, 10, 3],
+			        [20, 4, 6, 6]
                 ],
-	"RoomsPlan":[
+	"RoomsLayouts":
+	            [
 	                [
 	                    [
 					    "t...",
@@ -64,11 +67,12 @@
 						]
 					]
 			    ],
-	"Symbols":[
+	"Symbols":
+	        [
 	          "t": [2, "╥", "table", "brown", "dark brown", true, false, true, false],
 			  "h": [2, "h", "chair", "gray", "dark gray", true, false, false, false],
 			  "b": [2, "═", "bed", "light gray", "gray", true, false, true, false],
 			  "k": [2, "║", "column", "white", "light gray", true, false, true, true],
 			  "=": [2, "=", "wadrobe", "dark yellow", "darker yellow", true, false, true, false]
-	          ]
+	        ]
 }

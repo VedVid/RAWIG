@@ -40,6 +40,12 @@ type Tile struct {
 	CollisionProperties
 }
 
+type MapJson struct {
+	Cells [][]string
+	Data [][]int
+	Layouts [][][]string
+}
+
 /* Board is map representation, that uses 2d slice
    to hold data of its every cell. */
 type Board [][]*Tile
@@ -93,4 +99,16 @@ func InitializeEmptyMap() Board {
 		}
 	}
 	return b
+}
+
+func LoadJsonMap(mapFile string) {
+	var jsonMap = &MapJson{}
+	err := MapFromJson(MapsPathJson+mapFile, jsonMap)
+	if err != nil {
+		fmt.Println(err)
+		panic(-1)
+	}
+	cells := jsonMap.Cells
+	data := jsonMap.Data
+	layouts := jsonMap.Layouts
 }

@@ -35,6 +35,7 @@ const (
 	// Constant values for data files manipulation.
 	CreaturesPathJson = "./data/monsters/"
 	ObjectsPathJson   = "./data/objects/"
+	MapsPathJson      = "./data/maps/"
 )
 
 func writeJson(path string, thing interface{}) error {
@@ -86,5 +87,10 @@ func ObjectFromJson(path string, o *Object) error {
 	/* Function ObjectFromJson decodes specific json file into Object,
 	   passed as argument. */
 	err := readJson(path, o)
+	return err
+}
+
+func MapFromJson(path string, m *MapJson) error {
+	err := readJson(path, m)
 	return err
 }

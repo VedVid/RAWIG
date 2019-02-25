@@ -103,7 +103,10 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	*b = InitializeEmptyMap()
+	b, err = LoadJsonMap("smallInn.json")
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 func StartGame(b *Board, c *Creatures, o*Objects) {

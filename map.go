@@ -101,7 +101,7 @@ func InitializeEmptyMap() Board {
 	return b
 }
 
-func LoadJsonMap(mapFile string) error {
+func LoadJsonMap(mapFile string) (*Board, error) {
 	var jsonMap = &MapJson{}
 	err := MapFromJson(MapsPathJson+mapFile, jsonMap)
 	if err != nil {
@@ -123,5 +123,5 @@ func LoadJsonMap(mapFile string) error {
 			thisMap[x][y].Char = cells[y][x] //y,x because - due to 2darray nature - there is height first, width later...
 		}
 	}
-	return err2
+	return &thisMap, err2
 }

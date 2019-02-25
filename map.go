@@ -102,6 +102,7 @@ func InitializeEmptyMap() Board {
 }
 
 func LoadJsonMap(mapFile string) {
+func LoadJsonMap(mapFile string) error {
 	var jsonMap = &MapJson{}
 	err := MapFromJson(MapsPathJson+mapFile, jsonMap)
 	if err != nil {

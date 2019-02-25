@@ -120,7 +120,12 @@ func LoadJsonMap(mapFile string) error {
 	thisMap := InitializeEmptyMap()
 	for x := 0; x < len(cells[0]); x++ {
 		for y := 0; y < len(cells); y++ {
-			break //not necessary yet; fix json first!
+			//not necessary yet; fix json first!
+			if cells[x][y] != "#" {
+				break
+			} else {
+				continue
+			}
 		}
 	}
 	return err2

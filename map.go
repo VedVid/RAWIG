@@ -42,18 +42,18 @@ type Tile struct {
 }
 
 type MapJson struct {
-	Cells []string
-	Data [][]int
-	Layouts [][][]string
-	Char map[string]string
-	Name map[string]string
-	Color map[string]string
-	ColorDark map[string]string
-	Layer map[string]int
+	Cells         []string
+	Data          [][]int
+	Layouts       [][][]string
+	Char          map[string]string
+	Name          map[string]string
+	Color         map[string]string
+	ColorDark     map[string]string
+	Layer         map[string]int
 	AlwaysVisible map[string]bool
-	Explored map[string]bool
-	Blocked map[string]bool
-	BlocksSight map[string]bool
+	Explored      map[string]bool
+	Blocked       map[string]bool
+	BlocksSight   map[string]bool
 }
 
 /* Board is map representation, that uses 2d slice

@@ -55,10 +55,10 @@ func NilToObject() *Object {
 	   work well with nil values (and interfaces).
 	   It is ugly hack, but works. */
 	placeholder := &Object{BasicProperties{0, 0, "o", ObjectNilPlaceholder,
-	"black", "black"},
-	VisibilityProperties{0, false},
-	CollisionProperties{false, false},
-	ObjectProperties{false, false, false, 0, 0}}
+		"black", "black"},
+		VisibilityProperties{0, false},
+		CollisionProperties{false, false},
+		ObjectProperties{false, false, false, 0, 0}}
 	return placeholder
 }
 

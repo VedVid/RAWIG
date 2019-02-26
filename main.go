@@ -111,7 +111,7 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	fmt.Println(len((*b)[0]))
 }
 
-func StartGame(b *Board, c *Creatures, o*Objects) {
+func StartGame(b *Board, c *Creatures, o *Objects) {
 	/* Function StartGame determines if game save is present (and valid), then
 	   loads data, or initializes new game.
 	   Panics if some-but-not-all save files are missing. */

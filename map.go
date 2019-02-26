@@ -124,14 +124,14 @@ func LoadJsonMap(mapFile string) (Board, error) {
 			thisMap[x][y].Char = string(cells[y][x]) //y,x because - due to 2darray nature - there is height first, width later...
 		}
 	}
-	fmt.Println(data)
-	fmt.Println(layouts)
-	fmt.Println("hie hie")
-	for _, room := range data {
-		layout := layouts[rand.Intn(len(layouts))]
+	for i, room := range data {
+		layoutsToChoose := layouts[i]
+		layout := layoutsToChoose[rand.Intn(len(layoutsToChoose))]
 		for x := 0; x < len(layout[0]); x++ {
 			for y := 0; y < len(layout); y++ {
-				thisMap[room[0]+x][room[1]+y].Char = string(layout[x][y])
+				k := string(layout[y][x])
+				fmt.Println(k)
+				thisMap[room[0]+x][room[1]+y].Char = string(layout[y][x])
 			}
 		}
 	}

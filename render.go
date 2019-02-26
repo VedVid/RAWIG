@@ -98,7 +98,7 @@ func PrintObjects(b Board, o Objects, c Creatures) {
 	   AlwaysVisible bool is set to true, or is in player fov. */
 	for _, v := range o {
 		if (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
-			(v.AlwaysVisible == true) {
+			((v.AlwaysVisible == true) && (b[v.X][v.Y].Explored == true)) {
 			blt.Layer(v.Layer)
 			ch := v.Char
 			if v.Char == "]" || v.Char == "[" {

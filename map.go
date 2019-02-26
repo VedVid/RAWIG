@@ -129,9 +129,8 @@ func LoadJsonMap(mapFile string) (Board, error) {
 		layout := layoutsToChoose[rand.Intn(len(layoutsToChoose))]
 		for x := 0; x < len(layout[0]); x++ {
 			for y := 0; y < len(layout); y++ {
-				k := string(layout[y][x])
-				fmt.Println(k)
-				thisMap[room[0]+x][room[1]+y].Char = string(layout[y][x])
+				r := &thisMap[room[0]+x][room[1]+y]
+				fmt.Println(r)
 			}
 		}
 	}

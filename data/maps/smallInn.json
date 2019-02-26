@@ -188,15 +188,15 @@
 				">": "light gray",
 				"|": "light gray",
 				".": "gray",
-				"+": "brown",
+				"+": "amber",
 				",": "light blue",
 				":": "gray",
-				"h": "brown",
-				"t": "brown",
-				"w": "brown",
-				"=": "brown",
+				"h": "amber",
+				"t": "amber",
+				"w": "amber",
+				"=": "amber",
 				"b": "light gray",
-				"e": "brown"
+				"e": "light gray"
 			},
 	"ColorDark":
 	        {
@@ -206,15 +206,15 @@
 				">": "gray",
 				"|": "gray",
 				".": "dark gray",
-				"+": "dark brown",
+				"+": "dark amber",
 				",": "blue",
 				":": "dark gray",
-				"h": "dark brown",
-				"t": "dark brown",
-				"w": "dark brown",
-				"=": "dark brown",
+				"h": "dark amber",
+				"t": "dark amber",
+				"w": "dark amber",
+				"=": "dark amber",
 				"b": "gray",
-				"e": "dark brown"
+				"e": "gray"
 			},
 	"Layer":
 	        {

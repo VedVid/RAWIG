@@ -99,7 +99,6 @@ func InitializeEmptyMap() Board {
 	}
 	for x := 0; x < MapSizeX; x++ {
 		for y := 0; y < MapSizeY; y++ {
-			//workaround to missing _, err := ... idiom that won't work here
 			var err error
 			b[x][y], err = NewTile(BoardLayer, x, y, ".", "floor", "light gray",
 				"dark gray", true, false, false, false)
@@ -131,8 +130,9 @@ func LoadJsonMap(mapFile string) (Board, error) {
 	for x := 0; x < len(cells[0]); x++ {
 		for y := 0; y < len(cells); y++ {
 			r := thisMap[x][y]
-			s := string(cells[y][x]) //y,x because - due to 2darray nature - there is height first, width later...
-			r.Char = jsonMap.Char[s] //y,x because - due to 2darray nature - there is height first, width later...
+			// y,x because - due to 2darray nature - there is height first, width later...
+			s := string(cells[y][x])
+			r.Char = jsonMap.Char[s]
 			r.Name = jsonMap.Name[s]
 			r.Color = jsonMap.Color[s]
 			r.ColorDark = jsonMap.ColorDark[s]

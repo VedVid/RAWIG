@@ -41,9 +41,9 @@ func LayerWarning(layerMonster, layerDefault int) string {
 	/* Function LayerWarning is helper function that returns string to error.
 	   It is called when, during creation, monster layer is not equal
 	   to CreaturesLayer constant defined at the top of render.go file. */
-	   txt := "\n    <monster layer: " + strconv.Itoa(layerMonster) +
-	   	";    default layer: " + strconv.Itoa(layerDefault) + ">"
-	   return txt
+	txt := "\n    <monster layer: " + strconv.Itoa(layerMonster) +
+		";    default layer: " + strconv.Itoa(layerDefault) + ">"
+	return txt
 }
 
 func CoordsError(x, y int) string {

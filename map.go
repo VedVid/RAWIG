@@ -42,18 +42,18 @@ type Tile struct {
 }
 
 type MapJson struct {
-	Cells []string
-	Data [][]int
-	Layouts [][][]string
-	Char map[string]string
-	Name map[string]string
-	Color map[string]string
-	ColorDark map[string]string
-	Layer map[string]int
+	Cells         []string
+	Data          [][]int
+	Layouts       [][][]string
+	Char          map[string]string
+	Name          map[string]string
+	Color         map[string]string
+	ColorDark     map[string]string
+	Layer         map[string]int
 	AlwaysVisible map[string]bool
-	Explored map[string]bool
-	Blocked map[string]bool
-	BlocksSight map[string]bool
+	Explored      map[string]bool
+	Blocked       map[string]bool
+	BlocksSight   map[string]bool
 }
 
 /* Board is map representation, that uses 2d slice
@@ -110,6 +110,18 @@ func InitializeEmptyMap() Board {
 	return b
 }
 
+func ReplaceTile(t *Tile, s string, m *MapJson) {
+	t.Char = m.Char[s]
+	t.Name = m.Name[s]
+	t.Color = m.Color[s]
+	t.ColorDark = m.ColorDark[s]
+	t.Layer = m.Layer[s]
+	t.AlwaysVisible = m.AlwaysVisible[s]
+	t.Explored = m.Explored[s]
+	t.Blocked = m.Blocked[s]
+	t.BlocksSight = m.BlocksSight[s]
+}
+
 func LoadJsonMap(mapFile string) (Board, error) {
 	var jsonMap = &MapJson{}
 	err := MapFromJson(MapsPathJson+mapFile, jsonMap)
@@ -129,18 +141,8 @@ func LoadJsonMap(mapFile string) (Board, error) {
 	thisMap := InitializeEmptyMap()
 	for x := 0; x < len(cells[0]); x++ {
 		for y := 0; y < len(cells); y++ {
-			r := thisMap[x][y]
 			// y,x because - due to 2darray nature - there is height first, width later...
-			s := string(cells[y][x])
-			r.Char = jsonMap.Char[s]
-			r.Name = jsonMap.Name[s]
-			r.Color = jsonMap.Color[s]
-			r.ColorDark = jsonMap.ColorDark[s]
-			r.Layer = jsonMap.Layer[s]
-			r.AlwaysVisible = jsonMap.AlwaysVisible[s]
-			r.Explored = jsonMap.Explored[s]
-			r.Blocked = jsonMap.Blocked[s]
-			r.BlocksSight = jsonMap.BlocksSight[s]
+			ReplaceTile(thisMap[x][y], string(cells[y][x]), jsonMap)
 		}
 	}
 	for i, room := range data {
@@ -148,17 +150,7 @@ func LoadJsonMap(mapFile string) (Board, error) {
 		layout := layoutsToChoose[rand.Intn(len(layoutsToChoose))]
 		for x := 0; x < len(layout[0]); x++ {
 			for y := 0; y < len(layout); y++ {
-				r := thisMap[room[0]+x][room[1]+y]
-				s := string(layout[y][x])
-				r.Char = jsonMap.Char[s]
-				r.Name = jsonMap.Name[s]
-				r.Color = jsonMap.Color[s]
-				r.ColorDark = jsonMap.ColorDark[s]
-				r.Layer = jsonMap.Layer[s]
-				r.AlwaysVisible = jsonMap.AlwaysVisible[s]
-				r.Explored = jsonMap.Explored[s]
-				r.Blocked = jsonMap.Blocked[s]
-				r.BlocksSight = jsonMap.BlocksSight[s]
+				ReplaceTile(thisMap[room[0]+x][room[1]+y], string(layout[y][x]), jsonMap)
 			}
 		}
 	}

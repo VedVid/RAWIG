@@ -45,18 +45,15 @@ func main() {
 	for {
 		RenderAll(*cells, *objs, *actors)
 		key := blt.Read()
-		if key == blt.TK_ESCAPE {
+		if key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0 {
 			err := SaveGame(*cells, *actors, *objs)
 			if err != nil {
 				fmt.Println(err)
 			}
 			break
-		} else if (*actors)[0].HPCurrent <= 0 {
-			err := DeleteSaves()
-			if err != nil {
-				fmt.Println(err)
-				panic(-1)
-			}
+		} else if key == blt.TK_Q && blt.Check(blt.TK_SHIFT) != 0 ||
+			(*actors)[0].HPCurrent <= 0 {
+			DeleteSaves()
 			break
 		} else {
 			turnSpent := Controls(key, (*actors)[0], cells, actors, objs)
@@ -107,11 +104,9 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(len(*b))
-	fmt.Println(len((*b)[0]))
 }
 
-func StartGame(b *Board, c *Creatures, o*Objects) {
+func StartGame(b *Board, c *Creatures, o *Objects) {
 	/* Function StartGame determines if game save is present (and valid), then
 	   loads data, or initializes new game.
 	   Panics if some-but-not-all save files are missing. */

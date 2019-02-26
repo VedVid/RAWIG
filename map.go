@@ -111,7 +111,7 @@ func LoadJsonMap(mapFile string) (Board, error) {
 	cells := jsonMap.Cells
 	data := jsonMap.Data
 	layouts := jsonMap.Layouts
-	//number of items in data should match 2nd items in layouts
+	// Number of items in data should match number of layouts.
 	var err2 error
 	if len(data) != len(layouts) {
 		txt := MapDataLayoutsError((len(data)), len(layouts), mapFile)
@@ -120,7 +120,8 @@ func LoadJsonMap(mapFile string) (Board, error) {
 	thisMap := InitializeEmptyMap()
 	for x := 0; x < len(cells[0]); x++ {
 		for y := 0; y < len(cells); y++ {
-			thisMap[x][y].Char = string(cells[y][x]) //y,x because - due to 2darray nature - there is height first, width later...
+			// y,x because - due to 2darray nature - there is height first, width later...
+			thisMap[x][y].Char = string(cells[y][x])
 		}
 	}
 	return thisMap, err2

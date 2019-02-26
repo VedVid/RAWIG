@@ -144,24 +144,6 @@
 					]
 				]
 	        ],
-	"Layer":
-	        {
-				"#": 2,
-				";": 2,
-				"-": 2,
-				">": 2,
-				"|": 2,
-				".": 2,
-				"+": 2,
-				",": 2,
-				":": 2,
-				"h": 2,
-				"t": 2,
-				"w": 2,
-				"=": 2,
-				"b": 2,
-				"e": 2
-		    },
 	"Char":
 	        {
 				"#": "#",
@@ -197,5 +179,131 @@
 				"=": "counter",
 				"b": "bed",
 				"e": "bed"
+			},
+	"Color":
+	        {
+				"#": "gray",
+				";": "dark green",
+				"-": "light gray",
+				">": "light gray",
+				"|": "light gray",
+				".": "gray",
+				"+": "brown",
+				",": "light blue",
+				":": "gray",
+				"h": "brown",
+				"t": "brown",
+				"w": "brown",
+				"=": "brown",
+				"b": "light gray",
+				"e": "brown"
+			},
+	"ColorDark":
+	        {
+				"#": "dark gray",
+				";": "darker green",
+				"-": "gray",
+				">": "gray",
+				"|": "gray",
+				".": "dark gray",
+				"+": "dark brown",
+				",": "blue",
+				":": "dark gray",
+				"h": "dark brown",
+				"t": "dark brown",
+				"w": "dark brown",
+				"=": "dark brown",
+				"b": "gray",
+				"e": "dark brown"
+			},
+	"Layer":
+	        {
+				"#": 2,
+				";": 2,
+				"-": 2,
+				">": 2,
+				"|": 2,
+				".": 2,
+				"+": 2,
+				",": 2,
+				":": 2,
+				"h": 2,
+				"t": 2,
+				"w": 2,
+				"=": 2,
+				"b": 2,
+				"e": 2
+		    },
+	"AlwaysVisible":
+	        {
+				"#": true,
+				";": true,
+				"-": true,
+				">": true,
+				"|": true,
+				".": true,
+				"+": true,
+				",": true,
+				":": true,
+				"h": true,
+				"t": true,
+				"w": true,
+				"=": true,
+				"b": true,
+				"e": true
+			},
+	"Explored":
+	        {
+				"#": false,
+				";": false,
+				"-": false,
+				">": false,
+				"|": false,
+				".": false,
+				"+": false,
+				",": false,
+				":": false,
+				"h": false,
+				"t": false,
+				"w": false,
+				"=": false,
+				"b": false,
+				"e": false
+			},
+	"Blocked":
+	        {
+				"#": true,
+				";": false,
+				"-": true,
+				">": true,
+				"|": true,
+				".": false,
+				"+": false,
+				",": false,
+				":": false,
+				"h": false,
+				"t": true,
+				"w": true,
+				"=": true,
+				"b": true,
+				"e": true
+			},
+	"BlocksSight":
+	        {
+				"#": true,
+				";": false,
+				"-": false,
+				">": false,
+				"|": false,
+				".": false,
+				"+": true,
+				",": false,
+				":": false,
+				"h": false,
+				"t": false,
+				"w": false,
+				"=": false,
+				"b": false,
+				"e": false
 			}
 }

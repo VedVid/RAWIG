@@ -35,7 +35,7 @@ import (
 	blt "bearlibterminal"
 )
 
-func NewPlayer() (*Creature, error) {
+func NewPlayer(x, y int) (*Creature, error) {
 	/* NewPlayer is function that returns new Creature
 	   (that is supposed to be player) from json file passed as argument.
 	   It replaced old code that was encouraging hardcoding data in go files.
@@ -48,6 +48,7 @@ func NewPlayer() (*Creature, error) {
 		fmt.Println(err)
 		panic(-1)
 	}
+	player.X, player.Y = x, y
 	var err2 error
 	if player.Layer < 0 {
 		txt := LayerError(player.Layer)

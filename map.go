@@ -130,7 +130,17 @@ func LoadJsonMap(mapFile string) (Board, error) {
 	thisMap := InitializeEmptyMap()
 	for x := 0; x < len(cells[0]); x++ {
 		for y := 0; y < len(cells); y++ {
-			thisMap[x][y].Char = string(cells[y][x]) //y,x because - due to 2darray nature - there is height first, width later...
+			r := thisMap[x][y]
+			s := string(cells[y][x]) //y,x because - due to 2darray nature - there is height first, width later...
+			r.Char = jsonMap.Char[s] //y,x because - due to 2darray nature - there is height first, width later...
+			r.Name = jsonMap.Name[s]
+			r.Color = jsonMap.Color[s]
+			r.ColorDark = jsonMap.ColorDark[s]
+			r.Layer = jsonMap.Layer[s]
+			r.AlwaysVisible = jsonMap.AlwaysVisible[s]
+			r.Explored = jsonMap.Explored[s]
+			r.Blocked = jsonMap.Blocked[s]
+			r.BlocksSight = jsonMap.BlocksSight[s]
 		}
 	}
 	for i, room := range data {

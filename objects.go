@@ -80,7 +80,7 @@ type Object struct {
 // Objects holds every object on map.
 type Objects []*Object
 
-func NewObject(objectPath string) (*Object, error) {
+func NewObject(x, y int, objectPath string) (*Object, error) {
 	/* NewObject is function that returns new Creature from
 	   json file passed as argument. It replaced old code that
 	   was encouraging hardcoding data in go files.
@@ -92,6 +92,7 @@ func NewObject(objectPath string) (*Object, error) {
 		fmt.Println(err)
 		panic(-1)
 	}
+	object.X, object.Y = x, y
 	var err2 error
 	if object.Layer < 0 {
 		txt := LayerError(object.Layer)

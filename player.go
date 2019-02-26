@@ -49,6 +49,7 @@ func NewPlayer(x, y int) (*Creature, error) {
 		panic(-1)
 	}
 	player.X, player.Y = x, y
+	fmt.Println(player.X, player.Y)
 	var err2 error
 	if player.Layer < 0 {
 		txt := LayerError(player.Layer)

@@ -53,11 +53,7 @@ func main() {
 			break
 		} else if key == blt.TK_Q && blt.Check(blt.TK_SHIFT) != 0 ||
 			(*actors)[0].HPCurrent <= 0 {
-			err := DeleteSaves()
-			if err != nil {
-				fmt.Println(err)
-				panic(-1)
-			}
+			DeleteSaves()
 			break
 		} else {
 			turnSpent := Controls(key, (*actors)[0], cells, actors, objs)

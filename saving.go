@@ -28,7 +28,6 @@ package main
 
 import (
 	"encoding/gob"
-	"errors"
 	"fmt"
 	"os"
 )
@@ -205,7 +204,7 @@ func LoadGame(b *Board, c *Creatures, o *Objects) error {
 	return err
 }
 
-func DeleteSaves() error {
+func DeleteSaves() {
 	/* Function DeleteSaves sereves, well, deleting saves (mostly upon death).
 	   It checks if certain save file exists. If so, removes it.
 	   Returns the first encountered error. */
@@ -213,23 +212,13 @@ func DeleteSaves() error {
 	_, err = os.Stat(MapPathGob)
 	if err == nil {
 		os.Remove(MapPathGob)
-	} else {
-		err = errors.New("Error: save file not found: " + MapNameGob + ".")
-		return err
 	}
 	_, err = os.Stat(CreaturesPathGob)
 	if err == nil {
 		os.Remove(CreaturesPathGob)
-	} else {
-		err = errors.New("Error: save file not found: " + CreaturesNameGob + ".")
-		return err
 	}
 	_, err = os.Stat(ObjectsPathGob)
 	if err == nil {
 		os.Remove(ObjectsPathGob)
-	} else {
-		err = errors.New("Error: save file not found: " + ObjectsNameGob + ".")
-		return err
 	}
-	return err
 }

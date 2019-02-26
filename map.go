@@ -101,7 +101,7 @@ func InitializeEmptyMap() Board {
 	return b
 }
 
-func LoadJsonMap(mapFile string) (*Board, error) {
+func LoadJsonMap(mapFile string) (Board, error) {
 	var jsonMap = &MapJson{}
 	err := MapFromJson(MapsPathJson+mapFile, jsonMap)
 	if err != nil {
@@ -126,5 +126,5 @@ func LoadJsonMap(mapFile string) (*Board, error) {
 	}
 	fmt.Println(len(cells))
 	fmt.Println(len(cells[0]))
-	return &thisMap, err2
+	return thisMap, err2
 }

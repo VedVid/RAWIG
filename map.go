@@ -40,6 +40,12 @@ type Tile struct {
 	CollisionProperties
 }
 
+type MapJson struct {
+	Cells []string
+	Data [][]int
+	Layouts [][][]string
+}
+
 /* Board is map representation, that uses 2d slice
    to hold data of its every cell. */
 type Board [][]*Tile
@@ -93,4 +99,29 @@ func InitializeEmptyMap() Board {
 		}
 	}
 	return b
+}
+
+func LoadJsonMap(mapFile string) (Board, error) {
+	var jsonMap = &MapJson{}
+	err := MapFromJson(MapsPathJson+mapFile, jsonMap)
+	if err != nil {
+		fmt.Println(err)
+		panic(-1)
+	}
+	cells := jsonMap.Cells
+	data := jsonMap.Data
+	layouts := jsonMap.Layouts
+	//number of items in data should match 2nd items in layouts
+	var err2 error
+	if len(data) != len(layouts) {
+		txt := MapDataLayoutsError((len(data)), len(layouts), mapFile)
+		err2 = errors.New("Length of data and layouts does not match. " + txt)
+	}
+	thisMap := InitializeEmptyMap()
+	for x := 0; x < len(cells[0]); x++ {
+		for y := 0; y < len(cells); y++ {
+			thisMap[x][y].Char = string(cells[y][x]) //y,x because - due to 2darray nature - there is height first, width later...
+		}
+	}
+	return thisMap, err2
 }

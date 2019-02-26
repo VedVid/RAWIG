@@ -234,3 +234,10 @@ func CorruptedSaveError(errBoard, errCreatures, errObjects error) string {
 		errorObjects + ">"
 	return txt
 }
+
+func MapDataLayoutsError(data, layouts int, fileName string) string {
+	txt := "\n    <file name: " + fileName + "; " +
+		"\n    data length: " + strconv.Itoa(data) + "; " +
+		"\n layouts length: " + strconv.Itoa(layouts) + ">"
+	return txt
+}

@@ -29,6 +29,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"math/rand"
 	"unicode/utf8"
 )
 
@@ -121,6 +122,17 @@ func LoadJsonMap(mapFile string) (Board, error) {
 	for x := 0; x < len(cells[0]); x++ {
 		for y := 0; y < len(cells); y++ {
 			thisMap[x][y].Char = string(cells[y][x]) //y,x because - due to 2darray nature - there is height first, width later...
+		}
+	}
+	fmt.Println(data)
+	fmt.Println(layouts)
+	fmt.Println("hie hie")
+	for _, room := range data {
+		layout := layouts[rand.Intn(len(layouts))]
+		for x := 0; x < len(layout[0]); x++ {
+			for y := 0; y < len(layout); y++ {
+				thisMap[room[0]+x][room[1]+y].Char = string(layout[x][y])
+			}
 		}
 	}
 	return thisMap, err2

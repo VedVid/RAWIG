@@ -72,11 +72,11 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	enemy, err := NewCreature("dumbMelee.json")
+	enemy, err := NewCreature(10, 10,"dumbMelee.json")
 	if err != nil {
 		fmt.Println(err)
 	}
-	enemy2, err2 := NewCreature("patherRanged.json")
+	enemy2, err2 := NewCreature(12, 12, "patherRanged.json")
 	if err2 != nil {
 		fmt.Println(err2)
 	}

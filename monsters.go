@@ -50,7 +50,7 @@ type Creature struct {
 // Creatures holds every creature on map.
 type Creatures []*Creature
 
-func NewCreature(monsterFile string) (*Creature, error) {
+func NewCreature(x, y int, monsterFile string) (*Creature, error) {
 	/* NewCreature is function that returns new Creature from
 	   json file passed as argument. It replaced old code that
 	   was encouraging hardcoding data in go files.
@@ -62,6 +62,7 @@ func NewCreature(monsterFile string) (*Creature, error) {
 		fmt.Println(err)
 		panic(-1)
 	}
+	monster.X, monster.Y = x, y
 	var err2 error
 	if monster.Layer < 0 {
 		txt := LayerError(monster.Layer)

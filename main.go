@@ -72,7 +72,7 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	enemy, err := NewCreature(MapSizeX-2, MapSizeY-2,"patherRanged.json")
+	enemy, err := NewCreature(MapSizeX-2, MapSizeY-2, "patherRanged.json")
 	if err != nil {
 		fmt.Println(err)
 	}

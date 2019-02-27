@@ -218,9 +218,5 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 			c.Move(dx, dy, b)
 		}
 
-
-
-
-
-		}
 	}
+}

@@ -1,3 +1,7 @@
+v0.4.1
+ [FIX] unnecessary printing removed
+ [FIX] triggering AI
+
 v0.4
  [NEW] save/load system, using Go's gob package
  [NEW] store game data in json files

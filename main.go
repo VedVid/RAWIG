@@ -72,13 +72,9 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	enemy, err := NewCreature(10, 10,"dumbMelee.json")
+	enemy, err := NewCreature(MapSizeX-2, MapSizeY-2,"patherRanged.json")
 	if err != nil {
 		fmt.Println(err)
-	}
-	enemy2, err2 := NewCreature(12, 12, "patherRanged.json")
-	if err2 != nil {
-		fmt.Println(err2)
 	}
 	w1, err3 := NewObject(0, 0, "weapon1.json")
 	if err3 != nil {
@@ -92,9 +88,9 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	if err5 != nil {
 		fmt.Println(err5)
 	}
-	var enemy2Eq = EquipmentComponent{Objects{w1, w2, wm}, Objects{}}
-	enemy2.EquipmentComponent = enemy2Eq
-	*c = Creatures{player, enemy, enemy2}
+	var enemyEq = EquipmentComponent{Objects{w1, w2, wm}, Objects{}}
+	enemy.EquipmentComponent = enemyEq
+	*c = Creatures{player, enemy}
 	obj, err := NewObject(24, 15, "heal.json")
 	*o = Objects{obj}
 	if err != nil {

@@ -42,6 +42,7 @@ type Tile struct {
 }
 
 type MapJson struct {
+	// For unmarshalling json data.
 	Cells          []string
 	Data           [][]int
 	Layouts        [][][]string
@@ -113,6 +114,10 @@ func InitializeEmptyMap() Board {
 }
 
 func ReplaceTile(t *Tile, s string, m *MapJson) {
+	/* ReplaceTile is function that takes tile, string (supposed to be
+	   one-character-lenght - symbol of map tile, taken from json map) and
+	   MapJson (ie unmarshalled json map).
+	   It uses m's legend to overwrite old map values with data read from file. */
 	t.Char = m.Char[s]
 	t.Name = m.Name[s]
 	t.Color = m.Color[s]

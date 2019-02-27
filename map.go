@@ -42,18 +42,20 @@ type Tile struct {
 }
 
 type MapJson struct {
-	Cells         []string
-	Data          [][]int
-	Layouts       [][][]string
-	Char          map[string]string
-	Name          map[string]string
-	Color         map[string]string
-	ColorDark     map[string]string
-	Layer         map[string]int
-	AlwaysVisible map[string]bool
-	Explored      map[string]bool
-	Blocked       map[string]bool
-	BlocksSight   map[string]bool
+	Cells          []string
+	Data           [][]int
+	Layouts        [][][]string
+	Char           map[string]string
+	Name           map[string]string
+	Color          map[string]string
+	ColorDark      map[string]string
+	Layer          map[string]int
+	AlwaysVisible  map[string]bool
+	Explored       map[string]bool
+	Blocked        map[string]bool
+	BlocksSight    map[string]bool
+	MonstersCoords [][]int
+	MonstersTypes  []string
 }
 
 /* Board is map representation, that uses 2d slice
@@ -122,7 +124,7 @@ func ReplaceTile(t *Tile, s string, m *MapJson) {
 	t.BlocksSight = m.BlocksSight[s]
 }
 
-func LoadJsonMap(mapFile string) (Board, error) {
+func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 	var jsonMap = &MapJson{}
 	err := MapFromJson(MapsPathJson+mapFile, jsonMap)
 	if err != nil {
@@ -154,5 +156,15 @@ func LoadJsonMap(mapFile string) (Board, error) {
 			}
 		}
 	}
-	return thisMap, err2
+	coords := jsonMap.MonstersCoords
+	aiTypes := jsonMap.MonstersTypes
+	var creatures = Creatures{}
+	for j := 0; j < len(coords); j++ {
+		monster, err3 := NewCreature(coords[j][0], coords[j][1], aiTypes[j]+".json")
+		if err3 != nil {
+			fmt.Println(err3)
+		}
+		creatures = append(creatures, monster)
+	}
+	return thisMap, creatures, err2
 }

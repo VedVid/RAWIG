@@ -1,7 +1,6 @@
 v0.4
  [NEW] save/load system, using Go's gob package
- [NEW] game data stored in json files
- [NEW] static maps creation, using json files
+ [NEW] game data (including static maps) stored in json files
  [MOD] "Layer" value moved to VisibilityProperties
  [MOD] creating hardcoded entities is not possible anymore
  [MOD] main functions uses pointers instead of values

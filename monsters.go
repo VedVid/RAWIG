@@ -50,45 +50,49 @@ type Creature struct {
 // Creatures holds every creature on map.
 type Creatures []*Creature
 
-func NewCreature(layer, x, y int, character, name, color, colorDark string,
-	alwaysVisible, blocked, blocksSight, triggered bool, ai, hp, attack,
-	defense int, equipment EquipmentComponent) (*Creature, error) {
-	/* Function NewCreature takes all values necessary by its struct,
-	   and creates then returns pointer to Creature. */
-	var err error
-	if layer < 0 {
-		txt := LayerError(layer)
-		err = errors.New("Creature layer is smaller than 0." + txt)
+func NewCreature(x, y int, monsterFile string) (*Creature, error) {
+	/* NewCreature is function that returns new Creature from
+	   json file passed as argument. It replaced old code that
+	   was encouraging hardcoding data in go files.
+	   Errors returned by json package are not very helpful, and
+	   hard to work with, so there is lazy panic for them. */
+	var monster = &Creature{}
+	err := CreatureFromJson(CreaturesPathJson+monsterFile, monster)
+	if err != nil {
+		fmt.Println(err)
+		panic(-1)
 	}
-	if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
-		txt := CoordsError(x, y)
-		err = errors.New("Creature coords is out of window range." + txt)
+	monster.X, monster.Y = x, y
+	var err2 error
+	if monster.Layer < 0 {
+		txt := LayerError(monster.Layer)
+		err2 = errors.New("Creature layer is smaller than 0." + txt)
 	}
-	if utf8.RuneCountInString(character) != 1 {
-		txt := CharacterLengthError(character)
-		err = errors.New("Creature character string length is not equal to 1." + txt)
+	if monster.Layer != CreaturesLayer {
+		txt := LayerWarning(monster.Layer, CreaturesLayer)
+		err2 = errors.New("Creature layer is not equal to CreaturesLayer constant." + txt)
 	}
-	if hp < 0 {
-		txt := InitialHPError(hp)
-		err = errors.New("Creature HPMax is smaller than 0." + txt)
+	if monster.X < 0 || monster.X >= MapSizeX || monster.Y < 0 || monster.Y >= MapSizeY {
+		txt := CoordsError(monster.X, monster.Y)
+		err2 = errors.New("Creature coords is out of window range." + txt)
 	}
-	if attack < 0 {
-		txt := InitialAttackError(attack)
-		err = errors.New("Creature attack value is smaller than 0." + txt)
+	if utf8.RuneCountInString(monster.Char) != 1 {
+		txt := CharacterLengthError(monster.Char)
+		err2 = errors.New("Creature character string length is not equal to 1." + txt)
 	}
-	if defense < 0 {
-		txt := InitialDefenseError(defense)
+	if monster.HPMax < 0 {
+		txt := InitialHPError(monster.HPMax)
+		err2 = errors.New("Creature HPMax is smaller than 0." + txt)
+	}
+	if monster.Attack < 0 {
+		txt := InitialAttackError(monster.Attack)
+		err2 = errors.New("Creature attack value is smaller than 0." + txt)
+	}
+	if monster.Defense < 0 {
+		txt := InitialDefenseError(monster.Defense)
 		err = errors.New("Creature defense value is smaller than 0." + txt)
 	}
-	creatureBasicProperties := BasicProperties{layer, x, y, character, name, color,
-		colorDark}
-	creatureVisibilityProperties := VisibilityProperties{alwaysVisible}
-	creatureCollisionProperties := CollisionProperties{blocked, blocksSight}
-	creatureFighterProperties := FighterProperties{ai, triggered, hp, hp, attack, defense}
-	creatureNew := &Creature{creatureBasicProperties,
-		creatureVisibilityProperties, creatureCollisionProperties,
-		creatureFighterProperties, equipment}
-	return creatureNew, err
+	return monster, err2
 }
 
 func (c *Creature) MoveOrAttack(tx, ty int, b Board, all Creatures) bool {
@@ -149,8 +153,11 @@ func (c *Creature) PickUp(o *Objects) bool {
 	   successful attempt. */
 	turnSpent := false
 	obj := *o
-	for i := 0; i <= len(obj); i++ {
+	for i := 0; i < len(obj); i++ {
 		if obj[i].X == c.X && obj[i].Y == c.Y && obj[i].Pickable == true {
+			if c.AIType == PlayerAI {
+				AddMessage("You found " + obj[i].Name + ".")
+			}
 			c.Inventory = append(c.Inventory, obj[i])
 			copy(obj[i:], obj[i+1:])
 			obj[len(obj)-1] = nil
@@ -177,6 +184,9 @@ func (c *Creature) DropFromInventory(objects *Objects, index int) bool {
 	   then it removes this item from its owner Inventory. */
 	turnSpent := false
 	objs := *objects
+	if c.AIType == PlayerAI {
+		AddMessage("You dropped " + c.Inventory[index].Name + ".")
+	}
 	// Add item to the map.
 	object := c.Inventory[index]
 	object.X, object.Y = c.X, c.Y
@@ -209,6 +219,9 @@ func (c *Creature) DropFromEquipment(objects *Objects, slot int) bool {
 		return turnSpent // turn is not spent because there is no object to drop
 	}
 	// else {
+	if c.AIType == PlayerAI {
+		AddMessage("You removed and dropped " + object.Name + ".")
+	}
 	// add item to map
 	object.X, object.Y = c.X, c.Y
 	objs = append(objs, object)
@@ -251,6 +264,9 @@ func (c *Creature) EquipItem(o *Object, slot int) (bool, error) {
 	copy(c.Inventory[index:], c.Inventory[index+1:])
 	c.Inventory[len(c.Inventory)-1] = nil
 	c.Inventory = c.Inventory[:len(c.Inventory)-1]
+	if c.AIType == PlayerAI {
+		AddMessage("You equipped " + o.Name + ".")
+	}
 	turnSpent = true
 	return turnSpent, err
 }
@@ -263,6 +279,9 @@ func (c *Creature) DequipItem(slot int) (bool, error) {
 	if c.Equipment[slot] == nil {
 		txt := DequipNilError(c, slot)
 		err = errors.New("Creature tried to DequipItem that was nil." + txt)
+	}
+	if c.AIType == PlayerAI {
+		AddMessage("You dequipped " + c.Equipment[slot].Name + ".")
 	}
 	turnSpent := false
 	c.Inventory = append(c.Inventory, c.Equipment[slot]) //adding items to inventory should have own function, that will check "bounds" of inventory

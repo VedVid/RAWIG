@@ -1,0 +1,17 @@
+{
+    "Layer":INTEGER,
+    "X":INTEGER,
+    "Y":INTEGER,
+    "Char":ONE-CHARACTER-LONG-STRING,
+    "Name":STRING,
+    "Color":STRING,
+    "ColorDark":STRING,
+    "AlwaysVisible":BOOLEAN,
+    "Blocked":BOOLEAN,
+    "BlocksSight":BOOLEAN,
+    "Pickable":BOOLEAN,
+    "Equippable":BOOLEAN,
+    "Consumable":BOOLEAN,
+    "Slot":INTEGER,
+    "Use":INTEGER
+}

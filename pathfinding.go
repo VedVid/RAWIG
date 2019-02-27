@@ -104,7 +104,6 @@ func FindAdjacent(b Board, c Creatures, nodes [][]*Node, frontiers []*Node, star
 					continue //tile is blocked, or it blocks line of sight
 				}
 				if GetAliveCreatureFromTile(x, y, c) != nil {
-					fmt.Println(0)
 					continue //tile is occupied by other monster
 				}
 				nodes[x][y].Weight = w
@@ -257,7 +256,6 @@ func (c *Creature) MoveTowards(b Board, cs Creatures, tx, ty int, ai int) {
 		c.Move(ddx, ddy, b)
 	} else {
 		if ai == MeleeDumbAI || ai == RangedDumbAI {
-			fmt.Println(0)
 			if ddx != 0 {
 				if b[newX][c.Y].Blocked == false && GetAliveCreatureFromTile(newX, c.Y, cs) == nil {
 					c.Move(ddx, 0, b)
@@ -268,7 +266,6 @@ func (c *Creature) MoveTowards(b Board, cs Creatures, tx, ty int, ai int) {
 				}
 			}
 		} else if ai == MeleePatherAI || ai == RangedPatherAI {
-			fmt.Println(1)
 			c.MoveTowardsPath(b, cs, tx, ty)
 		}
 	}

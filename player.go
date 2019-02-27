@@ -35,54 +35,56 @@ import (
 	blt "bearlibterminal"
 )
 
-func NewPlayer(layer, x, y int, character, name, color, colorDark string,
-	alwaysVisible, blocked, blocksSight, triggered bool, ai, hp, attack,
-	defense int, equipment EquipmentComponent) (*Creature, error) {
-	/* Function NewPlayer takes all values necessary by its struct,
-	   and creates then returns pointer to Creature;
-	   so, it is basically NewCreature function. */
-	var err error
-	if layer < 0 {
-		txt := LayerError(layer)
-		err = errors.New("Player layer is smaller than 0." + txt)
+func NewPlayer(x, y int) (*Creature, error) {
+	/* NewPlayer is function that returns new Creature
+	   (that is supposed to be player) from json file passed as argument.
+	   It replaced old code that was encouraging hardcoding data in go files.
+	   Errors returned by json package are not very helpful, and
+	   hard to work with, so there is lazy panic for them. */
+	const playerPath = "./data/player/player.json"
+	var player = &Creature{}
+	err := CreatureFromJson(playerPath, player)
+	if err != nil {
+		fmt.Println(err)
+		panic(-1)
 	}
-	if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
-		txt := CoordsError(x, y)
-		err = errors.New("Player coords is out of window range." + txt)
+	player.X, player.Y = x, y
+	fmt.Println(player.X, player.Y)
+	var err2 error
+	if player.Layer < 0 {
+		txt := LayerError(player.Layer)
+		err2 = errors.New("Creature layer is smaller than 0." + txt)
 	}
-	if utf8.RuneCountInString(character) != 1 {
-		txt := CharacterLengthError(character)
-		err = errors.New("Player character string length is not equal to 1." + txt)
+	if player.Layer != PlayerLayer {
+		txt := LayerWarning(player.Layer, PlayerLayer)
+		err2 = errors.New("Creature layer is not equal to CreaturesLayer constant." + txt)
 	}
-	if triggered != false {
-		err = errors.New("Warning: Player should not be triggered!")
+	if player.X < 0 || player.X >= MapSizeX || player.Y < 0 || player.Y >= MapSizeY {
+		txt := CoordsError(player.X, player.Y)
+		err2 = errors.New("Creature coords is out of window range." + txt)
 	}
-	if ai != PlayerAI {
-		txt := PlayerAIError(ai)
+	if utf8.RuneCountInString(player.Char) != 1 {
+		txt := CharacterLengthError(player.Char)
+		err2 = errors.New("Creature character string length is not equal to 1." + txt)
+	}
+	if player.AIType != PlayerAI {
+		txt := PlayerAIError(player.AIType)
 		err = errors.New("Warning: Player AI is supposed to be " +
 			strconv.Itoa(PlayerAI) + "." + txt)
 	}
-	if hp < 0 {
-		txt := InitialHPError(hp)
-		err = errors.New("Player HPMax is smaller than 0." + txt)
+	if player.HPMax < 0 {
+		txt := InitialHPError(player.HPMax)
+		err2 = errors.New("Creature HPMax is smaller than 0." + txt)
 	}
-	if attack < 0 {
-		txt := InitialAttackError(attack)
-		err = errors.New("Player attack value is smaller than 0." + txt)
+	if player.Attack < 0 {
+		txt := InitialAttackError(player.Attack)
+		err2 = errors.New("Creature attack value is smaller than 0." + txt)
 	}
-	if defense < 0 {
-		txt := InitialDefenseError(defense)
-		err = errors.New("Player defense value is smaller than 0." + txt)
+	if player.Defense < 0 {
+		txt := InitialDefenseError(player.Defense)
+		err = errors.New("Creature defense value is smaller than 0." + txt)
 	}
-	playerBasicProperties := BasicProperties{layer, x, y, character, name, color,
-		colorDark}
-	playerVisibilityProperties := VisibilityProperties{alwaysVisible}
-	playerCollisionProperties := CollisionProperties{blocked, blocksSight}
-	playerFighterProperties := FighterProperties{ai, triggered, hp, hp, attack, defense}
-	playerNew := &Creature{playerBasicProperties, playerVisibilityProperties,
-		playerCollisionProperties, playerFighterProperties,
-		equipment}
-	return playerNew, err
+	return player, err2
 }
 
 func (p *Creature) InventoryMenu(o *Objects) bool {

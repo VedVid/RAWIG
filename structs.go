@@ -30,7 +30,6 @@ type BasicProperties struct {
 	/* BasicProperties is struct that aggregates
 	   all widely used data, necessary for every
 	   map tile and object representation. */
-	Layer     int
 	X, Y      int
 	Char      string
 	Name      string
@@ -41,7 +40,9 @@ type BasicProperties struct {
 type VisibilityProperties struct {
 	/* VisibilityProperties is simple struct
 	   for checking if object is always visible,
-	   regardless of player's fov. */
+	   regardless of player's fov, and what
+	   is its layer. */
+	Layer         int
 	AlwaysVisible bool
 }
 

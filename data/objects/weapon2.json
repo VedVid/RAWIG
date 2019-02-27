@@ -1,0 +1,15 @@
+{
+    "Char":"{",
+    "Name":"weapon2",
+    "Color":"purple",
+    "ColorDark":"dark purple",
+    "Layer":4,
+	"AlwaysVisible":true,
+    "Blocked":false,
+    "BlocksSight":false,
+    "Pickable":true,
+    "Equippable":true,
+    "Consumable":false,
+    "Slot":1,
+    "Use":0
+}

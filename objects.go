@@ -80,44 +80,50 @@ type Object struct {
 // Objects holds every object on map.
 type Objects []*Object
 
-func NewObject(layer, x, y int, character, name, color, colorDark string,
-	alwaysVisible, blocked, blocksSight bool, pickable, equippable, consumable bool, slot, use int) (*Object, error) {
-	/* Function NewObject takes all values necessary by its struct,
-	   and creates then returns Object. */
-	var err error
-	if layer < 0 {
-		txt := LayerError(layer)
+func NewObject(x, y int, objectPath string) (*Object, error) {
+	/* NewObject is function that returns new Creature from
+	   json file passed as argument. It replaced old code that
+	   was encouraging hardcoding data in go files.
+	   Errors returned by json package are not very helpful, and
+	   hard to work with, so there is lazy panic for them. */
+	var object = &Object{}
+	err := ObjectFromJson(ObjectsPathJson+objectPath, object)
+	if err != nil {
+		fmt.Println(err)
+		panic(-1)
+	}
+	object.X, object.Y = x, y
+	var err2 error
+	if object.Layer < 0 {
+		txt := LayerError(object.Layer)
 		err = errors.New("Object layer is smaller than 0. " + txt)
 	}
-	if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
-		txt := CoordsError(x, y)
+	if object.Layer != ObjectsLayer {
+		txt := LayerWarning(object.Layer, ObjectsLayer)
+		err2 = errors.New("Creature layer is not equal to CreaturesLayer constant." + txt)
+	}
+	if object.X < 0 || object.X >= MapSizeX || object.Y < 0 || object.Y >= MapSizeY {
+		txt := CoordsError(object.X, object.Y)
 		err = errors.New("Object coords is out of window range." + txt)
 	}
-	if utf8.RuneCountInString(character) != 1 {
-		txt := CharacterLengthError(character)
+	if utf8.RuneCountInString(object.Char) != 1 {
+		txt := CharacterLengthError(object.Char)
 		err = errors.New("Object character string length is not equal to 1." + txt)
 	}
-	if consumable == true && use == UseNA {
+	if object.Consumable == true && object.Use == UseNA {
 		txt := ConsumableWithoutUseError()
 		err = errors.New("Object is consumable, but has undefined use case." + txt)
 	}
-	if (equippable == false && slot != SlotNA) || (equippable == true && slot == SlotNA) {
-		txt := EquippableSlotError(equippable, slot)
+	if (object.Equippable == false && object.Slot != SlotNA) ||
+		(object.Equippable == true && object.Slot == SlotNA) {
+		txt := EquippableSlotError(object.Equippable, object.Slot)
 		err = errors.New("'equippable' and 'slot' values does not match." + txt)
 	}
-	if equippable == true && consumable == true {
+	if object.Equippable == true && object.Consumable == true {
 		//TODO: temporary
 		err = errors.New("For now, <equippable> and <consumable> should not exists at the same time.")
 	}
-	objectBasicProperties := BasicProperties{layer, x, y, character, name, color,
-		colorDark}
-	objectVisibilityProperties := VisibilityProperties{alwaysVisible}
-	objectCollisionProperties := CollisionProperties{blocked, blocksSight}
-	objectProperties := ObjectProperties{pickable, equippable, consumable,
-		slot, use}
-	objectNew := &Object{objectBasicProperties, objectVisibilityProperties,
-		objectCollisionProperties, objectProperties}
-	return objectNew, err
+	return object, err2
 }
 
 func GatherItemOptions(o *Object) ([]string, error) {
@@ -203,6 +209,7 @@ func (o *Object) UseItem(c *Creature) (bool, error) {
 		break
 	}
 	if err == nil {
+		AddMessage("You used " + o.Name + ".")
 		err2 := DestroyItem(o, c)
 		if err2 != nil {
 			fmt.Println(err2)

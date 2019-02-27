@@ -1,0 +1,15 @@
+{
+    "Char":"}",
+    "Name":"weapon1",
+    "Color":"red",
+    "ColorDark":"dark red",
+    "Layer":4,
+	"AlwaysVisible":true,
+    "Blocked":false,
+    "BlocksSight":false,
+    "Pickable":true,
+    "Equippable":true,
+    "Consumable":false,
+    "Slot":0,
+    "Use":0
+}

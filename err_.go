@@ -37,6 +37,15 @@ func LayerError(layer int) string {
 	return "\n    <layer:  " + strconv.Itoa(layer) + ">"
 }
 
+func LayerWarning(layerMonster, layerDefault int) string {
+	/* Function LayerWarning is helper function that returns string to error.
+	   It is called when, during creation, monster layer is not equal
+	   to CreaturesLayer constant defined at the top of render.go file. */
+	txt := "\n    <monster layer: " + strconv.Itoa(layerMonster) +
+		";    default layer: " + strconv.Itoa(layerDefault) + ">"
+	return txt
+}
+
 func CoordsError(x, y int) string {
 	/* Function CoordsError is helper function that returns string
 	   to error; it takes coords x, y as arguments and returns string,
@@ -204,5 +213,48 @@ func TargetNilError(c *Creature, cs Creatures) string {
 	   target player if there is no Creature in range. */
 	txt := "\n    <source: name==" + c.Name + "; coords: " + strconv.Itoa(c.X) +
 		", " + strconv.Itoa(c.Y) + "; targets: " + strconv.Itoa(len(cs)) + ">"
+	return txt
+}
+
+func CorruptedSaveError(errBoard, errCreatures, errObjects error) string {
+	/* Function CorruptedSaveError is helper function that returns string to error.
+	   It takes three specific errors as arguments (only one of them has to be != nil).
+	   It is called when game can not find all three save files in directory. */
+	errorBoard, errorCreatures, errorObjects := "", "", ""
+	if errBoard != nil {
+		errorBoard = "map.gob "
+	}
+	if errCreatures != nil {
+		errorCreatures = "monsters.gob "
+	}
+	if errObjects != nil {
+		errorObjects = "objects.gob "
+	}
+	txt := "\n    <Following files are missing: " + errorBoard + errorCreatures +
+		errorObjects + ">"
+	return txt
+}
+
+func MapDataLayoutsError(data, layouts int, fileName string) string {
+	/* Function MapDataLayoutsError is helper function that takes two ints
+	   (slice length) and string (name of json file) as arguments, and
+	   returns string to error.
+	   During loading map from json, rooms' data should has the same length
+	   as rooms' layouts. */
+	txt := "\n    <file name: " + fileName + "; " +
+		"\n    data length: " + strconv.Itoa(data) + "; " +
+		"\n layouts length: " + strconv.Itoa(layouts) + ">"
+	return txt
+}
+
+func MapMonstersCoordsAiError(coords, ai int, fileName string) string {
+	/* Function MapMonstersCoordsAiError is helper function that takes two ints
+	   (slice length) and string (name of json file) as arguments, and
+	   returns string to error.
+	   During loading map from json, monsters' data should has the same length
+	   as monsters' types. */
+	txt := "\n    <file name: " + fileName + "; " +
+		"\n    coords length: " + strconv.Itoa(coords) + "; " +
+		"\n   aiTypes length: " + strconv.Itoa(ai) + ">"
 	return txt
 }

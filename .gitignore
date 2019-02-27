@@ -4,6 +4,7 @@
 *.sublime-workspace
 *.dll
 *.exe
+*.gob
 *.orig
 *.txt
 *.ttf

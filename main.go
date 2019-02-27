@@ -30,6 +30,7 @@ import (
 	blt "bearlibterminal"
 	"fmt"
 	"math/rand"
+	"os"
 	"time"
 )
 
@@ -37,53 +38,88 @@ var MsgBuf = []string{}
 var LastTarget *Creature
 
 func main() {
-	slot, _ := NewObject(ObjectsLayer, 0, 0, "}", "weapon", "red", "dark red", true,
-		false, false, true, true, false, SlotWeaponPrimary, UseHeal)
-	slot2, _ := NewObject(ObjectsLayer, 0, 0, "{", "weapon2", "green", "dark green", true,
-		false, false, true, true, false, SlotWeaponSecondary, UseNA)
-	slot3, _ := NewObject(ObjectsLayer, 0, 0, "|", "melee", "yellow", "dark yellow", true,
-		false, false, true, true, false, SlotWeaponMelee, UseNA)
-	item, _ := NewObject(ObjectsLayer, 0, 0, "O", "heal", "blue", "dark blue", true,
-		false, false, true, false, true, SlotNA, UseHeal)
-	var playerEq = EquipmentComponent{Objects{slot, slot2, slot3}, Objects{item}}
-	player, err := NewPlayer(PlayerLayer, 1, 1, "@", "player", "white", "white", true,
-		true, false, false, PlayerAI, 999, 5, 2, playerEq)
-	if err != nil {
-		fmt.Println(err)
-	}
-	var enemyEq = EquipmentComponent{Objects{nil, nil, nil}, Objects{}}
-	enemy, err := NewCreature(CreaturesLayer, 10, 10, "T", "enemy", "green", "green",
-		false, true, false, false, RangedPatherAI, 10, 4, 1, enemyEq)
-	if err != nil {
-		fmt.Println(err)
-	}
-	var enemyEq2 = EquipmentComponent{Objects{nil, nil, nil}, Objects{}}
-	enemy2, err2 := NewCreature(CreaturesLayer, 11, 11, "T", "enemy", "red", "red",
-		false, true, false, false, MeleePatherAI, 10, 4, 1, enemyEq2)
-	if err2 != nil {
-		fmt.Println(err)
-	}
-	var actors = Creatures{player, enemy, enemy2}
-	obj, err := NewObject(ObjectsLayer, 3, 3, "(", "heal2", "blue", "dark blue", true,
-		false, false, true, false, false, SlotNA, UseHeal)
-	var objs = Objects{obj}
-	if err != nil {
-		fmt.Println(err)
-	}
-	cells := InitializeEmptyMap()
+	var cells = new(Board)
+	var objs = new(Objects)
+	var actors = new(Creatures)
+	StartGame(cells, actors, objs)
 	for {
-		RenderAll(cells, objs, actors)
+		RenderAll(*cells, *objs, *actors)
 		key := blt.Read()
-		if key == blt.TK_ESCAPE || actors[0].HPCurrent <= 0 {
+		if key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0 {
+			err := SaveGame(*cells, *actors, *objs)
+			if err != nil {
+				fmt.Println(err)
+			}
+			break
+		} else if key == blt.TK_Q && blt.Check(blt.TK_SHIFT) != 0 ||
+			(*actors)[0].HPCurrent <= 0 {
+			DeleteSaves()
 			break
 		} else {
-			turnSpent := Controls(key, player, cells, actors, &objs)
+			turnSpent := Controls(key, (*actors)[0], cells, actors, objs)
 			if turnSpent == true {
-				CreaturesTakeTurn(cells, actors, objs)
+				CreaturesTakeTurn(*cells, *actors, *objs)
 			}
 		}
 	}
 	blt.Close()
+}
+
+func NewGame(b *Board, c *Creatures, o *Objects) {
+	/* Function NewGame initializes game state - creates player, monsters, and game map.
+	   This implementation is generic-placeholder, for testing purposes. */
+	player, err := NewPlayer(1, 1)
+	if err != nil {
+		fmt.Println(err)
+	}
+	enemy, err := NewCreature(MapSizeX-2, MapSizeY-2,"patherRanged.json")
+	if err != nil {
+		fmt.Println(err)
+	}
+	w1, err := NewObject(0, 0, "weapon1.json")
+	if err != nil {
+		fmt.Println(err)
+	}
+	w2, err := NewObject(0, 0, "weapon2.json")
+	if err != nil {
+		fmt.Println(err)
+	}
+	wm, err := NewObject(0, 0, "melee.json")
+	if err != nil {
+		fmt.Println(err)
+	}
+	var enemyEq = EquipmentComponent{Objects{w1, w2, wm}, Objects{}}
+	enemy.EquipmentComponent = enemyEq
+	*c = Creatures{player, enemy}
+	obj, err := NewObject(24, 15, "heal.json")
+	*o = Objects{obj}
+	if err != nil {
+		fmt.Println(err)
+	}
+	var c2 = Creatures{}
+	*b, c2, err = LoadJsonMap("smallInn.json")
+	if err != nil {
+		fmt.Println(err)
+	}
+	*c = append(*c, c2...)
+}
+
+func StartGame(b *Board, c *Creatures, o *Objects) {
+	/* Function StartGame determines if game save is present (and valid), then
+	   loads data, or initializes new game.
+	   Panics if some-but-not-all save files are missing. */
+	_, errBoard := os.Stat(MapPathGob)
+	_, errCreatures := os.Stat(CreaturesPathGob)
+	_, errObjects := os.Stat(ObjectsPathGob)
+	if errBoard == nil && errCreatures == nil && errObjects == nil {
+		LoadGame(b, c, o)
+	} else if errBoard != nil && errCreatures != nil && errObjects != nil {
+		NewGame(b, c, o)
+	} else {
+		txt := CorruptedSaveError(errBoard, errCreatures, errObjects)
+		fmt.Println("Error: save files are corrupted: " + txt)
+		panic(-1)
+	}
 }
 
 func init() {

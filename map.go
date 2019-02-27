@@ -130,6 +130,30 @@ func ReplaceTile(t *Tile, s string, m *MapJson) {
 }
 
 func LoadJsonMap(mapFile string) (Board, Creatures, error) {
+	/* Function LoadJsonMap takes string (name of json map file) as argument,
+	   and returns Board (ie map), Creatures (included in premade json maps)
+	   and error.
+	   It uses new type - struct MapJson - to store all values read from file.
+	   Panics if unmarshalling encounters any error.
+	   Other possible errors are about internal structure of json file:
+	       - length of Data and Layouts has to be the same
+	       - length of MonstersCoords and MonstersTypes has to be the same.
+	   It is important because instead of using multi-type json lists
+	   (it would be possible to store map monsters as [x: int, y: int, file: string])
+	   there are independent structures. The reason is Go's limitations: bot lists
+	   (slices) and dictionaries (maps) are strongly typed. (Un)Marshalling multi-type
+	   lists would be cumbersome. On the other hand, it means that creating and editing
+	   json maps require discipline.
+	   After error checking, three major operations are queued.
+	   At first, game reads json map (Cells) and modifies (previously initialized)
+	   tiles regarding to json legend (Char, Name (...), BlocksSight).
+	   Then it repeats this operation for every area marked as "randomly generated".
+	   Some important points to make about these areas:
+	       - they are not created *randomly*
+	           = areas ("rooms") are specified in JsonMap.Data
+	           = they are filled using prefabs (JsonMap.Layouts)
+	   At the end, monsters are created and placed on map (their datas are stored
+	   in json map as MonstersCoords (x, y) and MonstersTypes (their json files). */
 	var jsonMap = &MapJson{}
 	var err error
 	err = MapFromJson(MapsPathJson+mapFile, jsonMap)

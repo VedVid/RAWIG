@@ -3,7 +3,7 @@ v0.4
  [NEW] game data (including static maps) stored in json files
  [MOD] "Layer" value moved to VisibilityProperties
  [MOD] creating hardcoded entities is not possible anymore
- [MOD] main functions uses pointers instead of values
+ [MOD] main functions use pointers instead of values
  [FIX] monsters will not occupy the same tile anymore
  [FIX] PickUp crash if there were no objects on map
 

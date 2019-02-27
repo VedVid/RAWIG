@@ -241,3 +241,10 @@ func MapDataLayoutsError(data, layouts int, fileName string) string {
 		"\n layouts length: " + strconv.Itoa(layouts) + ">"
 	return txt
 }
+
+func MapMonstersCoordsAiError(coords, ai int, fileName string) string {
+	txt := "\n    <file name: " + fileName + "; " +
+		"\n    coords length: " + strconv.Itoa(coords) + "; " +
+		"\n   aiTypes length: " + strconv.Itoa(ai) + ">"
+	return txt
+}

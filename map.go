@@ -126,7 +126,8 @@ func ReplaceTile(t *Tile, s string, m *MapJson) {
 
 func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 	var jsonMap = &MapJson{}
-	err := MapFromJson(MapsPathJson+mapFile, jsonMap)
+	var err error
+	err = MapFromJson(MapsPathJson+mapFile, jsonMap)
 	if err != nil {
 		fmt.Println(err)
 		panic(-1)
@@ -135,10 +136,9 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 	data := jsonMap.Data
 	layouts := jsonMap.Layouts
 	// Number of items in data should match number of layouts.
-	var err2 error
 	if len(data) != len(layouts) {
 		txt := MapDataLayoutsError((len(data)), len(layouts), mapFile)
-		err2 = errors.New("Length of data and layouts does not match. " + txt)
+		err = errors.New("Length of data and layouts does not match. " + txt)
 	}
 	thisMap := InitializeEmptyMap()
 	for x := 0; x < len(cells[0]); x++ {
@@ -158,6 +158,10 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 	}
 	coords := jsonMap.MonstersCoords
 	aiTypes := jsonMap.MonstersTypes
+	if len(coords) != len(aiTypes) {
+		txt := MapMonstersCoordsAiError(len(coords), len(aiTypes), mapFile)
+		err = errors.New("Length of MonstersCoords and MonstersTypes does not match. " + txt)
+	}
 	var creatures = Creatures{}
 	for j := 0; j < len(coords); j++ {
 		monster, err := NewCreature(coords[j][0], coords[j][1], aiTypes[j]+".json")
@@ -166,5 +170,5 @@ func LoadJsonMap(mapFile string) (Board, Creatures, error) {
 		}
 		creatures = append(creatures, monster)
 	}
-	return thisMap, creatures, err2
+	return thisMap, creatures, err
 }

@@ -91,6 +91,10 @@ func FindAdjacent(b Board, c Creatures, nodes [][]*Node, frontiers []*Node, star
 	for i := 0; i < len(frontiers); i++ {
 		for x := frontiers[i].X - 1; x <= frontiers[i].X+1; x++ {
 			for y := frontiers[i].Y - 1; y <= frontiers[i].Y+1; y++ {
+				if x == start.X && y == start.Y {
+					startFound = true
+					goto End
+				}
 				if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
 					continue //node is out of map bounds
 				}
@@ -108,10 +112,6 @@ func FindAdjacent(b Board, c Creatures, nodes [][]*Node, frontiers []*Node, star
 				}
 				nodes[x][y].Weight = w
 				adjacent = append(adjacent, nodes[x][y])
-				if x == start.X && y == start.Y {
-					startFound = true
-					goto End
-				}
 			}
 		}
 	}
@@ -152,7 +152,7 @@ func (c *Creature) MoveTowardsPath(b Board, cs Creatures, tx, ty int) {
 		frontiers, startFound = FindAdjacent(b, cs, nodes, frontiers, start, w)
 	}
 	// Uncomment line below, if you want to see nodes' weights.
-	//RenderWeights(nodes)
+	RenderWeights(nodes)
 	dx, dy, err := BacktrackPath(nodes, start)
 	if err != nil {
 		fmt.Println(err)

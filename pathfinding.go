@@ -93,6 +93,7 @@ func FindAdjacent(b Board, c Creatures, nodes [][]*Node, frontiers []*Node, star
 			for y := frontiers[i].Y - 1; y <= frontiers[i].Y+1; y++ {
 				if x == start.X && y == start.Y {
 					startFound = true
+					nodes[x][y].Weight = w
 					goto End
 				}
 				if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {

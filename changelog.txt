@@ -1,3 +1,8 @@
+v0.4.1
+ [FIX] unnecessary printing removed
+ [FIX] pathfinding was ignoring its start coords, if source of path was monster
+ [FIX] triggering AI
+
 v0.4
  [NEW] save/load system, using Go's gob package
  [NEW] game data (including static maps) stored in json files

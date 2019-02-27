@@ -91,6 +91,11 @@ func FindAdjacent(b Board, c Creatures, nodes [][]*Node, frontiers []*Node, star
 	for i := 0; i < len(frontiers); i++ {
 		for x := frontiers[i].X - 1; x <= frontiers[i].X+1; x++ {
 			for y := frontiers[i].Y - 1; y <= frontiers[i].Y+1; y++ {
+				if x == start.X && y == start.Y {
+					startFound = true
+					nodes[x][y].Weight = w
+					goto End
+				}
 				if x < 0 || x >= MapSizeX || y < 0 || y >= MapSizeY {
 					continue //node is out of map bounds
 				}
@@ -108,10 +113,6 @@ func FindAdjacent(b Board, c Creatures, nodes [][]*Node, frontiers []*Node, star
 				}
 				nodes[x][y].Weight = w
 				adjacent = append(adjacent, nodes[x][y])
-				if x == start.X && y == start.Y {
-					startFound = true
-					goto End
-				}
 			}
 		}
 	}

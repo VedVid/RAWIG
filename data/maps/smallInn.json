@@ -305,5 +305,15 @@
 				"=": false,
 				"b": false,
 				"e": false
-			}
+			},
+	"MonstersCoords":
+	            [
+				    [11, 11],
+					[11, 14]
+				],
+	"MonstersTypes":
+	            [
+				    "patherRanged",
+					"dumbMelee"
+				]
 }

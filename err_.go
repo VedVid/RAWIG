@@ -236,6 +236,11 @@ func CorruptedSaveError(errBoard, errCreatures, errObjects error) string {
 }
 
 func MapDataLayoutsError(data, layouts int, fileName string) string {
+	/* Function MapDataLayoutsError is helper function that takes two ints
+	   (slice length) and string (name of json file) as arguments, and
+	   returns string to error.
+	   During loading map from json, rooms' data should has the same length
+	   as rooms' layouts. */
 	txt := "\n    <file name: " + fileName + "; " +
 		"\n    data length: " + strconv.Itoa(data) + "; " +
 		"\n layouts length: " + strconv.Itoa(layouts) + ">"
@@ -243,6 +248,11 @@ func MapDataLayoutsError(data, layouts int, fileName string) string {
 }
 
 func MapMonstersCoordsAiError(coords, ai int, fileName string) string {
+	/* Function MapMonstersCoordsAiError is helper function that takes two ints
+	   (slice length) and string (name of json file) as arguments, and
+	   returns string to error.
+	   During loading map from json, monsters' data should has the same length
+	   as monsters' types. */
 	txt := "\n    <file name: " + fileName + "; " +
 		"\n    coords length: " + strconv.Itoa(coords) + "; " +
 		"\n   aiTypes length: " + strconv.Itoa(ai) + ">"

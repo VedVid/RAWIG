@@ -76,17 +76,17 @@ func NewGame(b *Board, c *Creatures, o *Objects) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	w1, err3 := NewObject(0, 0, "weapon1.json")
-	if err3 != nil {
-		fmt.Println(err3)
+	w1, err := NewObject(0, 0, "weapon1.json")
+	if err != nil {
+		fmt.Println(err)
 	}
-	w2, err4 := NewObject(0, 0, "weapon2.json")
-	if err4 != nil {
-		fmt.Println(err4)
+	w2, err := NewObject(0, 0, "weapon2.json")
+	if err != nil {
+		fmt.Println(err)
 	}
-	wm, err5 := NewObject(0, 0, "melee.json")
-	if err5 != nil {
-		fmt.Println(err5)
+	wm, err := NewObject(0, 0, "melee.json")
+	if err != nil {
+		fmt.Println(err)
 	}
 	var enemyEq = EquipmentComponent{Objects{w1, w2, wm}, Objects{}}
 	enemy.EquipmentComponent = enemyEq

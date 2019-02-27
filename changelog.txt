@@ -1,7 +1,12 @@
 v0.4
  [NEW] save/load system, using Go's gob package
  [NEW] store game data in json files
- [DEL] creating hardcoded entities is not possible anymore
+ [NEW] create static maps, using json files
+ [MOD] "Layer" value moved to VisibilityProperties
+ [MOD] creating hardcoded entities is not possible anymore
+ [MOD] main functions uses pointers instead of values
+ [FIX] monsters will not occupy the same tile anymore
+ [FIX] PickUp crash if there were no objects on map
 
 v0.3
  [NEW] "look" command

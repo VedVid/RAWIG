@@ -32,11 +32,9 @@ Every revision before v 0.1 is potentially unstable.
 - menus  
 - inventory system  
 - ranged combat  
-- [l]ooking command  
-
-**0.4**  
-- save/load  
-- json to store data
+- looking command  
+- save / load system  
+- json for data storage  
 
 ### Influences
 

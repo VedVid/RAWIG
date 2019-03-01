@@ -90,7 +90,7 @@ func NewCreature(x, y int, monsterFile string) (*Creature, error) {
 	}
 	if monster.Defense < 0 {
 		txt := InitialDefenseError(monster.Defense)
-		err = errors.New("Creature defense value is smaller than 0." + txt)
+		err2 = errors.New("Creature defense value is smaller than 0." + txt)
 	}
 	return monster, err2
 }

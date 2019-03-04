@@ -185,7 +185,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 			fmt.Println(err)
 		}
 		_ = ComputeVector(vec)
-		_, _, monsterHit, _ := ValidateVector(vec, b, targets, o)
+		valid, _, monsterHit, _ := ValidateVector(vec, b, targets, o)
 		PrintVector(vec, VectorColorGood, VectorColorBad, b, o, cs)
 		if monsterHit != nil {
 			msg := "There is " + monsterHit.Name + " here."
@@ -197,7 +197,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 		}
 		if key == blt.TK_F {
 			monsterAimed := FindMonsterByXY(targetX, targetY, cs)
-			if monsterAimed != nil && monsterAimed != c && monsterAimed.HPCurrent > 0 {
+			if monsterAimed != nil && monsterAimed != c && monsterAimed.HPCurrent > 0 && valid == true {
 				LastTarget = monsterAimed
 				c.AttackTarget(monsterAimed)
 			} else {

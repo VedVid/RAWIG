@@ -105,8 +105,8 @@ func FindAdjacent(b Board, c Creatures, nodes [][]*Node, frontiers []*Node, star
 				if x == frontiers[i].X && y == frontiers[i].Y {
 					continue //it's the current frontier node
 				}
-				if b[x][y].Blocked == true || b[x][y].BlocksSight == true {
-					continue //tile is blocked, or it blocks line of sight
+				if b[x][y].Blocked == true {
+					continue //tile is blocked
 				}
 				if GetAliveCreatureFromTile(x, y, c) != nil {
 					continue //tile is occupied by other monster

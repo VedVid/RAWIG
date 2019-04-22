@@ -48,6 +48,7 @@ const (
 	LogPosX     = 0
 	LogPosY     = MapSizeY
 	GameTitle   = "unnamed game"
+	GameVersion = "0.5"
 	FontName    = "UbuntuMono-R.ttf"
 	FontSize    = 18
 )

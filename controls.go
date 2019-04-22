@@ -30,34 +30,94 @@ import (
 	blt "bearlibterminal"
 )
 
-func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
-	/* Function Controls is input handler.
-	   It takes integer k (key codes are basically numbers,
-	   but creating new "type key int" is not convenient)
-	   and Creature p (which is player).
-	   Controls handle input, then returns integer value that depends
-	   if player spent turn by action or not. */
+const (
+	StrMoveNorth = "MOVE_NORTH"
+	StrMoveWest  = "MOVE_WEST"
+	StrMoveEast  = "MOVE_EAST"
+	StrMoveSouth = "MOVE_SOUTH"
+
+	StrTarget = "TARGET"
+	StrLook   = "LOOK"
+	StrPickup = "PICKUP"
+
+	StrInventory = "INVENTORY"
+	StrEquipment = "EQUIPMENT"
+)
+
+var Actions = []string{
+	StrMoveNorth,
+	StrMoveWest,
+	StrMoveEast,
+	StrMoveSouth,
+	StrTarget,
+	StrLook,
+	StrPickup,
+	StrInventory,
+	StrEquipment,
+}
+
+var CommandKeys = map[int]string{
+	blt.TK_UP:    StrMoveNorth,
+	blt.TK_RIGHT: StrMoveEast,
+	blt.TK_DOWN:  StrMoveSouth,
+	blt.TK_LEFT:  StrMoveWest,
+	blt.TK_F:     StrTarget,
+	blt.TK_L:     StrLook,
+	blt.TK_G:     StrPickup,
+	blt.TK_I:     StrInventory,
+	blt.TK_E:     StrEquipment,
+}
+
+var CustomCommandKeys = map[int]string{}
+
+func Command(com string, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 	turnSpent := false
-	switch k {
-	case blt.TK_UP:
+	switch com {
+	case StrMoveNorth:
 		turnSpent = p.MoveOrAttack(0, -1, *b, *c)
-	case blt.TK_RIGHT:
+	case StrMoveEast:
 		turnSpent = p.MoveOrAttack(1, 0, *b, *c)
-	case blt.TK_DOWN:
+	case StrMoveSouth:
 		turnSpent = p.MoveOrAttack(0, 1, *b, *c)
-	case blt.TK_LEFT:
+	case StrMoveWest:
 		turnSpent = p.MoveOrAttack(-1, 0, *b, *c)
 
-	case blt.TK_F:
+	case StrTarget:
 		turnSpent = p.Target(*b, *o, *c)
-	case blt.TK_L:
-		p.Look(*b, *o, *c) // Looking is free action.
-	case blt.TK_G:
+	case StrLook:
+		p.Look(*b, *o, *c)
+	case StrPickup:
 		turnSpent = p.PickUp(o)
-	case blt.TK_I:
+	case StrInventory:
 		turnSpent = p.InventoryMenu(o)
-	case blt.TK_E:
+	case StrEquipment:
 		turnSpent = p.EquipmentMenu(o)
 	}
 	return turnSpent
+}
+
+func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
+	turnSpent := false
+	var command string
+	if CustomControls == false {
+		command = CommandKeys[k]
+	} else {
+		command = CustomCommandKeys[k]
+	}
+	turnSpent = Command(command, p, b, c, o)
+	return turnSpent
+}
+
+func ReadInput() int {
+	key := blt.Read()
+	for _, v := range HardcodedKeys {
+		if key == v {
+			return v
+		}
+	}
+	var r rune
+	if blt.Check(blt.TK_WCHAR) != 0 {
+		r = rune(blt.State(blt.TK_WCHAR))
+	}
+	return KeyMap[r]
 }

@@ -1,7 +1,6 @@
 # RAWIG
 
 RAWIG is planned as architecture, ready to modify and expand. It won't be tutorial material nor full game.  
-Currently, RAWIG is in early stage of development.
 
 ### Prerequisites
 
@@ -16,7 +15,7 @@ RAWIG is standalone application, not a library. You can modify files and compile
 
 ### Disclaimer
 
-Refer to "development" branch - "master" is only for releases.
+"Master" branch is for releases only. To try bleeding edge versions, check "development" branch.
 
 ### Roadmap
 
@@ -25,6 +24,8 @@ RAWIG is small, personal project, and doesn't have proper, detailed roadmap. How
 Every revision before v 0.1 is potentially unstable. 
 
 **Implemented already:**  
+- support for QWERTY, QWERTZ, AZERTY and Dvorak keyboards  
+- configurable keybindings  
 - rendering system  
 - maps, monsters, items  
 - fov, pathfinding  
@@ -35,6 +36,9 @@ Every revision before v 0.1 is potentially unstable.
 - looking command  
 - save / load system  
 - json for data storage  
+
+**TODO:**  
+- level generation algorithms
 
 ### Influences
 

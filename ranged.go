@@ -137,7 +137,7 @@ func FormatLookingMessage(s []string, fov bool) string {
 	return msg
 }
 
-func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
+func (c *Creature) Target(b Board, o *Objects, cs Creatures) bool {
 	/* Target is method of Creature, that takes game map, objects, and
 	   creatures as arguments. Returns bool that serves as indicator if
 	   action took some time or not.
@@ -166,7 +166,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 	      is ignored */
 	turnSpent := false
 	var target *Creature
-	targets := c.FindTargets(FOVLength, b, cs, o)
+	targets := c.FindTargets(FOVLength, b, cs, *o)
 	if LastTarget != nil && LastTarget != c &&
 		IsInFOV(b, c.X, c.Y, LastTarget.X, LastTarget.Y) == true {
 		target = LastTarget
@@ -185,8 +185,8 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 			fmt.Println(err)
 		}
 		_ = ComputeVector(vec)
-		valid, _, monsterHit, _ := ValidateVector(vec, b, targets, o)
-		PrintVector(vec, VectorColorGood, VectorColorBad, b, o, cs)
+		valid, _, monsterHit, _ := ValidateVector(vec, b, targets, *o)
+		PrintVector(vec, VectorColorGood, VectorColorBad, b, *o, cs)
 		if monsterHit != nil {
 			msg := "There is " + monsterHit.Name + " here."
 			PrintLookingMessage(msg, i)
@@ -199,7 +199,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 			monsterAimed := FindMonsterByXY(targetX, targetY, cs)
 			if monsterAimed != nil && monsterAimed != c && monsterAimed.HPCurrent > 0 && valid == true {
 				LastTarget = monsterAimed
-				c.AttackTarget(monsterAimed)
+				c.AttackTarget(&monsterAimed)
 			} else {
 				if monsterAimed == c {
 					break // Do not hurt yourself.
@@ -207,14 +207,14 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 				if monsterHit != nil {
 					if monsterHit.HPCurrent > 0 {
 						LastTarget = monsterHit
-						c.AttackTarget(monsterHit)
+						c.AttackTarget(&monsterHit)
 					}
 				} else {
 					vx, vy := FindVectorDirection(vec)
 					v := ExtrapolateVector(vec, vx, vy)
-					_, _, monsterHitIndirectly, _ := ValidateVector(v, b, targets, o)
+					_, _, monsterHitIndirectly, _ := ValidateVector(v, b, targets, *o)
 					if monsterHitIndirectly != nil {
-						c.AttackTarget(monsterHitIndirectly)
+						c.AttackTarget(&monsterHitIndirectly)
 					}
 				}
 			}

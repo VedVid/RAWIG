@@ -83,7 +83,7 @@ func Command(com string, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 		turnSpent = p.MoveOrAttack(-1, 0, *b, *c)
 
 	case StrTarget:
-		turnSpent = p.Target(*b, *o, *c)
+		turnSpent = p.Target(*b, o, *c)
 	case StrLook:
 		p.Look(*b, *o, *c)
 	case StrPickup:

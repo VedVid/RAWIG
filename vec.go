@@ -241,10 +241,7 @@ func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Obje
 	   Creatures.
 	   At start, it clears whole screen and redraws it.
 	   Then, it uses tile coords of Vector (ie TilesX and TilesY)
-	   to set coordinates of printing line symbol.
-	   Beware that vector validation will be visible to player even
-	   if it'll break out of FOV - so, it allows 'scanning' environment. It is
-	   something that should be adressed in games, not in this template, though.*/
+	   to set coordinates of printing line symbol.*/
 	blt.Clear()
 	RenderAll(b, o, c)
 	blt.Layer(LookLayer)
@@ -257,14 +254,28 @@ func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Obje
 		x := vec.TilesX[i]
 		y := vec.TilesY[i]
 		if x >= 0 && x < MapSizeX && y >= 0 && y < MapSizeY {
-			if why == VectorWhyInspect && i == 0 && length == 1 {
+			if why == VectorWhyInspect {
 				PrintRangedCharacter(x, y, VectorColorNeutral, true)
-				break
-			}
-			if vec.Values[i] == true {
-				PrintRangedCharacter(x, y, color1, true)
-			} else {
-				PrintRangedCharacter(x, y, color2, false)
+				if i == 0 && length == 1 {
+					break
+				}
+			} else if why == VectorWhyTarget {
+				if IsInFOV(b,
+					vec.StartX, vec.StartY, vec.TargetX, vec.TargetY) == true {
+					if vec.Values[i] == true {
+						PrintRangedCharacter(x, y, color1, true)
+					} else {
+						PrintRangedCharacter(x, y, color2, false)
+					}
+				} else {
+					if IsInFOV(b,
+						vec.StartX, vec.StartY,
+						vec.TilesX[i], vec.TilesY[i]) == true {
+						PrintRangedCharacter(x, y, color1, true)
+					} else {
+						PrintRangedCharacter(x, y, color2, false)
+					}
+				}
 			}
 		}
 	}

@@ -53,7 +53,8 @@ func main() {
 			break
 		}
 		key := ReadInput()
-		if key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0 {
+		if (key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0) ||
+			key == blt.TK_CLOSE {
 			err := SaveGame(*cells, *actors, *objs)
 			if err != nil {
 				fmt.Println(err)

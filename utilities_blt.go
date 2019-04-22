@@ -54,3 +54,24 @@ func SetColor(name, number string) string {
 	blt.Set("palette: " + name + " = " + number)
 	return name
 }
+
+func RuneCountInBltString(s string) int {
+	length := 0
+	var r = []rune(s)
+	internal := false
+	for _, v := range r {
+		if internal == false {
+			if v == '[' {
+				internal = true
+			}
+		} else {
+			if v == ']' {
+				internal = false
+			}
+		}
+		if internal == false && v != ']' {
+			length++
+		}
+	}
+	return length
+}

@@ -191,7 +191,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 			msg := "There is " + monsterHit.Name + " here."
 			PrintLookingMessage(msg, i)
 		}
-		key := blt.Read()
+		key := ReadInput()
 		if key == blt.TK_ESCAPE {
 			break
 		}

@@ -199,7 +199,7 @@ func (c *Creature) Target(b Board, o *Objects, cs Creatures) bool {
 			monsterAimed := FindMonsterByXY(targetX, targetY, cs)
 			if monsterAimed != nil && monsterAimed != c && monsterAimed.HPCurrent > 0 && valid == true {
 				LastTarget = monsterAimed
-				c.AttackTarget(&monsterAimed)
+				c.AttackTarget(monsterAimed)
 			} else {
 				if monsterAimed == c {
 					break // Do not hurt yourself.
@@ -207,14 +207,14 @@ func (c *Creature) Target(b Board, o *Objects, cs Creatures) bool {
 				if monsterHit != nil {
 					if monsterHit.HPCurrent > 0 {
 						LastTarget = monsterHit
-						c.AttackTarget(&monsterHit)
+						c.AttackTarget(monsterHit)
 					}
 				} else {
 					vx, vy := FindVectorDirection(vec)
 					v := ExtrapolateVector(vec, vx, vy)
 					_, _, monsterHitIndirectly, _ := ValidateVector(v, b, targets, *o)
 					if monsterHitIndirectly != nil {
-						c.AttackTarget(&monsterHitIndirectly)
+						c.AttackTarget(monsterHitIndirectly)
 					}
 				}
 			}

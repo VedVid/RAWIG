@@ -104,7 +104,7 @@ func (p *Creature) InventoryMenu(o *Objects) bool {
 	turnSpent := false
 	for {
 		PrintInventoryMenu(UIPosX, UIPosY, "Inventory", p.Inventory)
-		key := ReadIput()
+		key := ReadInput()
 		option := KeyToOrder(key)
 		if option == KeyToOrder(blt.TK_ESCAPE) {
 			break

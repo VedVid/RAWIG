@@ -31,6 +31,10 @@ import (
 )
 
 const (
+	/* Actions' identifiers.
+	   They have to be strings due to
+	   testing these values with strings
+	   from options_controls.cfg file. */
 	StrMoveNorth = "MOVE_NORTH"
 	StrMoveWest  = "MOVE_WEST"
 	StrMoveEast  = "MOVE_EAST"
@@ -45,6 +49,7 @@ const (
 )
 
 var Actions = []string{
+	// List of all possible actions.
 	StrMoveNorth,
 	StrMoveWest,
 	StrMoveEast,
@@ -57,6 +62,7 @@ var Actions = []string{
 }
 
 var CommandKeys = map[int]string{
+	// Mapping keyboard scancodes to Action identifiers.
 	blt.TK_UP:    StrMoveNorth,
 	blt.TK_RIGHT: StrMoveEast,
 	blt.TK_DOWN:  StrMoveSouth,
@@ -68,9 +74,18 @@ var CommandKeys = map[int]string{
 	blt.TK_E:     StrEquipment,
 }
 
+/* Place to store customized controls scheme,
+   in the same manner as CommandKeys. */
 var CustomCommandKeys = map[int]string{}
 
 func Command(com string, p *Creature, b *Board, c *Creatures, o *Objects) bool {
+	/* Function Command handles input received from Controls.
+	   Most important argument passed to Command is string "com" that
+	   is action identifier (action identifiers are stored as constants
+	   at the top of this file). It calls player methods regarding to
+	   passed command.
+	   Returns true if command is valid and takes turn.
+	   Otherwise, return false. */
 	turnSpent := false
 	switch com {
 	case StrMoveNorth:
@@ -97,6 +112,10 @@ func Command(com string, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 }
 
 func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
+	/* Function Controls takes integer 'k' (that is pressed key - blt uses
+	   scancodes internally) and trying to find match key-command in
+	   CommandKeys.
+	   Value to return is determined in Command func. */
 	turnSpent := false
 	var command string
 	if CustomControls == false {
@@ -109,6 +128,15 @@ func Controls(k int, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 }
 
 func ReadInput() int {
+	/* Function ReadInput is replacement of default blt's Read function that
+	   returns QWERTY scancode. To provide (still experimental - I don't have
+	   access to non-QWERTY keyboard physically) support for different
+	   keyboard layouts, there are maps (in options.go) that matches
+	   non-QWERTY input with QWERTY scancodes.
+	   Some keys are hardcoded - like numpad, enter, etc. These hardcoded
+	   keys are tested as first place as it's much cheaper operation than
+	   checking map.
+	   KeyMap content depends on chosen keyboard layout. */
 	key := blt.Read()
 	for _, v := range HardcodedKeys {
 		if key == v {

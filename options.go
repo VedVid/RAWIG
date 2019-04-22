@@ -36,14 +36,19 @@ import (
 )
 
 const (
+	// Keyboard layout values used as identifiers in main.go.
 	KB_QWERTY = iota
 	KB_QWERTZ
 	KB_AZERTY
 	KB_Dvorak
 )
 
+/* KeyMap stores current characters mapping, therefore it content
+   can be different every run. */
 var KeyMap map[rune]int
 
+/* HardcodedKeys is slice that contains keys that are - mostly, at least -
+   unaffected by keyboard layout. */
 var HardcodedKeys = []int{
 	blt.TK_RETURN,
 	blt.TK_ENTER,
@@ -80,6 +85,8 @@ var HardcodedKeys = []int{
 	blt.TK_KP_PERIOD,
 }
 
+/* The default keyboard layout.
+   Using runes is - in that case - less prone to errors than strings. */
 var QWERTYLayoutRunesToCodes = map[rune]int{
 	'q':  blt.TK_Q,
 	'Q':  blt.TK_Q,
@@ -173,19 +180,23 @@ var QWERTYLayoutRunesToCodes = map[rune]int{
 	'+':  blt.TK_EQUALS,
 }
 
-var DvorakLayoutRunesToCodes map[rune]int
-
+// Will be initialized on game start, based on QWERTY layout.
 var QWERTZLayoutRunesToCodes = map[rune]int{}
-
 var AZERTYLayoutRunesToCodes = map[rune]int{}
 
+// Initialized on game start as well, but the Dvorak is non QWERTY-based layout.
+var DvorakLayoutRunesToCodes map[rune]int
+
 func InitializeKeyboardLayouts() {
+	/* Function InitializeKeyboardLayouts initalizes all layout maps
+	   at the start of the game. */
 	InitializeQWERTZ()
 	InitializeAZERTY()
 	InitializeDvorak()
 }
 
 func ChooseKeyboardLayout() {
+	/* Chooses keyboard layout based on value in options_controls.cfg. */
 	switch KeyboardLayout {
 	case KB_QWERTY:
 		KeyMap = QWERTYLayoutRunesToCodes
@@ -199,6 +210,9 @@ func ChooseKeyboardLayout() {
 }
 
 func InitializeQWERTZ() {
+	/* Function InitializeQWERTZ copies QWERTY layout,
+	   then changes values specific to QWERTZ layout.
+	   Additional keys, not included in QWERTY keyboards, are ignored. */
 	for k, v := range QWERTYLayoutRunesToCodes {
 		QWERTZLayoutRunesToCodes[k] = v
 	}
@@ -232,6 +246,9 @@ func InitializeQWERTZ() {
 }
 
 func InitializeAZERTY() {
+	/* Function InitializeAZERTY copies QWERTY layout,
+	   then changes values specific to QWERTZ layout.
+	   Additional keys, not included in QWERTY keyboards, are ignored. */
 	for k, v := range QWERTYLayoutRunesToCodes {
 		AZERTYLayoutRunesToCodes[k] = v
 	}
@@ -274,6 +291,12 @@ func InitializeAZERTY() {
 }
 
 func InitializeDvorak() {
+	/* Initializing Dvorak layout is different to previously implemented
+	   schemes. As it's not QWERTY-based layout, it does not make a sense
+	   to copy QWERTY map and change specific values. Instead, whole layout
+	   is defined as new one, at once.
+	   It is stored in specific function because I did not want to flood
+	   top of the file more than necessary. */
 	DvorakLayoutRunesToCodes = map[rune]int{
 		'\'': blt.TK_Q,
 		'"':  blt.TK_Q,
@@ -369,6 +392,21 @@ func InitializeDvorak() {
 }
 
 func ReadOptionsControls() {
+	/* Function ReadOptionsControls reads specific file and handles
+	   controls-related settings.
+	   At first, it tries to open options_controls.cfg and panics if
+	   this action fails (it could load generic QWERTY scheme instead, though).
+	   Scans whole file, splits it into newlines, ignores every line started
+	   by # character (it means it is the comment), then splits every
+	   line on = character. Left side is key, right - value, so at the end
+	   it works a bit like a map or dictionary.
+	   To make editing config file less prone to errors, every string is
+	   trimmed of whitespaces and capitalized.
+	   Possible actions and values are listed in config file, as comments.
+	   If value of KB_LAYOUT is wrong, it falls back to QWERTY scheme.
+	   If controls scheme is set to custom (in case of problems it falls back
+	   to false) it uses private addKeyToCustomLayout function to
+	   create CustomCommandKeys (see controls.go). */
 	f, err := os.Open("options_controls.cfg")
 	if err != nil {
 		panic("Can't find options_controls.cfg file!")
@@ -429,6 +467,11 @@ func ReadOptionsControls() {
 }
 
 func addKeyToCustomLayout(resKey string, resValue string) {
+	/* addKeyToCustomLayout uses key, value passed from options_controls.cfg.
+	   It uses internal blt scancodes (based on QWERTY layout) and adds
+	   rune as key and scancode as value in CustomCommandsKeys (in controls.go).
+	   Custom controls works with non-QWERTY schemes, but limits keys mapped
+	   to action to one key. */
 	var tempMap = map[rune]int{}
 	for k, v := range QWERTYLayoutRunesToCodes { //bc BLT uses QWERTY internally
 		tempMap[k] = v

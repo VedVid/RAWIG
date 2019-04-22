@@ -28,7 +28,9 @@ package main
 
 func (c *Creature) AttackTarget(t *Creature, o *Objects) {
 	/* Method Attack handles damage rolls for combat. Receiver "c" is attacker,
-	   argument "t" is target. Critical hit is if attack roll is the same as receiver
+	   argument "t" is target. Including o *Objects is necessary for dropping
+	   loot by dead enemies.
+	   Critical hit is if attack roll is the same as receiver
 	   attack attribute.
 	   Result of attack is displayed in combat log, but messages need more polish. */
 	att := RandInt(c.Attack) //basic attack roll
@@ -71,7 +73,8 @@ func (c *Creature) AttackTarget(t *Creature, o *Objects) {
 func (c *Creature) TakeDamage(dmg int, o *Objects) {
 	/* Method TakeDamage has *Creature as receiver and takes damage integer
 	   as argument. dmg value is deducted from Creature current HP.
-	   If HPCurrent is below zero after taking damage, Creature dies. */
+	   If HPCurrent is below zero after taking damage, Creature dies.
+	   o as map objects is passed with Die to handle dropping loot. */
 	c.HPCurrent -= dmg
 	if c.HPCurrent <= 0 {
 		c.Die(o)

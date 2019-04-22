@@ -47,6 +47,11 @@ func main() {
 	StartGame(cells, actors, objs)
 	for {
 		RenderAll(*cells, *objs, *actors)
+		if (*actors)[0].HPCurrent <= 0 {
+			DeleteSaves()
+			blt.Read()
+			break
+		}
 		key := ReadInput()
 		if key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0 {
 			err := SaveGame(*cells, *actors, *objs)
@@ -54,8 +59,7 @@ func main() {
 				fmt.Println(err)
 			}
 			break
-		} else if key == blt.TK_Q && blt.Check(blt.TK_SHIFT) != 0 ||
-			(*actors)[0].HPCurrent <= 0 {
+		} else if key == blt.TK_Q && blt.Check(blt.TK_SHIFT) != 0 {
 			DeleteSaves()
 			break
 		} else {

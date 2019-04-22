@@ -74,13 +74,13 @@ func Command(com string, p *Creature, b *Board, c *Creatures, o *Objects) bool {
 	turnSpent := false
 	switch com {
 	case StrMoveNorth:
-		turnSpent = p.MoveOrAttack(0, -1, *b, *c)
+		turnSpent = p.MoveOrAttack(0, -1, *b, o, *c)
 	case StrMoveEast:
-		turnSpent = p.MoveOrAttack(1, 0, *b, *c)
+		turnSpent = p.MoveOrAttack(1, 0, *b, o, *c)
 	case StrMoveSouth:
-		turnSpent = p.MoveOrAttack(0, 1, *b, *c)
+		turnSpent = p.MoveOrAttack(0, 1, *b, o, *c)
 	case StrMoveWest:
-		turnSpent = p.MoveOrAttack(-1, 0, *b, *c)
+		turnSpent = p.MoveOrAttack(-1, 0, *b, o, *c)
 
 	case StrTarget:
 		turnSpent = p.Target(*b, o, *c)

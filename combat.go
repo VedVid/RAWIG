@@ -26,7 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package main
 
-func (c *Creature) AttackTarget(t *Creature) {
+func (c *Creature) AttackTarget(t *Creature, o *Objects) {
 	/* Method Attack handles damage rolls for combat. Receiver "c" is attacker,
 	   argument "t" is target. Critical hit is if attack roll is the same as receiver
 	   attack attribute.
@@ -65,15 +65,15 @@ func (c *Creature) AttackTarget(t *Creature) {
 			AddMessage("Critical attack!")
 		}
 	}
-	t.TakeDamage(dmg)
+	t.TakeDamage(dmg, o)
 }
 
-func (c *Creature) TakeDamage(dmg int) {
+func (c *Creature) TakeDamage(dmg int, o *Objects) {
 	/* Method TakeDamage has *Creature as receiver and takes damage integer
 	   as argument. dmg value is deducted from Creature current HP.
 	   If HPCurrent is below zero after taking damage, Creature dies. */
 	c.HPCurrent -= dmg
 	if c.HPCurrent <= 0 {
-		c.Die()
+		c.Die(o)
 	}
 }

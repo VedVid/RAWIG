@@ -1,6 +1,7 @@
 v0.5.0
  [NEW] configurable controls
  [NEW] experimental support for some non-QWERTY keyboard layouts
+ [NEW] monsters will drop eq during death
  [FIX] pathfinding issues
  [FIX] errors during creature creation process
 

@@ -55,7 +55,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 		}
 		_ = ComputeVector(vec)
 		_, _, _, _ = ValidateVector(vec, b, cs, o)
-		PrintVector(vec, VectorColorNeutral, VectorColorNeutral, b, o, cs)
+		PrintVector(vec, VectorWhyInspect, VectorColorNeutral, VectorColorNeutral, b, o, cs)
 		if b[targetX][targetY].Explored == true {
 			if IsInFOV(b, c.X, c.Y, targetX, targetY) == true {
 				s := GetAllStringsFromTile(targetX, targetY, b, cs, o)
@@ -186,7 +186,7 @@ func (c *Creature) Target(b Board, o *Objects, cs Creatures) bool {
 		}
 		_ = ComputeVector(vec)
 		valid, _, monsterHit, _ := ValidateVector(vec, b, targets, *o)
-		PrintVector(vec, VectorColorGood, VectorColorBad, b, *o, cs)
+		PrintVector(vec, VectorWhyTarget, VectorColorGood, VectorColorBad, b, *o, cs)
 		if monsterHit != nil {
 			msg := "There is " + monsterHit.Name + " here."
 			PrintLookingMessage(msg, i)

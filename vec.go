@@ -32,10 +32,13 @@ import (
 )
 
 const (
-	vectorSymbol       = "X" // Maybe vectorSymbol should be customized, as colors?
+	vectorGoodSymbol   = "□"
+	vectorBadSymbol    = "✗"
 	VectorColorNeutral = "white"
 	VectorColorGood    = "green"
 	VectorColorBad     = "red"
+	VectorWhyInspect   = "inspect"
+	VectorWhyTarget    = "target"
 )
 
 type Vector struct {
@@ -234,7 +237,7 @@ Loop:
 	return valid, tile, monster, object
 }
 
-func PrintVector(vec *Vector, color1, color2 string, b Board, o Objects, c Creatures) {
+func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Objects, c Creatures) {
 	/* Function PrintVector has to take Vector, and (unfortunately,
 	   due to flawed game architecture) Board, "global" Objects, and
 	   Creatures.
@@ -244,8 +247,8 @@ func PrintVector(vec *Vector, color1, color2 string, b Board, o Objects, c Creat
 	blt.Clear()
 	RenderAll(b, o, c)
 	blt.Layer(LookLayer)
-	ch1 := "[color=" + color1 + "]" + vectorSymbol
-	ch2 := "[color=" + color2 + "]" + vectorSymbol
+	ch1 := "[color=" + color1 + "]" + vectorGoodSymbol
+	ch2 := "[color=" + color2 + "]" + vectorBadSymbol
 	length := len(vec.TilesX)
 	for i := 0; i < length; i++ {
 		if i == 0 && length > 1 {
@@ -255,6 +258,10 @@ func PrintVector(vec *Vector, color1, color2 string, b Board, o Objects, c Creat
 		x := vec.TilesX[i]
 		y := vec.TilesY[i]
 		if x >= 0 && x < MapSizeX && y >= 0 && y < MapSizeY {
+			if why == VectorWhyInspect && i == 0 && length == 1 {
+				blt.Print(x, y, ch1)
+				break
+			}
 			if vec.Values[i] == true {
 				blt.Print(x, y, ch1)
 			} else {

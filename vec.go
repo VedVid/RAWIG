@@ -32,8 +32,6 @@ import (
 )
 
 const (
-	vectorGoodSymbol   = "□"
-	vectorBadSymbol    = "✗"
 	VectorColorNeutral = "white"
 	VectorColorGood    = "green"
 	VectorColorBad     = "red"
@@ -243,12 +241,13 @@ func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Obje
 	   Creatures.
 	   At start, it clears whole screen and redraws it.
 	   Then, it uses tile coords of Vector (ie TilesX and TilesY)
-	   to set coordinates of printing line symbol. */
+	   to set coordinates of printing line symbol.
+	   Beware that vector validation will be visible to player even
+	   if it'll break out of FOV - so, it allows 'scanning' environment. It is
+	   something that should be adressed in games, not in this template, though.*/
 	blt.Clear()
 	RenderAll(b, o, c)
 	blt.Layer(LookLayer)
-	ch1 := "[color=" + color1 + "]" + vectorGoodSymbol
-	ch2 := "[color=" + color2 + "]" + vectorBadSymbol
 	length := len(vec.TilesX)
 	for i := 0; i < length; i++ {
 		if i == 0 && length > 1 {
@@ -259,15 +258,30 @@ func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Obje
 		y := vec.TilesY[i]
 		if x >= 0 && x < MapSizeX && y >= 0 && y < MapSizeY {
 			if why == VectorWhyInspect && i == 0 && length == 1 {
-				blt.Print(x, y, ch1)
+				PrintRangedCharacter(x, y, VectorColorNeutral, true)
 				break
 			}
 			if vec.Values[i] == true {
-				blt.Print(x, y, ch1)
+				PrintRangedCharacter(x, y, color1, true)
 			} else {
-				blt.Print(x, y, ch2)
+				PrintRangedCharacter(x, y, color2, false)
 			}
 		}
 	}
 	blt.Refresh()
+}
+
+func PrintRangedCharacter(x, y int, color string, valid bool) {
+	blt.Layer(LookLayer)
+	if valid == true {
+		var chars = []string{"▁", "▏", "▕", "▔"}
+		for i, v := range chars {
+			blt.Layer(LookLayer + i)
+			ch := "[color=" + color + "]" + v + "[/color]"
+			blt.Print(x, y, ch)
+		}
+	} else {
+		ch := "[color=" + color + "]" + "X" + "[/color]"
+		blt.Print(x, y, ch)
+	}
 }

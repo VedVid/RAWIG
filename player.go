@@ -68,7 +68,7 @@ func NewPlayer(x, y int) (*Creature, error) {
 	}
 	if player.AIType != PlayerAI {
 		txt := PlayerAIError(player.AIType)
-		err = errors.New("Warning: Player AI is supposed to be " +
+		err2 = errors.New("Warning: Player AI is supposed to be " +
 			strconv.Itoa(PlayerAI) + "." + txt)
 	}
 	if player.HPMax < 0 {
@@ -81,7 +81,13 @@ func NewPlayer(x, y int) (*Creature, error) {
 	}
 	if player.Defense < 0 {
 		txt := InitialDefenseError(player.Defense)
-		err = errors.New("Creature defense value is smaller than 0." + txt)
+		err2 = errors.New("Creature defense value is smaller than 0." + txt)
+	}
+	if player.Equipment == nil {
+		player.Equipment = Objects{}
+	}
+	if player.Inventory == nil {
+		player.Inventory = Objects{}
 	}
 	return player, err2
 }
@@ -98,7 +104,7 @@ func (p *Creature) InventoryMenu(o *Objects) bool {
 	turnSpent := false
 	for {
 		PrintInventoryMenu(UIPosX, UIPosY, "Inventory", p.Inventory)
-		key := blt.Read()
+		key := ReadInput()
 		option := KeyToOrder(key)
 		if option == KeyToOrder(blt.TK_ESCAPE) {
 			break
@@ -148,7 +154,7 @@ Loop:
 		}
 		PrintMenu(UIPosX, UIPosY, object.Name, options)
 		var chosenStr string
-		chosenInt := KeyToOrder(blt.Read())
+		chosenInt := KeyToOrder(ReadInput())
 		if chosenInt == KeyToOrder(blt.TK_ESCAPE) {
 			break Loop
 		} else if chosenInt > len(options)-1 {
@@ -186,7 +192,7 @@ func (p *Creature) EquipFromInventory(o *Object) bool {
 	turnSpent := false
 	for {
 		PrintEquipmentMenu(UIPosX, UIPosY, "Equipment:", p.Equipment)
-		key := blt.Read()
+		key := ReadInput()
 		option := KeyToOrder(key)
 		if option == KeyToOrder(blt.TK_ESCAPE) {
 			break
@@ -221,7 +227,7 @@ func (p *Creature) EquipmentMenu(o *Objects) bool {
 	turnSpent := false
 	for {
 		PrintEquipmentMenu(UIPosX, UIPosY, "Equipment: ", p.Equipment)
-		key := blt.Read()
+		key := ReadInput()
 		option := KeyToOrder(key)
 		if option == KeyToOrder(blt.TK_ESCAPE) {
 			break
@@ -253,7 +259,7 @@ Loop:
 		}
 		PrintMenu(UIPosX, UIPosY, object.Name, options)
 		var chosenStr string
-		chosenInt := KeyToOrder(blt.Read())
+		chosenInt := KeyToOrder(ReadInput())
 		if chosenInt == KeyToOrder(blt.TK_ESCAPE) {
 			break Loop
 		} else if chosenInt > len(options)-1 {
@@ -298,7 +304,7 @@ func (p *Creature) EquippablesMenu(slot int) bool {
 	eq := GetEquippablesFromInventory(p, slot)
 	for {
 		PrintEquippables(UIPosX, UIPosY, "Equippables: ", eq)
-		key := blt.Read()
+		key := ReadInput()
 		option := KeyToOrder(key)
 		if option == KeyToOrder(blt.TK_ESCAPE) {
 			break

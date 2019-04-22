@@ -34,6 +34,9 @@ import (
 	"time"
 )
 
+var KeyboardLayout int
+var CustomControls bool
+
 var MsgBuf = []string{}
 var LastTarget *Creature
 
@@ -44,15 +47,20 @@ func main() {
 	StartGame(cells, actors, objs)
 	for {
 		RenderAll(*cells, *objs, *actors)
-		key := blt.Read()
-		if key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0 {
+		if (*actors)[0].HPCurrent <= 0 {
+			DeleteSaves()
+			blt.Read()
+			break
+		}
+		key := ReadInput()
+		if (key == blt.TK_S && blt.Check(blt.TK_SHIFT) != 0) ||
+			key == blt.TK_CLOSE {
 			err := SaveGame(*cells, *actors, *objs)
 			if err != nil {
 				fmt.Println(err)
 			}
 			break
-		} else if key == blt.TK_Q && blt.Check(blt.TK_SHIFT) != 0 ||
-			(*actors)[0].HPCurrent <= 0 {
+		} else if key == blt.TK_Q && blt.Check(blt.TK_SHIFT) != 0 {
 			DeleteSaves()
 			break
 		} else {
@@ -126,4 +134,7 @@ func init() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	InitializeFOVTables()
 	InitializeBLT()
+	InitializeKeyboardLayouts()
+	ReadOptionsControls()
+	ChooseKeyboardLayout()
 }

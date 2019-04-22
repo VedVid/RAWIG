@@ -32,10 +32,11 @@ import (
 )
 
 const (
-	vectorSymbol       = "X" // Maybe vectorSymbol should be customized, as colors?
 	VectorColorNeutral = "white"
 	VectorColorGood    = "green"
 	VectorColorBad     = "red"
+	VectorWhyInspect   = "inspect"
+	VectorWhyTarget    = "target"
 )
 
 type Vector struct {
@@ -234,18 +235,16 @@ Loop:
 	return valid, tile, monster, object
 }
 
-func PrintVector(vec *Vector, color1, color2 string, b Board, o Objects, c Creatures) {
+func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Objects, c Creatures) {
 	/* Function PrintVector has to take Vector, and (unfortunately,
 	   due to flawed game architecture) Board, "global" Objects, and
 	   Creatures.
 	   At start, it clears whole screen and redraws it.
 	   Then, it uses tile coords of Vector (ie TilesX and TilesY)
-	   to set coordinates of printing line symbol. */
+	   to set coordinates of printing line symbol.*/
 	blt.Clear()
 	RenderAll(b, o, c)
 	blt.Layer(LookLayer)
-	ch1 := "[color=" + color1 + "]" + vectorSymbol
-	ch2 := "[color=" + color2 + "]" + vectorSymbol
 	length := len(vec.TilesX)
 	for i := 0; i < length; i++ {
 		if i == 0 && length > 1 {
@@ -255,12 +254,45 @@ func PrintVector(vec *Vector, color1, color2 string, b Board, o Objects, c Creat
 		x := vec.TilesX[i]
 		y := vec.TilesY[i]
 		if x >= 0 && x < MapSizeX && y >= 0 && y < MapSizeY {
-			if vec.Values[i] == true {
-				blt.Print(x, y, ch1)
-			} else {
-				blt.Print(x, y, ch2)
+			if why == VectorWhyInspect {
+				PrintRangedCharacter(x, y, VectorColorNeutral, true)
+				if i == 0 && length == 1 {
+					break
+				}
+			} else if why == VectorWhyTarget {
+				if IsInFOV(b,
+					vec.StartX, vec.StartY, vec.TargetX, vec.TargetY) == true {
+					if vec.Values[i] == true {
+						PrintRangedCharacter(x, y, color1, true)
+					} else {
+						PrintRangedCharacter(x, y, color2, false)
+					}
+				} else {
+					if IsInFOV(b,
+						vec.StartX, vec.StartY,
+						vec.TilesX[i], vec.TilesY[i]) == true {
+						PrintRangedCharacter(x, y, color1, true)
+					} else {
+						PrintRangedCharacter(x, y, color2, false)
+					}
+				}
 			}
 		}
 	}
 	blt.Refresh()
+}
+
+func PrintRangedCharacter(x, y int, color string, valid bool) {
+	blt.Layer(LookLayer)
+	if valid == true {
+		var chars = []string{"▁", "▏", "▕", "▔"}
+		for i, v := range chars {
+			blt.Layer(LookLayer + i)
+			ch := "[color=" + color + "]" + v + "[/color]"
+			blt.Print(x, y, ch)
+		}
+	} else {
+		ch := "[color=" + color + "]" + "X" + "[/color]"
+		blt.Print(x, y, ch)
+	}
 }

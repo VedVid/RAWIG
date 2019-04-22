@@ -48,6 +48,7 @@ const (
 	LogPosX     = 0
 	LogPosY     = MapSizeY
 	GameTitle   = "unnamed game"
+	GameVersion = "0.5"
 	FontName    = "UbuntuMono-R.ttf"
 	FontSize    = 18
 )
@@ -66,7 +67,8 @@ func InitializeBLT() {
 	sizeX, sizeY := strconv.Itoa(WindowSizeX), strconv.Itoa(WindowSizeY)
 	sizeFont := strconv.Itoa(FontSize)
 	window := "window: size=" + sizeX + "x" + sizeY
-	blt.Set(window + ", title=' " + GameTitle + "'; font: " + FontName + ", size=" + sizeFont)
+	blt.Set(window + ", title=' " + GameTitle + " " + GameVersion +
+		"'; font: " + FontName + ", size=" + sizeFont)
 	blt.Clear()
 	blt.Refresh()
 }

@@ -105,8 +105,8 @@ func FindAdjacent(b Board, c Creatures, nodes [][]*Node, frontiers []*Node, star
 				if x == frontiers[i].X && y == frontiers[i].Y {
 					continue //it's the current frontier node
 				}
-				if b[x][y].Blocked == true || b[x][y].BlocksSight == true {
-					continue //tile is blocked, or it blocks line of sight
+				if b[x][y].Blocked == true {
+					continue //tile is blocked
 				}
 				if GetAliveCreatureFromTile(x, y, c) != nil {
 					continue //tile is occupied by other monster
@@ -239,35 +239,37 @@ func (c *Creature) MoveTowards(b Board, cs Creatures, tx, ty int, ai int) {
 	   Creatures with other styles (currently only PatherAI is implemented)
 	   calls MoveTowardsPath function, that creates weighted graph and finds
 	   shortest path from source to goal. */
-	dx := tx - c.X
-	dy := ty - c.Y
-	ddx, ddy := 0, 0
-	if dx > 0 {
-		ddx = 1
-	} else if dx < 0 {
-		ddx = -1
-	}
-	if dy > 0 {
-		ddy = 1
-	} else if dy < 0 {
-		ddy = -1
-	}
-	newX, newY := c.X+ddx, c.Y+ddy
-	if b[newX][newY].Blocked == false && GetAliveCreatureFromTile(newX, newY, cs) == nil {
-		c.Move(ddx, ddy, b)
+	if ai == MeleePatherAI || ai == RangedPatherAI {
+		c.MoveTowardsPath(b, cs, tx, ty)
 	} else {
-		if ai == MeleeDumbAI || ai == RangedDumbAI {
-			if ddx != 0 {
-				if b[newX][c.Y].Blocked == false && GetAliveCreatureFromTile(newX, c.Y, cs) == nil {
-					c.Move(ddx, 0, b)
-				}
-			} else if ddy != 0 {
-				if b[c.X][newY].Blocked == false && GetAliveCreatureFromTile(c.X, newY, cs) == nil {
-					c.Move(0, ddy, b)
+		dx := tx - c.X
+		dy := ty - c.Y
+		ddx, ddy := 0, 0
+		if dx > 0 {
+			ddx = 1
+		} else if dx < 0 {
+			ddx = -1
+		}
+		if dy > 0 {
+			ddy = 1
+		} else if dy < 0 {
+			ddy = -1
+		}
+		newX, newY := c.X+ddx, c.Y+ddy
+		if b[newX][newY].Blocked == false && GetAliveCreatureFromTile(newX, newY, cs) == nil {
+			c.Move(ddx, ddy, b)
+		} else {
+			if ai == MeleeDumbAI || ai == RangedDumbAI {
+				if ddx != 0 {
+					if b[newX][c.Y].Blocked == false && GetAliveCreatureFromTile(newX, c.Y, cs) == nil {
+						c.Move(ddx, 0, b)
+					}
+				} else if ddy != 0 {
+					if b[c.X][newY].Blocked == false && GetAliveCreatureFromTile(c.X, newY, cs) == nil {
+						c.Move(0, ddy, b)
+					}
 				}
 			}
-		} else if ai == MeleePatherAI || ai == RangedPatherAI {
-			c.MoveTowardsPath(b, cs, tx, ty)
 		}
 	}
 }

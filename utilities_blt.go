@@ -54,3 +54,31 @@ func SetColor(name, number string) string {
 	blt.Set("palette: " + name + " = " + number)
 	return name
 }
+
+func RuneCountInBltString(s string) int {
+	/* RunceCountInBltString takes string as argument and counts characters
+	   that will be printed by BearLibTerminal on screen.
+	   Simple utf8.RuneCountInString is not enough as BLT uses strings
+	   to config output. For example, string "[color=dark red].[/color]" would
+	   print red dot, but utf8.RuneCountInString would return 25.
+	   "[" and "]" are special characters that needs to be escaped to be printed
+	   by simple doubling specific char (ie "]]" or "[[". */
+	length := 0
+	var r = []rune(s)
+	internal := false
+	for _, v := range r {
+		if internal == false {
+			if v == '[' {
+				internal = true
+			}
+		} else {
+			if v == ']' {
+				internal = false
+			}
+		}
+		if internal == false && v != ']' {
+			length++
+		}
+	}
+	return length
+}

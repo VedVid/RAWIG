@@ -92,7 +92,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 			if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
 				c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 			} else {
-				c.AttackTarget(cs[0])
+				c.AttackTarget(cs[0], &o)
 			}
 		} else {
 			dx := RandRange(-1, 1)
@@ -106,7 +106,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 			if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
 				c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 			} else {
-				c.AttackTarget(cs[0])
+				c.AttackTarget(cs[0], &o)
 			}
 		} else {
 			dx := RandRange(-1, 1)
@@ -131,7 +131,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					_ = ComputeVector(vec)
 					_, _, target, _ := ValidateVector(vec, b, cs, o)
 					if target != nil {
-						c.AttackTarget(target)
+						c.AttackTarget(target, &o)
 					}
 				}
 			} else if c.Equipment[SlotWeaponSecondary] != nil {
@@ -150,14 +150,14 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					_ = ComputeVector(vec)
 					_, _, target, _ := ValidateVector(vec, b, cs, o)
 					if target != nil {
-						c.AttackTarget(target)
+						c.AttackTarget(target, &o)
 					}
 				}
 			} else {
 				if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
 					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 				} else {
-					c.AttackTarget(cs[0])
+					c.AttackTarget(cs[0], &o)
 				}
 			}
 		} else {
@@ -183,7 +183,7 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					if target != cs[0] {
 						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 					} else {
-						c.AttackTarget(target)
+						c.AttackTarget(target, &o)
 					}
 				}
 			} else if c.Equipment[SlotWeaponSecondary] != nil {
@@ -202,14 +202,14 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					if target != cs[0] {
 						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 					} else {
-						c.AttackTarget(target)
+						c.AttackTarget(target, &o)
 					}
 				}
 			} else {
 				if c.DistanceTo(cs[0].X, cs[0].Y) > 1 {
 					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 				} else {
-					c.AttackTarget(cs[0])
+					c.AttackTarget(cs[0], &o)
 				}
 			}
 		} else {

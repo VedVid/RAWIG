@@ -91,6 +91,9 @@ func ObjectFromJson(path string, o *Object) error {
 }
 
 func MapFromJson(path string, m *MapJson) error {
+	/* Function MapFromJson decodes specific json file into MapJson,
+	   that is specific data type used to parse all json info (not only
+	   Board, also Creature placement, etc) into game data. */
 	err := readJson(path, m)
 	return err
 }

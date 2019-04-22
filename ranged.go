@@ -55,7 +55,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 		}
 		_ = ComputeVector(vec)
 		_, _, _, _ = ValidateVector(vec, b, cs, o)
-		PrintVector(vec, VectorColorNeutral, VectorColorNeutral, b, o, cs)
+		PrintVector(vec, VectorWhyInspect, VectorColorNeutral, VectorColorNeutral, b, o, cs)
 		if b[targetX][targetY].Explored == true {
 			if IsInFOV(b, c.X, c.Y, targetX, targetY) == true {
 				s := GetAllStringsFromTile(targetX, targetY, b, cs, o)
@@ -69,7 +69,7 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 			msg = "You don't know what is here."
 		}
 		PrintLookingMessage(msg, i)
-		key := blt.Read()
+		key := ReadInput()
 		if key == blt.TK_ESCAPE || key == blt.TK_ENTER || key == blt.TK_SPACE {
 			break
 		}
@@ -137,7 +137,7 @@ func FormatLookingMessage(s []string, fov bool) string {
 	return msg
 }
 
-func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
+func (c *Creature) Target(b Board, o *Objects, cs Creatures) bool {
 	/* Target is method of Creature, that takes game map, objects, and
 	   creatures as arguments. Returns bool that serves as indicator if
 	   action took some time or not.
@@ -166,7 +166,7 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 	      is ignored */
 	turnSpent := false
 	var target *Creature
-	targets := c.FindTargets(FOVLength, b, cs, o)
+	targets := c.FindTargets(FOVLength, b, cs, *o)
 	if LastTarget != nil && LastTarget != c &&
 		IsInFOV(b, c.X, c.Y, LastTarget.X, LastTarget.Y) == true {
 		target = LastTarget
@@ -185,21 +185,21 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 			fmt.Println(err)
 		}
 		_ = ComputeVector(vec)
-		_, _, monsterHit, _ := ValidateVector(vec, b, targets, o)
-		PrintVector(vec, VectorColorGood, VectorColorBad, b, o, cs)
+		valid, _, monsterHit, _ := ValidateVector(vec, b, targets, *o)
+		PrintVector(vec, VectorWhyTarget, VectorColorGood, VectorColorBad, b, *o, cs)
 		if monsterHit != nil {
 			msg := "There is " + monsterHit.Name + " here."
 			PrintLookingMessage(msg, i)
 		}
-		key := blt.Read()
+		key := ReadInput()
 		if key == blt.TK_ESCAPE {
 			break
 		}
 		if key == blt.TK_F {
 			monsterAimed := FindMonsterByXY(targetX, targetY, cs)
-			if monsterAimed != nil && monsterAimed != c && monsterAimed.HPCurrent > 0 {
+			if monsterAimed != nil && monsterAimed != c && monsterAimed.HPCurrent > 0 && valid == true {
 				LastTarget = monsterAimed
-				c.AttackTarget(monsterAimed)
+				c.AttackTarget(monsterAimed, o)
 			} else {
 				if monsterAimed == c {
 					break // Do not hurt yourself.
@@ -207,14 +207,14 @@ func (c *Creature) Target(b Board, o Objects, cs Creatures) bool {
 				if monsterHit != nil {
 					if monsterHit.HPCurrent > 0 {
 						LastTarget = monsterHit
-						c.AttackTarget(monsterHit)
+						c.AttackTarget(monsterHit, o)
 					}
 				} else {
 					vx, vy := FindVectorDirection(vec)
 					v := ExtrapolateVector(vec, vx, vy)
-					_, _, monsterHitIndirectly, _ := ValidateVector(v, b, targets, o)
+					_, _, monsterHitIndirectly, _ := ValidateVector(v, b, targets, *o)
 					if monsterHitIndirectly != nil {
-						c.AttackTarget(monsterHitIndirectly)
+						c.AttackTarget(monsterHitIndirectly, o)
 					}
 				}
 			}

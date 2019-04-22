@@ -52,6 +52,8 @@ func RandInt(max int) int {
 }
 
 func RandRange(min, max int) int {
+	/* Function RandRange returns value between min and max,
+	   both including. */
 	return RandInt(max-min) + min
 }
 

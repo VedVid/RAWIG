@@ -41,6 +41,7 @@ type Creature struct {
 	/* Creatures are living objects that
 	   moves, attacks, dies, etc. */
 	BasicProperties
+	AnimationProperties
 	VisibilityProperties
 	CollisionProperties
 	FighterProperties

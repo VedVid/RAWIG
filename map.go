@@ -36,6 +36,7 @@ import (
 type Tile struct {
 	// Tiles are map cells - floors, walls, doors.
 	BasicProperties
+	AnimationProperties
 	VisibilityProperties
 	Explored bool
 	CollisionProperties

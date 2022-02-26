@@ -72,6 +72,7 @@ type Object struct {
 	   statues, tables, chairs; but also weapons,
 	   armor parts, etc. */
 	BasicProperties
+	AnimationProperties
 	VisibilityProperties
 	CollisionProperties
 	ObjectProperties

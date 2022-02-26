@@ -139,8 +139,11 @@ func StartGame(b *Board, c *Creatures, o *Objects) {
 }
 
 func init() {
+	// Get seed for random number generator
 	rand.Seed(time.Now().UTC().UnixNano())
+	// sin and cos tables for FOV algorithm
 	InitializeFOVTables()
+	// E.g. binds the process to single thread
 	InitializeBLT()
 	InitializeKeyboardLayouts()
 	ReadOptionsControls()

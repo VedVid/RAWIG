@@ -66,7 +66,7 @@ type Board [][]*Tile
 func NewTile(layer, x, y int, character, name, color, colorDark string,
 	alwaysVisible, explored, blocked, blocksSight bool) (*Tile, error) {
 	/* Function NewTile takes all values necessary by its struct,
-	   and creates then returns Tile. */
+	   and creates then returns pointer to Tile. */
 	var err error
 	if layer < 0 {
 		txt := LayerError(layer)

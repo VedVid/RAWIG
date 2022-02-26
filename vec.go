@@ -32,15 +32,15 @@ import (
 )
 
 const (
-	VectorColorNeutral = "white"
-	VectorColorGood    = "green"
-	VectorColorBad     = "red"
-	VectorWhyInspect   = "inspect"
-	VectorWhyTarget    = "target"
+	BrensenhamColorNeutral = "white"
+	BrensenhamColorGood    = "green"
+	BrensenhamColorBad     = "red"
+	BrensenhamWhyInspect   = "inspect"
+	BrensenhamWhyTarget    = "target"
 )
 
-type Vector struct {
-	/* Vector is struct that is supposed to help
+type Brensenham struct {
+	/* Brensenham is struct that is supposed to help
 	   with creating simple, straight lines between
 	   two points. It has start point, target point,
 	   and slice of bools.
@@ -56,25 +56,25 @@ type Vector struct {
 	TilesY  []int
 }
 
-func NewVector(sx, sy, tx, ty int) (*Vector, error) {
-	/* Function NewVector creates new Vector with sx, sy as sources coords and
-	   tx, ty as target coords. Vector has length also, and number of
+func NewBrensenham(sx, sy, tx, ty int) (*Brensenham, error) {
+	/* Function NewBrensenham creates new Brensenham with sx, sy as sources coords and
+	   tx, ty as target coords. Brensenham has length also, and number of
 	   "false" Values is equal to 1 + distance between source and target. */
 	var err error
 	if sx < 0 || sx >= MapSizeX || sy < 0 || sy >= MapSizeY ||
 		tx < 0 || tx >= MapSizeX || ty < 0 || ty >= MapSizeY {
-		txt := VectorCoordinatesOutOfMapBounds(sx, sy, tx, ty)
-		err = errors.New("Vector coordinates are out of map bounds." + txt)
+		txt := BrensenhamCoordinatesOutOfMapBounds(sx, sy, tx, ty)
+		err = errors.New("Brensenham coordinates are out of map bounds." + txt)
 	}
 	length := DistanceBetween(sx, sy, tx, ty)
 	values := make([]bool, length+1)
-	newVector := &Vector{sx, sy, tx, ty, values,
+	newBrensenham := &Brensenham{sx, sy, tx, ty, values,
 		[]int{}, []int{}}
-	return newVector, err
+	return newBrensenham, err
 }
 
-func ComputeVector(vec *Vector) int {
-	/* Function ComputeVector takes *Vector as argument.
+func ComputeBrensenham(vec *Brensenham) int {
+	/* Function ComputeBrensenham takes *Brensenham as argument.
 	   It uses Brensenham's Like algorithm to compute tile values
 	   (stored in initially empty TilesX and TilesY) between
 	   starting point (vec.StartX, vec.StartY) and goal
@@ -126,11 +126,11 @@ func ComputeVector(vec *Vector) int {
 	return trueLength
 }
 
-func FindVectorDirection(vec *Vector) ([]int, []int) {
-	/* FindVectorDirection is function that takes Vector as argument
+func FindBrensenhamDirection(vec *Brensenham) ([]int, []int) {
+	/* FindBrensenhamDirection is function that takes Brensenham as argument
 	   and returns two slices of ints.
 	   This function is supposed to find pattern of Brensenham's line,
-	   and use it as direction indicator in ExtrapolateVector function. */
+	   and use it as direction indicator in ExtrapolateBrensenham function. */
 	var dx = []int{}
 	var dy = []int{}
 	for x := 1; x < len(vec.TilesX); x++ {
@@ -154,9 +154,9 @@ func FindVectorDirection(vec *Vector) ([]int, []int) {
 	return dx, dy
 }
 
-func ExtrapolateVector(vec *Vector, dx, dy []int) *Vector {
-	/* Function ExtrapolateVector takes Vector and two slices of ints
-	   as arguments, and returns new Vector.
+func ExtrapolateBrensenham(vec *Brensenham, dx, dy []int) *Brensenham {
+	/* Function ExtrapolateBrensenham takes Brensenham and two slices of ints
+	   as arguments, and returns new Brensenham.
 	   It uses slices as direction indicator, pattern - dx may look like
 	   [0, 0, 1, 0, 0] - and while iterating ad infinitum, these values
 	   will be added to existing ones. For example, if current vector
@@ -180,14 +180,14 @@ func ExtrapolateVector(vec *Vector, dx, dy []int) *Vector {
 		}
 	}
 	values := make([]bool, len(newTilesX)+1)
-	newVector := &Vector{vec.StartY, vec.StartX,
+	newBrensenham := &Brensenham{vec.StartY, vec.StartX,
 		vec.TargetX, vec.TargetY, values, newTilesX, newTilesY}
-	return newVector
+	return newBrensenham
 }
 
-func ValidateVector(vec *Vector, b Board, c Creatures,
+func ValidateBrensenham(vec *Brensenham, b Board, c Creatures,
 	o Objects) (bool, *Tile, *Creature, *Object) {
-	/* Function ValidateVector takes Vector and Board as arguments.
+	/* Function ValidateBrensenham takes Brensenham and Board as arguments.
 	   It is important function for ranged combat visualisation - function
 	   checks if line is not blocked by map tiles or other creatures,
 	   or objects. Returns first blocked value.
@@ -228,19 +228,19 @@ Loop:
 		vec.Values[i] = true
 	}
 	if vec.Values[len(vec.Values)-1] == true {
-		// Vector is valid - path is passable.
+		// Brensenham is valid - path is passable.
 		valid = true
 	}
-	// Vector is invalid - blocked tiles in path.
+	// Brensenham is invalid - blocked tiles in path.
 	return valid, tile, monster, object
 }
 
-func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Objects, c Creatures) {
-	/* Function PrintVector has to take Vector, and (unfortunately,
+func PrintBrensenham(vec *Brensenham, why string, color1, color2 string, b Board, o Objects, c Creatures) {
+	/* Function PrintBrensenham has to take Brensenham, and (unfortunately,
 	   due to flawed game architecture) Board, "global" Objects, and
 	   Creatures.
 	   At start, it clears whole screen and redraws it.
-	   Then, it uses tile coords of Vector (ie TilesX and TilesY)
+	   Then, it uses tile coords of Brensenham (ie TilesX and TilesY)
 	   to set coordinates of printing line symbol.*/
 	blt.Clear()
 	RenderAll(b, o, c)
@@ -254,12 +254,12 @@ func PrintVector(vec *Vector, why string, color1, color2 string, b Board, o Obje
 		x := vec.TilesX[i]
 		y := vec.TilesY[i]
 		if x >= 0 && x < MapSizeX && y >= 0 && y < MapSizeY {
-			if why == VectorWhyInspect {
-				PrintRangedCharacter(x, y, VectorColorNeutral, true)
+			if why == BrensenhamWhyInspect {
+				PrintRangedCharacter(x, y, BrensenhamColorNeutral, true)
 				if i == 0 && length == 1 {
 					break
 				}
-			} else if why == VectorWhyTarget {
+			} else if why == BrensenhamWhyTarget {
 				if IsInFOV(b,
 					vec.StartX, vec.StartY, vec.TargetX, vec.TargetY) == true {
 					if vec.Values[i] == true {

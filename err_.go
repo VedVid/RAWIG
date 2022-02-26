@@ -216,11 +216,11 @@ func TargetNilError(c *Creature, cs Creatures) string {
 	return txt
 }
 
-func CorruptedSaveError(errBoard, errCreatures, errObjects error) string {
+func CorruptedSaveError(errBoard, errCreatures, errObjects, errGlobalData error) string {
 	/* Function CorruptedSaveError is helper function that returns string to error.
 	   It takes three specific errors as arguments (only one of them has to be != nil).
 	   It is called when game can not find all three save files in directory. */
-	errorBoard, errorCreatures, errorObjects := "", "", ""
+	errorBoard, errorCreatures, errorObjects, errorGlobalData := "", "", "", ""
 	if errBoard != nil {
 		errorBoard = "map.gob "
 	}
@@ -230,8 +230,11 @@ func CorruptedSaveError(errBoard, errCreatures, errObjects error) string {
 	if errObjects != nil {
 		errorObjects = "objects.gob "
 	}
+	if errGlobalData != nil {
+		errorGlobalData = "gamedata.gob "
+	}
 	txt := "\n    <Following files are missing: " + errorBoard + errorCreatures +
-		errorObjects + ">"
+		errorObjects + errorGlobalData + ">"
 	return txt
 }
 

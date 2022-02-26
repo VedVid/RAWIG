@@ -37,6 +37,8 @@ import (
 var KeyboardLayout int
 var CustomControls bool
 
+var GlobalData GameData
+
 var MsgBuf = []string{}
 var LastTarget *Creature
 
@@ -46,6 +48,9 @@ func main() {
 	var actors = new(Creatures)
 	StartGame(cells, actors, objs)
 	for {
+		fmt.Println(GlobalData.TurnsSpent)
+		fmt.Println(GlobalData.MonstersKilled)
+		fmt.Println()
 		RenderAll(*cells, *objs, *actors)
 		if (*actors)[0].HPCurrent <= 0 {
 			DeleteSaves()
@@ -66,6 +71,7 @@ func main() {
 		} else {
 			turnSpent := Controls(key, (*actors)[0], cells, actors, objs)
 			if turnSpent == true {
+				GlobalData.TurnsSpent++
 				CreaturesTakeTurn(*cells, *actors, *objs)
 			}
 		}
@@ -76,6 +82,7 @@ func main() {
 func NewGame(b *Board, c *Creatures, o *Objects) {
 	/* Function NewGame initializes game state - creates player, monsters, and game map.
 	   This implementation is generic-placeholder, for testing purposes. */
+	GlobalData = GameData{0, 0}
 	player, err := NewPlayer(1, 1)
 	if err != nil {
 		fmt.Println(err)
@@ -119,12 +126,13 @@ func StartGame(b *Board, c *Creatures, o *Objects) {
 	_, errBoard := os.Stat(MapPathGob)
 	_, errCreatures := os.Stat(CreaturesPathGob)
 	_, errObjects := os.Stat(ObjectsPathGob)
-	if errBoard == nil && errCreatures == nil && errObjects == nil {
+	_, errGlobalData := os.Stat(GlobalDataPathGob)
+	if errBoard == nil && errCreatures == nil && errObjects == nil && errGlobalData == nil {
 		LoadGame(b, c, o)
-	} else if errBoard != nil && errCreatures != nil && errObjects != nil {
+	} else if errBoard != nil && errCreatures != nil && errObjects != nil && errGlobalData != nil {
 		NewGame(b, c, o)
 	} else {
-		txt := CorruptedSaveError(errBoard, errCreatures, errObjects)
+		txt := CorruptedSaveError(errBoard, errCreatures, errObjects, errGlobalData)
 		fmt.Println("Error: save files are corrupted: " + txt)
 		panic(-1)
 	}

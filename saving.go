@@ -34,12 +34,14 @@ import (
 
 const (
 	// Constant values for save files manipulation.
-	MapNameGob       = "map.gob"
-	MapPathGob       = "./" + MapNameGob
-	CreaturesNameGob = "monsters.gob"
-	CreaturesPathGob = "./" + CreaturesNameGob
-	ObjectsNameGob   = "objects.gob"
-	ObjectsPathGob   = "./" + ObjectsNameGob
+	MapNameGob        = "map.gob"
+	MapPathGob        = "./" + MapNameGob
+	CreaturesNameGob  = "monsters.gob"
+	CreaturesPathGob  = "./" + CreaturesNameGob
+	ObjectsNameGob    = "objects.gob"
+	ObjectsPathGob    = "./" + ObjectsNameGob
+	GlobalDataNameGob = "global.gob"
+	GlobalDataPathGob = "./" + GlobalDataNameGob
 )
 
 const (
@@ -162,6 +164,21 @@ func loadObjects(o *Objects) error {
 	return err
 }
 
+func saveGlobalData(gd GameData) error {
+	/* Function saveGlobalData is helper function that takes game data
+	   as argument and encodes it to save file. */
+	err := writeGob(GlobalDataPathGob, gd)
+	return err
+}
+
+func loadGlobalData(gd GameData) error {
+	/* Function loadGlobalData is helper function that decodes saved data
+	   to GlobalData struct. */
+	err := readGob(GlobalDataPathGob, &gd)
+	GlobalData = gd
+	return err
+}
+
 func SaveGame(b Board, c Creatures, o Objects) error {
 	/* Function SaveGame encodes game map, monsters, objects into
 	   save files, using Go's gob format. This function may need better
@@ -177,6 +194,10 @@ func SaveGame(b Board, c Creatures, o Objects) error {
 		fmt.Println(err)
 	}
 	err = saveObjects(o)
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = saveGlobalData(GlobalData)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -201,6 +222,10 @@ func LoadGame(b *Board, c *Creatures, o *Objects) error {
 	if err != nil {
 		fmt.Println(err)
 	}
+	err = loadGlobalData(GlobalData)
+	if err != nil {
+		fmt.Println(err)
+	}
 	return err
 }
 
@@ -220,5 +245,9 @@ func DeleteSaves() {
 	_, err = os.Stat(ObjectsPathGob)
 	if err == nil {
 		os.Remove(ObjectsPathGob)
+	}
+	_, err = os.Stat(GlobalDataPathGob)
+	if err == nil {
+		os.Remove(GlobalDataPathGob)
 	}
 }

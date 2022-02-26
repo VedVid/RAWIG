@@ -300,6 +300,7 @@ func (c *Creature) Die(o *Objects) {
 	/* Method Die is called when Creature's HP drops below zero.
 	   Die() has *Creature as receiver.
 	   Receiver properties changes to fit better to corpse. */
+	GlobalData.MonstersKilled++
 	c.Layer = DeadLayer
 	c.Name = "corpse of " + c.Name
 	c.Color = "dark red"

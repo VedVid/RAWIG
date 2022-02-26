@@ -153,6 +153,66 @@ func PrintLog() {
 	PrintMessages(LogPosX, LogPosY, "")
 }
 
+func ClearNotVisible(o Objects, c Creatures) {
+	/* Removes all glyphs that should not be currently visible, just before
+	   rendering. */
+	clearUnderDead(c)
+	clearUnderObjects(o, c)
+	clearUnderCreatures(o, c)
+}
+
+func clearUnderDead(c Creatures) {
+	/* Clears map tiles under the dead bodies. */
+	blt.Layer(BoardLayer)
+	for _, v := range c {
+		if v.Layer == DeadLayer {
+			blt.ClearArea(v.X, v.Y, 1, 1)
+		}
+	}
+}
+
+func clearUnderObjects(o Objects, c Creatures) {
+	/* Clears map tiles and corpses under the objects. */
+	for _, v := range o {
+		blt.Layer(BoardLayer)
+		blt.ClearArea(v.X, v.Y, 1, 1)
+		blt.Layer(DeadLayer)
+		for _, v2 := range c {
+			if v2.Layer == DeadLayer {
+				if v2.X == v.X && v2.Y == v.Y {
+					blt.ClearArea(v.X, v.Y, 1, 1)
+				}
+			}
+		}
+	}
+}
+
+func clearUnderCreatures(o Objects, c Creatures) {
+	/* Clears map tiles, corpses, and objects under the
+	   living creatures. */
+	for _, v := range c {
+		if v.Layer == DeadLayer {
+			continue
+		}
+		blt.Layer(BoardLayer)
+		blt.ClearArea(v.X, v.Y, 1, 1)
+		blt.Layer(DeadLayer)
+		for _, v2 := range c {
+			if v2.Layer == DeadLayer {
+				if v2.X == v.X && v2.Y == v.Y {
+					blt.ClearArea(v.X, v.Y, 1, 1)
+				}
+			}
+		}
+		blt.Layer(ObjectsLayer)
+		for _, v3 := range o {
+			if v3.X == v.X && v3.Y == v.Y {
+				blt.ClearArea(v.X, v.Y, 1, 1)
+			}
+		}
+	}
+}
+
 func RenderAll(b Board, o Objects, c Creatures) {
 	/* Function RenderAll prints every tile and character on game screen.
 	   Takes board slice (ie level map), slice of objects, and slice of creatures
@@ -168,6 +228,7 @@ func RenderAll(b Board, o Objects, c Creatures) {
 	PrintBoard(b, c)
 	PrintObjects(b, o, c)
 	PrintCreatures(b, c)
+	ClearNotVisible(o, c)
 	PrintUI((c)[0])
 	PrintLog()
 	blt.Refresh()

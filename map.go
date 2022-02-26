@@ -83,6 +83,10 @@ func NewTile(layer, x, y, delay int, name, colorDark string, chars, colors []str
 			err = errors.New("Tile character string length is not equal to 1." + txt)
 		}
 	}
+	if len(chars) != len(colors) {
+		txt := CharsColorsLengthError(chars, colors)
+		err = errors.New("Length of Chars slice and Colors slice does not match." + txt)
+	}
 	tileBasicProperties := BasicProperties{x, y, name}
 	tileAnimationProperties := AnimationProperties{chars, colors, colorDark, delay, 0}
 	tileVisibilityProperties := VisibilityProperties{layer, alwaysVisible}

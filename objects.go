@@ -113,6 +113,10 @@ func NewObject(x, y int, objectPath string) (*Object, error) {
 			err2 = errors.New("Object character string length is not equal to 1." + txt)
 		}
 	}
+	if len(object.Chars) != len(object.Colors) {
+		txt := CharsColorsLengthError(object.Chars, object.Colors)
+		err = errors.New("Length of Chars slice and Colors slice does not match." + txt)
+	}
 	if object.Consumable == true && object.Use == UseNA {
 		txt := ConsumableWithoutUseError()
 		err = errors.New("Object is consumable, but has undefined use case." + txt)

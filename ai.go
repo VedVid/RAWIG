@@ -124,12 +124,12 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 				} else {
 					// DumbAI will not check if target is valid
-					vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
+					vec, err := NewBrensenham(c.X, c.Y, cs[0].X, cs[0].Y)
 					if err != nil {
 						fmt.Println(err)
 					}
-					_ = ComputeVector(vec)
-					_, _, target, _ := ValidateVector(vec, b, cs, o)
+					_ = ComputeBrensenham(vec)
+					_, _, target, _ := ValidateBrensenham(vec, b, cs, o)
 					if target != nil {
 						c.AttackTarget(target, &o)
 					}
@@ -143,12 +143,12 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 				} else {
 					// DumbAI will not check if target is valid
-					vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
+					vec, err := NewBrensenham(c.X, c.Y, cs[0].X, cs[0].Y)
 					if err != nil {
 						fmt.Println(err)
 					}
-					_ = ComputeVector(vec)
-					_, _, target, _ := ValidateVector(vec, b, cs, o)
+					_ = ComputeBrensenham(vec)
+					_, _, target, _ := ValidateBrensenham(vec, b, cs, o)
 					if target != nil {
 						c.AttackTarget(target, &o)
 					}
@@ -174,12 +174,12 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					// but it should change in future.
 					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 				} else {
-					vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
+					vec, err := NewBrensenham(c.X, c.Y, cs[0].X, cs[0].Y)
 					if err != nil {
 						fmt.Println(err)
 					}
-					_ = ComputeVector(vec)
-					_, _, target, _ := ValidateVector(vec, b, cs, o)
+					_ = ComputeBrensenham(vec)
+					_, _, target, _ := ValidateBrensenham(vec, b, cs, o)
 					if target != cs[0] {
 						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 					} else {
@@ -193,12 +193,12 @@ func HandleAI(b Board, cs Creatures, o Objects, c *Creature) {
 					// but it should change in future.
 					c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 				} else {
-					vec, err := NewVector(c.X, c.Y, cs[0].X, cs[0].Y)
+					vec, err := NewBrensenham(c.X, c.Y, cs[0].X, cs[0].Y)
 					if err != nil {
 						fmt.Println(err)
 					}
-					_ = ComputeVector(vec)
-					_, _, target, _ := ValidateVector(vec, b, cs, o)
+					_ = ComputeBrensenham(vec)
+					_, _, target, _ := ValidateBrensenham(vec, b, cs, o)
 					if target != cs[0] {
 						c.MoveTowards(b, cs, cs[0].X, cs[0].Y, ai)
 					} else {

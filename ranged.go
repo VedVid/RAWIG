@@ -36,12 +36,12 @@ import (
 func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 	/* Look is method of Creature (that is supposed to be player).
 	   It has to take Board, "global" Objects and Creatures as arguments,
-	   because function PrintVector need to call RenderAll function.
+	   because function PrintBrensenham need to call RenderAll function.
 	   At first, Look creates new para-vector, with player coords as
 	   starting point, and dynamic end position.
-	   Then ComputeVector checks what tiles are present
-	   between Start and End, and adds their coords to vector values.
-	   Line from Vector is drawn, then game waits for player input,
+	   Then ComputeBrensenham checks what tiles are present
+	   between Start and End, and adds their coords to Brensenham values.
+	   Line from Brensenham is drawn, then game waits for player input,
 	   that will change position of "looking" cursors.
 	   Loop breaks with Escape, Space or Enter input. */
 	startX, startY := c.X, c.Y
@@ -49,13 +49,13 @@ func (c *Creature) Look(b Board, o Objects, cs Creatures) {
 	msg := ""
 	i := false
 	for {
-		vec, err := NewVector(startX, startY, targetX, targetY)
+		vec, err := NewBrensenham(startX, startY, targetX, targetY)
 		if err != nil {
 			fmt.Println(err)
 		}
-		_ = ComputeVector(vec)
-		_, _, _, _ = ValidateVector(vec, b, cs, o)
-		PrintVector(vec, VectorWhyInspect, VectorColorNeutral, VectorColorNeutral, b, o, cs)
+		_ = ComputeBrensenham(vec)
+		_, _, _, _ = ValidateBrensenham(vec, b, cs, o)
+		PrintBrensenham(vec, BrensenhamWhyInspect, BrensenhamColorNeutral, BrensenhamColorNeutral, b, o, cs)
 		if b[targetX][targetY].Explored == true {
 			if IsInFOV(b, c.X, c.Y, targetX, targetY) == true {
 				s := GetAllStringsFromTile(targetX, targetY, b, cs, o)
@@ -180,13 +180,13 @@ func (c *Creature) Target(b Board, o *Objects, cs Creatures) bool {
 	targetX, targetY := target.X, target.Y
 	i := false
 	for {
-		vec, err := NewVector(c.X, c.Y, targetX, targetY)
+		vec, err := NewBrensenham(c.X, c.Y, targetX, targetY)
 		if err != nil {
 			fmt.Println(err)
 		}
-		_ = ComputeVector(vec)
-		valid, _, monsterHit, _ := ValidateVector(vec, b, targets, *o)
-		PrintVector(vec, VectorWhyTarget, VectorColorGood, VectorColorBad, b, *o, cs)
+		_ = ComputeBrensenham(vec)
+		valid, _, monsterHit, _ := ValidateBrensenham(vec, b, targets, *o)
+		PrintBrensenham(vec, BrensenhamWhyTarget, BrensenhamColorGood, BrensenhamColorBad, b, *o, cs)
 		if monsterHit != nil {
 			msg := "There is " + monsterHit.Name + " here."
 			PrintLookingMessage(msg, i)
@@ -210,9 +210,9 @@ func (c *Creature) Target(b Board, o *Objects, cs Creatures) bool {
 						c.AttackTarget(monsterHit, o)
 					}
 				} else {
-					vx, vy := FindVectorDirection(vec)
-					v := ExtrapolateVector(vec, vx, vy)
-					_, _, monsterHitIndirectly, _ := ValidateVector(v, b, targets, *o)
+					vx, vy := FindBrensenhamDirection(vec)
+					v := ExtrapolateBrensenham(vec, vx, vy)
+					_, _, monsterHitIndirectly, _ := ValidateBrensenham(v, b, targets, *o)
 					if monsterHitIndirectly != nil {
 						c.AttackTarget(monsterHitIndirectly, o)
 					}
@@ -358,12 +358,12 @@ func (c *Creature) MonstersInRange(b Board, cs Creatures, o Objects,
 	var inRange = Creatures{}
 	var outOfRange = Creatures{}
 	for i, v := range cs {
-		vec, err := NewVector(c.X, c.Y, v.X, v.Y)
+		vec, err := NewBrensenham(c.X, c.Y, v.X, v.Y)
 		if err != nil {
 			fmt.Println(err)
 		}
-		if ComputeVector(vec) <= length+1 { // "+1" is necessary due Vector values.
-			valid, _, _, _ := ValidateVector(vec, b, cs, o)
+		if ComputeBrensenham(vec) <= length+1 { // "+1" is necessary due Brensenham values.
+			valid, _, _, _ := ValidateBrensenham(vec, b, cs, o)
 			if cs[i].HPCurrent <= 0 {
 				continue
 			}

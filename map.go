@@ -51,6 +51,7 @@ type MapJson struct {
 	Name           map[string]string
 	Colors         map[string][]string
 	ColorDark      map[string]string
+	CurrentFrame   map[string]int
 	Layer          map[string]int
 	AlwaysVisible  map[string]bool
 	Explored       map[string]bool
@@ -64,7 +65,7 @@ type MapJson struct {
    to hold data of its every cell. */
 type Board [][]*Tile
 
-func NewTile(layer, x, y, delay int, name, colorDark string, chars, colors []string,
+func NewTile(layer, x, y, currentFrame, delay int, name, colorDark string, chars, colors []string,
 	alwaysVisible, explored, blocked, blocksSight bool) (*Tile, error) {
 	/* Function NewTile takes all values necessary by its struct,
 	   and creates then returns pointer to Tile. */
@@ -87,8 +88,11 @@ func NewTile(layer, x, y, delay int, name, colorDark string, chars, colors []str
 		txt := CharsColorsLengthError(chars, colors)
 		err = errors.New("Length of Chars slice and Colors slice does not match." + txt)
 	}
+	if currentFrame == -1 {
+		currentFrame = rand.Intn(len(chars))
+	}
 	tileBasicProperties := BasicProperties{x, y, name}
-	tileAnimationProperties := AnimationProperties{chars, colors, colorDark, delay, 0}
+	tileAnimationProperties := AnimationProperties{chars, colors, colorDark, delay, currentFrame}
 	tileVisibilityProperties := VisibilityProperties{layer, alwaysVisible}
 	tileCollisionProperties := CollisionProperties{blocked, blocksSight}
 	tileNew := &Tile{tileBasicProperties, tileAnimationProperties, tileVisibilityProperties,
@@ -110,7 +114,7 @@ func InitializeEmptyMap() Board {
 	for x := 0; x < MapSizeX; x++ {
 		for y := 0; y < MapSizeY; y++ {
 			var err error
-			b[x][y], err = NewTile(BoardLayer, x, y, 0, "floor", "dark gray",
+			b[x][y], err = NewTile(BoardLayer, x, y, 0, 0, "floor", "dark gray",
 				[]string{"."}, []string{"light gray"}, true, false, false, false)
 			if err != nil {
 				fmt.Println(err)
@@ -129,6 +133,10 @@ func ReplaceTile(t *Tile, s string, m *MapJson) {
 	t.Name = m.Name[s]
 	t.Colors = m.Colors[s]
 	t.ColorDark = m.ColorDark[s]
+	t.CurrentFrame = m.CurrentFrame[s]
+	if t.CurrentFrame == -1 {
+		t.CurrentFrame = rand.Intn(len(t.Chars))
+	}
 	t.Layer = m.Layer[s]
 	t.AlwaysVisible = m.AlwaysVisible[s]
 	t.Explored = m.Explored[s]

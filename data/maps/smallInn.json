@@ -332,6 +332,9 @@
       "e":"gray",
       "T":"darker red"
    },
+   "CurrentFrame":{
+      "T":-1
+   },
    "Layer":{
       "#":2,
       ";":2,

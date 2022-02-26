@@ -62,9 +62,11 @@ func NewPlayer(x, y int) (*Creature, error) {
 		txt := CoordsError(player.X, player.Y)
 		err2 = errors.New("Creature coords is out of window range." + txt)
 	}
-	if utf8.RuneCountInString(player.Char) != 1 {
-		txt := CharacterLengthError(player.Char)
-		err2 = errors.New("Creature character string length is not equal to 1." + txt)
+	for _, v := range player.Chars {
+		if utf8.RuneCountInString(v) != 1 {
+			txt := CharacterLengthError(v)
+			err2 = errors.New("Creature character string length is not equal to 1." + txt)
+		}
 	}
 	if player.AIType != PlayerAI {
 		txt := PlayerAIError(player.AIType)

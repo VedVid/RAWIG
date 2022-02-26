@@ -41,6 +41,7 @@ type Creature struct {
 	/* Creatures are living objects that
 	   moves, attacks, dies, etc. */
 	BasicProperties
+	AnimationProperties
 	VisibilityProperties
 	CollisionProperties
 	FighterProperties
@@ -76,9 +77,11 @@ func NewCreature(x, y int, monsterFile string) (*Creature, error) {
 		txt := CoordsError(monster.X, monster.Y)
 		err2 = errors.New("Creature coords is out of window range." + txt)
 	}
-	if utf8.RuneCountInString(monster.Char) != 1 {
-		txt := CharacterLengthError(monster.Char)
-		err2 = errors.New("Creature character string length is not equal to 1." + txt)
+	for _, v := range monster.Chars {
+		if utf8.RuneCountInString(v) != 1 {
+			txt := CharacterLengthError(v)
+			err2 = errors.New("Creature character string length is not equal to 1." + txt)
+		}
 	}
 	if monster.HPMax < 0 {
 		txt := InitialHPError(monster.HPMax)
@@ -303,9 +306,9 @@ func (c *Creature) Die(o *Objects) {
 	GlobalData.MonstersKilled++
 	c.Layer = DeadLayer
 	c.Name = "corpse of " + c.Name
-	c.Color = "dark red"
+	c.Colors = []string{"dark red"}
 	c.ColorDark = "dark red"
-	c.Char = CorpseChar
+	c.Chars = []string{CorpseChar}
 	c.Blocked = false
 	c.BlocksSight = false
 	c.AIType = NoAI

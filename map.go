@@ -36,6 +36,7 @@ import (
 type Tile struct {
 	// Tiles are map cells - floors, walls, doors.
 	BasicProperties
+	AnimationProperties
 	VisibilityProperties
 	Explored bool
 	CollisionProperties
@@ -46,9 +47,9 @@ type MapJson struct {
 	Cells          []string
 	Data           [][]int
 	Layouts        [][][]string
-	Char           map[string]string
+	Chars          map[string][]string
 	Name           map[string]string
-	Color          map[string]string
+	Colors         map[string][]string
 	ColorDark      map[string]string
 	Layer          map[string]int
 	AlwaysVisible  map[string]bool
@@ -63,7 +64,7 @@ type MapJson struct {
    to hold data of its every cell. */
 type Board [][]*Tile
 
-func NewTile(layer, x, y int, character, name, color, colorDark string,
+func NewTile(layer, x, y, delay int, name, colorDark string, chars, colors []string,
 	alwaysVisible, explored, blocked, blocksSight bool) (*Tile, error) {
 	/* Function NewTile takes all values necessary by its struct,
 	   and creates then returns pointer to Tile. */
@@ -76,15 +77,17 @@ func NewTile(layer, x, y int, character, name, color, colorDark string,
 		txt := CoordsError(x, y)
 		err = errors.New("Tile coords is out of window range." + txt)
 	}
-	if utf8.RuneCountInString(character) != 1 {
-		txt := CharacterLengthError(character)
-		err = errors.New("Tile character string length is not equal to 1." + txt)
+	for _, v := range chars {
+		if utf8.RuneCountInString(v) != 1 {
+			txt := CharacterLengthError(v)
+			err = errors.New("Tile character string length is not equal to 1." + txt)
+		}
 	}
-	tileBasicProperties := BasicProperties{x, y, character, name, color,
-		colorDark}
+	tileBasicProperties := BasicProperties{x, y, name}
+	tileAnimationProperties := AnimationProperties{chars, colors, colorDark, delay, 0}
 	tileVisibilityProperties := VisibilityProperties{layer, alwaysVisible}
 	tileCollisionProperties := CollisionProperties{blocked, blocksSight}
-	tileNew := &Tile{tileBasicProperties, tileVisibilityProperties,
+	tileNew := &Tile{tileBasicProperties, tileAnimationProperties, tileVisibilityProperties,
 		explored, tileCollisionProperties}
 	return tileNew, err
 }
@@ -103,8 +106,8 @@ func InitializeEmptyMap() Board {
 	for x := 0; x < MapSizeX; x++ {
 		for y := 0; y < MapSizeY; y++ {
 			var err error
-			b[x][y], err = NewTile(BoardLayer, x, y, ".", "floor", "light gray",
-				"dark gray", true, false, false, false)
+			b[x][y], err = NewTile(BoardLayer, x, y, 0, "floor", "dark gray",
+				[]string{"."}, []string{"light gray"}, true, false, false, false)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -118,9 +121,9 @@ func ReplaceTile(t *Tile, s string, m *MapJson) {
 	   one-character-lenght - symbol of map tile, taken from json map) and
 	   MapJson (ie unmarshalled json map).
 	   It uses m's legend to overwrite old map values with data read from file. */
-	t.Char = m.Char[s]
+	t.Chars = m.Chars[s]
 	t.Name = m.Name[s]
-	t.Color = m.Color[s]
+	t.Colors = m.Colors[s]
 	t.ColorDark = m.ColorDark[s]
 	t.Layer = m.Layer[s]
 	t.AlwaysVisible = m.AlwaysVisible[s]

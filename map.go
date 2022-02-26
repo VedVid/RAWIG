@@ -47,9 +47,9 @@ type MapJson struct {
 	Cells          []string
 	Data           [][]int
 	Layouts        [][][]string
-	Char           map[string]string
+	Chars          map[string][]string
 	Name           map[string]string
-	Color          map[string]string
+	Colors         map[string][]string
 	ColorDark      map[string]string
 	Layer          map[string]int
 	AlwaysVisible  map[string]bool
@@ -121,9 +121,9 @@ func ReplaceTile(t *Tile, s string, m *MapJson) {
 	   one-character-lenght - symbol of map tile, taken from json map) and
 	   MapJson (ie unmarshalled json map).
 	   It uses m's legend to overwrite old map values with data read from file. */
-	t.Char = m.Char[s]
+	t.Chars = m.Chars[s]
 	t.Name = m.Name[s]
-	t.Color = m.Color[s]
+	t.Colors = m.Colors[s]
 	t.ColorDark = m.ColorDark[s]
 	t.Layer = m.Layer[s]
 	t.AlwaysVisible = m.AlwaysVisible[s]

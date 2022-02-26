@@ -1,9 +1,9 @@
 {
-    "Char":"@",
     "Name":"player",
-    "Color":"white",
+    "Chars":["@"],
+    "Colors":["white"],
     "ColorDark":"white",
-	"Layer":6,
+    "Layer":6,
     "AlwaysVisible":true,
     "Blocked":true,
     "BlocksSight":false,

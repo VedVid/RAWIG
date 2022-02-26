@@ -1,10 +1,10 @@
 {
-    "Char":"T",
     "Name":"enemy2",
-    "Color":"red",
+    "Chars":["T"],
+    "Colors":["red"],
     "ColorDark":"red",
     "Layer":5,
-	"AlwaysVisible":false,
+    "AlwaysVisible":false,
     "Blocked":true,
     "BlocksSight":false,
     "AIType":5,

@@ -107,9 +107,11 @@ func NewObject(x, y int, objectPath string) (*Object, error) {
 		txt := CoordsError(object.X, object.Y)
 		err = errors.New("Object coords is out of window range." + txt)
 	}
-	if utf8.RuneCountInString(object.Char) != 1 {
-		txt := CharacterLengthError(object.Char)
-		err = errors.New("Object character string length is not equal to 1." + txt)
+	for _, v := range object.Chars {
+		if utf8.RuneCountInString(v) != 1 {
+			txt := CharacterLengthError(v)
+			err2 = errors.New("Object character string length is not equal to 1." + txt)
+		}
 	}
 	if object.Consumable == true && object.Use == UseNA {
 		txt := ConsumableWithoutUseError()

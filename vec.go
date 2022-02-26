@@ -283,6 +283,10 @@ func PrintBrensenham(vec *Brensenham, why string, color1, color2 string, b Board
 }
 
 func PrintRangedCharacter(x, y int, color string, valid bool) {
+	/* Function PrintRangedCharacter takes coords, color, and result
+	   of validity test as arguments.
+	   It draws green rectangle if cursor position is valid,
+	   and red cross if it is not. */
 	blt.Layer(LookLayer)
 	if valid == true {
 		var chars = []string{"▁", "▏", "▕", "▔"}

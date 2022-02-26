@@ -56,6 +56,16 @@ func CoordsError(x, y int) string {
 	return txt
 }
 
+func CharsColorsLengthError(chars, colors []string) string {
+	/* Function CharsColorsLengthError is helper function that return string
+	   to error; it takes string slices as arguments and return string.
+	   For rough animations introduced in 0.6 version of RAWIG,
+	   Chars and Colors slices of every object have to have the same length. */
+	txt := "\n    <Chars length: " + strconv.Itoa(len(chars)) + "; Colors length: " +
+		strconv.Itoa(len(colors)) + ">"
+	return txt
+}
+
 func CharacterLengthError(character string) string {
 	/* Function CharacterLengthError is helper function that returns string
 	   to error; it takes character string as argument and returns string.

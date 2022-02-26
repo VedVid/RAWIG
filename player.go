@@ -68,6 +68,10 @@ func NewPlayer(x, y int) (*Creature, error) {
 			err2 = errors.New("Creature character string length is not equal to 1." + txt)
 		}
 	}
+	if len(player.Chars) != len(player.Colors) {
+		txt := CharsColorsLengthError(player.Chars, player.Colors)
+		err = errors.New("Length of Chars slice and Colors slice does not match." + txt)
+	}
 	if player.AIType != PlayerAI {
 		txt := PlayerAIError(player.AIType)
 		err2 = errors.New("Warning: Player AI is supposed to be " +

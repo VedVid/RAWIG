@@ -73,6 +73,7 @@ func main() {
 			if turnSpent == true {
 				GlobalData.TurnsSpent++
 				CreaturesTakeTurn(*cells, *actors, *objs)
+				UpdateFrames(*cells, *objs, *actors)
 			}
 		}
 	}

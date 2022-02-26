@@ -28,13 +28,22 @@ package main
 
 type BasicProperties struct {
 	/* BasicProperties is struct that aggregates
-	   all widely used data, necessary for every
-	   map tile and object representation. */
+	   athe most basic data: coords and name. */
 	X, Y      int
-	Char      string
 	Name      string
-	Color     string
-	ColorDark string
+}
+
+type AnimationProperties struct {
+	/* AnimationProperties is struct that stores all data
+	   necessary for animation: list of characters
+	   and colors that will be displayed sequen-
+	   tially. Delay dicates after how many turns
+	   object appearance will change. */
+	Chars        []string
+	Colors       []string
+	ColorDark    string
+	Delay        int
+	CurrentFrame int
 }
 
 type VisibilityProperties struct {

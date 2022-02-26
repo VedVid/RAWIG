@@ -233,3 +233,27 @@ func RenderAll(b Board, o Objects, c Creatures) {
 	PrintLog()
 	blt.Refresh()
 }
+
+func UpdateFrames(b Board, o Objects, c Creatures) {
+	for x := 0; x < MapSizeX; x++ {
+		for y := 0; y < MapSizeY; y++ {
+			t := b[x][y]
+			t.CurrentFrame++
+			if t.CurrentFrame >= len(t.Chars) {
+				t.CurrentFrame = 0
+			}
+		}
+	}
+	for _, v := range o {
+		v.CurrentFrame++
+		if v.CurrentFrame >= len(v.Chars) {
+			v.CurrentFrame = 0
+		}
+	}
+	for _, v := range c {
+		v.CurrentFrame++
+		if v.CurrentFrame >= len(v.Chars) {
+			v.CurrentFrame = 0
+		}
+	}
+}

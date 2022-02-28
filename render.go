@@ -71,18 +71,22 @@ func PrintBoard(b Board, c Creatures) {
 			t := b[x][y] // Should it be *b[x][y]?
 			blt.Layer(t.Layer)
 			if t.Explored == true {
-				ch := t.Chars[0]
-				if len(t.Chars) == len(t.Colors) {
-					ch = t.Chars[t.CurrentFrame]
-				}
-				if ch == "[" || ch == "]" {
-					ch = ch + ch
-				}
 				if IsInFOV(b, c[0].X, c[0].Y, t.X, t.Y) == true {
+					ch := t.Chars[0]
+					if len(t.Chars) == len(t.Colors) {
+						ch = t.Chars[t.CurrentFrame]
+					}
+					if ch == "[" || ch == "]" {
+						ch = ch + ch
+					}
 					glyph := "[color=" + t.Colors[t.CurrentFrame] + "]" + ch
 					blt.Print(t.X, t.Y, glyph)
 				} else {
 					if t.AlwaysVisible == true {
+						ch := t.Chars[0]
+						if ch == "[" || ch == "]" {
+							ch = ch + ch
+						}
 						glyph := "[color=" + t.ColorDark + "]" + ch
 						blt.Print(t.X, t.Y, glyph)
 					}

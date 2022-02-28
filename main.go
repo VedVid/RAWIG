@@ -48,9 +48,6 @@ func main() {
 	var actors = new(Creatures)
 	StartGame(cells, actors, objs)
 	for {
-		fmt.Println(GlobalData.TurnsSpent)
-		fmt.Println(GlobalData.MonstersKilled)
-		fmt.Println()
 		RenderAll(*cells, *objs, *actors)
 		if (*actors)[0].HPCurrent <= 0 {
 			DeleteSaves()

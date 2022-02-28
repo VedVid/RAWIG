@@ -43,6 +43,7 @@ type AnimationProperties struct {
 	Colors       []string
 	ColorDark    string
 	Delay        int
+	CurrentDelay int
 	CurrentFrame int
 }
 

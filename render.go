@@ -259,6 +259,11 @@ func UpdateFrames(b Board, o Objects, c Creatures) {
 	for x := 0; x < MapSizeX; x++ {
 		for y := 0; y < MapSizeY; y++ {
 			t := b[x][y]
+			t.CurrentDelay++
+			if t.CurrentDelay < t.Delay {
+				continue
+			}
+			t.CurrentDelay = 0
 			t.CurrentFrame++
 			if t.CurrentFrame >= len(t.Colors) {
 				t.CurrentFrame = 0
@@ -266,12 +271,22 @@ func UpdateFrames(b Board, o Objects, c Creatures) {
 		}
 	}
 	for _, v := range o {
+		v.CurrentDelay++
+		if v.CurrentDelay < v.Delay {
+			continue
+		}
+		v.CurrentDelay = 0
 		v.CurrentFrame++
 		if v.CurrentFrame >= len(v.Colors) {
 			v.CurrentFrame = 0
 		}
 	}
 	for _, v := range c {
+		v.CurrentDelay++
+		if v.CurrentDelay < v.Delay {
+			continue
+		}
+		v.CurrentDelay = 0
 		v.CurrentFrame++
 		if v.CurrentFrame >= len(v.Colors) {
 			v.CurrentFrame = 0

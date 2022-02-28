@@ -71,18 +71,22 @@ func PrintBoard(b Board, c Creatures) {
 			t := b[x][y] // Should it be *b[x][y]?
 			blt.Layer(t.Layer)
 			if t.Explored == true {
-				ch := t.Chars[0]
-				if len(t.Chars) == len(t.Colors) {
-					ch = t.Chars[t.CurrentFrame]
-				}
-				if ch == "[" || ch == "]" {
-					ch = ch + ch
-				}
 				if IsInFOV(b, c[0].X, c[0].Y, t.X, t.Y) == true {
+					ch := t.Chars[0]
+					if len(t.Chars) == len(t.Colors) {
+						ch = t.Chars[t.CurrentFrame]
+					}
+					if ch == "[" || ch == "]" {
+						ch = ch + ch
+					}
 					glyph := "[color=" + t.Colors[t.CurrentFrame] + "]" + ch
 					blt.Print(t.X, t.Y, glyph)
 				} else {
 					if t.AlwaysVisible == true {
+						ch := t.Chars[0]
+						if ch == "[" || ch == "]" {
+							ch = ch + ch
+						}
 						glyph := "[color=" + t.ColorDark + "]" + ch
 						blt.Print(t.X, t.Y, glyph)
 					}
@@ -112,7 +116,7 @@ func PrintObjects(b Board, o Objects, c Creatures) {
 			((v.AlwaysVisible == true) && (b[v.X][v.Y].Explored == true)) {
 			blt.Layer(v.Layer)
 			ch := v.Chars[0]
-			if len(v.Chars) == len(v.Colors) {
+			if len(v.Chars) == len(v.Colors) && (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) {
 				ch = v.Chars[v.CurrentFrame]
 			}
 			if ch == "]" || ch == "[" {
@@ -143,7 +147,7 @@ func PrintCreatures(b Board, c Creatures) {
 			(v.AlwaysVisible == true) {
 			blt.Layer(v.Layer)
 			ch := v.Chars[0]
-			if len(v.Chars) == len(v.Colors) {
+			if len(v.Chars) == len(v.Colors) && (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) {
 				ch = v.Chars[v.CurrentFrame]
 			}
 			if ch == "]" || ch == "[" {
@@ -259,6 +263,11 @@ func UpdateFrames(b Board, o Objects, c Creatures) {
 	for x := 0; x < MapSizeX; x++ {
 		for y := 0; y < MapSizeY; y++ {
 			t := b[x][y]
+			t.CurrentDelay++
+			if t.CurrentDelay < t.Delay {
+				continue
+			}
+			t.CurrentDelay = 0
 			t.CurrentFrame++
 			if t.CurrentFrame >= len(t.Colors) {
 				t.CurrentFrame = 0
@@ -266,12 +275,22 @@ func UpdateFrames(b Board, o Objects, c Creatures) {
 		}
 	}
 	for _, v := range o {
+		v.CurrentDelay++
+		if v.CurrentDelay < v.Delay {
+			continue
+		}
+		v.CurrentDelay = 0
 		v.CurrentFrame++
 		if v.CurrentFrame >= len(v.Colors) {
 			v.CurrentFrame = 0
 		}
 	}
 	for _, v := range c {
+		v.CurrentDelay++
+		if v.CurrentDelay < v.Delay {
+			continue
+		}
+		v.CurrentDelay = 0
 		v.CurrentFrame++
 		if v.CurrentFrame >= len(v.Colors) {
 			v.CurrentFrame = 0

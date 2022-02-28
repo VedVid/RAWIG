@@ -51,6 +51,7 @@ type MapJson struct {
 	Name           map[string]string
 	Colors         map[string][]string
 	ColorDark      map[string]string
+	Delay          map[string]int
 	CurrentFrame   map[string]int
 	Layer          map[string]int
 	AlwaysVisible  map[string]bool
@@ -92,7 +93,7 @@ func NewTile(layer, x, y, currentFrame, delay int, name, colorDark string, chars
 		currentFrame = rand.Intn(len(chars))
 	}
 	tileBasicProperties := BasicProperties{x, y, name}
-	tileAnimationProperties := AnimationProperties{chars, colors, colorDark, delay, currentFrame}
+	tileAnimationProperties := AnimationProperties{chars, colors, colorDark, delay, 0, currentFrame}
 	tileVisibilityProperties := VisibilityProperties{layer, alwaysVisible}
 	tileCollisionProperties := CollisionProperties{blocked, blocksSight}
 	tileNew := &Tile{tileBasicProperties, tileAnimationProperties, tileVisibilityProperties,
@@ -137,6 +138,7 @@ func ReplaceTile(t *Tile, s string, m *MapJson) {
 	if t.CurrentFrame == -1 {
 		t.CurrentFrame = rand.Intn(len(t.Chars))
 	}
+	t.Delay = m.Delay[s]
 	t.Layer = m.Layer[s]
 	t.AlwaysVisible = m.AlwaysVisible[s]
 	t.Explored = m.Explored[s]

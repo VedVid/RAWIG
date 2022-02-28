@@ -84,7 +84,7 @@ func NewTile(layer, x, y, currentFrame, delay int, name, colorDark string, chars
 			err = errors.New("Tile character string length is not equal to 1." + txt)
 		}
 	}
-	if len(chars) != len(colors) {
+	if len(chars) != len(colors) && len(chars) != 1 {
 		txt := CharsColorsLengthError(chars, colors)
 		err = errors.New("Length of Chars slice and Colors slice does not match." + txt)
 	}

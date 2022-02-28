@@ -116,7 +116,7 @@ func PrintObjects(b Board, o Objects, c Creatures) {
 			((v.AlwaysVisible == true) && (b[v.X][v.Y].Explored == true)) {
 			blt.Layer(v.Layer)
 			ch := v.Chars[0]
-			if len(v.Chars) == len(v.Colors) {
+			if len(v.Chars) == len(v.Colors) && (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) {
 				ch = v.Chars[v.CurrentFrame]
 			}
 			if ch == "]" || ch == "[" {
@@ -147,7 +147,7 @@ func PrintCreatures(b Board, c Creatures) {
 			(v.AlwaysVisible == true) {
 			blt.Layer(v.Layer)
 			ch := v.Chars[0]
-			if len(v.Chars) == len(v.Colors) {
+			if len(v.Chars) == len(v.Colors) && (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) {
 				ch = v.Chars[v.CurrentFrame]
 			}
 			if ch == "]" || ch == "[" {

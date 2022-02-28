@@ -27,6 +27,7 @@ Every revision before v 0.1 is potentially unstable.
 - support for QWERTY, QWERTZ, AZERTY and Dvorak keyboards  
 - configurable keybindings  
 - rendering system  
+- rudimentary support for animations  
 - maps, monsters, items  
 - fov, pathfinding  
 - melee combat  
@@ -48,3 +49,4 @@ RAWIG is built from scratch. Yet, due historical reasons, it is influenced by [r
 
 [Adam](https://github.com/adam-weiler)  
 [Travis Yoder](https://github.com/trayo)
+

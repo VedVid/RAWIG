@@ -113,7 +113,7 @@ func NewObject(x, y int, objectPath string) (*Object, error) {
 			err2 = errors.New("Object character string length is not equal to 1." + txt)
 		}
 	}
-	if len(object.Chars) != len(object.Colors) {
+	if len(object.Chars) != len(object.Colors) && len(object.Chars) != 1 {
 		txt := CharsColorsLengthError(object.Chars, object.Colors)
 		err = errors.New("Length of Chars slice and Colors slice does not match." + txt)
 	}

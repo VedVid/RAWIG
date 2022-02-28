@@ -53,6 +53,10 @@ func PrintBoard(b Board, c Creatures) {
 	/* Function PrintBoard is used in RenderAll function.
 	   Takes level map and list of monsters as arguments
 	   and iterates through Board.
+	   Function assumes that there is only one character in
+	   Chars slice (in that case, only color is animated), or
+	   that Chars slice has the same number of elements as Colors.
+	   Length of Colors is checked during UpdateFrames function.
 	   It has to check for "]" and "[" characters, because
 	   BearLibTerminal uses these symbols for config.
 	   Instead of checking it here, one could just remember to
@@ -67,9 +71,12 @@ func PrintBoard(b Board, c Creatures) {
 			t := b[x][y] // Should it be *b[x][y]?
 			blt.Layer(t.Layer)
 			if t.Explored == true {
-				ch := t.Chars[t.CurrentFrame]
-				if t.Chars[t.CurrentFrame] == "[" || t.Chars[t.CurrentFrame] == "]" {
-					ch = t.Chars[t.CurrentFrame] + t.Chars[t.CurrentFrame]
+				ch := t.Chars[0]
+				if len(t.Chars) == len(t.Colors) {
+					ch = t.Chars[t.CurrentFrame]
+				}
+				if ch == "[" || ch == "]" {
+					ch = ch + ch
 				}
 				if IsInFOV(b, c[0].X, c[0].Y, t.X, t.Y) == true {
 					glyph := "[color=" + t.Colors[t.CurrentFrame] + "]" + ch
@@ -90,6 +97,10 @@ func PrintObjects(b Board, o Objects, c Creatures) {
 	   Takes map of level, slice of objects, and all monsters
 	   as arguments.
 	   Iterates through Objects.
+	   Function assumes that there is only one character in
+	   Chars slice (in that case, only color is animated), or
+	   that Chars slice has the same number of elements as Colors.
+	   Length of Colors is checked during UpdateFrames function.
 	   It has to check for "]" and "[" characters, because
 	   BearLibTerminal uses these symbols for config.
 	   Instead of checking it here, one could just remember to
@@ -100,9 +111,12 @@ func PrintObjects(b Board, o Objects, c Creatures) {
 		if (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
 			((v.AlwaysVisible == true) && (b[v.X][v.Y].Explored == true)) {
 			blt.Layer(v.Layer)
-			ch := v.Chars[v.CurrentFrame]
-			if v.Chars[v.CurrentFrame] == "]" || v.Chars[v.CurrentFrame] == "[" {
-				ch = v.Chars[v.CurrentFrame] + v.Chars[v.CurrentFrame]
+			ch := v.Chars[0]
+			if len(v.Chars) == len(v.Colors) {
+				ch = v.Chars[v.CurrentFrame]
+			}
+			if ch == "]" || ch == "[" {
+				ch = ch + ch
 			}
 			glyph := "[color=" + v.Colors[v.CurrentFrame] + "]" + ch
 			blt.Print(v.X, v.Y, glyph)
@@ -114,6 +128,10 @@ func PrintCreatures(b Board, c Creatures) {
 	/* Function PrintCreatures is used in RenderAll function.
 	   Takes map of level and slice of Creatures as arguments.
 	   Iterates through Creatures.
+	   Function assumes that there is only one character in
+	   Chars slice (in that case, only color is animated), or
+	   that Chars slice has the same number of elements as Colors.
+	   Length of Colors is checked during UpdateFrames function.
 	   It has to check for "]" and "[" characters, because
 	   BearLibTerminal uses these symbols for config.
 	   Instead of checking it here, one could just remember to
@@ -124,9 +142,12 @@ func PrintCreatures(b Board, c Creatures) {
 		if (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
 			(v.AlwaysVisible == true) {
 			blt.Layer(v.Layer)
-			ch := v.Chars[v.CurrentFrame]
-			if v.Chars[v.CurrentFrame] == "]" || v.Chars[v.CurrentFrame] == "[" {
-				ch = v.Chars[v.CurrentFrame] + v.Chars[v.CurrentFrame]
+			ch := v.Chars[0]
+			if len(v.Chars) == len(v.Colors) {
+				ch = v.Chars[v.CurrentFrame]
+			}
+			if ch == "]" || ch == "[" {
+				ch = ch + ch
 			}
 			glyph := "[color=" + v.Colors[v.CurrentFrame] + "]" + ch
 			blt.Print(v.X, v.Y, glyph)
@@ -239,20 +260,20 @@ func UpdateFrames(b Board, o Objects, c Creatures) {
 		for y := 0; y < MapSizeY; y++ {
 			t := b[x][y]
 			t.CurrentFrame++
-			if t.CurrentFrame >= len(t.Chars) {
+			if t.CurrentFrame >= len(t.Colors) {
 				t.CurrentFrame = 0
 			}
 		}
 	}
 	for _, v := range o {
 		v.CurrentFrame++
-		if v.CurrentFrame >= len(v.Chars) {
+		if v.CurrentFrame >= len(v.Colors) {
 			v.CurrentFrame = 0
 		}
 	}
 	for _, v := range c {
 		v.CurrentFrame++
-		if v.CurrentFrame >= len(v.Chars) {
+		if v.CurrentFrame >= len(v.Colors) {
 			v.CurrentFrame = 0
 		}
 	}

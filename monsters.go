@@ -83,7 +83,7 @@ func NewCreature(x, y int, monsterFile string) (*Creature, error) {
 			err2 = errors.New("Creature character string length is not equal to 1." + txt)
 		}
 	}
-	if len(monster.Chars) != len(monster.Colors) {
+	if len(monster.Chars) != len(monster.Colors) && len(monster.Chars) != 1 {
 		txt := CharsColorsLengthError(monster.Chars, monster.Colors)
 		err = errors.New("Length of Chars slice and Colors slice does not match." + txt)
 	}

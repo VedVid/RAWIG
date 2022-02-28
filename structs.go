@@ -29,8 +29,8 @@ package main
 type BasicProperties struct {
 	/* BasicProperties is struct that aggregates
 	   athe most basic data: coords and name. */
-	X, Y      int
-	Name      string
+	X, Y int
+	Name string
 }
 
 type AnimationProperties struct {

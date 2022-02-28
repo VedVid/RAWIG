@@ -29,6 +29,6 @@ package main
 type GameData struct {
 	/* GameData stores generic data that can be used for calculating
 	   high scores, or for creating morgue files. */
-	TurnsSpent    int
+	TurnsSpent     int
 	MonstersKilled int
 }

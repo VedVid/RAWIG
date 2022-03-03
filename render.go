@@ -72,23 +72,31 @@ func PrintBoard(b Board, c Creatures) {
 			blt.Layer(t.Layer)
 			if t.Explored == true {
 				if IsInFOV(b, c[0].X, c[0].Y, t.X, t.Y) == true {
-					ch := t.Chars[0]
-					if len(t.Chars) == len(t.Colors) {
-						ch = t.Chars[t.CurrentFrame]
-					}
-					if ch == "[" || ch == "]" {
-						ch = ch + ch
-					}
-					glyph := "[color=" + t.Colors[t.CurrentFrame] + "]" + ch
-					blt.Print(t.X, t.Y, glyph)
-				} else {
-					if t.AlwaysVisible == true {
+					if Tiles == true {
+						continue
+					} else {
 						ch := t.Chars[0]
+						if len(t.Chars) == len(t.Colors) {
+							ch = t.Chars[t.CurrentFrame]
+						}
 						if ch == "[" || ch == "]" {
 							ch = ch + ch
 						}
-						glyph := "[color=" + t.ColorDark + "]" + ch
+						glyph := "[color=" + t.Colors[t.CurrentFrame] + "]" + ch
 						blt.Print(t.X, t.Y, glyph)
+					}
+				} else {
+					if t.AlwaysVisible == true {
+						if Tiles == true {
+							continue
+						} else {
+							ch := t.Chars[0]
+							if ch == "[" || ch == "]" {
+								ch = ch + ch
+							}
+							glyph := "[color=" + t.ColorDark + "]" + ch
+							blt.Print(t.X, t.Y, glyph)
+						}
 					}
 				}
 			}
@@ -115,15 +123,19 @@ func PrintObjects(b Board, o Objects, c Creatures) {
 		if (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
 			((v.AlwaysVisible == true) && (b[v.X][v.Y].Explored == true)) {
 			blt.Layer(v.Layer)
-			ch := v.Chars[0]
-			if len(v.Chars) == len(v.Colors) && (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) {
-				ch = v.Chars[v.CurrentFrame]
+			if Tiles == true {
+				continue
+			} else {
+				ch := v.Chars[0]
+				if len(v.Chars) == len(v.Colors) && (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) {
+					ch = v.Chars[v.CurrentFrame]
+				}
+				if ch == "]" || ch == "[" {
+					ch = ch + ch
+				}
+				glyph := "[color=" + v.Colors[v.CurrentFrame] + "]" + ch
+				blt.Print(v.X, v.Y, glyph)
 			}
-			if ch == "]" || ch == "[" {
-				ch = ch + ch
-			}
-			glyph := "[color=" + v.Colors[v.CurrentFrame] + "]" + ch
-			blt.Print(v.X, v.Y, glyph)
 		}
 	}
 }
@@ -146,15 +158,19 @@ func PrintCreatures(b Board, c Creatures) {
 		if (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) ||
 			(v.AlwaysVisible == true) {
 			blt.Layer(v.Layer)
-			ch := v.Chars[0]
-			if len(v.Chars) == len(v.Colors) && (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) {
-				ch = v.Chars[v.CurrentFrame]
+			if Tiles == true {
+				continue
+			} else {
+				ch := v.Chars[0]
+				if len(v.Chars) == len(v.Colors) && (IsInFOV(b, c[0].X, c[0].Y, v.X, v.Y) == true) {
+					ch = v.Chars[v.CurrentFrame]
+				}
+				if ch == "]" || ch == "[" {
+					ch = ch + ch
+				}
+				glyph := "[color=" + v.Colors[v.CurrentFrame] + "]" + ch
+				blt.Print(v.X, v.Y, glyph)
 			}
-			if ch == "]" || ch == "[" {
-				ch = ch + ch
-			}
-			glyph := "[color=" + v.Colors[v.CurrentFrame] + "]" + ch
-			blt.Print(v.X, v.Y, glyph)
 		}
 	}
 }

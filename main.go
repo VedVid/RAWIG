@@ -34,6 +34,9 @@ import (
 	"time"
 )
 
+const Tiles = false
+const AssetsDir = "./assets/"
+
 var KeyboardLayout int
 var CustomControls bool
 

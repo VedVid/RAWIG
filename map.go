@@ -94,7 +94,7 @@ func NewTile(layer, x, y, currentFrame, delay int, name, colorDark string, chars
 		currentFrame = rand.Intn(len(chars))
 	}
 	tileBasicProperties := BasicProperties{x, y, name}
-	tileAnimationProperties := AnimationProperties{chars, colors, colorDark, delay, 0, currentFrame}
+	tileAnimationProperties := AnimationProperties{chars, tiles, colors, colorDark, delay, 0, currentFrame}
 	tileVisibilityProperties := VisibilityProperties{layer, alwaysVisible}
 	tileCollisionProperties := CollisionProperties{blocked, blocksSight}
 	tileNew := &Tile{tileBasicProperties, tileAnimationProperties, tileVisibilityProperties,
@@ -117,7 +117,7 @@ func InitializeEmptyMap() Board {
 		for y := 0; y < MapSizeY; y++ {
 			var err error
 			b[x][y], err = NewTile(BoardLayer, x, y, 0, 0, "floor", "dark gray",
-				[]string{"."}, []string{"floor.png"} []string{"light gray"}, true, false, false, false)
+				[]string{"."}, []string{"floor.png"}, []string{"light gray"}, true, false, false, false)
 			if err != nil {
 				fmt.Println(err)
 			}

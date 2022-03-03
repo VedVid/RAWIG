@@ -314,7 +314,7 @@ func (c *Creature) Die(o *Objects) {
 	c.Colors = []string{"dark red"}
 	c.ColorDark = "dark red"
 	c.Chars = []string{CorpseChar}
-	c.Tiles = []string{CorspeTile}
+	c.Tiles = []string{CorpseTile}
 	c.Blocked = false
 	c.BlocksSight = false
 	c.AIType = NoAI

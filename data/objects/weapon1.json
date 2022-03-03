@@ -1,6 +1,7 @@
 {
     "Name":"weapon1",
     "Chars":["}"],
+    "Tiles":["weapon1.png"],
     "Colors":["red"],
     "ColorDark":"dark red",
     "Layer":4,

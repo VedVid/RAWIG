@@ -1,6 +1,7 @@
 {
     "Name":"weapon2",
     "Chars":["{"],
+    "Tiles":["weapon2.png"],
     "Colors":["purple"],
     "ColorDark":"dark purple",
     "Layer":4,

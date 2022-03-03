@@ -4,6 +4,7 @@
     "Y":INTEGER,
     "Name":STRING,
     "Chars":[LIST, OF, ONE-CHARACTER, STRINGS],
+    "Tiles":[LIST, OF, STRINGS],
     "Colors":[LIST, OF, STRINGS],
     "ColorDark":STRING,
     "Delay":INTEGER,

@@ -4,6 +4,7 @@
     "Y":3,
     "Name":"player",
     "Chars":["@"],
+    "Tiles":["player.png"],
     "Colors":["white"],
     "ColorDark":"white",
     "Delay":0,

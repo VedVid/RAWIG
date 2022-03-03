@@ -1,6 +1,7 @@
 {
     "Name":"melee1",
     "Chars":["|"],
+    "Tiles":["melee1.png"],
     "Colors":["yellow"],
     "ColorDark":"dark yellow",
     "Layer":4,

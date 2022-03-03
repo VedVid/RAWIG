@@ -4,6 +4,7 @@
     "Y":0,
     "Name":"weapon",
     "Chars":["}"],
+    "Tiles":["weapon.png"],
     "Colors":["red"],
     "ColorDark":"dark red",
     "AlwaysVisible":true,

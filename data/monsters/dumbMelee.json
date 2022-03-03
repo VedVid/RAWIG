@@ -1,6 +1,7 @@
 {
     "Name":"enemy1",
     "Chars":["T"],
+    "Tiles":["dumbMelee.png"],
     "Colors":["green"],
     "ColorDark":"green",
     "Layer":5,

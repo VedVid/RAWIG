@@ -1,6 +1,7 @@
 {
     "Name":"enemy2",
     "Chars":["T"],
+    "Tiles":["patcherRanged.png"],
     "Colors":["red"],
     "ColorDark":"red",
     "Layer":5,

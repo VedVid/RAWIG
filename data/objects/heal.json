@@ -1,6 +1,7 @@
 {
     "Name":"heal",
     "Chars":["]"],
+    "Tiles":["heal.png"],
     "Colors":["blue"],
     "ColorDark":"dark blue",
     "Layer":4,

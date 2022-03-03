@@ -48,6 +48,7 @@ type MapJson struct {
 	Data           [][]int
 	Layouts        [][][]string
 	Chars          map[string][]string
+	Tiles          map[string][]string
 	Name           map[string]string
 	Colors         map[string][]string
 	ColorDark      map[string]string
@@ -66,7 +67,7 @@ type MapJson struct {
    to hold data of its every cell. */
 type Board [][]*Tile
 
-func NewTile(layer, x, y, currentFrame, delay int, name, colorDark string, chars, colors []string,
+func NewTile(layer, x, y, currentFrame, delay int, name, colorDark string, chars, tiles, colors []string,
 	alwaysVisible, explored, blocked, blocksSight bool) (*Tile, error) {
 	/* Function NewTile takes all values necessary by its struct,
 	   and creates then returns pointer to Tile. */
@@ -116,7 +117,7 @@ func InitializeEmptyMap() Board {
 		for y := 0; y < MapSizeY; y++ {
 			var err error
 			b[x][y], err = NewTile(BoardLayer, x, y, 0, 0, "floor", "dark gray",
-				[]string{"."}, []string{"light gray"}, true, false, false, false)
+				[]string{"."}, []string{"floor.png"} []string{"light gray"}, true, false, false, false)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -131,6 +132,7 @@ func ReplaceTile(t *Tile, s string, m *MapJson) {
 	   MapJson (ie unmarshalled json map).
 	   It uses m's legend to overwrite old map values with data read from file. */
 	t.Chars = m.Chars[s]
+	t.Tiles = m.Tiles[s]
 	t.Name = m.Name[s]
 	t.Colors = m.Colors[s]
 	t.ColorDark = m.ColorDark[s]

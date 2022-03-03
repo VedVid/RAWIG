@@ -56,7 +56,7 @@ func NilToObject() *Object {
 	   work well with nil values (and interfaces).
 	   It is ugly hack, but works. */
 	placeholder := &Object{BasicProperties{0, 0, ObjectNilPlaceholder},
-		AnimationProperties{[]string{"o"}, []string{"black"}, "black", 1, 0, 0},
+		AnimationProperties{[]string{"o"}, []string{"no.png"}, []string{"black"}, "black", 1, 0, 0},
 		VisibilityProperties{0, false},
 		CollisionProperties{false, false},
 		ObjectProperties{false, false, false, 0, 0}}

@@ -40,6 +40,7 @@ type AnimationProperties struct {
 	   tially. Delay dicates after how many turns
 	   object appearance will change. */
 	Chars        []string
+	Tiles        []string
 	Colors       []string
 	ColorDark    string
 	Delay        int

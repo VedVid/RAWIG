@@ -234,6 +234,62 @@
          "'"
       ]
    },
+   "Tiles":{
+      "#":[
+         "wall.png"
+      ],
+      ";":[
+         "grass.png"
+      ],
+      "-":[
+         "terrace1.png"
+      ],
+      ">":[
+         "terrace2.png"
+      ],
+      "|":[
+         "terrace3.png"
+      ],
+      ".":[
+         "floor.png"
+      ],
+      "+":[
+         "doors.png"
+      ],
+      ",":[
+         "terrace4.png"
+      ],
+      ":":[
+         "stairs.png"
+      ],
+      "h":[
+         "chair.png"
+      ],
+      "t":[
+         "table.png"
+      ],
+      "w":[
+         "wardrobe.png"
+      ],
+      "=":[
+         "counter.png"
+      ],
+      "b":[
+         "bed.png"
+      ],
+      "e":[
+         "bed.png"
+      ],
+      "T":[
+         "torch1.png",
+         "torch1.png",
+         "torch2.png",
+         "torch1.png",
+         "torch3.png",
+         "torch4.png",
+         "torch5.png"
+      ]
+   },
    "Name":{
       "#":"wall",
       ";":"grass",
